@@ -26,7 +26,7 @@
 <body>
 <div id="app" class="app">
 <header class="card">
-  <h1>Curso IA – ChatGPT práctico <span class="pill ok">v7</span></h1>
+  <h1>Curso IA – ChatGPT práctico <span class="pill ok">v8</span></h1>
   <div class="muted">Curso, prácticas, notas y progreso sincronizable</div>
   <div style="display:flex;justify-content:space-between;gap:10px;margin:14px 0 7px"><strong>Progreso global</strong><span id="progressText">0 / 16 capítulos</span></div>
   <div class="progress"><i id="progressBar"></i></div>
@@ -131,7 +131,7 @@
   <div class="card">
     <h3>Estado de sincronización</h3>
     <p id="syncDetail" class="muted">Sin sesión.</p>
-    <p class="muted">Estrategia v7: <strong>fusión atómica por cambios</strong>. Cada dispositivo sube solo lo que ha modificado; una nota no puede borrar prácticas, feedback o progreso de otro dispositivo.</p>
+    <p class="muted">Estrategia v8: <strong>fusión atómica por cambios</strong> y persistencia de comprobaciones. Respuestas, resultados de corrección, prácticas, feedback y notas se guardan y sincronizan sin sobrescribir las demás secciones.</p>
   </div>
 </section>
 </div>
@@ -149,11 +149,11 @@ const el=id=>document.getElementById(id);
 let state=fresh(), current=1, courseContent={}, sb=null, session=null, syncing=false, passwordRecoveryMode=false, saveTimer=null;
 
 function fresh(){
-  return {version:3,chapters:{1:"En curso"},practices:{},notes:{},answers:{},feedback:{},updatedAt:new Date().toISOString()};
+  return {version:4,chapters:{1:"En curso"},practices:{},notes:{},answers:{},feedback:{},checks:{},updatedAt:new Date().toISOString()};
 }
 function mergeState(raw){
   const base=fresh(), x=raw&&typeof raw==="object"?raw:{};
-  return {...base,...x,chapters:{...base.chapters,...(x.chapters||{})},practices:{...(x.practices||{})},notes:{...(x.notes||{})},answers:{...base.answers,...(x.answers||{})},feedback:{...(x.feedback||{})}};
+  return {...base,...x,version:Math.max(4,Number(x.version)||0),chapters:{...base.chapters,...(x.chapters||{})},practices:{...(x.practices||{})},notes:{...(x.notes||{})},answers:{...base.answers,...(x.answers||{})},feedback:{...(x.feedback||{})},checks:{...(x.checks||{})}};
 }
 function isPlainObject(v){return !!v&&typeof v==="object"&&!Array.isArray(v);}
 function cloneJson(v){return v===undefined?undefined:JSON.parse(JSON.stringify(v));}
@@ -180,15 +180,15 @@ function diffPatch(oldV,newV){
   return jsonEqual(oldV,newV)?{}:cloneJson(newV);
 }
 function hasPatch(p){return isPlainObject(p)&&Object.keys(p).length>0;}
-function defaultSyncMeta(){return {syncVersion:7,pendingPatch:{},seq:0,lastServerAt:null};}
+function defaultSyncMeta(){return {syncVersion:8,pendingPatch:{},seq:0,lastServerAt:null};}
 function getSyncMeta(){
   try{
     const raw=JSON.parse(localStorage.getItem(SYNC_META_KEY)||"{}");
-    return raw.syncVersion===7?{...defaultSyncMeta(),...raw}:defaultSyncMeta();
+    return raw.syncVersion===8?{...defaultSyncMeta(),...raw}:defaultSyncMeta();
   }catch(e){return defaultSyncMeta();}
 }
 function setSyncMeta(patch){
-  const next={...getSyncMeta(),...patch,syncVersion:7};
+  const next={...getSyncMeta(),...patch,syncVersion:8};
   try{localStorage.setItem(SYNC_META_KEY,JSON.stringify(next));}catch(e){}
   return next;
 }
@@ -210,7 +210,7 @@ function loadLocal(){
   try{const cached=JSON.parse(localStorage.getItem(CONTENT_CACHE_KEY)||"[]");if(Array.isArray(cached))cached.forEach(c=>courseContent[c.chapter_number]=c);}catch(e){}
   try{
     const oldMeta=JSON.parse(localStorage.getItem(SYNC_META_KEY)||"{}");
-    if(oldMeta.syncVersion!==7)localStorage.setItem(SYNC_META_KEY,JSON.stringify(defaultSyncMeta()));
+    if(oldMeta.syncVersion!==8)localStorage.setItem(SYNC_META_KEY,JSON.stringify(defaultSyncMeta()));
   }catch(e){try{localStorage.setItem(SYNC_META_KEY,JSON.stringify(defaultSyncMeta()));}catch(_){} }
 }
 function saveLocal(scheduleCloud=true){
@@ -243,6 +243,18 @@ function rubricScore(text,groups){
   const t=norm(text); if(!t)return {hit:0,total:(groups||[]).length};
   let hit=0; (groups||[]).forEach(g=>{if(g.some(k=>t.includes(norm(k))))hit++;});
   return {hit,total:(groups||[]).length};
+}
+
+function practiceChecks(chapter=1){
+  if(!isPlainObject(state.checks))state.checks={};
+  if(!isPlainObject(state.checks[chapter]))state.checks[chapter]={};
+  return state.checks[chapter];
+}
+function checkedLabel(iso){
+  if(!iso)return "";
+  try{
+    return " · comprobado "+new Intl.DateTimeFormat("es-ES",{dateStyle:"short",timeStyle:"short",timeZone:"Europe/Madrid"}).format(new Date(iso));
+  }catch(e){return "";}
 }
 
 async function loadCourseContent(){
@@ -304,28 +316,163 @@ function renderPractice1(p){
     ${qs.map((q,i)=>`<label>${i+1}. ${esc(q.question)}</label><textarea data-q="q${i+1}" rows="3"></textarea><div id="qr${i+1}"></div>`).join("")}
     <div class="btnrow"><button id="checkComprehensionBtn" class="btn primary" type="button">Comprobar comprensión</button><button id="practiceDoneBtn" class="btn ok" type="button">Marcar práctica realizada</button></div><div id="compScore" style="margin-top:10px;font-weight:700"></div>
   </div>`;
-  cls.items.forEach((_,i)=>{const s=document.querySelector(`[data-class="${i+1}"]`);s.value=state.answers["c"+(i+1)]||"";s.addEventListener("change",e=>{state.answers["c"+(i+1)]=e.target.value;saveLocal();});});
+
+  function renderClassResult(res){
+    cls.items.forEach((_,i)=>{const r=el("r"+(i+1));r.textContent="";r.className="result";});
+    el("classScore").textContent="";
+    el("classDetails").innerHTML="";
+    if(!res||!Array.isArray(res.items))return;
+    const details=[];
+    res.items.forEach(it=>{
+      const r=el("r"+it.n);
+      if(!r)return;
+      if(it.status==="correct"){r.textContent="Correcto";r.className="result good";}
+      else if(it.status==="review"){r.textContent=`Revisar → ${it.correctAnswer}`;r.className="result review";if(it.explanation)details.push(`<div class="rubric review"><strong>${it.n}.</strong> ${esc(it.explanation)}</div>`);}
+      else{r.textContent="Sin responder";r.className="result muted";}
+    });
+    el("classScore").textContent=`Resultado: ${res.correct}/${res.total} · Respondidas ${res.answered}/${res.total}${checkedLabel(res.checkedAt)}${res.reconstructed?" · reconstruido desde respuestas guardadas":""}`;
+    el("classDetails").innerHTML=details.join("");
+  }
+
+  function buildClassResult(){
+    let correct=0,answered=0;
+    const items=cls.items.map((item,i)=>{
+      const n=i+1,x=state.answers["c"+n]||"";
+      if(x)answered++;
+      let status="empty";
+      if(x===item.answer){correct++;status="correct";}
+      else if(x)status="review";
+      return {n,answer:x,correctAnswer:item.answer,status,explanation:item.explanation||""};
+    });
+    return {checked:true,checkedAt:new Date().toISOString(),contentVersion:courseContent[1]?.version||null,correct,answered,total:cls.items.length,items};
+  }
+
+  function renderInstructionResult(res){
+    el("instructionResult").innerHTML="";
+    if(!res)return;
+    const passed=!!res.passed;
+    el("instructionResult").innerHTML=`<div class="rubric ${passed?"good":"review"}"><strong>${res.choiceOk?"Elección correcta.":"Revisa la elección."}</strong> Tu explicación cubre ${res.hit}/${res.total||1} bloques de la rúbrica. ${esc(ins.feedback||"")}<br><span class="muted">Resultado guardado${checkedLabel(res.checkedAt)}${res.reconstructed?" · reconstruido desde respuestas guardadas":""}</span></div>`;
+  }
+
+  function buildInstructionResult(){
+    const choice=state.answers.instructionChoice||"B",reason=state.answers.instructionReason||"",score=rubricScore(reason,ins.rubric_groups||[]);
+    const choiceOk=choice===ins.correct,enough=score.total?score.hit>=Math.ceil(score.total/2):reason.trim().length>20;
+    return {checked:true,checkedAt:new Date().toISOString(),contentVersion:courseContent[1]?.version||null,choice,choiceOk,enough,passed:choiceOk&&enough,hit:score.hit,total:score.total||1};
+  }
+
+  function renderComprehensionResult(res){
+    qs.forEach((_,i)=>{const q=el("qr"+(i+1));if(q)q.innerHTML="";});
+    el("compScore").textContent="";
+    if(!res||!Array.isArray(res.items))return;
+    res.items.forEach((it,i)=>{
+      const q=qs[i]||{},node=el("qr"+(i+1));
+      if(!node)return;
+      node.innerHTML=`<div class="rubric ${it.pass?"good":"review"}"><strong>${it.pass?"Respuesta razonable":"Conviene completar la respuesta"}</strong> · conceptos detectados ${it.hit}/${it.total||1}.<br><span class="muted">Referencia: ${esc(q.model||"")}</span></div>`;
+    });
+    el("compScore").textContent=`Comprensión: ${res.ok}/${res.total} respuestas cubren los conceptos esenciales${checkedLabel(res.checkedAt)}${res.reconstructed?" · reconstruido desde respuestas guardadas":""}.`;
+  }
+
+  function buildComprehensionResult(){
+    let ok=0;
+    const items=qs.map((q,i)=>{
+      const text=state.answers["q"+(i+1)]||"",s=rubricScore(text,q.rubric_groups||[]);
+      const pass=s.total?s.hit>=Math.max(1,Math.ceil(s.total*0.6)):text.trim().length>20;
+      if(pass)ok++;
+      return {n:i+1,pass,hit:s.hit,total:s.total||1};
+    });
+    return {checked:true,checkedAt:new Date().toISOString(),contentVersion:courseContent[1]?.version||null,ok,total:qs.length,items};
+  }
+
+  function invalidate(section){
+    const checks=practiceChecks(1);
+    checks[section]=null;
+  }
+
+  cls.items.forEach((_,i)=>{
+    const s=document.querySelector(`[data-class="${i+1}"]`);
+    s.value=state.answers["c"+(i+1)]||"";
+    s.addEventListener("change",e=>{
+      state.answers["c"+(i+1)]=e.target.value;
+      invalidate("classification");
+      renderClassResult(null);
+      saveLocal();
+    });
+  });
+
   el("instructionChoice").value=state.answers.instructionChoice||"B";
   el("instructionReason").value=state.answers.instructionReason||state.answers.instruction||"";
-  el("instructionChoice").addEventListener("change",e=>{state.answers.instructionChoice=e.target.value;saveLocal();});
-  el("instructionReason").addEventListener("input",e=>{state.answers.instructionReason=e.target.value;saveLocal();});
-  qs.forEach((q,i)=>{const t=document.querySelector(`[data-q="q${i+1}"]`);t.value=state.answers["q"+(i+1)]||"";t.addEventListener("input",e=>{state.answers["q"+(i+1)]=e.target.value;saveLocal();});});
+  el("instructionChoice").addEventListener("change",e=>{
+    state.answers.instructionChoice=e.target.value;
+    invalidate("instruction");
+    renderInstructionResult(null);
+    saveLocal();
+  });
+  el("instructionReason").addEventListener("input",e=>{
+    state.answers.instructionReason=e.target.value;
+    invalidate("instruction");
+    renderInstructionResult(null);
+    saveLocal();
+  });
+
+  qs.forEach((q,i)=>{
+    const t=document.querySelector(`[data-q="q${i+1}"]`);
+    t.value=state.answers["q"+(i+1)]||"";
+    t.addEventListener("input",e=>{
+      state.answers["q"+(i+1)]=e.target.value;
+      invalidate("comprehension");
+      renderComprehensionResult(null);
+      saveLocal();
+    });
+  });
+
   el("checkClassBtn").addEventListener("click",()=>{
-    let correct=0,answered=0,details=[];
-    cls.items.forEach((item,i)=>{const n=i+1,x=state.answers["c"+n]||"",r=el("r"+n);if(x)answered++;if(x===item.answer){correct++;r.textContent="Correcto";r.className="result good";}else if(x){r.textContent=`Revisar → ${item.answer}`;r.className="result review";details.push(`<div class="rubric review"><strong>${n}.</strong> ${esc(item.explanation)}</div>`);}else{r.textContent="Sin responder";r.className="result muted";}});
-    el("classScore").textContent=`Resultado: ${correct}/10 · Respondidas ${answered}/10`;el("classDetails").innerHTML=details.join("");
+    const res=buildClassResult();
+    practiceChecks(1).classification=res;
+    saveLocal();
+    renderClassResult(res);
   });
+
   el("checkInstructionBtn").addEventListener("click",()=>{
-    const choice=state.answers.instructionChoice||"", reason=state.answers.instructionReason||"", score=rubricScore(reason,ins.rubric_groups||[]);
-    const choiceOk=choice===ins.correct, enough=score.total?score.hit>=Math.ceil(score.total/2):reason.trim().length>20;
-    el("instructionResult").innerHTML=`<div class="rubric ${choiceOk&&enough?"good":"review"}"><strong>${choiceOk?"Elección correcta.":"Revisa la elección."}</strong> Tu explicación cubre ${score.hit}/${score.total||1} bloques de la rúbrica. ${esc(ins.feedback||"")}</div>`;
+    const res=buildInstructionResult();
+    practiceChecks(1).instruction=res;
+    saveLocal();
+    renderInstructionResult(res);
   });
+
   el("checkComprehensionBtn").addEventListener("click",()=>{
-    let ok=0;
-    qs.forEach((q,i)=>{const text=state.answers["q"+(i+1)]||"",s=rubricScore(text,q.rubric_groups||[]),pass=s.total? s.hit>=Math.max(1,Math.ceil(s.total*0.6)):text.trim().length>20;if(pass)ok++;el("qr"+(i+1)).innerHTML=`<div class="rubric ${pass?"good":"review"}"><strong>${pass?"Respuesta razonable":"Conviene completar la respuesta"}</strong> · conceptos detectados ${s.hit}/${s.total||1}.<br><span class="muted">Referencia: ${esc(q.model||"")}</span></div>`;});
-    el("compScore").textContent=`Comprensión: ${ok}/${qs.length} respuestas cubren los conceptos esenciales.`;
+    const res=buildComprehensionResult();
+    practiceChecks(1).comprehension=res;
+    saveLocal();
+    renderComprehensionResult(res);
   });
-  el("practiceDoneBtn").addEventListener("click",()=>{state.practices[1]=true;saveLocal();renderProgress();});
+
+  el("practiceDoneBtn").addEventListener("click",()=>{
+    state.practices[1]=true;
+    saveLocal();
+    renderProgress();
+  });
+
+  const checkStore=practiceChecks(1);
+  let reconstructed=false;
+  if(state.practices[1]){
+    if(!("classification" in checkStore) && cls.items.some((_,i)=>!!state.answers["c"+(i+1)])){
+      checkStore.classification={...buildClassResult(),reconstructed:true};
+      reconstructed=true;
+    }
+    if(!("instruction" in checkStore) && (state.answers.instructionReason||state.answers.instructionChoice)){
+      checkStore.instruction={...buildInstructionResult(),reconstructed:true};
+      reconstructed=true;
+    }
+    if(!("comprehension" in checkStore) && qs.some((_,i)=>!!state.answers["q"+(i+1)])){
+      checkStore.comprehension={...buildComprehensionResult(),reconstructed:true};
+      reconstructed=true;
+    }
+    if(reconstructed)saveLocal();
+  }
+  const saved=state.checks?.[1]||{};
+  renderClassResult(saved.classification);
+  renderInstructionResult(saved.instruction);
+  renderComprehensionResult(saved.comprehension);
 }
 
 function fieldHtml(f,val){

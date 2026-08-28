@@ -39,3 +39,12 @@ Recuperación de contraseña, reenvío de confirmación y mensajes de error espe
 - Al actualizar desde v6 o anterior, la primera sesión descarga el estado canónico recuperado de la nube.
 - Las respuestas de ejercicios ya no vienen pre-rellenadas en instalaciones nuevas.
 - Fechas de capítulos ajustadas a cadencia diaria.
+
+
+## v8 — persistencia de comprobaciones de prácticas
+- Guarda los resultados de «Comprobar 1A», «Comprobar 1B» y «Comprobar comprensión».
+- Los resultados reaparecen al cambiar de pestaña, recargar o abrir otro dispositivo.
+- Los resultados se sincronizan de forma atómica junto con el resto del progreso.
+- Si se modifica una respuesta después de comprobarla, se invalida sólo esa comprobación y debe repetirse.
+
+- Si una práctica antigua estaba marcada como realizada pero sus comprobaciones no existían (v7 o anteriores), v8 reconstruye una vez los resultados desde las respuestas guardadas y los sincroniza.
