@@ -131,7 +131,7 @@
   <div class="card">
     <h3>Estado de sincronización</h3>
     <p id="syncDetail" class="muted">Sin sesión.</p>
-    <p class="muted">Estrategia: <strong>última modificación prevalece</strong>. Si trabajas offline, se guarda localmente y se intenta subir al recuperar conexión.</p>
+    <p class="muted">Estrategia: <strong>el servidor fija la hora de sincronización</strong>. Los botones «Descargar nube» y «Subir este dispositivo» son explícitos; si hay cambios simultáneos, la app no sobrescribe automáticamente.</p>
   </div>
 </section>
 </div>
@@ -142,7 +142,7 @@
 "use strict";
 const FALLBACK_CHAPTERS=[["Qué es realmente ChatGPT", "Fortalezas, limitaciones, tipos de tareas y control de errores."], ["Cómo dar instrucciones eficaces", "Contexto, objetivo, datos, condiciones y formato."], ["Trabajar por iteraciones", "Conversación, crítica, corrección y refinamiento progresivo."], ["Control de errores y fiabilidad", "Fuentes, hipótesis, verificación y segunda comprobación."], ["Investigación técnica y web", "Normativa, fabricantes, fuentes oficiales e información actualizada."], ["PDF, Word y documentación", "Comparar, resumir, extraer y actualizar documentos técnicos."], ["Excel, datos y cálculos", "Análisis de hojas, presupuestos, costes, horas y rentabilidad."], ["Procesamiento masivo", "Facturas, extracción de datos, duplicados y validación."], ["IA para jefatura de proyecto", "Planificación, actas, riesgos, acciones y seguimiento."], ["Personalización y memoria", "Instrucciones, contexto persistente y reglas de trabajo."], ["Organización mediante proyectos", "Separación de contextos profesionales y personales."], ["Correo, calendario y conectores", "Clasificación, preparación de reuniones y gestión asistida."], ["Tareas programadas y vigilancia", "Seguimientos periódicos y alertas sobre cambios."], ["Diseñar procesos con IA", "Flujos de trabajo y puntos de control humano."], ["Aplicaciones y automatización", "De la conversación a herramientas específicas."], ["Plan de implantación de IA", "Mapa de procesos, prioridades, riesgos y plan de despliegue."]];
 const DEFAULT_SUPABASE_CONFIG={url:"https://lijilkdfdpbezergsdly.supabase.co",key:"sb_publishable_T3Uq3IPz_svsdMvKJrTuYg_Fgh99Yfp"};
-const KEY="cursoIA_cloud_v3",CONFIG_KEY="cursoIA_supabase_config_v1",CONTENT_CACHE_KEY="cursoIA_content_cache_v1";
+const KEY="cursoIA_cloud_v3",CONFIG_KEY="cursoIA_supabase_config_v1",CONTENT_CACHE_KEY="cursoIA_content_cache_v1",SYNC_META_KEY="cursoIA_sync_meta_v1";
 const START=new Date(Date.UTC(2026,7,28));
 const APP_URL="https://mikel-1970.github.io/CURSO-IA-CHAT-GPT/";
 const el=id=>document.getElementById(id);
@@ -155,13 +155,34 @@ function mergeState(raw){
   const base=fresh(), x=raw&&typeof raw==="object"?raw:{};
   return {...base,...x,chapters:{...base.chapters,...(x.chapters||{})},practices:{...(x.practices||{})},notes:{...(x.notes||{})},answers:{...base.answers,...(x.answers||{})},feedback:{...(x.feedback||{})}};
 }
+function getSyncMeta(){
+  try{return {...{dirty:false,lastServerAt:null},...JSON.parse(localStorage.getItem(SYNC_META_KEY)||"{}")} }catch(e){return {dirty:false,lastServerAt:null};}
+}
+function setSyncMeta(patch){
+  const next={...getSyncMeta(),...patch};
+  try{localStorage.setItem(SYNC_META_KEY,JSON.stringify(next));}catch(e){}
+  return next;
+}
+function formatServerTime(iso){
+  if(!iso)return "—";
+  try{return new Intl.DateTimeFormat("es-ES",{dateStyle:"short",timeStyle:"medium",timeZone:"Europe/Madrid"}).format(new Date(iso));}
+  catch(e){return iso;}
+}
+async function waitForSync(){
+  const start=Date.now();
+  while(syncing&&Date.now()-start<10000) await new Promise(r=>setTimeout(r,100));
+}
+
 function loadLocal(){
   try{const raw=localStorage.getItem(KEY); if(raw) state=mergeState(JSON.parse(raw)); el("localStatus").textContent="Guardado local";el("localStatus").className="pill ok";}
   catch(e){el("localStatus").textContent="Error guardado local";el("localStatus").className="pill bad";}
   try{const cached=JSON.parse(localStorage.getItem(CONTENT_CACHE_KEY)||"[]"); if(Array.isArray(cached)) cached.forEach(c=>courseContent[c.chapter_number]=c);}catch(e){}
 }
 function saveLocal(scheduleCloud=true){
-  state.updatedAt=new Date().toISOString();
+  if(scheduleCloud){
+    state.updatedAt=new Date().toISOString();
+    setSyncMeta({dirty:true});
+  }
   try{localStorage.setItem(KEY,JSON.stringify(state));el("localStatus").textContent="Guardado local";el("localStatus").className="pill ok";}catch(e){}
   if(scheduleCloud&&session){clearTimeout(saveTimer);saveTimer=setTimeout(()=>pushCloud(false),700);}
 }
@@ -333,10 +354,103 @@ function updateAuthUI(){
   else if(logged)setCloudPill("Nube conectada","ok");
   else if(sb)setCloudPill("Nube configurada","warn");
 }
-async function fetchRemote(){if(!sb||!session)throw new Error("No hay sesión iniciada.");const {data,error}=await sb.from("course_progress").select("data,updated_at").eq("user_id",session.user.id).maybeSingle();if(error)throw error;return data;}
-async function pushCloud(showMessage=true){if(syncing||!sb||!session||!navigator.onLine)return;syncing=true;setCloudPill("Sincronizando…","warn");try{const payload={user_id:session.user.id,data:state,updated_at:state.updatedAt||new Date().toISOString()};const {error}=await sb.from("course_progress").upsert(payload,{onConflict:"user_id"});if(error)throw error;setCloudPill("Sincronizado","ok");el("syncDetail").textContent=`Nube actualizada: ${new Date().toLocaleString("es-ES")}`;if(showMessage)el("authMsg").textContent="Datos subidos correctamente.";}catch(e){setCloudPill("Error de sincronización","bad");el("syncDetail").textContent=e.message||String(e);}finally{syncing=false;}}
-async function pullCloud(showMessage=true){if(syncing||!sb||!session)return;syncing=true;setCloudPill("Sincronizando…","warn");try{const remote=await fetchRemote();if(remote&&remote.data){state=mergeState(remote.data);saveLocal(false);renderAll();if(showMessage)el("authMsg").textContent="Datos descargados de la nube.";}else if(showMessage)el("authMsg").textContent="No hay datos remotos todavía.";setCloudPill("Sincronizado","ok");}catch(e){setCloudPill("Error de sincronización","bad");el("syncDetail").textContent=e.message||String(e);}finally{syncing=false;}}
-async function syncOnLogin(){if(!sb||!session||syncing)return;syncing=true;setCloudPill("Sincronizando…","warn");try{const remote=await fetchRemote();if(!remote){syncing=false;await pushCloud(false);return;}const remoteTs=Date.parse(remote.updated_at||remote.data?.updatedAt||0)||0,localTs=Date.parse(state.updatedAt||0)||0;if(remoteTs>localTs&&remote.data){state=mergeState(remote.data);saveLocal(false);renderAll();}else{syncing=false;await pushCloud(false);return;}setCloudPill("Sincronizado","ok");el("syncDetail").textContent=`Sincronizado: ${new Date().toLocaleString("es-ES")}`;}catch(e){setCloudPill("Error de sincronización","bad");el("syncDetail").textContent=e.message||String(e);}finally{syncing=false;}}
+async function fetchRemote(){
+  if(!sb||!session)return null;
+  const {data,error}=await sb.from("course_progress").select("data,updated_at").eq("user_id",session.user.id).maybeSingle();
+  if(error)throw error;
+  return data||null;
+}
+async function pushCloud(showMessage=true){
+  if(!sb||!session||!navigator.onLine){if(showMessage)el("authMsg").textContent="No hay conexión o sesión activa.";return false;}
+  await waitForSync();
+  syncing=true;setCloudPill("Sincronizando…","warn");
+  try{
+    const payload={user_id:session.user.id,data:state};
+    const {data,error}=await sb.from("course_progress").upsert(payload,{onConflict:"user_id"}).select("updated_at").single();
+    if(error)throw error;
+    const serverAt=data?.updated_at||null;
+    setSyncMeta({dirty:false,lastServerAt:serverAt});
+    setCloudPill("Sincronizado","ok");
+    el("syncDetail").textContent=`Nube actualizada: ${formatServerTime(serverAt)}`;
+    if(showMessage)el("authMsg").textContent="Datos de este dispositivo subidos correctamente.";
+    return true;
+  }catch(e){
+    setCloudPill("Error de sincronización","bad");
+    el("syncDetail").textContent=e.message||String(e);
+    if(showMessage)el("authMsg").textContent="No se pudo subir a la nube: "+(e.message||String(e));
+    return false;
+  }finally{syncing=false;}
+}
+async function pullCloud(showMessage=true){
+  if(!sb||!session){if(showMessage)el("authMsg").textContent="No hay sesión activa.";return false;}
+  await waitForSync();
+  syncing=true;setCloudPill("Sincronizando…","warn");
+  try{
+    const remote=await fetchRemote();
+    if(remote&&remote.data){
+      state=mergeState(remote.data);
+      saveLocal(false);
+      setSyncMeta({dirty:false,lastServerAt:remote.updated_at||null});
+      renderAll();
+      el("syncDetail").textContent=`Nube descargada: ${formatServerTime(remote.updated_at)}`;
+      if(showMessage)el("authMsg").textContent="Datos de la nube descargados correctamente.";
+    }else if(showMessage){el("authMsg").textContent="No hay datos remotos todavía.";}
+    setCloudPill("Sincronizado","ok");
+    return true;
+  }catch(e){
+    setCloudPill("Error de sincronización","bad");
+    el("syncDetail").textContent=e.message||String(e);
+    if(showMessage)el("authMsg").textContent="No se pudo descargar la nube: "+(e.message||String(e));
+    return false;
+  }finally{syncing=false;}
+}
+async function syncOnLogin(){
+  if(!sb||!session)return;
+  await waitForSync();
+  syncing=true;setCloudPill("Sincronizando…","warn");
+  try{
+    const remote=await fetchRemote();
+    const meta=getSyncMeta();
+    if(!remote){
+      syncing=false;
+      await pushCloud(false);
+      return;
+    }
+    if(meta.dirty&&meta.lastServerAt&&remote.updated_at!==meta.lastServerAt){
+      setCloudPill("Revisar sincronización","warn");
+      el("syncDetail").textContent=`Hay cambios locales y también cambios en la nube (${formatServerTime(remote.updated_at)}). Elige «Descargar nube» o «Subir este dispositivo».`;
+      el("authMsg").textContent="Hay cambios en ambos dispositivos. No se sobrescribirá nada automáticamente.";
+      return;
+    }
+    if(meta.dirty){
+      syncing=false;
+      await pushCloud(false);
+      return;
+    }
+    state=mergeState(remote.data);
+    saveLocal(false);
+    setSyncMeta({dirty:false,lastServerAt:remote.updated_at||null});
+    renderAll();
+    setCloudPill("Sincronizado","ok");
+    el("syncDetail").textContent=`Sincronizado desde nube: ${formatServerTime(remote.updated_at)}`;
+  }catch(e){
+    setCloudPill("Error de sincronización","bad");
+    el("syncDetail").textContent=e.message||String(e);
+  }finally{syncing=false;}
+}
+
+function clearSupabaseAuthStorage(){
+  try{
+    const cfg=getConfig();
+    const ref=new URL(cfg.url).hostname.split(".")[0];
+    const prefix=`sb-${ref}-auth-token`;
+    [window.localStorage,window.sessionStorage].forEach(storage=>{
+      Object.keys(storage).forEach(key=>{
+        if(key===prefix||key.startsWith(prefix+"-"))storage.removeItem(key);
+      });
+    });
+  }catch(e){}
+}
 
 function authMessage(error){
   if(!error)return "";
@@ -358,7 +472,15 @@ el("chapterStatus").addEventListener("change",e=>{state.chapters[current]=e.targ
 el("notes").addEventListener("input",e=>{state.notes[current]=e.target.value;saveLocal();});
 el("syncNowBtn").addEventListener("click",async()=>{if(!session){switchTab("nube");el("authMsg").textContent="Inicia sesión para sincronizar.";return;}await syncOnLogin();});
 el("saveCloudConfigBtn").addEventListener("click",async()=>{const url=el("supabaseUrl").value.trim(),key=el("supabaseKey").value.trim();if(!url||!key){el("configMsg").textContent="Introduce URL y publishable key.";return;}if(/service_role/i.test(key)){el("configMsg").textContent="No uses una service_role key en el navegador.";return;}localStorage.setItem(CONFIG_KEY,JSON.stringify({url,key}));el("configMsg").textContent="Configuración guardada.";await initSupabase();await loadCourseContent();});
-el("clearCloudConfigBtn").addEventListener("click",async()=>{if(sb)try{await sb.auth.signOut();}catch(e){}localStorage.removeItem(CONFIG_KEY);sb=null;session=null;el("supabaseUrl").value="";el("supabaseKey").value="";setCloudPill("Nube sin configurar","warn");updateAuthUI();});
+el("clearCloudConfigBtn").addEventListener("click",async()=>{
+  if(sb)try{await sb.auth.signOut({scope:"local"});}catch(e){}
+  clearSupabaseAuthStorage();
+  localStorage.removeItem(CONFIG_KEY);
+  sb=null;session=null;passwordRecoveryMode=false;
+  el("supabaseUrl").value="";el("supabaseKey").value="";
+  setCloudPill("Nube sin configurar","warn");
+  updateAuthUI();
+});
 el("signInBtn").addEventListener("click",async()=>{
   if(!sb){el("authMsg").textContent="La nube no está configurada.";return;}
   const email=el("authEmail").value.trim(),password=el("authPassword").value;
@@ -408,7 +530,28 @@ el("setNewPasswordBtn").addEventListener("click",async()=>{
   await syncOnLogin();
 });
 
-el("signOutBtn").addEventListener("click",async()=>{if(sb)await sb.auth.signOut();});el("cloudPullBtn").addEventListener("click",()=>pullCloud(true));el("cloudPushBtn").addEventListener("click",()=>pushCloud(true));
+el("signOutBtn").addEventListener("click",async()=>{
+  el("authMsg").textContent="Cerrando sesión…";
+  let serverWarning="";
+  try{
+    if(sb){
+      const {error}=await sb.auth.signOut({scope:"local"});
+      if(error&&error.code!=="session_not_found")serverWarning=authMessage(error);
+    }
+  }catch(e){
+    serverWarning=e?.message||String(e);
+  }
+  clearSupabaseAuthStorage();
+  session=null;
+  passwordRecoveryMode=false;
+  updateAuthUI();
+  if(sb)setCloudPill("Nube configurada","warn");
+  el("authMsg").textContent=serverWarning
+    ?`Sesión local cerrada. Aviso del servidor: ${serverWarning}`
+    :"Sesión cerrada correctamente.";
+});
+el("cloudPullBtn").addEventListener("click",async()=>{await pullCloud(true);});
+el("cloudPushBtn").addEventListener("click",async()=>{await pushCloud(true);});
 el("exportBtn").addEventListener("click",()=>{const blob=new Blob([JSON.stringify(state,null,2)],{type:"application/json"});const url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="curso-ia-progreso.json";a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);el("backupMsg").textContent="Copia exportada.";});
 el("importFile").addEventListener("change",e=>{const f=e.target.files&&e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{state=mergeState(JSON.parse(String(r.result)));saveLocal();renderAll();el("backupMsg").textContent="Copia importada.";}catch(err){el("backupMsg").textContent="Archivo no válido.";}};r.readAsText(f);});
 el("resetBtn").addEventListener("click",()=>{if(confirm("¿Borrar todo el progreso local? Si tienes sesión, el nuevo estado se sincronizará a la nube.")){state=fresh();saveLocal();renderAll();}});

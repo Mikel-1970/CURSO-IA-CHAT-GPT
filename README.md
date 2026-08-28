@@ -14,3 +14,18 @@ Sustituye en el repositorio de GitHub Pages los archivos por los de este paquete
 
 ## v4 Auth
 Recuperación de contraseña, reenvío de confirmación y mensajes de error específicos.
+
+
+## v5 — cierre de sesión robusto
+- Cierre sólo de la sesión del dispositivo actual (`scope: local`).
+- Limpieza explícita de las claves de autenticación Supabase en navegador.
+- Si el servidor ya había cerrado la sesión (`session_not_found`), la interfaz se desconecta igualmente.
+- Mensaje visible de resultado.
+
+
+## v6 — sincronización robusta
+- La fecha de sincronización la fija Supabase, no el reloj del PC/iPhone.
+- Descargar nube siempre fuerza lectura remota.
+- Subir este dispositivo siempre fuerza escritura del estado local.
+- Una descarga remota no crea una falsa fecha local nueva.
+- Si ambos dispositivos cambiaron desde la última sincronización, no se sobrescribe automáticamente.
