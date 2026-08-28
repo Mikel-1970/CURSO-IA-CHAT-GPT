@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#16324F">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Curso IA">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="manifest" href="manifest.webmanifest">
+<title>Curso IA – ChatGPT práctico</title>
+<style>
+:root{--bg:#f7f7f8;--card:#fff;--text:#111827;--muted:#6b7280;--border:#d1d5db;--accent:#2563eb;--soft:#dbeafe;--ok:#15803d;--warn:#b45309;--bad:#b91c1c;--navy:#16324F}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}.app{max-width:1000px;margin:auto;padding:14px}h1{font-size:1.45rem;margin:0 0 4px}h2{font-size:1.25rem;margin-top:0}h3{margin-bottom:6px}.muted{color:var(--muted);font-size:.9rem}.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:15px;margin-bottom:14px}.progress{height:10px;background:#e5e7eb;border-radius:999px;overflow:hidden}.progress>i{display:block;height:100%;width:0;background:var(--accent);transition:width .2s}.tabs{display:flex;gap:8px;overflow-x:auto;margin:12px 0}.tab,.btn{min-height:44px;border:1px solid var(--border);background:#fff;border-radius:10px;padding:9px 13px;font-size:15px;font-weight:600}.tab.active{background:var(--soft);border-color:#93c5fd}.btn.primary{background:var(--accent);color:#fff;border-color:var(--accent)}.btn.ok{background:var(--ok);color:#fff;border-color:var(--ok)}.btn.danger{color:var(--bad)}.panel{display:none}.panel.active{display:block}.grid{display:grid;grid-template-columns:230px minmax(0,1fr);gap:14px}.twocol{display:grid;grid-template-columns:1fr 1fr;gap:10px}.mini,.notice{background:#f9fafb;border:1px solid #e5e7eb;border-radius:10px;padding:11px}label{display:block;font-weight:600;font-size:.9rem;margin:8px 0 6px}select,textarea,input[type="text"],input[type="email"],input[type="password"],input[type="url"]{width:100%;font-size:16px;border:1px solid var(--border);border-radius:10px;background:#fff;padding:10px}textarea{resize:vertical}.btnrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.qrow{display:grid;grid-template-columns:minmax(0,1fr) 90px 92px;gap:8px;align-items:center;margin:9px 0}.result{font-weight:700;font-size:.86rem}.good{color:var(--ok)}.review{color:var(--warn)}.bad{color:var(--bad)}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.num{font-size:1.6rem;font-weight:700}.tablewrap{overflow-x:auto}table{border-collapse:collapse;min-width:680px;width:100%}th,td{padding:9px;border-top:1px solid var(--border);text-align:left;font-size:.87rem}thead th{border-top:0;background:#f3f4f6}.banner{background:#eff6ff;border:1px solid #93c5fd;border-radius:12px;padding:12px;margin-bottom:14px}.cloudbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:10px}.pill{border-radius:999px;padding:5px 9px;font-size:.82rem;font-weight:700;background:#f3f4f6}.pill.ok{background:#dcfce7;color:#166534}.pill.warn{background:#fef3c7;color:#92400e}.pill.bad{background:#fee2e2;color:#991b1b}.hidden{display:none!important}.code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:#111827;color:#f9fafb;border-radius:10px;padding:10px;overflow:auto;font-size:.82rem;white-space:pre-wrap}.sep{border:0;border-top:1px solid var(--border);margin:16px 0}
+.callout{background:#f8fafc;border-left:4px solid var(--navy);padding:12px 14px;border-radius:8px;margin:12px 0}
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}.compare>div{background:#f9fafb;border:1px solid #e5e7eb;border-radius:10px;padding:11px}
+.lesson-content h2{margin-top:24px}.lesson-content h2:first-child{margin-top:0}.lesson-content p{line-height:1.55}.lesson-content li{margin:5px 0}
+.rubric{margin-top:10px;padding:11px;border-radius:10px;background:#f9fafb;border:1px solid #e5e7eb}.rubric.good{background:#f0fdf4;border-color:#86efac;color:var(--text)}.rubric.review{background:#fffbeb;border-color:#fcd34d;color:var(--text)}
+.feedback-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.checkgroup{display:flex;flex-wrap:wrap;gap:8px}.checkitem{display:flex;align-items:center;gap:6px;border:1px solid var(--border);border-radius:9px;padding:8px 10px;font-size:.9rem}.checkitem input{width:auto}
+.loading{padding:22px;text-align:center;color:var(--muted)}
+.updated{font-size:.8rem;color:var(--muted);margin-top:12px}
+@media(max-width:720px){.compare,.feedback-grid{grid-template-columns:1fr}}
+@media(max-width:720px){.grid,.twocol,.stats{grid-template-columns:1fr}.app{padding:10px}.qrow{grid-template-columns:minmax(0,1fr) 78px}.qrow .result{grid-column:1/-1;margin-top:-3px}}
+</style>
+</head>
+<body>
+<div id="app" class="app">
+<header class="card">
+  <h1>Curso IA – ChatGPT práctico</h1>
+  <div class="muted">Curso, prácticas, notas y progreso sincronizable</div>
+  <div style="display:flex;justify-content:space-between;gap:10px;margin:14px 0 7px"><strong>Progreso global</strong><span id="progressText">0 / 16 capítulos</span></div>
+  <div class="progress"><i id="progressBar"></i></div>
+  <div class="cloudbar">
+    <span id="localStatus" class="pill ok">Guardado local</span>
+    <span id="cloudStatus" class="pill warn">Nube sin configurar</span>
+    <button id="syncNowBtn" class="btn" type="button">Sincronizar ahora</button>
+  </div>
+</header>
+
+<div id="installHint" class="banner"><strong>Instalar:</strong> cuando la app esté publicada por HTTPS, en iPhone usa Safari → Compartir → Añadir a pantalla de inicio.</div>
+
+<nav class="tabs" aria-label="Secciones">
+  <button class="tab active" data-tab="curso" type="button">Curso</button>
+  <button class="tab" data-tab="practicas" type="button">Prácticas</button>
+  <button class="tab" data-tab="progreso" type="button">Progreso</button>
+  <button class="tab" data-tab="feedback" type="button">Feedback</button>
+  <button class="tab" data-tab="nube" type="button">Nube</button>
+</nav>
+
+<section id="curso" class="panel active">
+<div class="grid">
+  <aside class="card">
+    <label for="chapterSelect">Capítulo</label><select id="chapterSelect"></select>
+    <div id="chapterDate" class="muted" style="margin:8px 0"></div>
+    <label for="chapterStatus">Estado</label>
+    <select id="chapterStatus"><option>Pendiente</option><option>En curso</option><option>Completado</option></select>
+  </aside>
+  <main>
+    <article id="lesson" class="card"></article>
+    <div class="card"><label for="notes">Mis notas</label><textarea id="notes" rows="6" placeholder="Ideas, dudas, aplicaciones reales, mejoras..."></textarea></div>
+  </main>
+</div>
+</section>
+
+<section id="practicas" class="panel">
+  <div class="card"><label for="practiceChapterSelect">Práctica del capítulo</label><select id="practiceChapterSelect"></select></div>
+  <div id="practiceArea"></div>
+</section>
+
+<section id="progreso" class="panel">
+  <div class="stats">
+    <div class="card"><div class="muted">Completados</div><div id="statDone" class="num">0</div></div>
+    <div class="card"><div class="muted">En curso</div><div id="statDoing" class="num">0</div></div>
+    <div class="card"><div class="muted">Prácticas</div><div id="statPractice" class="num">0</div></div>
+  </div>
+  <div class="card tablewrap"><table><thead><tr><th>Cap.</th><th>Tema</th><th>Fecha</th><th>Estado</th><th>Práctica</th></tr></thead><tbody id="rows"></tbody></table></div>
+  <div class="card">
+    <h3>Copia de seguridad manual</h3>
+    <div class="btnrow"><button id="exportBtn" class="btn primary" type="button">Exportar copia</button><label class="btn" style="display:inline-flex;align-items:center;margin:0;cursor:pointer">Importar copia<input id="importFile" type="file" accept=".json,application/json" hidden></label><button id="resetBtn" class="btn danger" type="button">Reiniciar</button></div>
+    <div id="backupMsg" class="muted" style="margin-top:8px"></div>
+  </div>
+</section>
+
+
+<section id="feedback" class="panel">
+  <div class="card">
+    <div class="grid">
+      <div>
+        <label for="feedbackChapterSelect">Feedback del capítulo</label>
+        <select id="feedbackChapterSelect"></select>
+        <div id="feedbackChapterInfo" class="muted" style="margin-top:8px"></div>
+      </div>
+      <div class="notice"><strong>Para qué sirve:</strong> tus respuestas se guardan y sincronizan con la nube. Se utilizarán para ajustar los capítulos siguientes en dificultad, extensión, ejemplos y tipo de prácticas.</div>
+    </div>
+  </div>
+  <div id="feedbackArea"></div>
+</section>
+
+<section id="nube" class="panel">
+  <div class="card">
+    <h2>Sincronización en nube</h2>
+    <p>La app utiliza <strong>Supabase</strong>. La URL del proyecto y la <strong>publishable/anon key</strong> pueden estar en el navegador; la seguridad depende de las políticas RLS. <strong>No introduzcas nunca una service_role key.</strong></p>
+    <label for="supabaseUrl">Supabase Project URL</label><input id="supabaseUrl" type="url" placeholder="https://xxxx.supabase.co">
+    <label for="supabaseKey">Supabase publishable / anon key</label><input id="supabaseKey" type="text" autocomplete="off" placeholder="sb_publishable_... o anon key">
+    <div class="btnrow"><button id="saveCloudConfigBtn" class="btn primary" type="button">Guardar configuración</button><button id="clearCloudConfigBtn" class="btn" type="button">Borrar configuración</button></div>
+    <div id="configMsg" class="muted" style="margin-top:8px"></div>
+  </div>
+
+  <div class="card" id="authCard">
+    <h3>Cuenta del curso</h3>
+    <div id="loggedOutBox">
+      <label for="authEmail">Correo</label><input id="authEmail" type="email" autocomplete="email">
+      <label for="authPassword">Contraseña</label><input id="authPassword" type="password" autocomplete="current-password" minlength="8">
+      <div class="btnrow"><button id="signInBtn" class="btn primary" type="button">Entrar</button><button id="signUpBtn" class="btn" type="button">Crear cuenta</button></div>
+    </div>
+    <div id="loggedInBox" class="hidden">
+      <p>Sesión: <strong id="userEmail"></strong></p>
+      <div class="btnrow"><button id="cloudPullBtn" class="btn" type="button">Descargar nube</button><button id="cloudPushBtn" class="btn" type="button">Subir este dispositivo</button><button id="signOutBtn" class="btn danger" type="button">Cerrar sesión</button></div>
+    </div>
+    <div id="authMsg" class="muted" style="margin-top:8px"></div>
+  </div>
+
+  <div class="card">
+    <h3>Estado de sincronización</h3>
+    <p id="syncDetail" class="muted">Sin sesión.</p>
+    <p class="muted">Estrategia: <strong>última modificación prevalece</strong>. Si trabajas offline, se guarda localmente y se intenta subir al recuperar conexión.</p>
+  </div>
+</section>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.4/dist/umd/supabase.min.js"></script>
+<script>
+
+"use strict";
+const FALLBACK_CHAPTERS=[["Qué es realmente ChatGPT", "Fortalezas, limitaciones, tipos de tareas y control de errores."], ["Cómo dar instrucciones eficaces", "Contexto, objetivo, datos, condiciones y formato."], ["Trabajar por iteraciones", "Conversación, crítica, corrección y refinamiento progresivo."], ["Control de errores y fiabilidad", "Fuentes, hipótesis, verificación y segunda comprobación."], ["Investigación técnica y web", "Normativa, fabricantes, fuentes oficiales e información actualizada."], ["PDF, Word y documentación", "Comparar, resumir, extraer y actualizar documentos técnicos."], ["Excel, datos y cálculos", "Análisis de hojas, presupuestos, costes, horas y rentabilidad."], ["Procesamiento masivo", "Facturas, extracción de datos, duplicados y validación."], ["IA para jefatura de proyecto", "Planificación, actas, riesgos, acciones y seguimiento."], ["Personalización y memoria", "Instrucciones, contexto persistente y reglas de trabajo."], ["Organización mediante proyectos", "Separación de contextos profesionales y personales."], ["Correo, calendario y conectores", "Clasificación, preparación de reuniones y gestión asistida."], ["Tareas programadas y vigilancia", "Seguimientos periódicos y alertas sobre cambios."], ["Diseñar procesos con IA", "Flujos de trabajo y puntos de control humano."], ["Aplicaciones y automatización", "De la conversación a herramientas específicas."], ["Plan de implantación de IA", "Mapa de procesos, prioridades, riesgos y plan de despliegue."]];
+const DEFAULT_SUPABASE_CONFIG={url:"https://lijilkdfdpbezergsdly.supabase.co",key:"sb_publishable_T3Uq3IPz_svsdMvKJrTuYg_Fgh99Yfp"};
+const KEY="cursoIA_cloud_v3",CONFIG_KEY="cursoIA_supabase_config_v1",CONTENT_CACHE_KEY="cursoIA_content_cache_v1";
+const START=new Date(Date.UTC(2026,7,28));
+const el=id=>document.getElementById(id);
+let state=fresh(), current=1, courseContent={}, sb=null, session=null, syncing=false, saveTimer=null;
+
+function fresh(){
+  return {version:3,chapters:{1:"En curso"},practices:{},notes:{},answers:{c1:"A",c2:"B",c3:"B",c4:"C",c5:"B",c6:"C",c7:"A",c8:"C",c9:"A",c10:"A"},feedback:{},updatedAt:new Date().toISOString()};
+}
+function mergeState(raw){
+  const base=fresh(), x=raw&&typeof raw==="object"?raw:{};
+  return {...base,...x,chapters:{...base.chapters,...(x.chapters||{})},practices:{...(x.practices||{})},notes:{...(x.notes||{})},answers:{...base.answers,...(x.answers||{})},feedback:{...(x.feedback||{})}};
+}
+function loadLocal(){
+  try{const raw=localStorage.getItem(KEY); if(raw) state=mergeState(JSON.parse(raw)); el("localStatus").textContent="Guardado local";el("localStatus").className="pill ok";}
+  catch(e){el("localStatus").textContent="Error guardado local";el("localStatus").className="pill bad";}
+  try{const cached=JSON.parse(localStorage.getItem(CONTENT_CACHE_KEY)||"[]"); if(Array.isArray(cached)) cached.forEach(c=>courseContent[c.chapter_number]=c);}catch(e){}
+}
+function saveLocal(scheduleCloud=true){
+  state.updatedAt=new Date().toISOString();
+  try{localStorage.setItem(KEY,JSON.stringify(state));el("localStatus").textContent="Guardado local";el("localStatus").className="pill ok";}catch(e){}
+  if(scheduleCloud&&session){clearTimeout(saveTimer);saveTimer=setTimeout(()=>pushCloud(false),700);}
+}
+function dateFor(n){const d=new Date(START);d.setUTCDate(d.getUTCDate()+(n-1)*2);return d.toLocaleDateString("es-ES",{day:"2-digit",month:"short",year:"numeric",timeZone:"UTC"});}
+function metadata(n){const c=courseContent[n];return c?[c.title,c.objective]:FALLBACK_CHAPTERS[n-1]||[`Capítulo ${n}`,""];}
+function maxChapter(){return Math.max(FALLBACK_CHAPTERS.length,...Object.keys(courseContent).map(Number).filter(Number.isFinite));}
+function publishedCount(){return Object.keys(courseContent).length;}
+function opts(){
+  const max=maxChapter();
+  const s=Array.from({length:max},(_,i)=>{const n=i+1,[title]=metadata(n),published=!!courseContent[n];return `<option value="${n}">${n}. ${esc(title)}${published?"":" · pendiente"}</option>`;}).join("");
+  ["chapterSelect","practiceChapterSelect","feedbackChapterSelect"].forEach(id=>{if(el(id))el(id).innerHTML=s;});
+}
+function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));}
+function norm(s){return String(s||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^\p{L}\p{N}\s]/gu," ").replace(/\s+/g," ").trim();}
+function rubricScore(text,groups){
+  const t=norm(text); if(!t)return {hit:0,total:(groups||[]).length};
+  let hit=0; (groups||[]).forEach(g=>{if(g.some(k=>t.includes(norm(k))))hit++;});
+  return {hit,total:(groups||[]).length};
+}
+
+async function loadCourseContent(){
+  const cfg=getConfig();
+  if(!window.supabase||!cfg.url||!cfg.key){renderAll();return;}
+  try{
+    const contentClient=sb||window.supabase.createClient(cfg.url,cfg.key,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+    const {data,error}=await contentClient.from("course_content").select("chapter_number,title,objective,content_html,practice,feedback_schema,version,updated_at").order("chapter_number");
+    if(error)throw error;
+    if(Array.isArray(data)){
+      courseContent={}; data.forEach(c=>courseContent[c.chapter_number]=c);
+      localStorage.setItem(CONTENT_CACHE_KEY,JSON.stringify(data));
+      opts(); renderAll();
+    }
+  }catch(e){
+    console.warn("No se pudo actualizar el contenido:",e);
+    opts(); renderAll();
+  }
+}
+
+function renderLesson(){
+  el("chapterSelect").value=String(current);el("practiceChapterSelect").value=String(current);if(el("feedbackChapterSelect"))el("feedbackChapterSelect").value=String(current);
+  el("chapterDate").textContent=`Programado: ${dateFor(current)}${courseContent[current]?" · Publicado":" · Aún no publicado"}`;
+  el("chapterStatus").value=state.chapters[current]||"Pendiente"; el("notes").value=state.notes[current]||"";
+  const c=courseContent[current], [title,obj]=metadata(current);
+  if(c){
+    el("lesson").innerHTML=`<div class="lesson-content">${c.content_html}</div><div class="updated">Versión ${c.version} · contenido actualizado ${new Date(c.updated_at).toLocaleDateString("es-ES")}</div>`;
+  }else{
+    el("lesson").innerHTML=`<h2>Capítulo ${current} — ${esc(title)}</h2><p>${esc(obj)}</p><div class="notice">Este capítulo aún no está publicado. Cuando se publique, aparecerá aquí automáticamente sin reinstalar la app.</div>`;
+  }
+}
+
+function renderPractice(){
+  const c=courseContent[current], p=c?.practice||{};
+  if(!c){el("practiceArea").innerHTML=`<div class="card"><h2>Práctica ${current}</h2><div class="notice">Se incorporará automáticamente al publicar el capítulo.</div></div>`;return;}
+  if(current===1 && p.classification) return renderPractice1(p);
+  el("practiceArea").innerHTML=`<div class="card"><h2>Práctica ${current} — ${esc(c.title)}</h2><div class="notice">La práctica de este capítulo se cargará desde el contenido publicado.</div><label>Notas / preparación</label><textarea id="genericPractice" rows="6"></textarea><button id="genericDone" class="btn ok" type="button" style="margin-top:10px">Marcar realizada</button></div>`;
+  el("genericPractice").value=state.answers["g"+current]||"";
+  el("genericPractice").addEventListener("input",e=>{state.answers["g"+current]=e.target.value;saveLocal();});
+  el("genericDone").addEventListener("click",()=>{state.practices[current]=true;saveLocal();renderProgress();});
+}
+function renderPractice1(p){
+  const cls=p.classification;
+  const rows=cls.items.map((item,i)=>`<div class="qrow"><span>${i+1}. ${esc(item.text)}</span><select data-class="${i+1}"><option value=""></option><option>A</option><option>B</option><option>C</option></select><span class="result" id="r${i+1}"></span></div>`).join("");
+  const ins=p.instruction||{};
+  const qs=p.comprehension||[];
+  el("practiceArea").innerHTML=`
+  <div class="card"><h2>${esc(cls.title)}</h2><p class="muted">${esc(cls.instructions)}</p>${rows}
+    <div class="btnrow"><button id="checkClassBtn" class="btn primary" type="button">Comprobar 1A</button></div>
+    <div id="classScore" style="margin-top:10px;font-weight:700"></div><div id="classDetails"></div>
+  </div>
+  <div class="card"><h3>${esc(ins.title||"Práctica 1B")}</h3>
+    <div class="twocol"><div class="mini"><strong>Opción A</strong><p>${esc(ins.optionA||"")}</p></div><div class="mini"><strong>Opción B</strong><p>${esc(ins.optionB||"")}</p></div></div>
+    <label for="instructionChoice">¿Cuál elegirías?</label><select id="instructionChoice"><option value=""></option><option value="A">A</option><option value="B">B</option></select>
+    <label for="instructionReason">Explica brevemente por qué</label><textarea id="instructionReason" rows="4"></textarea>
+    <div class="btnrow"><button id="checkInstructionBtn" class="btn primary" type="button">Comprobar 1B</button></div><div id="instructionResult"></div>
+  </div>
+  <div class="card"><h3>Prueba de comprensión</h3><p class="muted">La corrección automática es orientativa y usa una rúbrica de conceptos, no coincidencia literal.</p>
+    ${qs.map((q,i)=>`<label>${i+1}. ${esc(q.question)}</label><textarea data-q="q${i+1}" rows="3"></textarea><div id="qr${i+1}"></div>`).join("")}
+    <div class="btnrow"><button id="checkComprehensionBtn" class="btn primary" type="button">Comprobar comprensión</button><button id="practiceDoneBtn" class="btn ok" type="button">Marcar práctica realizada</button></div><div id="compScore" style="margin-top:10px;font-weight:700"></div>
+  </div>`;
+  cls.items.forEach((_,i)=>{const s=document.querySelector(`[data-class="${i+1}"]`);s.value=state.answers["c"+(i+1)]||"";s.addEventListener("change",e=>{state.answers["c"+(i+1)]=e.target.value;saveLocal();});});
+  el("instructionChoice").value=state.answers.instructionChoice||"B";
+  el("instructionReason").value=state.answers.instructionReason||state.answers.instruction||"";
+  el("instructionChoice").addEventListener("change",e=>{state.answers.instructionChoice=e.target.value;saveLocal();});
+  el("instructionReason").addEventListener("input",e=>{state.answers.instructionReason=e.target.value;saveLocal();});
+  qs.forEach((q,i)=>{const t=document.querySelector(`[data-q="q${i+1}"]`);t.value=state.answers["q"+(i+1)]||"";t.addEventListener("input",e=>{state.answers["q"+(i+1)]=e.target.value;saveLocal();});});
+  el("checkClassBtn").addEventListener("click",()=>{
+    let correct=0,answered=0,details=[];
+    cls.items.forEach((item,i)=>{const n=i+1,x=state.answers["c"+n]||"",r=el("r"+n);if(x)answered++;if(x===item.answer){correct++;r.textContent="Correcto";r.className="result good";}else if(x){r.textContent=`Revisar → ${item.answer}`;r.className="result review";details.push(`<div class="rubric review"><strong>${n}.</strong> ${esc(item.explanation)}</div>`);}else{r.textContent="Sin responder";r.className="result muted";}});
+    el("classScore").textContent=`Resultado: ${correct}/10 · Respondidas ${answered}/10`;el("classDetails").innerHTML=details.join("");
+  });
+  el("checkInstructionBtn").addEventListener("click",()=>{
+    const choice=state.answers.instructionChoice||"", reason=state.answers.instructionReason||"", score=rubricScore(reason,ins.rubric_groups||[]);
+    const choiceOk=choice===ins.correct, enough=score.total?score.hit>=Math.ceil(score.total/2):reason.trim().length>20;
+    el("instructionResult").innerHTML=`<div class="rubric ${choiceOk&&enough?"good":"review"}"><strong>${choiceOk?"Elección correcta.":"Revisa la elección."}</strong> Tu explicación cubre ${score.hit}/${score.total||1} bloques de la rúbrica. ${esc(ins.feedback||"")}</div>`;
+  });
+  el("checkComprehensionBtn").addEventListener("click",()=>{
+    let ok=0;
+    qs.forEach((q,i)=>{const text=state.answers["q"+(i+1)]||"",s=rubricScore(text,q.rubric_groups||[]),pass=s.total? s.hit>=Math.max(1,Math.ceil(s.total*0.6)):text.trim().length>20;if(pass)ok++;el("qr"+(i+1)).innerHTML=`<div class="rubric ${pass?"good":"review"}"><strong>${pass?"Respuesta razonable":"Conviene completar la respuesta"}</strong> · conceptos detectados ${s.hit}/${s.total||1}.<br><span class="muted">Referencia: ${esc(q.model||"")}</span></div>`;});
+    el("compScore").textContent=`Comprensión: ${ok}/${qs.length} respuestas cubren los conceptos esenciales.`;
+  });
+  el("practiceDoneBtn").addEventListener("click",()=>{state.practices[1]=true;saveLocal();renderProgress();});
+}
+
+function fieldHtml(f,val){
+  const id=`fb_${f.id}`,v=val??"";
+  if(f.type==="range")return `<label for="${id}">${esc(f.label)}: <strong id="${id}_v">${v||Math.ceil((f.min+f.max)/2)}</strong>/${f.max}</label><input id="${id}" type="range" min="${f.min}" max="${f.max}" value="${v||Math.ceil((f.min+f.max)/2)}">`;
+  if(f.type==="select")return `<label for="${id}">${esc(f.label)}</label><select id="${id}"><option value=""></option>${(f.options||[]).map(o=>`<option value="${esc(o)}"${o===v?" selected":""}>${esc(o)}</option>`).join("")}</select>`;
+  if(f.type==="multiselect"){const arr=Array.isArray(v)?v:[];return `<label>${esc(f.label)}</label><div class="checkgroup">${(f.options||[]).map(o=>`<label class="checkitem"><input type="checkbox" data-fbmulti="${esc(f.id)}" value="${esc(o)}"${arr.includes(o)?" checked":""}>${esc(o)}</label>`).join("")}</div>`;}
+  return `<label for="${id}">${esc(f.label)}</label><textarea id="${id}" rows="3">${esc(v)}</textarea>`;
+}
+function renderFeedback(){
+  if(!el("feedbackArea"))return;
+  el("feedbackChapterSelect").value=String(current);
+  const c=courseContent[current], schema=c?.feedback_schema||c?.practice?.feedback_fields||[];
+  el("feedbackChapterInfo").textContent=c?`Capítulo ${current} · ${c.title}`:`Capítulo ${current} aún no publicado`;
+  if(!c||!schema.length){el("feedbackArea").innerHTML=`<div class="card"><div class="notice">El formulario de feedback aparecerá al publicarse el capítulo.</div></div>`;return;}
+  const fb=state.feedback[current]||{};
+  el("feedbackArea").innerHTML=`<div class="card"><h2>Feedback del capítulo ${current}</h2><p>Indica qué te ha funcionado y qué quieres cambiar. Este feedback queda guardado y sincronizado para adaptar los siguientes capítulos.</p><div class="feedback-grid">${schema.map(f=>`<div>${fieldHtml(f,fb[f.id])}</div>`).join("")}</div><div class="btnrow"><button id="saveFeedbackBtn" class="btn ok" type="button">Guardar feedback</button><button id="completeFeedbackBtn" class="btn primary" type="button">Guardar y marcar capítulo completado</button></div><div id="feedbackMsg" class="muted" style="margin-top:8px"></div></div>`;
+  schema.forEach(f=>{
+    if(f.type==="multiselect"){
+      document.querySelectorAll(`[data-fbmulti="${f.id}"]`).forEach(cb=>cb.addEventListener("change",()=>{const arr=[...document.querySelectorAll(`[data-fbmulti="${f.id}"]:checked`)].map(x=>x.value);(state.feedback[current]||(state.feedback[current]={}))[f.id]=arr;saveLocal();}));
+    }else{
+      const node=el(`fb_${f.id}`);if(!node)return;const ev=f.type==="range"?"input":"change";node.addEventListener(ev,e=>{(state.feedback[current]||(state.feedback[current]={}))[f.id]=f.type==="range"?Number(e.target.value):e.target.value;if(f.type==="range")el(`fb_${f.id}_v`).textContent=e.target.value;saveLocal();});
+      if(f.type==="textarea")node.addEventListener("input",e=>{(state.feedback[current]||(state.feedback[current]={}))[f.id]=e.target.value;saveLocal();});
+    }
+  });
+  const saveFeedback=complete=>{state.feedback[current]=state.feedback[current]||{};state.feedback[current].submittedAt=new Date().toISOString();if(complete)state.chapters[current]="Completado";saveLocal();renderProgress();el("feedbackMsg").textContent=complete?"Feedback guardado y capítulo completado.":"Feedback guardado.";};
+  el("saveFeedbackBtn").addEventListener("click",()=>saveFeedback(false));el("completeFeedbackBtn").addEventListener("click",()=>saveFeedback(true));
+}
+
+function renderProgress(){
+  const max=maxChapter(), done=Array.from({length:max},(_,i)=>i+1).filter(n=>(state.chapters[n]||"Pendiente")==="Completado").length;
+  const doing=Array.from({length:max},(_,i)=>i+1).filter(n=>(state.chapters[n]||"Pendiente")==="En curso").length;
+  const pr=Array.from({length:max},(_,i)=>i+1).filter(n=>state.practices[n]).length;
+  el("statDone").textContent=done;el("statDoing").textContent=doing;el("statPractice").textContent=pr;el("progressText").textContent=`${done} / ${max} capítulos`;el("progressBar").style.width=`${done/max*100}%`;
+  el("rows").innerHTML=Array.from({length:max},(_,i)=>{const n=i+1,[title]=metadata(n);return `<tr><td>${n}</td><td>${esc(title)}</td><td>${dateFor(n)}</td><td>${state.chapters[n]||"Pendiente"}</td><td>${state.practices[n]?"Realizada":"Pendiente"}</td></tr>`;}).join("");
+}
+function renderAll(){opts();renderLesson();renderPractice();renderFeedback();renderProgress();}
+function switchTab(name){document.querySelectorAll(".tab").forEach(b=>b.classList.toggle("active",b.dataset.tab===name));document.querySelectorAll(".panel").forEach(p=>p.classList.toggle("active",p.id===name));}
+function getConfig(){try{const saved=JSON.parse(localStorage.getItem(CONFIG_KEY)||"{}");return {url:saved.url||DEFAULT_SUPABASE_CONFIG.url,key:saved.key||DEFAULT_SUPABASE_CONFIG.key};}catch(e){return {...DEFAULT_SUPABASE_CONFIG};}}
+function setCloudPill(text,cls="warn"){el("cloudStatus").textContent=text;el("cloudStatus").className=`pill ${cls}`;}
+async function initSupabase(){
+  const cfg=getConfig();el("supabaseUrl").value=cfg.url||"";el("supabaseKey").value=cfg.key||"";
+  if(!cfg.url||!cfg.key||!window.supabase){sb=null;session=null;setCloudPill("Nube no disponible","warn");updateAuthUI();return;}
+  try{
+    sb=window.supabase.createClient(cfg.url,cfg.key,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+    const {data,error}=await sb.auth.getSession();if(error)throw error;session=data.session||null;
+    sb.auth.onAuthStateChange((_event,newSession)=>{session=newSession;updateAuthUI();if(session)syncOnLogin();});
+    setCloudPill(session?"Nube conectada":"Nube configurada",session?"ok":"warn");updateAuthUI();if(session)await syncOnLogin();
+  }catch(e){sb=null;session=null;setCloudPill("Error de nube","bad");el("configMsg").textContent=e.message||String(e);updateAuthUI();}
+}
+function updateAuthUI(){const logged=!!session;el("loggedOutBox").classList.toggle("hidden",logged);el("loggedInBox").classList.toggle("hidden",!logged);el("userEmail").textContent=logged?(session.user.email||session.user.id):"";el("syncDetail").textContent=logged?`Conectado como ${session.user.email||session.user.id}. Último dato local: ${state.updatedAt||"—"}`:"Sin sesión.";if(logged)setCloudPill("Nube conectada","ok");else if(sb)setCloudPill("Nube configurada","warn");}
+async function fetchRemote(){if(!sb||!session)throw new Error("No hay sesión iniciada.");const {data,error}=await sb.from("course_progress").select("data,updated_at").eq("user_id",session.user.id).maybeSingle();if(error)throw error;return data;}
+async function pushCloud(showMessage=true){if(syncing||!sb||!session||!navigator.onLine)return;syncing=true;setCloudPill("Sincronizando…","warn");try{const payload={user_id:session.user.id,data:state,updated_at:state.updatedAt||new Date().toISOString()};const {error}=await sb.from("course_progress").upsert(payload,{onConflict:"user_id"});if(error)throw error;setCloudPill("Sincronizado","ok");el("syncDetail").textContent=`Nube actualizada: ${new Date().toLocaleString("es-ES")}`;if(showMessage)el("authMsg").textContent="Datos subidos correctamente.";}catch(e){setCloudPill("Error de sincronización","bad");el("syncDetail").textContent=e.message||String(e);}finally{syncing=false;}}
+async function pullCloud(showMessage=true){if(syncing||!sb||!session)return;syncing=true;setCloudPill("Sincronizando…","warn");try{const remote=await fetchRemote();if(remote&&remote.data){state=mergeState(remote.data);saveLocal(false);renderAll();if(showMessage)el("authMsg").textContent="Datos descargados de la nube.";}else if(showMessage)el("authMsg").textContent="No hay datos remotos todavía.";setCloudPill("Sincronizado","ok");}catch(e){setCloudPill("Error de sincronización","bad");el("syncDetail").textContent=e.message||String(e);}finally{syncing=false;}}
+async function syncOnLogin(){if(!sb||!session||syncing)return;syncing=true;setCloudPill("Sincronizando…","warn");try{const remote=await fetchRemote();if(!remote){syncing=false;await pushCloud(false);return;}const remoteTs=Date.parse(remote.updated_at||remote.data?.updatedAt||0)||0,localTs=Date.parse(state.updatedAt||0)||0;if(remoteTs>localTs&&remote.data){state=mergeState(remote.data);saveLocal(false);renderAll();}else{syncing=false;await pushCloud(false);return;}setCloudPill("Sincronizado","ok");el("syncDetail").textContent=`Sincronizado: ${new Date().toLocaleString("es-ES")}`;}catch(e){setCloudPill("Error de sincronización","bad");el("syncDetail").textContent=e.message||String(e);}finally{syncing=false;}}
+
+// UI
+document.querySelectorAll(".tab").forEach(b=>b.addEventListener("click",()=>switchTab(b.dataset.tab)));
+el("chapterSelect").addEventListener("change",e=>{current=Number(e.target.value);renderAll();});
+el("practiceChapterSelect").addEventListener("change",e=>{current=Number(e.target.value);renderAll();});
+el("feedbackChapterSelect").addEventListener("change",e=>{current=Number(e.target.value);renderAll();});
+el("chapterStatus").addEventListener("change",e=>{state.chapters[current]=e.target.value;saveLocal();renderProgress();});
+el("notes").addEventListener("input",e=>{state.notes[current]=e.target.value;saveLocal();});
+el("syncNowBtn").addEventListener("click",async()=>{if(!session){switchTab("nube");el("authMsg").textContent="Inicia sesión para sincronizar.";return;}await syncOnLogin();});
+el("saveCloudConfigBtn").addEventListener("click",async()=>{const url=el("supabaseUrl").value.trim(),key=el("supabaseKey").value.trim();if(!url||!key){el("configMsg").textContent="Introduce URL y publishable key.";return;}if(/service_role/i.test(key)){el("configMsg").textContent="No uses una service_role key en el navegador.";return;}localStorage.setItem(CONFIG_KEY,JSON.stringify({url,key}));el("configMsg").textContent="Configuración guardada.";await initSupabase();await loadCourseContent();});
+el("clearCloudConfigBtn").addEventListener("click",async()=>{if(sb)try{await sb.auth.signOut();}catch(e){}localStorage.removeItem(CONFIG_KEY);sb=null;session=null;el("supabaseUrl").value="";el("supabaseKey").value="";setCloudPill("Nube sin configurar","warn");updateAuthUI();});
+el("signInBtn").addEventListener("click",async()=>{if(!sb){el("authMsg").textContent="Configura primero Supabase.";return;}const email=el("authEmail").value.trim(),password=el("authPassword").value;if(!email||!password){el("authMsg").textContent="Introduce correo y contraseña.";return;}const {error}=await sb.auth.signInWithPassword({email,password});el("authMsg").textContent=error?error.message:"Sesión iniciada.";});
+el("signUpBtn").addEventListener("click",async()=>{if(!sb){el("authMsg").textContent="Configura primero Supabase.";return;}const email=el("authEmail").value.trim(),password=el("authPassword").value;if(!email||password.length<8){el("authMsg").textContent="Usa un correo válido y contraseña de al menos 8 caracteres.";return;}const {data,error}=await sb.auth.signUp({email,password,options:{emailRedirectTo:location.origin+location.pathname}});el("authMsg").textContent=error?error.message:(data.session?"Cuenta creada e iniciada.":"Cuenta creada. Revisa el correo para confirmar el acceso.");});
+el("signOutBtn").addEventListener("click",async()=>{if(sb)await sb.auth.signOut();});el("cloudPullBtn").addEventListener("click",()=>pullCloud(true));el("cloudPushBtn").addEventListener("click",()=>pushCloud(true));
+el("exportBtn").addEventListener("click",()=>{const blob=new Blob([JSON.stringify(state,null,2)],{type:"application/json"});const url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="curso-ia-progreso.json";a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);el("backupMsg").textContent="Copia exportada.";});
+el("importFile").addEventListener("change",e=>{const f=e.target.files&&e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{state=mergeState(JSON.parse(String(r.result)));saveLocal();renderAll();el("backupMsg").textContent="Copia importada.";}catch(err){el("backupMsg").textContent="Archivo no válido.";}};r.readAsText(f);});
+el("resetBtn").addEventListener("click",()=>{if(confirm("¿Borrar todo el progreso local? Si tienes sesión, el nuevo estado se sincronizará a la nube.")){state=fresh();saveLocal();renderAll();}});
+window.addEventListener("online",()=>{loadCourseContent();if(session)syncOnLogin();});window.addEventListener("offline",()=>setCloudPill("Sin conexión · guardado local","warn"));
+
+if(window.matchMedia&&window.matchMedia("(display-mode: standalone)").matches)el("installHint").classList.add("hidden");
+loadLocal();opts();renderAll();
+initSupabase().then(loadCourseContent);
+if("serviceWorker" in navigator&&location.protocol.startsWith("http"))navigator.serviceWorker.register("./sw.js").catch(()=>{});
+
+</script>
+</body>
+</html>
