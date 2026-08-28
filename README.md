@@ -10,3 +10,7 @@ Esta versión sólo necesita publicarse una vez en GitHub Pages.
 
 ## Actualizar desde la versión anterior
 Sustituye en el repositorio de GitHub Pages los archivos por los de este paquete y haz commit. La PWA instalada se actualizará automáticamente; no necesitas volver a añadirla a la pantalla de inicio.
+
+
+## v4 Auth
+Recuperación de contraseña, reenvío de confirmación y mensajes de error específicos.

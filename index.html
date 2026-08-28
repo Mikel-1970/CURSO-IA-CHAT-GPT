@@ -112,6 +112,14 @@
       <label for="authEmail">Correo</label><input id="authEmail" type="email" autocomplete="email">
       <label for="authPassword">Contraseña</label><input id="authPassword" type="password" autocomplete="current-password" minlength="8">
       <div class="btnrow"><button id="signInBtn" class="btn primary" type="button">Entrar</button><button id="signUpBtn" class="btn" type="button">Crear cuenta</button></div>
+      <div class="btnrow"><button id="forgotPasswordBtn" class="btn" type="button">Recuperar contraseña</button><button id="resendConfirmBtn" class="btn" type="button">Reenviar confirmación</button></div>
+      <p class="muted">Si ya existe una cuenta, pulsar «Crear cuenta» otra vez no cambia su contraseña.</p>
+    </div>
+    <div id="recoveryBox" class="hidden">
+      <p><strong>Define una nueva contraseña</strong></p>
+      <label for="newPassword">Nueva contraseña</label><input id="newPassword" type="password" autocomplete="new-password" minlength="8">
+      <label for="newPassword2">Repite la contraseña</label><input id="newPassword2" type="password" autocomplete="new-password" minlength="8">
+      <div class="btnrow"><button id="setNewPasswordBtn" class="btn primary" type="button">Guardar nueva contraseña</button></div>
     </div>
     <div id="loggedInBox" class="hidden">
       <p>Sesión: <strong id="userEmail"></strong></p>
@@ -136,8 +144,9 @@ const FALLBACK_CHAPTERS=[["Qué es realmente ChatGPT", "Fortalezas, limitaciones
 const DEFAULT_SUPABASE_CONFIG={url:"https://lijilkdfdpbezergsdly.supabase.co",key:"sb_publishable_T3Uq3IPz_svsdMvKJrTuYg_Fgh99Yfp"};
 const KEY="cursoIA_cloud_v3",CONFIG_KEY="cursoIA_supabase_config_v1",CONTENT_CACHE_KEY="cursoIA_content_cache_v1";
 const START=new Date(Date.UTC(2026,7,28));
+const APP_URL="https://mikel-1970.github.io/CURSO-IA-CHAT-GPT/";
 const el=id=>document.getElementById(id);
-let state=fresh(), current=1, courseContent={}, sb=null, session=null, syncing=false, saveTimer=null;
+let state=fresh(), current=1, courseContent={}, sb=null, session=null, syncing=false, passwordRecoveryMode=false, saveTimer=null;
 
 function fresh(){
   return {version:3,chapters:{1:"En curso"},practices:{},notes:{},answers:{c1:"A",c2:"B",c3:"B",c4:"C",c5:"B",c6:"C",c7:"A",c8:"C",c9:"A",c10:"A"},feedback:{},updatedAt:new Date().toISOString()};
@@ -300,15 +309,45 @@ async function initSupabase(){
   try{
     sb=window.supabase.createClient(cfg.url,cfg.key,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
     const {data,error}=await sb.auth.getSession();if(error)throw error;session=data.session||null;
-    sb.auth.onAuthStateChange((_event,newSession)=>{session=newSession;updateAuthUI();if(session)syncOnLogin();});
+    sb.auth.onAuthStateChange((event,newSession)=>{
+      session=newSession;
+      if(event==="PASSWORD_RECOVERY"){
+        passwordRecoveryMode=true;
+        switchTab("nube");
+        el("authMsg").textContent="Enlace de recuperación válido. Define ahora una nueva contraseña.";
+      }
+      updateAuthUI();
+      if(session && event!=="PASSWORD_RECOVERY")syncOnLogin();
+    });
     setCloudPill(session?"Nube conectada":"Nube configurada",session?"ok":"warn");updateAuthUI();if(session)await syncOnLogin();
   }catch(e){sb=null;session=null;setCloudPill("Error de nube","bad");el("configMsg").textContent=e.message||String(e);updateAuthUI();}
 }
-function updateAuthUI(){const logged=!!session;el("loggedOutBox").classList.toggle("hidden",logged);el("loggedInBox").classList.toggle("hidden",!logged);el("userEmail").textContent=logged?(session.user.email||session.user.id):"";el("syncDetail").textContent=logged?`Conectado como ${session.user.email||session.user.id}. Último dato local: ${state.updatedAt||"—"}`:"Sin sesión.";if(logged)setCloudPill("Nube conectada","ok");else if(sb)setCloudPill("Nube configurada","warn");}
+function updateAuthUI(){
+  const logged=!!session,recovery=passwordRecoveryMode&&logged;
+  el("loggedOutBox").classList.toggle("hidden",logged||recovery);
+  el("recoveryBox").classList.toggle("hidden",!recovery);
+  el("loggedInBox").classList.toggle("hidden",!logged||recovery);
+  el("userEmail").textContent=logged?(session.user.email||session.user.id):"";
+  el("syncDetail").textContent=logged?`Conectado como ${session.user.email||session.user.id}. Último dato local: ${state.updatedAt||"—"}`:"Sin sesión.";
+  if(recovery)setCloudPill("Cambio de contraseña","warn");
+  else if(logged)setCloudPill("Nube conectada","ok");
+  else if(sb)setCloudPill("Nube configurada","warn");
+}
 async function fetchRemote(){if(!sb||!session)throw new Error("No hay sesión iniciada.");const {data,error}=await sb.from("course_progress").select("data,updated_at").eq("user_id",session.user.id).maybeSingle();if(error)throw error;return data;}
 async function pushCloud(showMessage=true){if(syncing||!sb||!session||!navigator.onLine)return;syncing=true;setCloudPill("Sincronizando…","warn");try{const payload={user_id:session.user.id,data:state,updated_at:state.updatedAt||new Date().toISOString()};const {error}=await sb.from("course_progress").upsert(payload,{onConflict:"user_id"});if(error)throw error;setCloudPill("Sincronizado","ok");el("syncDetail").textContent=`Nube actualizada: ${new Date().toLocaleString("es-ES")}`;if(showMessage)el("authMsg").textContent="Datos subidos correctamente.";}catch(e){setCloudPill("Error de sincronización","bad");el("syncDetail").textContent=e.message||String(e);}finally{syncing=false;}}
 async function pullCloud(showMessage=true){if(syncing||!sb||!session)return;syncing=true;setCloudPill("Sincronizando…","warn");try{const remote=await fetchRemote();if(remote&&remote.data){state=mergeState(remote.data);saveLocal(false);renderAll();if(showMessage)el("authMsg").textContent="Datos descargados de la nube.";}else if(showMessage)el("authMsg").textContent="No hay datos remotos todavía.";setCloudPill("Sincronizado","ok");}catch(e){setCloudPill("Error de sincronización","bad");el("syncDetail").textContent=e.message||String(e);}finally{syncing=false;}}
 async function syncOnLogin(){if(!sb||!session||syncing)return;syncing=true;setCloudPill("Sincronizando…","warn");try{const remote=await fetchRemote();if(!remote){syncing=false;await pushCloud(false);return;}const remoteTs=Date.parse(remote.updated_at||remote.data?.updatedAt||0)||0,localTs=Date.parse(state.updatedAt||0)||0;if(remoteTs>localTs&&remote.data){state=mergeState(remote.data);saveLocal(false);renderAll();}else{syncing=false;await pushCloud(false);return;}setCloudPill("Sincronizado","ok");el("syncDetail").textContent=`Sincronizado: ${new Date().toLocaleString("es-ES")}`;}catch(e){setCloudPill("Error de sincronización","bad");el("syncDetail").textContent=e.message||String(e);}finally{syncing=false;}}
+
+function authMessage(error){
+  if(!error)return "";
+  const code=error.code||"";
+  if(code==="invalid_credentials")return "El correo o la contraseña no coinciden. La cuenta existe, pero esta contraseña no es válida. Usa «Recuperar contraseña» si no recuerdas la contraseña original.";
+  if(code==="email_not_confirmed")return "La cuenta existe, pero falta confirmar el correo. Pulsa «Reenviar confirmación» y usa el correo más reciente.";
+  if(code==="user_already_exists")return "Ya existe una cuenta con ese correo. Entra con su contraseña o usa «Recuperar contraseña».";
+  if(code==="weak_password")return "La contraseña no cumple los requisitos de seguridad.";
+  if(code==="over_email_send_rate_limit")return "Se han solicitado demasiados correos seguidos. Espera un poco antes de pedir otro.";
+  return error.message||String(error);
+}
 
 // UI
 document.querySelectorAll(".tab").forEach(b=>b.addEventListener("click",()=>switchTab(b.dataset.tab)));
@@ -320,8 +359,55 @@ el("notes").addEventListener("input",e=>{state.notes[current]=e.target.value;sav
 el("syncNowBtn").addEventListener("click",async()=>{if(!session){switchTab("nube");el("authMsg").textContent="Inicia sesión para sincronizar.";return;}await syncOnLogin();});
 el("saveCloudConfigBtn").addEventListener("click",async()=>{const url=el("supabaseUrl").value.trim(),key=el("supabaseKey").value.trim();if(!url||!key){el("configMsg").textContent="Introduce URL y publishable key.";return;}if(/service_role/i.test(key)){el("configMsg").textContent="No uses una service_role key en el navegador.";return;}localStorage.setItem(CONFIG_KEY,JSON.stringify({url,key}));el("configMsg").textContent="Configuración guardada.";await initSupabase();await loadCourseContent();});
 el("clearCloudConfigBtn").addEventListener("click",async()=>{if(sb)try{await sb.auth.signOut();}catch(e){}localStorage.removeItem(CONFIG_KEY);sb=null;session=null;el("supabaseUrl").value="";el("supabaseKey").value="";setCloudPill("Nube sin configurar","warn");updateAuthUI();});
-el("signInBtn").addEventListener("click",async()=>{if(!sb){el("authMsg").textContent="Configura primero Supabase.";return;}const email=el("authEmail").value.trim(),password=el("authPassword").value;if(!email||!password){el("authMsg").textContent="Introduce correo y contraseña.";return;}const {error}=await sb.auth.signInWithPassword({email,password});el("authMsg").textContent=error?error.message:"Sesión iniciada.";});
-el("signUpBtn").addEventListener("click",async()=>{if(!sb){el("authMsg").textContent="Configura primero Supabase.";return;}const email=el("authEmail").value.trim(),password=el("authPassword").value;if(!email||password.length<8){el("authMsg").textContent="Usa un correo válido y contraseña de al menos 8 caracteres.";return;}const {data,error}=await sb.auth.signUp({email,password,options:{emailRedirectTo:location.origin+location.pathname}});el("authMsg").textContent=error?error.message:(data.session?"Cuenta creada e iniciada.":"Cuenta creada. Revisa el correo para confirmar el acceso.");});
+el("signInBtn").addEventListener("click",async()=>{
+  if(!sb){el("authMsg").textContent="La nube no está configurada.";return;}
+  const email=el("authEmail").value.trim(),password=el("authPassword").value;
+  if(!email||!password){el("authMsg").textContent="Introduce correo y contraseña.";return;}
+  el("authMsg").textContent="Comprobando acceso…";
+  const {error}=await sb.auth.signInWithPassword({email,password});
+  el("authMsg").textContent=error?authMessage(error):"Sesión iniciada. Sincronizando…";
+});
+el("signUpBtn").addEventListener("click",async()=>{
+  if(!sb){el("authMsg").textContent="La nube no está configurada.";return;}
+  const email=el("authEmail").value.trim(),password=el("authPassword").value;
+  if(!email||password.length<8){el("authMsg").textContent="Usa un correo válido y una contraseña de al menos 8 caracteres.";return;}
+  el("authMsg").textContent="Procesando registro…";
+  const {data,error}=await sb.auth.signUp({email,password,options:{emailRedirectTo:APP_URL}});
+  if(error){el("authMsg").textContent=authMessage(error);return;}
+  el("authMsg").textContent=data.session
+    ?"Cuenta creada e iniciada."
+    :"Si la cuenta es nueva, recibirás un correo de confirmación. Si ya existía, «Crear cuenta» no cambia su contraseña: usa «Entrar» o «Recuperar contraseña».";
+});
+el("forgotPasswordBtn").addEventListener("click",async()=>{
+  if(!sb){el("authMsg").textContent="La nube no está configurada.";return;}
+  const email=el("authEmail").value.trim();
+  if(!email){el("authMsg").textContent="Introduce primero tu correo.";return;}
+  el("authMsg").textContent="Enviando correo de recuperación…";
+  const {error}=await sb.auth.resetPasswordForEmail(email,{redirectTo:APP_URL});
+  el("authMsg").textContent=error?authMessage(error):"Correo de recuperación enviado. Abre el enlace más reciente; volverás a esta app para definir una contraseña nueva.";
+});
+el("resendConfirmBtn").addEventListener("click",async()=>{
+  if(!sb){el("authMsg").textContent="La nube no está configurada.";return;}
+  const email=el("authEmail").value.trim();
+  if(!email){el("authMsg").textContent="Introduce primero tu correo.";return;}
+  el("authMsg").textContent="Solicitando nuevo correo de confirmación…";
+  const {error}=await sb.auth.resend({type:"signup",email,options:{emailRedirectTo:APP_URL}});
+  el("authMsg").textContent=error?authMessage(error):"Si la cuenta está pendiente de confirmar, se ha solicitado un nuevo correo. Usa siempre el enlace más reciente.";
+});
+el("setNewPasswordBtn").addEventListener("click",async()=>{
+  if(!sb||!session){el("authMsg").textContent="El enlace de recuperación no ha generado una sesión válida.";return;}
+  const p1=el("newPassword").value,p2=el("newPassword2").value;
+  if(p1.length<8){el("authMsg").textContent="La nueva contraseña debe tener al menos 8 caracteres.";return;}
+  if(p1!==p2){el("authMsg").textContent="Las dos contraseñas no coinciden.";return;}
+  const {error}=await sb.auth.updateUser({password:p1});
+  if(error){el("authMsg").textContent=authMessage(error);return;}
+  passwordRecoveryMode=false;
+  el("newPassword").value="";el("newPassword2").value="";
+  el("authMsg").textContent="Contraseña actualizada correctamente. La sesión está iniciada y se sincronizará el progreso.";
+  updateAuthUI();
+  await syncOnLogin();
+});
+
 el("signOutBtn").addEventListener("click",async()=>{if(sb)await sb.auth.signOut();});el("cloudPullBtn").addEventListener("click",()=>pullCloud(true));el("cloudPushBtn").addEventListener("click",()=>pushCloud(true));
 el("exportBtn").addEventListener("click",()=>{const blob=new Blob([JSON.stringify(state,null,2)],{type:"application/json"});const url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="curso-ia-progreso.json";a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);el("backupMsg").textContent="Copia exportada.";});
 el("importFile").addEventListener("change",e=>{const f=e.target.files&&e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{state=mergeState(JSON.parse(String(r.result)));saveLocal();renderAll();el("backupMsg").textContent="Copia importada.";}catch(err){el("backupMsg").textContent="Archivo no válido.";}};r.readAsText(f);});
