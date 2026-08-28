@@ -26,7 +26,7 @@
 <body>
 <div id="app" class="app">
 <header class="card">
-  <h1>Curso IA – ChatGPT práctico</h1>
+  <h1>Curso IA – ChatGPT práctico <span class="pill ok">v7</span></h1>
   <div class="muted">Curso, prácticas, notas y progreso sincronizable</div>
   <div style="display:flex;justify-content:space-between;gap:10px;margin:14px 0 7px"><strong>Progreso global</strong><span id="progressText">0 / 16 capítulos</span></div>
   <div class="progress"><i id="progressBar"></i></div>
@@ -123,7 +123,7 @@
     </div>
     <div id="loggedInBox" class="hidden">
       <p>Sesión: <strong id="userEmail"></strong></p>
-      <div class="btnrow"><button id="cloudPullBtn" class="btn" type="button">Descargar nube</button><button id="cloudPushBtn" class="btn" type="button">Subir este dispositivo</button><button id="signOutBtn" class="btn danger" type="button">Cerrar sesión</button></div>
+      <div class="btnrow"><button id="cloudPullBtn" class="btn" type="button">Descargar nube</button><button id="cloudPushBtn" class="btn" type="button">Subir cambios de este dispositivo</button><button id="signOutBtn" class="btn danger" type="button">Cerrar sesión</button></div>
     </div>
     <div id="authMsg" class="muted" style="margin-top:8px"></div>
   </div>
@@ -131,7 +131,7 @@
   <div class="card">
     <h3>Estado de sincronización</h3>
     <p id="syncDetail" class="muted">Sin sesión.</p>
-    <p class="muted">Estrategia: <strong>el servidor fija la hora de sincronización</strong>. Los botones «Descargar nube» y «Subir este dispositivo» son explícitos; si hay cambios simultáneos, la app no sobrescribe automáticamente.</p>
+    <p class="muted">Estrategia v7: <strong>fusión atómica por cambios</strong>. Cada dispositivo sube solo lo que ha modificado; una nota no puede borrar prácticas, feedback o progreso de otro dispositivo.</p>
   </div>
 </section>
 </div>
@@ -149,17 +149,46 @@ const el=id=>document.getElementById(id);
 let state=fresh(), current=1, courseContent={}, sb=null, session=null, syncing=false, passwordRecoveryMode=false, saveTimer=null;
 
 function fresh(){
-  return {version:3,chapters:{1:"En curso"},practices:{},notes:{},answers:{c1:"A",c2:"B",c3:"B",c4:"C",c5:"B",c6:"C",c7:"A",c8:"C",c9:"A",c10:"A"},feedback:{},updatedAt:new Date().toISOString()};
+  return {version:3,chapters:{1:"En curso"},practices:{},notes:{},answers:{},feedback:{},updatedAt:new Date().toISOString()};
 }
 function mergeState(raw){
   const base=fresh(), x=raw&&typeof raw==="object"?raw:{};
   return {...base,...x,chapters:{...base.chapters,...(x.chapters||{})},practices:{...(x.practices||{})},notes:{...(x.notes||{})},answers:{...base.answers,...(x.answers||{})},feedback:{...(x.feedback||{})}};
 }
+function isPlainObject(v){return !!v&&typeof v==="object"&&!Array.isArray(v);}
+function cloneJson(v){return v===undefined?undefined:JSON.parse(JSON.stringify(v));}
+function deepMergeClient(a,b){
+  if(!isPlainObject(a)||!isPlainObject(b))return cloneJson(b);
+  const out=cloneJson(a)||{};
+  Object.keys(b).forEach(k=>{out[k]=isPlainObject(out[k])&&isPlainObject(b[k])?deepMergeClient(out[k],b[k]):cloneJson(b[k]);});
+  return out;
+}
+function jsonEqual(a,b){try{return JSON.stringify(a)===JSON.stringify(b);}catch(e){return a===b;}}
+function diffPatch(oldV,newV){
+  if(isPlainObject(oldV)&&isPlainObject(newV)){
+    const out={};let changed=false;
+    Object.keys(newV).forEach(k=>{
+      if(k==="updatedAt")return;
+      if(!(k in oldV)){out[k]=cloneJson(newV[k]);changed=true;return;}
+      if(isPlainObject(oldV[k])&&isPlainObject(newV[k])){
+        const sub=diffPatch(oldV[k],newV[k]);
+        if(sub&&Object.keys(sub).length){out[k]=sub;changed=true;}
+      }else if(!jsonEqual(oldV[k],newV[k])){out[k]=cloneJson(newV[k]);changed=true;}
+    });
+    return changed?out:{};
+  }
+  return jsonEqual(oldV,newV)?{}:cloneJson(newV);
+}
+function hasPatch(p){return isPlainObject(p)&&Object.keys(p).length>0;}
+function defaultSyncMeta(){return {syncVersion:7,pendingPatch:{},seq:0,lastServerAt:null};}
 function getSyncMeta(){
-  try{return {...{dirty:false,lastServerAt:null},...JSON.parse(localStorage.getItem(SYNC_META_KEY)||"{}")} }catch(e){return {dirty:false,lastServerAt:null};}
+  try{
+    const raw=JSON.parse(localStorage.getItem(SYNC_META_KEY)||"{}");
+    return raw.syncVersion===7?{...defaultSyncMeta(),...raw}:defaultSyncMeta();
+  }catch(e){return defaultSyncMeta();}
 }
 function setSyncMeta(patch){
-  const next={...getSyncMeta(),...patch};
+  const next={...getSyncMeta(),...patch,syncVersion:7};
   try{localStorage.setItem(SYNC_META_KEY,JSON.stringify(next));}catch(e){}
   return next;
 }
@@ -170,23 +199,36 @@ function formatServerTime(iso){
 }
 async function waitForSync(){
   const start=Date.now();
-  while(syncing&&Date.now()-start<10000) await new Promise(r=>setTimeout(r,100));
+  while(syncing&&Date.now()-start<10000)await new Promise(r=>setTimeout(r,100));
 }
-
 function loadLocal(){
-  try{const raw=localStorage.getItem(KEY); if(raw) state=mergeState(JSON.parse(raw)); el("localStatus").textContent="Guardado local";el("localStatus").className="pill ok";}
-  catch(e){el("localStatus").textContent="Error guardado local";el("localStatus").className="pill bad";}
-  try{const cached=JSON.parse(localStorage.getItem(CONTENT_CACHE_KEY)||"[]"); if(Array.isArray(cached)) cached.forEach(c=>courseContent[c.chapter_number]=c);}catch(e){}
+  try{
+    const raw=localStorage.getItem(KEY);
+    if(raw)state=mergeState(JSON.parse(raw));
+    el("localStatus").textContent="Guardado local";el("localStatus").className="pill ok";
+  }catch(e){el("localStatus").textContent="Error guardado local";el("localStatus").className="pill bad";}
+  try{const cached=JSON.parse(localStorage.getItem(CONTENT_CACHE_KEY)||"[]");if(Array.isArray(cached))cached.forEach(c=>courseContent[c.chapter_number]=c);}catch(e){}
+  try{
+    const oldMeta=JSON.parse(localStorage.getItem(SYNC_META_KEY)||"{}");
+    if(oldMeta.syncVersion!==7)localStorage.setItem(SYNC_META_KEY,JSON.stringify(defaultSyncMeta()));
+  }catch(e){try{localStorage.setItem(SYNC_META_KEY,JSON.stringify(defaultSyncMeta()));}catch(_){} }
 }
 function saveLocal(scheduleCloud=true){
+  let previous=fresh();
+  try{const raw=localStorage.getItem(KEY);if(raw)previous=mergeState(JSON.parse(raw));}catch(e){}
   if(scheduleCloud){
+    const patch=diffPatch(previous,state);
+    if(hasPatch(patch)){
+      const meta=getSyncMeta();
+      setSyncMeta({pendingPatch:deepMergeClient(meta.pendingPatch||{},patch),seq:(meta.seq||0)+1});
+    }
     state.updatedAt=new Date().toISOString();
-    setSyncMeta({dirty:true});
   }
   try{localStorage.setItem(KEY,JSON.stringify(state));el("localStatus").textContent="Guardado local";el("localStatus").className="pill ok";}catch(e){}
   if(scheduleCloud&&session){clearTimeout(saveTimer);saveTimer=setTimeout(()=>pushCloud(false),700);}
 }
-function dateFor(n){const d=new Date(START);d.setUTCDate(d.getUTCDate()+(n-1)*2);return d.toLocaleDateString("es-ES",{day:"2-digit",month:"short",year:"numeric",timeZone:"UTC"});}
+
+function dateFor(n){const d=new Date(START);d.setUTCDate(d.getUTCDate()+(n-1));return d.toLocaleDateString("es-ES",{day:"2-digit",month:"short",year:"numeric",timeZone:"UTC"});}
 function metadata(n){const c=courseContent[n];return c?[c.title,c.objective]:FALLBACK_CHAPTERS[n-1]||[`Capítulo ${n}`,""];}
 function maxChapter(){return Math.max(FALLBACK_CHAPTERS.length,...Object.keys(courseContent).map(Number).filter(Number.isFinite));}
 function publishedCount(){return Object.keys(courseContent).length;}
@@ -356,23 +398,39 @@ function updateAuthUI(){
 }
 async function fetchRemote(){
   if(!sb||!session)return null;
-  const {data,error}=await sb.from("course_progress").select("data,updated_at").eq("user_id",session.user.id).maybeSingle();
+  const {data,error}=await sb.rpc("get_course_progress_v2");
   if(error)throw error;
-  return data||null;
+  const row=Array.isArray(data)?data[0]:data;
+  return row||null;
 }
 async function pushCloud(showMessage=true){
   if(!sb||!session||!navigator.onLine){if(showMessage)el("authMsg").textContent="No hay conexión o sesión activa.";return false;}
   await waitForSync();
+  const captured=getSyncMeta();
+  const patch=cloneJson(captured.pendingPatch||{});
+  const capturedSeq=captured.seq||0;
+  if(!hasPatch(patch)){
+    if(showMessage)el("authMsg").textContent="No hay cambios locales pendientes de subir.";
+    return true;
+  }
   syncing=true;setCloudPill("Sincronizando…","warn");
   try{
-    const payload={user_id:session.user.id,data:state};
-    const {data,error}=await sb.from("course_progress").upsert(payload,{onConflict:"user_id"}).select("updated_at").single();
+    const {data,error}=await sb.rpc("merge_course_progress_patch_v2",{p_patch:patch});
     if(error)throw error;
-    const serverAt=data?.updated_at||null;
-    setSyncMeta({dirty:false,lastServerAt:serverAt});
+    const row=(Array.isArray(data)?data[0]:data)||{};
+    const nowMeta=getSyncMeta();
+    if((nowMeta.seq||0)===capturedSeq){
+      state=mergeState(row.data||{});
+      setSyncMeta({pendingPatch:{},lastServerAt:row.updated_at||null});
+    }else{
+      state=mergeState(deepMergeClient(row.data||{},nowMeta.pendingPatch||{}));
+      setSyncMeta({lastServerAt:row.updated_at||null});
+      clearTimeout(saveTimer);saveTimer=setTimeout(()=>pushCloud(false),250);
+    }
+    saveLocal(false);renderAll();
     setCloudPill("Sincronizado","ok");
-    el("syncDetail").textContent=`Nube actualizada: ${formatServerTime(serverAt)}`;
-    if(showMessage)el("authMsg").textContent="Datos de este dispositivo subidos correctamente.";
+    el("syncDetail").textContent=`Cambios fusionados en nube: ${formatServerTime(row.updated_at)}`;
+    if(showMessage)el("authMsg").textContent="Cambios de este dispositivo fusionados correctamente sin borrar las demás pestañas.";
     return true;
   }catch(e){
     setCloudPill("Error de sincronización","bad");
@@ -384,59 +442,50 @@ async function pushCloud(showMessage=true){
 async function pullCloud(showMessage=true){
   if(!sb||!session){if(showMessage)el("authMsg").textContent="No hay sesión activa.";return false;}
   await waitForSync();
+  if(hasPatch(getSyncMeta().pendingPatch)){
+    const ok=await pushCloud(false);
+    if(!ok){if(showMessage)el("authMsg").textContent="Hay cambios locales sin subir. No se ha descargado la nube para evitar perderlos.";return false;}
+  }
+  await waitForSync();
   syncing=true;setCloudPill("Sincronizando…","warn");
   try{
     const remote=await fetchRemote();
     if(remote&&remote.data){
-      state=mergeState(remote.data);
-      saveLocal(false);
-      setSyncMeta({dirty:false,lastServerAt:remote.updated_at||null});
+      state=mergeState(remote.data);saveLocal(false);
+      setSyncMeta({pendingPatch:{},lastServerAt:remote.updated_at||null});
       renderAll();
-      el("syncDetail").textContent=`Nube descargada: ${formatServerTime(remote.updated_at)}`;
-      if(showMessage)el("authMsg").textContent="Datos de la nube descargados correctamente.";
+      el("syncDetail").textContent=`Estado completo descargado: ${formatServerTime(remote.updated_at)}`;
+      if(showMessage)el("authMsg").textContent="Curso, prácticas, progreso, feedback y notas descargados correctamente.";
     }else if(showMessage){el("authMsg").textContent="No hay datos remotos todavía.";}
-    setCloudPill("Sincronizado","ok");
-    return true;
+    setCloudPill("Sincronizado","ok");return true;
   }catch(e){
-    setCloudPill("Error de sincronización","bad");
-    el("syncDetail").textContent=e.message||String(e);
-    if(showMessage)el("authMsg").textContent="No se pudo descargar la nube: "+(e.message||String(e));
-    return false;
+    setCloudPill("Error de sincronización","bad");el("syncDetail").textContent=e.message||String(e);
+    if(showMessage)el("authMsg").textContent="No se pudo descargar la nube: "+(e.message||String(e));return false;
   }finally{syncing=false;}
 }
 async function syncOnLogin(){
   if(!sb||!session)return;
   await waitForSync();
-  syncing=true;setCloudPill("Sincronizando…","warn");
+  const meta=getSyncMeta();
+  if(hasPatch(meta.pendingPatch)){
+    const ok=await pushCloud(false);if(!ok)return;
+  }
+  await pullCloud(false);
+}
+async function replaceCloudWithState(showMessage=true){
+  if(!sb||!session)return false;
+  await waitForSync();syncing=true;setCloudPill("Sincronizando…","warn");
   try{
-    const remote=await fetchRemote();
-    const meta=getSyncMeta();
-    if(!remote){
-      syncing=false;
-      await pushCloud(false);
-      return;
-    }
-    if(meta.dirty&&meta.lastServerAt&&remote.updated_at!==meta.lastServerAt){
-      setCloudPill("Revisar sincronización","warn");
-      el("syncDetail").textContent=`Hay cambios locales y también cambios en la nube (${formatServerTime(remote.updated_at)}). Elige «Descargar nube» o «Subir este dispositivo».`;
-      el("authMsg").textContent="Hay cambios en ambos dispositivos. No se sobrescribirá nada automáticamente.";
-      return;
-    }
-    if(meta.dirty){
-      syncing=false;
-      await pushCloud(false);
-      return;
-    }
-    state=mergeState(remote.data);
-    saveLocal(false);
-    setSyncMeta({dirty:false,lastServerAt:remote.updated_at||null});
-    renderAll();
+    const {data,error}=await sb.rpc("replace_course_progress_v2",{p_data:state});
+    if(error)throw error;
+    const row=(Array.isArray(data)?data[0]:data)||{};
+    state=mergeState(row.data||state);saveLocal(false);renderAll();
+    setSyncMeta({pendingPatch:{},seq:getSyncMeta().seq||0,lastServerAt:row.updated_at||null});
     setCloudPill("Sincronizado","ok");
-    el("syncDetail").textContent=`Sincronizado desde nube: ${formatServerTime(remote.updated_at)}`;
-  }catch(e){
-    setCloudPill("Error de sincronización","bad");
-    el("syncDetail").textContent=e.message||String(e);
-  }finally{syncing=false;}
+    if(showMessage)el("authMsg").textContent="Estado completo sustituido correctamente.";
+    return true;
+  }catch(e){setCloudPill("Error de sincronización","bad");if(showMessage)el("authMsg").textContent=e.message||String(e);return false;}
+  finally{syncing=false;}
 }
 
 function clearSupabaseAuthStorage(){
@@ -553,8 +602,8 @@ el("signOutBtn").addEventListener("click",async()=>{
 el("cloudPullBtn").addEventListener("click",async()=>{await pullCloud(true);});
 el("cloudPushBtn").addEventListener("click",async()=>{await pushCloud(true);});
 el("exportBtn").addEventListener("click",()=>{const blob=new Blob([JSON.stringify(state,null,2)],{type:"application/json"});const url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="curso-ia-progreso.json";a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);el("backupMsg").textContent="Copia exportada.";});
-el("importFile").addEventListener("change",e=>{const f=e.target.files&&e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{state=mergeState(JSON.parse(String(r.result)));saveLocal();renderAll();el("backupMsg").textContent="Copia importada.";}catch(err){el("backupMsg").textContent="Archivo no válido.";}};r.readAsText(f);});
-el("resetBtn").addEventListener("click",()=>{if(confirm("¿Borrar todo el progreso local? Si tienes sesión, el nuevo estado se sincronizará a la nube.")){state=fresh();saveLocal();renderAll();}});
+el("importFile").addEventListener("change",e=>{const f=e.target.files&&e.target.files[0];if(!f)return;const r=new FileReader();r.onload=async()=>{try{state=mergeState(JSON.parse(String(r.result)));saveLocal(false);setSyncMeta({pendingPatch:{},seq:(getSyncMeta().seq||0)+1});renderAll();if(session)await replaceCloudWithState(false);el("backupMsg").textContent="Copia importada.";}catch(err){el("backupMsg").textContent="Archivo no válido.";}};r.readAsText(f);});
+el("resetBtn").addEventListener("click",async()=>{if(confirm("¿Borrar todo el progreso? Esta acción sustituirá también el estado de la nube si tienes sesión.")){state=fresh();saveLocal(false);setSyncMeta({pendingPatch:{},seq:(getSyncMeta().seq||0)+1});renderAll();if(session)await replaceCloudWithState(true);}});
 window.addEventListener("online",()=>{loadCourseContent();if(session)syncOnLogin();});window.addEventListener("offline",()=>setCloudPill("Sin conexión · guardado local","warn"));
 
 if(window.matchMedia&&window.matchMedia("(display-mode: standalone)").matches)el("installHint").classList.add("hidden");

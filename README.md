@@ -29,3 +29,13 @@ Recuperación de contraseña, reenvío de confirmación y mensajes de error espe
 - Subir este dispositivo siempre fuerza escritura del estado local.
 - Una descarga remota no crea una falsa fecha local nueva.
 - Si ambos dispositivos cambiaron desde la última sincronización, no se sobrescribe automáticamente.
+
+
+## v7 — sincronización atómica definitiva
+- Nuevo almacén de progreso v2 aislado de clientes antiguos.
+- Cada edición genera un patch con solo los campos modificados.
+- Supabase fusiona el patch atómicamente en el servidor.
+- Una edición de Notas no puede borrar Prácticas, Feedback, Progreso o respuestas.
+- Al actualizar desde v6 o anterior, la primera sesión descarga el estado canónico recuperado de la nube.
+- Las respuestas de ejercicios ya no vienen pre-rellenadas en instalaciones nuevas.
+- Fechas de capítulos ajustadas a cadencia diaria.
