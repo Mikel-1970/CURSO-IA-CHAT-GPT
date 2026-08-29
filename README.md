@@ -133,3 +133,35 @@ Corrección:
 - al salir del campo de texto, se realiza el render pendiente si lo hubiera;
 - la comprobación periódica de contenidos tampoco puede cerrar el teclado.
 - no modifica progreso, prácticas, feedback, Supabase ni el bloqueo secuencial.
+
+
+## v15.3 — Prácticas e interfaz iOS
+### Comprobar
+- El resultado permanece visible desde el primer clic.
+- El autosync deja de reconstruir toda la pantalla después de subir un cambio.
+- Se cancela cualquier render aplazado al comprobar y el resultado se reafirma tras las microactualizaciones.
+
+### Respuestas abiertas
+- La app ya no utiliza la coincidencia de palabras como veredicto correcto/incorrecto.
+- Muestra criterios reconocidos y criterios no reconocidos automáticamente.
+- Advierte de que un criterio no reconocido puede estar expresado de otra forma.
+- La solución de referencia se presenta como una posible respuesta, no como la única correcta.
+
+### iPhone
+- Los botones que quedan físicamente detrás del teclado se ocultan mientras el teclado está abierto.
+- Esto elimina la sombra azul visible a través del teclado translúcido.
+- Se mantiene la protección de foco introducida en v15.2.
+
+
+## v15.4 — Prácticas más ágiles
+- Las preguntas de selección dejan de pedir cualquier justificación escrita, aunque el ejercicio publicado conserve un antiguo `require_reason=true`.
+- Al comprobar una respuesta se muestra siempre:
+  - tu respuesta;
+  - Correcto / Incorrecto;
+  - respuesta esperada cuando has fallado;
+  - explicación breve y útil en ambos casos.
+- Las respuestas abiertas mantienen la corrección orientativa de v15.3.
+- Política editorial para capítulos siguientes:
+  - objetivo aproximado 70–80 % de preguntas de selección;
+  - 20–30 % de respuestas abiertas/casos;
+  - usar preguntas abiertas solo cuando redactar o razonar por escrito forme parte real del aprendizaje.

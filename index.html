@@ -32,12 +32,24 @@ padding-bottom:max(14px,env(safe-area-inset-bottom))
 .access-note{background:#fff7ed;border:1px solid #fdba74;border-radius:12px;padding:12px;margin-bottom:14px}.admin-grid{display:grid;grid-template-columns:1fr 1fr 160px;gap:10px}.admin-actions{display:flex;gap:6px;flex-wrap:wrap}.admin-actions .btn{min-height:36px;padding:6px 9px;font-size:.82rem}.badge{display:inline-block;border-radius:999px;padding:3px 7px;font-size:.76rem;font-weight:700;background:#eef2ff}.badge.admin{background:#ede9fe;color:#5b21b6}.badge.off{background:#fee2e2;color:#991b1b}dialog.chapter-dialog{border:0;border-radius:16px;padding:0;max-width:520px;width:calc(100% - 28px);box-shadow:0 18px 60px rgba(0,0,0,.25)}dialog.chapter-dialog::backdrop{background:rgba(15,23,42,.45)}.dialog-body{padding:20px}.dialog-list{margin:12px 0;padding-left:22px}.dialog-list li{margin:6px 0}.profile-line{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:8px}@media(max-width:720px){.admin-grid{grid-template-columns:1fr}}
 
 .gate-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}.gate-item{border:1px solid var(--border);border-radius:10px;padding:10px;background:#f9fafb}.gate-item.ok{background:#f0fdf4;border-color:#86efac}.gate-item.pending{background:#fffbeb;border-color:#fcd34d}.locked-card{background:#f8fafc;border:1px dashed #94a3b8;border-radius:12px;padding:16px}.chapter-state{font-weight:700;margin-top:6px}.profile-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.profile-tags{display:flex;flex-wrap:wrap;gap:6px}.profile-tag{border:1px solid var(--border);border-radius:999px;padding:4px 8px;font-size:.82rem;background:#f8fafc}.generation-box{margin-top:12px;padding:12px;border:1px solid var(--border);border-radius:10px;background:#f8fafc}@media(max-width:720px){.gate-grid,.profile-grid{grid-template-columns:1fr}}
+
+/* v15.3 — Ocultación visual de controles bajo el teclado iOS.
+   El teclado de iOS es translúcido y puede dejar ver botones de la página.
+   Estos controles se ocultan mientras están físicamente cubiertos. */
+.keyboard-occluded{
+  visibility:hidden!important;
+  pointer-events:none!important;
+}
+body.ios-keyboard-open{
+  overscroll-behavior-y:contain;
+}
+
 </style>
 </head>
 <body>
 <div id="app" class="app">
 <header class="card">
-  <h1>Curso IA – ChatGPT práctico <span class="pill ok">v15.2</span></h1>
+  <h1>Curso IA – ChatGPT práctico <span class="pill ok">v15.4</span></h1>
   <div class="muted">Curso privado multiusuario · progresión obligatoria · capítulos adaptativos desde la nube</div>
   <div style="display:flex;justify-content:space-between;gap:10px;margin:14px 0 7px"><strong>Progreso global</strong><span id="progressText">0 / 16 capítulos</span></div>
   <div class="progress"><i id="progressBar"></i></div>
@@ -148,7 +160,7 @@ padding-bottom:max(14px,env(safe-area-inset-bottom))
   <div class="card">
     <h3>Estado de sincronización</h3>
     <p id="syncDetail" class="muted">Sin sesión.</p>
-    <p class="muted">Estrategia v15.2: <strong>curso común + contenido dinámico + progresión obligatoria</strong>. Para avanzar es obligatorio terminar la lectura, completar y comprobar las prácticas y enviar el feedback del capítulo anterior.</p>
+    <p class="muted">Estrategia v15.4: <strong>curso común + contenido dinámico + progresión obligatoria</strong>. Para avanzar es obligatorio terminar la lectura, completar y comprobar las prácticas y enviar el feedback del capítulo anterior.</p>
   </div>
 </section>
 
@@ -861,19 +873,52 @@ function renderGenericPractice(p,chapter){
   const labelsFor=ex=>Array.isArray(ex.rubric_labels)?ex.rubric_labels:(Array.isArray(ex.requirements)?ex.requirements:(Array.isArray(ex.rubric)?ex.rubric:[]));
   const groupsFor=ex=>Array.isArray(ex.rubric_groups)?ex.rubric_groups:[];
   const scoreOpen=(ex,text)=>{
-    const groups=groupsFor(ex),score=rubricScore(text,groups),total=score.total||1,ratio=Number(ex.min_ratio??0.5),need=Math.max(1,Math.ceil(total*ratio));
+    const groups=groupsFor(ex),score=rubricScore(text,groups),total=score.total||1;
     const labels=labelsFor(ex),t=norm(text);
     const flags=groups.map(g=>Array.isArray(g)&&g.some(k=>t.includes(norm(k))));
     const achieved=labels.filter((_,i)=>flags[i]);
     const missing=labels.filter((_,i)=>groups[i]&&!flags[i]);
-    return {type:"open",checked:true,checkedAt:new Date().toISOString(),contentVersion:courseContent[chapter]?.version||null,hit:score.hit,total,pass:groups.length?score.hit>=need:text.trim().length>=Number(ex.min_length||20),achieved,missing};
+
+    // La detección por palabras clave es únicamente orientativa.
+    // Una respuesta abierta puede ser correcta con sinónimos o una estructura
+    // diferente, por lo que nunca se declara incorrecta automáticamente.
+    return {
+      type:"open",
+      checked:true,
+      checkedAt:new Date().toISOString(),
+      contentVersion:courseContent[chapter]?.version||null,
+      hit:score.hit,
+      total,
+      pass:true,
+      achieved,
+      missing,
+      semanticReview:true
+    };
   };
   const bulletList=(items,emptyText="")=>items?.length?`<ul style="margin:6px 0 8px 20px">${items.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>`:(emptyText?`<div class="muted">${esc(emptyText)}</div>`:"");
   const referenceFor=ex=>ex.reference_answer||ex.model_answer||ex.reference_solution||ex.sample_answer||"";
+  const choiceOptionLabel=(ex,value)=>{
+    const opts=Array.isArray(ex.options)?ex.options:[];
+    const found=opts.find(o=>String(isPlainObject(o)?o.value:o)===String(value));
+    if(found===undefined)return String(value??"");
+    return String(isPlainObject(found)?found.label:found);
+  };
   const resultHtml=(ex,res)=>{
     if(!res)return "";
     if(res.type==="choice"){
-      return `<div class="rubric ${res.correct?"good":"review"}"><strong>${res.correct?"Elección correcta":"Revisa la elección"}.</strong> ${esc(res.explanation||ex.explanation||"")}<br><span class="muted">Resultado guardado${checkedLabel(res.checkedAt)}</span></div>`;
+      const selected=choiceOptionLabel(ex,res.selected??"");
+      const expected=choiceOptionLabel(ex,res.expected??ex.answer??"");
+      const explanation=String(res.explanation||ex.explanation||"").trim()||
+        (res.correct
+          ?"La opción elegida encaja con el criterio trabajado en este ejercicio."
+          :"La respuesta esperada se ajusta mejor al criterio trabajado en este ejercicio.");
+      return `<div class="rubric ${res.correct?"good":"review"}">`+
+        `<strong>${res.correct?"Correcto":"Incorrecto"}</strong>`+
+        `<div style="margin-top:8px"><strong>Tu respuesta:</strong> ${esc(selected||"Sin respuesta")}</div>`+
+        (!res.correct&&expected?`<div style="margin-top:6px"><strong>Respuesta esperada:</strong> ${esc(expected)}</div>`:"")+
+        `<div style="margin-top:10px"><strong>Explicación</strong><div>${esc(explanation)}</div></div>`+
+        `<div class="muted" style="margin-top:8px">No necesitas justificar por escrito la respuesta.${checkedLabel(res.checkedAt)}</div>`+
+        `</div>`;
     }
     if(res.type==="classification"){
       const good=res.correctDetails||[];
@@ -886,15 +931,16 @@ function renderGenericPractice(p,chapter){
     const achieved=res.achieved||[];
     const missing=res.missing||[];
     const ref=referenceFor(ex);
-    return `<div class="rubric ${res.pass?"good":"review"}">`+
-      `<strong>${res.pass?"Respuesta bien planteada":"Conviene completar la respuesta"}</strong>${res.total?` · criterios detectados ${res.hit}/${res.total}`:""}`+
-      `<div style="margin-top:10px"><strong>Criterios acertados</strong>${bulletList(achieved,"La corrección automática no ha identificado todavía criterios concretos como cubiertos.")}</div>`+
-      (missing.length?`<div style="margin-top:10px"><strong>Criterios a mejorar o completar</strong>${bulletList(missing)}</div>`:"")+
-      (ex.explanation?`<div style="margin-top:10px"><strong>Explicación</strong><div>${esc(ex.explanation)}</div></div>`:"")+
-      (ref?`<div style="margin-top:10px"><strong>Ejemplo de respuesta de referencia</strong><div style="margin-top:5px">${esc(ref)}</div><div class="muted" style="margin-top:5px">Es una posible solución, no la única. Una respuesta diferente puede ser válida si está bien razonada y cubre adecuadamente los criterios.</div></div>`:"")+
-      `<div class="muted" style="margin-top:10px">Corrección automática orientativa${checkedLabel(res.checkedAt)}. En respuestas abiertas, la valoración final debe admitir formulaciones equivalentes correctamente razonadas.</div></div>`;
+    return `<div class="rubric good">`+
+      `<strong>Análisis orientativo de tu respuesta</strong>${res.total?` · criterios reconocidos automáticamente ${res.hit}/${res.total}`:""}`+
+      `<div class="muted" style="margin-top:6px">La aplicación busca conceptos y expresiones previstas. Una respuesta no se considera incorrecta por estar redactada de otra manera.</div>`+
+      `<div style="margin-top:10px"><strong>Criterios reconocidos en tu respuesta</strong>${bulletList(achieved,"No se ha reconocido literalmente ningún criterio. Esto no implica que la respuesta sea incorrecta.")}</div>`+
+      (missing.length?`<div style="margin-top:10px"><strong>Criterios no reconocidos automáticamente</strong>${bulletList(missing)}<div class="muted">Revísalos: pueden faltar realmente o estar expresados con otras palabras.</div></div>`:"")+
+      (ex.explanation?`<div style="margin-top:10px"><strong>Explicación del criterio esperado</strong><div>${esc(ex.explanation)}</div></div>`:"")+
+      (ref?`<div style="margin-top:10px"><strong>Una posible respuesta de referencia</strong><div style="margin-top:5px">${esc(ref)}</div><div class="muted" style="margin-top:5px">No es la única solución válida. Tu respuesta puede ser correcta si expresa la misma idea con otras palabras o aporta un razonamiento equivalente.</div></div>`:"")+
+      `<div class="muted" style="margin-top:10px">Corrección automática orientativa${checkedLabel(res.checkedAt)}. La coincidencia literal de palabras no sustituye a la valoración del razonamiento.</div></div>`;
   };
-  let body=`<div class="card"><h2>${esc(p.title||`Práctica del capítulo ${chapter}`)}</h2><p class="muted">${esc(p.instructions||"Responde primero y utiliza después la comprobación.")}</p></div>`;
+  let body=`<div class="card"><h2>${esc(p.title||`Práctica del capítulo ${chapter}`)}</h2><p class="muted">${esc(p.instructions||"Responde primero y utiliza después la comprobación.")}</p><div class="notice"><strong>Formato de prácticas:</strong> las preguntas de selección no requieren justificación escrita; al comprobar recibirás una explicación breve tanto si aciertas como si fallas. En respuestas abiertas, la comprobación sigue siendo orientativa y la respuesta de referencia es solo una posible solución.</div></div>`;
   sections.forEach((section,si)=>{
     body+=`<div class="card"><h3>${esc(section.title||`Bloque ${si+1}`)}</h3>${section.description?`<p class="muted">${esc(section.description)}</p>`:""}`;
     (section.exercises||[]).forEach((ex,ei)=>{
@@ -903,7 +949,6 @@ function renderGenericPractice(p,chapter){
       if(type==="choice"){
         const options=Array.isArray(ex.options)&&ex.options.length?ex.options:["A","B","C"];
         body+=`<select data-gen-choice="${esc(id)}"><option value=""></option>${options.map(o=>{const val=isPlainObject(o)?o.value:o,label=isPlainObject(o)?o.label:o;return `<option value="${esc(val)}">${esc(label)}</option>`;}).join("")}</select>`;
-        if(ex.require_reason)body+=`<label>Motivo</label><textarea rows="3" data-gen-reason="${esc(id)}"></textarea>`;
       }else if(type==="classification"){
         body+=(ex.items||[]).map((it,ii)=>`<div class="qrow"><span>${ii+1}. ${esc(it.text||it.question||"")}</span><select data-gen-class="${esc(id)}" data-index="${ii}"><option value=""></option>${(ex.options||["A","B","C"]).map(o=>`<option value="${esc(o)}">${esc(o)}</option>`).join("")}</select><span></span></div>`).join("");
       }else{
@@ -923,12 +968,15 @@ function renderGenericPractice(p,chapter){
       checks[id]=rebuilt;
       saveLocal();
     }
+    if(type==="choice"&&checks[id]?.type==="choice"){
+      if(checks[id].selected===undefined)checks[id].selected=state.answers[akey(id)]||"";
+      if(checks[id].expected===undefined)checks[id].expected=ex.answer??"";
+    }
     const paint=()=>{if(resultNode)resultNode.innerHTML=resultHtml(ex,checks[id]);};
     if(type==="choice"){
-      const node=document.querySelector(`[data-gen-choice="${CSS.escape(id)}"]`),reason=document.querySelector(`[data-gen-reason="${CSS.escape(id)}"]`);
-      node.value=state.answers[akey(id)]||"";if(reason)reason.value=state.answers[akey(id,"_reason")]||"";
+      const node=document.querySelector(`[data-gen-choice="${CSS.escape(id)}"]`);
+      node.value=state.answers[akey(id)]||"";
       node.addEventListener("change",e=>{state.answers[akey(id)]=e.target.value;checks[id]=null;saveLocal();paint();});
-      if(reason)reason.addEventListener("input",e=>{state.answers[akey(id,"_reason")]=e.target.value;checks[id]=null;saveLocal();paint();});
     }else if(type==="classification"){
       document.querySelectorAll(`[data-gen-class="${CSS.escape(id)}"]`).forEach(node=>{const ii=Number(node.dataset.index);node.value=state.answers[akey(id,`_${ii}`)]||"";node.addEventListener("change",e=>{state.answers[akey(id,`_${ii}`)]=e.target.value;checks[id]=null;saveLocal();paint();});});
     }else{
@@ -937,7 +985,17 @@ function renderGenericPractice(p,chapter){
     document.querySelector(`[data-gen-check="${CSS.escape(id)}"]`).addEventListener("click",()=>{
       let res;
       if(type==="choice"){
-        const value=state.answers[akey(id)]||"";res={type:"choice",checked:true,checkedAt:new Date().toISOString(),contentVersion:courseContent[chapter]?.version||null,correct:ex.answer?String(value)===String(ex.answer):true,explanation:ex.explanation||""};
+        const value=state.answers[akey(id)]||"";
+        res={
+          type:"choice",
+          checked:true,
+          checkedAt:new Date().toISOString(),
+          contentVersion:courseContent[chapter]?.version||null,
+          selected:value,
+          expected:ex.answer??"",
+          correct:ex.answer?String(value)===String(ex.answer):true,
+          explanation:ex.explanation||""
+        };
       }else if(type==="classification"){
         let correct=0;const details=[],correctDetails=[];
         (ex.items||[]).forEach((it,ii)=>{
@@ -949,7 +1007,22 @@ function renderGenericPractice(p,chapter){
       }else{
         const value=state.answers[akey(id)]||"";res=scoreOpen(ex,value);
       }
-      checks[id]=res;saveLocal();paint();const doneBtn=el("genericPracticeDone"),doneMsg=el("genericPracticeDoneMsg");if(doneBtn&&practiceChecksComplete(chapter)){doneBtn.disabled=false;if(doneMsg&&!state.practices[chapter])doneMsg.textContent="Todos los ejercicios están comprobados. Ya puedes marcar las prácticas como terminadas.";}
+      checks[id]=res;
+      saveLocal();
+
+      // Cancelamos cualquier reconstrucción aplazada originada mientras se
+      // escribía y mantenemos este resultado en el DOM actual.
+      deferredFullRender=false;
+      paint();
+      requestAnimationFrame(()=>paint());
+      setTimeout(()=>paint(),150);
+      setTimeout(()=>paint(),800);
+
+      const doneBtn=el("genericPracticeDone"),doneMsg=el("genericPracticeDoneMsg");
+      if(doneBtn&&practiceChecksComplete(chapter)){
+        doneBtn.disabled=false;
+        if(doneMsg&&!state.practices[chapter])doneMsg.textContent="Todos los ejercicios han sido respondidos y comprobados. Ya puedes marcar las prácticas como terminadas.";
+      }
     });
     paint();
   }));
@@ -1150,6 +1223,69 @@ function startContentPolling(){
   }catch(e){console.warn("No se pudo comprobar contenido nuevo",e);}},60000);
 }
 
+
+/* v15.3 — Evita que se vean botones a través del teclado translúcido de iOS. */
+const IOS_KEYBOARD_OCCLUSION=(()=>{
+  const ua=navigator.userAgent||"";
+  const isiOS=/iPad|iPhone|iPod/.test(ua)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);
+  let closeTimer=null;
+
+  const editable=node=>!!(node?.matches&&node.matches(
+    'textarea,input[type="text"],input[type="email"],input[type="password"],input[type="url"],input[type="search"],input[type="tel"],input[type="number"]'
+  ));
+
+  const clear=()=>{
+    document.querySelectorAll(".keyboard-occluded").forEach(n=>n.classList.remove("keyboard-occluded"));
+  };
+
+  const update=()=>{
+    if(!isiOS)return;
+    const vv=window.visualViewport;
+    if(!vv||!editable(document.activeElement)){
+      document.body.classList.remove("ios-keyboard-open");
+      clear();
+      return;
+    }
+
+    const hiddenHeight=Math.max(0,window.innerHeight-vv.height-vv.offsetTop);
+    const open=hiddenHeight>120;
+    document.body.classList.toggle("ios-keyboard-open",open);
+    clear();
+    if(!open)return;
+
+    const keyboardTop=vv.offsetTop+vv.height;
+    document.querySelectorAll("button,.btn,[role='button']").forEach(node=>{
+      const r=node.getBoundingClientRect();
+      if(r.bottom>keyboardTop-2)node.classList.add("keyboard-occluded");
+    });
+  };
+
+  if(isiOS){
+    document.addEventListener("focusin",e=>{
+      if(!editable(e.target))return;
+      clearTimeout(closeTimer);
+      setTimeout(update,60);
+      setTimeout(update,300);
+    },true);
+
+    document.addEventListener("focusout",e=>{
+      if(!editable(e.target))return;
+      clearTimeout(closeTimer);
+      closeTimer=setTimeout(()=>{
+        if(!editable(document.activeElement)){
+          document.body.classList.remove("ios-keyboard-open");
+          clear();
+        }
+      },360);
+    },true);
+
+    window.visualViewport?.addEventListener("resize",update,{passive:true});
+    window.visualViewport?.addEventListener("scroll",update,{passive:true});
+    window.addEventListener("orientationchange",()=>setTimeout(update,400),{passive:true});
+  }
+  return {update,clear};
+})();
+
 /* v15.2 — Protección del foco durante escritura.
    El problema real en iOS era que el autosync/polling ejecutaba renderAll(),
    sustituía el textarea activo y Safari cerraba el teclado.
@@ -1261,7 +1397,12 @@ async function pushCloud(showMessage=true){
       setSyncMeta({lastServerAt:row.updated_at||null});
       clearTimeout(saveTimer);saveTimer=setTimeout(()=>pushCloud(false),250);
     }
-    saveLocal(false);safeRenderAll();
+    saveLocal(false);
+    // No reconstruir toda la interfaz tras un autosync. La pantalla ya refleja
+    // el estado local y reconstruirla puede borrar momentáneamente resultados
+    // de prácticas o alterar el foco. Solo actualizamos indicadores seguros.
+    renderProgress();
+    updateAuthUI();
     setCloudPill("Sincronizado","ok");
     el("syncDetail").textContent=`Cambios fusionados en nube: ${formatServerTime(row.updated_at)}`;
     if(showMessage)el("authMsg").textContent="Cambios de este dispositivo fusionados correctamente sin borrar las demás pestañas.";

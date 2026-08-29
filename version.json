@@ -1,14 +1,20 @@
 {
-  "app_version": "15.2",
+  "app_version": "15.4",
   "base_version": 15,
-  "release": "FIX foco teclado iOS",
+  "release": "Prácticas ágiles",
   "name": "Curso IA",
   "fixes": [
-    "el autosync ya no reconstruye la pantalla mientras se escribe",
-    "el polling de contenido no sustituye el textarea activo",
-    "se conserva el foco y el teclado virtual durante la escritura",
-    "la sincronización con Supabase continúa en segundo plano",
-    "render completo aplazado hasta salir del campo de texto",
-    "safe-area de iPhone respetada"
-  ]
+    "preguntas de selección sin justificación escrita",
+    "comprobación muestra siempre respuesta elegida",
+    "si se falla muestra la respuesta esperada",
+    "explicación breve tanto en aciertos como en errores",
+    "mantiene corrección abierta orientativa v15.3",
+    "mantiene fixes iPhone/teclado v15.2-v15.3"
+  ],
+  "editorial_policy": {
+    "future_chapters": "Preferir aproximadamente 70-80% preguntas de selección",
+    "open_questions": "Reservarlas para tareas donde redactar sea parte del aprendizaje",
+    "choice_reason_required": false,
+    "choice_feedback": "Explicación breve y útil siempre, tanto al acertar como al fallar"
+  }
 }

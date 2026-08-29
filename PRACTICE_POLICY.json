@@ -1,0 +1,25 @@
+{
+  "practice_design": {
+    "selection_questions_target_percent": "70-80%",
+    "open_or_case_target_percent": "20-30%",
+    "selection_requires_written_reason": false,
+    "when_to_use_open_questions": [
+      "redactar una instrucción o prompt",
+      "resolver un caso donde la formulación sea parte del aprendizaje",
+      "explicar un razonamiento que no pueda evaluarse razonablemente con opciones"
+    ],
+    "choice_check_behavior": {
+      "correct": [
+        "mostrar Correcto",
+        "mostrar la respuesta elegida",
+        "dar explicación breve y útil"
+      ],
+      "incorrect": [
+        "mostrar Incorrecto",
+        "mostrar la respuesta elegida",
+        "mostrar respuesta esperada",
+        "dar explicación breve y útil"
+      ]
+    }
+  }
+}
