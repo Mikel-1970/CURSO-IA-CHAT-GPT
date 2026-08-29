@@ -1,12 +1,14 @@
 {
-  "app_version": "15.1",
+  "app_version": "15.2",
   "base_version": 15,
-  "release": "FIX iPhone",
+  "release": "FIX foco teclado iOS",
   "name": "Curso IA",
   "fixes": [
-    "protección contra touch-through del teclado virtual de iOS",
-    "ocultación temporal de botones solapados por el teclado",
-    "detección mediante VisualViewport",
-    "respeto de las zonas seguras del iPhone y Dynamic Island"
+    "el autosync ya no reconstruye la pantalla mientras se escribe",
+    "el polling de contenido no sustituye el textarea activo",
+    "se conserva el foco y el teclado virtual durante la escritura",
+    "la sincronización con Supabase continúa en segundo plano",
+    "render completo aplazado hasta salir del campo de texto",
+    "safe-area de iPhone respetada"
   ]
 }

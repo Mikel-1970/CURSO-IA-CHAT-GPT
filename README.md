@@ -118,11 +118,18 @@ Recuperación de contraseña, reenvío de confirmación y mensajes de error espe
 - Al completar el capítulo 17 se muestra el resumen final del curso.
 
 
-## v15.1 — Corrección iPhone / teclado virtual
-- Corrige el problema observado al escribir respuestas de prácticas en iPhone.
-- Detecta mediante `window.visualViewport` el área realmente visible por encima del teclado.
-- Los botones que quedan detrás del teclado se ocultan temporalmente y no pueden recibir pulsaciones.
-- Al cerrar el teclado, los controles vuelven automáticamente a su estado normal.
-- Añade una barrera adicional contra eventos `pointerdown/click` sobre controles tapados.
-- Respeta las zonas seguras (`safe-area`) de iPhone, incluida la Dynamic Island.
-- No modifica datos, progreso, prácticas, Supabase ni la lógica de desbloqueo del curso.
+## v15.2 — Corrección real del cierre del teclado en iPhone
+Causa identificada:
+- cada pulsación guardaba localmente la respuesta;
+- tras 700 ms de pausa, el autosync enviaba el cambio a Supabase;
+- al finalizar la sincronización se ejecutaba `renderAll()`;
+- la pantalla se reconstruía y el `textarea` activo era sustituido;
+- iOS perdía el foco y cerraba el teclado.
+
+Corrección:
+- todas las reconstrucciones completas pasan por `safeRenderAll()`;
+- si existe un `textarea` o `input` de texto con foco, la reconstrucción se aplaza;
+- el guardado local y el autosync continúan funcionando;
+- al salir del campo de texto, se realiza el render pendiente si lo hubiera;
+- la comprobación periódica de contenidos tampoco puede cerrar el teclado.
+- no modifica progreso, prácticas, feedback, Supabase ni el bloqueo secuencial.

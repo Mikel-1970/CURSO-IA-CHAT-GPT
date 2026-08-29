@@ -32,32 +32,12 @@ padding-bottom:max(14px,env(safe-area-inset-bottom))
 .access-note{background:#fff7ed;border:1px solid #fdba74;border-radius:12px;padding:12px;margin-bottom:14px}.admin-grid{display:grid;grid-template-columns:1fr 1fr 160px;gap:10px}.admin-actions{display:flex;gap:6px;flex-wrap:wrap}.admin-actions .btn{min-height:36px;padding:6px 9px;font-size:.82rem}.badge{display:inline-block;border-radius:999px;padding:3px 7px;font-size:.76rem;font-weight:700;background:#eef2ff}.badge.admin{background:#ede9fe;color:#5b21b6}.badge.off{background:#fee2e2;color:#991b1b}dialog.chapter-dialog{border:0;border-radius:16px;padding:0;max-width:520px;width:calc(100% - 28px);box-shadow:0 18px 60px rgba(0,0,0,.25)}dialog.chapter-dialog::backdrop{background:rgba(15,23,42,.45)}.dialog-body{padding:20px}.dialog-list{margin:12px 0;padding-left:22px}.dialog-list li{margin:6px 0}.profile-line{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:8px}@media(max-width:720px){.admin-grid{grid-template-columns:1fr}}
 
 .gate-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}.gate-item{border:1px solid var(--border);border-radius:10px;padding:10px;background:#f9fafb}.gate-item.ok{background:#f0fdf4;border-color:#86efac}.gate-item.pending{background:#fffbeb;border-color:#fcd34d}.locked-card{background:#f8fafc;border:1px dashed #94a3b8;border-radius:12px;padding:16px}.chapter-state{font-weight:700;margin-top:6px}.profile-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.profile-tags{display:flex;flex-wrap:wrap;gap:6px}.profile-tag{border:1px solid var(--border);border-radius:999px;padding:4px 8px;font-size:.82rem;background:#f8fafc}.generation-box{margin-top:12px;padding:12px;border:1px solid var(--border);border-radius:10px;background:#f8fafc}@media(max-width:720px){.gate-grid,.profile-grid{grid-template-columns:1fr}}
-
-/* iOS/PWA: evita que controles situados bajo el teclado virtual reciban toques.
-   visibility:hidden también evita que el color azul se vea a través del
-   teclado translúcido de iOS. */
-.keyboard-occluded{
-  visibility:hidden!important;
-  pointer-events:none!important;
-}
-body.ios-keyboard-open{
-  overscroll-behavior-y:contain;
-}
-body.ios-keyboard-open textarea,
-body.ios-keyboard-open input[type="text"],
-body.ios-keyboard-open input[type="email"],
-body.ios-keyboard-open input[type="password"],
-body.ios-keyboard-open input[type="url"]{
-  position:relative;
-  z-index:1;
-}
-
 </style>
 </head>
 <body>
 <div id="app" class="app">
 <header class="card">
-  <h1>Curso IA – ChatGPT práctico <span class="pill ok">v15.1</span></h1>
+  <h1>Curso IA – ChatGPT práctico <span class="pill ok">v15.2</span></h1>
   <div class="muted">Curso privado multiusuario · progresión obligatoria · capítulos adaptativos desde la nube</div>
   <div style="display:flex;justify-content:space-between;gap:10px;margin:14px 0 7px"><strong>Progreso global</strong><span id="progressText">0 / 16 capítulos</span></div>
   <div class="progress"><i id="progressBar"></i></div>
@@ -168,7 +148,7 @@ body.ios-keyboard-open input[type="url"]{
   <div class="card">
     <h3>Estado de sincronización</h3>
     <p id="syncDetail" class="muted">Sin sesión.</p>
-    <p class="muted">Estrategia v15.1: <strong>curso común + contenido dinámico + progresión obligatoria</strong>. Para avanzar es obligatorio terminar la lectura, completar y comprobar las prácticas y enviar el feedback del capítulo anterior.</p>
+    <p class="muted">Estrategia v15.2: <strong>curso común + contenido dinámico + progresión obligatoria</strong>. Para avanzar es obligatorio terminar la lectura, completar y comprobar las prácticas y enviar el feedback del capítulo anterior.</p>
   </div>
 </section>
 
@@ -455,7 +435,7 @@ function checkedLabel(iso){
 }
 
 async function loadCourseContent(showNotice=false){
-  if(!sb||!session||!accessProfile?.active){courseContent={};opts();renderAll();return false;}
+  if(!sb||!session||!accessProfile?.active){courseContent={};opts();safeRenderAll();return false;}
   try{
     const {data,error}=await sb.from("course_content")
       .select("chapter_number,title,objective,content_html,practice,feedback_schema,version,updated_at,published")
@@ -463,8 +443,8 @@ async function loadCourseContent(showNotice=false){
     if(error)throw error;
     courseContent={};(data||[]).forEach(c=>courseContent[c.chapter_number]=c);
     localStorage.setItem(contentStorageKey(),JSON.stringify(Object.values(courseContent)));
-    ensureCurrentAccessible();opts();renderAll();if(showNotice)maybeShowNewChapterDialog();return true;
-  }catch(e){console.warn("No se pudo actualizar el contenido:",e);opts();renderAll();return false;}
+    ensureCurrentAccessible();opts();safeRenderAll();if(showNotice)maybeShowNewChapterDialog();return true;
+  }catch(e){console.warn("No se pudo actualizar el contenido:",e);opts();safeRenderAll();return false;}
 }
 function renderLesson(){
   ensureCurrentAccessible();
@@ -501,7 +481,7 @@ function renderLesson(){
     <div class="btnrow"><button id="readingDoneBtn" class="btn ${req.reading?"":"primary"}" type="button" ${req.reading?"disabled":""}>${req.reading?"Lectura terminada":"Terminado — marcar lectura"}</button></div>${endMsg}`;
   const btn=el("readingDoneBtn");
   if(btn&&!req.reading)btn.addEventListener("click",()=>{
-    state.readingDone[current]=new Date().toISOString();saveLocal();renderAll();
+    state.readingDone[current]=new Date().toISOString();saveLocal();safeRenderAll();
     if(chapterComplete(current))maybeShowNewChapterDialog();
   });
 }
@@ -670,7 +650,7 @@ function renderPractice1(p){
 
   el("practiceDoneBtn").addEventListener("click",async()=>{
     if(!practiceChecksComplete(1)){alert("Antes de terminar las prácticas, comprueba 1A, 1B y la prueba de comprensión.");return;}
-    state.practices[1]=true;saveLocal();renderAll();if(chapterComplete(1))maybeShowNewChapterDialog();
+    state.practices[1]=true;saveLocal();safeRenderAll();if(chapterComplete(1))maybeShowNewChapterDialog();
   });
 
   const checkStore=practiceChecks(1);
@@ -975,7 +955,7 @@ function renderGenericPractice(p,chapter){
   }));
   const practiceReady=practiceChecksComplete(chapter);el("genericPracticeDone").disabled=!practiceReady&&!state.practices[chapter];
   if(!practiceReady&&!state.practices[chapter])el("genericPracticeDoneMsg").textContent="Comprueba todos los ejercicios obligatorios para poder terminar las prácticas.";
-  el("genericPracticeDone").addEventListener("click",()=>{if(!practiceChecksComplete(chapter)){el("genericPracticeDoneMsg").textContent="Aún quedan ejercicios sin comprobar.";return;}state.practices[chapter]=true;saveLocal();renderAll();if(chapterComplete(chapter))maybeShowNewChapterDialog();});
+  el("genericPracticeDone").addEventListener("click",()=>{if(!practiceChecksComplete(chapter)){el("genericPracticeDoneMsg").textContent="Aún quedan ejercicios sin comprobar.";return;}state.practices[chapter]=true;saveLocal();safeRenderAll();if(chapterComplete(chapter))maybeShowNewChapterDialog();});
   if(state.practices[chapter])el("genericPracticeDoneMsg").textContent="Prácticas terminadas y guardadas.";
 }
 
@@ -1062,7 +1042,7 @@ function renderFeedback(){
       try{await saveFinalFeedbackRecord(target);}
       catch(e){delete target.submittedAt;el("feedbackMsg").textContent="No se pudo guardar el feedback global en la nube: "+(e.message||String(e));return;}
     }
-    saveLocal();renderAll();
+    saveLocal();safeRenderAll();
     if(chapterComplete(current))maybeShowNewChapterDialog();
   });
 }
@@ -1157,7 +1137,7 @@ async function adminSetActive(email,active){const {error}=await sb.from("course_
 async function adminSetRole(email,role){const {error}=await sb.from("course_users").update({role,updated_at:new Date().toISOString()}).eq("email",email);el("adminMsg").textContent=error?error.message:"Rol actualizado.";if(!error)await renderAdminData(false);}
 async function adminRemove(email){if(!confirm(`¿Quitar la autorización de ${email}? Su cuenta de autenticación no se borra, pero perderá el acceso al curso.`))return;const {error}=await sb.from("course_users").delete().eq("email",email);el("adminMsg").textContent=error?error.message:"Autorización eliminada.";if(!error)await renderAdminData(false);}
 async function handleSessionReady(){
-  loadLocal();renderAll();const ok=await refreshAccess();if(!ok){courseContent={};renderAll();return;}
+  loadLocal();safeRenderAll();const ok=await refreshAccess();if(!ok){courseContent={};safeRenderAll();return;}
   await syncOnLogin();await loadCourseContent(false);maybeShowNewChapterDialog();if(isAdmin)await renderAdminData(false);startContentPolling();
 }
 function startContentPolling(){
@@ -1170,93 +1150,52 @@ function startContentPolling(){
   }catch(e){console.warn("No se pudo comprobar contenido nuevo",e);}},60000);
 }
 
-/* Protección contra "touch-through" del teclado de iOS.
-   Detecta el límite visible real mediante VisualViewport y neutraliza
-   solamente los botones que quedan físicamente tapados por el teclado. */
-const IOS_KEYBOARD_GUARD=(()=>{
-  const ua=navigator.userAgent||"";
-  const isiOS=/iPad|iPhone|iPod/.test(ua)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);
-  let blurTimer=null;
+/* v15.2 — Protección del foco durante escritura.
+   El problema real en iOS era que el autosync/polling ejecutaba renderAll(),
+   sustituía el textarea activo y Safari cerraba el teclado.
+   Mientras exista un editor de texto con foco, cualquier render completo se
+   aplaza. El guardado local y la sincronización con Supabase siguen activos. */
+let deferredFullRender=false;
+let deferredRenderTimer=null;
 
-  const isEditable=node=>{
-    if(!node||!node.matches)return false;
-    return node.matches('textarea,input[type="text"],input[type="email"],input[type="password"],input[type="url"],input[type="search"],input[type="tel"],input[type="number"]');
-  };
+function textEditorHasFocus(){
+  const a=document.activeElement;
+  if(!a||!a.matches)return false;
+  return a.matches(
+    'textarea,'+
+    'input[type="text"],'+
+    'input[type="email"],'+
+    'input[type="password"],'+
+    'input[type="url"],'+
+    'input[type="search"],'+
+    'input[type="tel"],'+
+    'input[type="number"]'
+  );
+}
 
-  const clearOccluded=()=>{
-    document.querySelectorAll(".keyboard-occluded").forEach(n=>n.classList.remove("keyboard-occluded"));
-  };
-
-  const update=()=>{
-    if(!isiOS)return;
-    const vv=window.visualViewport;
-    const active=document.activeElement;
-    const editing=isEditable(active);
-
-    if(!vv||!editing){
-      document.body.classList.remove("ios-keyboard-open");
-      clearOccluded();
-      return;
-    }
-
-    const obscured=Math.max(0,window.innerHeight-vv.height-vv.offsetTop);
-    const keyboardOpen=obscured>120;
-    document.body.classList.toggle("ios-keyboard-open",keyboardOpen);
-    clearOccluded();
-    if(!keyboardOpen)return;
-
-    const keyboardTop=vv.offsetTop+vv.height;
-    document.querySelectorAll("button,.btn,[role='button']").forEach(node=>{
-      const r=node.getBoundingClientRect();
-      if(r.bottom>keyboardTop-4){
-        node.classList.add("keyboard-occluded");
-      }
-    });
-  };
-
-  if(isiOS){
-    document.addEventListener("focusin",e=>{
-      if(!isEditable(e.target))return;
-      if(blurTimer)clearTimeout(blurTimer);
-      setTimeout(update,60);
-      setTimeout(update,280);
-    },true);
-
-    document.addEventListener("focusout",e=>{
-      if(!isEditable(e.target))return;
-      if(blurTimer)clearTimeout(blurTimer);
-      blurTimer=setTimeout(()=>{
-        document.body.classList.remove("ios-keyboard-open");
-        clearOccluded();
-      },350);
-    },true);
-
-    if(window.visualViewport){
-      window.visualViewport.addEventListener("resize",update,{passive:true});
-      window.visualViewport.addEventListener("scroll",update,{passive:true});
-    }
-
-    window.addEventListener("orientationchange",()=>setTimeout(update,400),{passive:true});
-
-    document.addEventListener("pointerdown",e=>{
-      const target=e.target?.closest?.(".keyboard-occluded");
-      if(target){
-        e.preventDefault();
-        e.stopImmediatePropagation();
-      }
-    },true);
-
-    document.addEventListener("click",e=>{
-      const target=e.target?.closest?.(".keyboard-occluded");
-      if(target){
-        e.preventDefault();
-        e.stopImmediatePropagation();
-      }
-    },true);
+function safeRenderAll(){
+  if(textEditorHasFocus()){
+    deferredFullRender=true;
+    return false;
   }
+  deferredFullRender=false;
+  renderAll();
+  return true;
+}
 
-  return {update};
-})();
+document.addEventListener("focusout",e=>{
+  const t=e.target;
+  if(!t||!t.matches||!t.matches(
+    'textarea,input[type="text"],input[type="email"],input[type="password"],input[type="url"],input[type="search"],input[type="tel"],input[type="number"]'
+  ))return;
+
+  // Esperamos a saber si el foco pasa a otro campo de texto. Si es así,
+  // seguimos sin reconstruir la pantalla.
+  clearTimeout(deferredRenderTimer);
+  deferredRenderTimer=setTimeout(()=>{
+    if(deferredFullRender&&!textEditorHasFocus())safeRenderAll();
+  },180);
+},true);
 
 function getConfig(){try{const saved=JSON.parse(localStorage.getItem(CONFIG_KEY)||"{}");return {url:saved.url||DEFAULT_SUPABASE_CONFIG.url,key:saved.key||DEFAULT_SUPABASE_CONFIG.key};}catch(e){return {...DEFAULT_SUPABASE_CONFIG};}}
 function setCloudPill(text,cls="warn"){el("cloudStatus").textContent=text;el("cloudStatus").className=`pill ${cls}`;}
@@ -1272,11 +1211,11 @@ async function initSupabase(){
         passwordRecoveryMode=true;switchTab("nube");el("authMsg").textContent="Enlace de recuperación válido. Define ahora una nueva contraseña.";updateAuthUI();return;
       }
       passwordRecoveryMode=false;
-      if(!session){if(contentPollTimer)clearInterval(contentPollTimer);contentPollTimer=null;accessProfile=null;isAdmin=false;state=fresh();courseContent={};setAccessUI();updateAuthUI();renderAll();return;}
+      if(!session){if(contentPollTimer)clearInterval(contentPollTimer);contentPollTimer=null;accessProfile=null;isAdmin=false;state=fresh();courseContent={};setAccessUI();updateAuthUI();safeRenderAll();return;}
       if(oldUser!==session.user.id||event==="SIGNED_IN")handleSessionReady();else updateAuthUI();
     });
     setCloudPill(session?"Nube conectada":"Nube configurada",session?"ok":"warn");updateAuthUI();
-    if(session)await handleSessionReady();else{state=fresh();courseContent={};renderAll();setAccessUI();}
+    if(session)await handleSessionReady();else{state=fresh();courseContent={};safeRenderAll();setAccessUI();}
   }catch(e){sb=null;session=null;accessProfile=null;isAdmin=false;setCloudPill("Error de nube","bad");el("configMsg").textContent=e.message||String(e);updateAuthUI();setAccessUI();}
 }
 function updateAuthUI(){
@@ -1322,7 +1261,7 @@ async function pushCloud(showMessage=true){
       setSyncMeta({lastServerAt:row.updated_at||null});
       clearTimeout(saveTimer);saveTimer=setTimeout(()=>pushCloud(false),250);
     }
-    saveLocal(false);renderAll();
+    saveLocal(false);safeRenderAll();
     setCloudPill("Sincronizado","ok");
     el("syncDetail").textContent=`Cambios fusionados en nube: ${formatServerTime(row.updated_at)}`;
     if(showMessage)el("authMsg").textContent="Cambios de este dispositivo fusionados correctamente sin borrar las demás pestañas.";
@@ -1348,7 +1287,7 @@ async function pullCloud(showMessage=true){
     if(remote&&remote.data){
       state=mergeState(remote.data);saveLocal(false);
       setSyncMeta({pendingPatch:{},lastServerAt:remote.updated_at||null});
-      renderAll();
+      safeRenderAll();
       el("syncDetail").textContent=`Estado completo descargado: ${formatServerTime(remote.updated_at)}`;
       if(showMessage)el("authMsg").textContent="Curso, prácticas, progreso, feedback y notas descargados correctamente.";
     }else if(showMessage){el("authMsg").textContent="No hay datos remotos todavía.";}
@@ -1374,7 +1313,7 @@ async function replaceCloudWithState(showMessage=true){
     const {data,error}=await sb.rpc("replace_course_progress_v2",{p_data:state});
     if(error)throw error;
     const row=(Array.isArray(data)?data[0]:data)||{};
-    state=mergeState(row.data||state);saveLocal(false);renderAll();
+    state=mergeState(row.data||state);saveLocal(false);safeRenderAll();
     setSyncMeta({pendingPatch:{},seq:getSyncMeta().seq||0,lastServerAt:row.updated_at||null});
     setCloudPill("Sincronizado","ok");
     if(showMessage)el("authMsg").textContent="Estado completo sustituido correctamente.";
@@ -1409,7 +1348,7 @@ function authMessage(error){
 
 // UI
 document.querySelectorAll(".tab").forEach(b=>b.addEventListener("click",()=>switchTab(b.dataset.tab)));
-function selectChapterFromControl(value){const n=Number(value);if(!availableForUser(n)||!isChapterUnlocked(n)){current=highestAccessibleChapter();renderAll();return;}current=n;renderAll();}
+function selectChapterFromControl(value){const n=Number(value);if(!availableForUser(n)||!isChapterUnlocked(n)){current=highestAccessibleChapter();safeRenderAll();return;}current=n;safeRenderAll();}
 el("chapterSelect").addEventListener("change",e=>selectChapterFromControl(e.target.value));
 el("practiceChapterSelect").addEventListener("change",e=>selectChapterFromControl(e.target.value));
 el("feedbackChapterSelect").addEventListener("change",e=>selectChapterFromControl(e.target.value));
@@ -1423,7 +1362,7 @@ el("clearCloudConfigBtn").addEventListener("click",async()=>{
   sb=null;session=null;accessProfile=null;isAdmin=false;state=fresh();courseContent={};passwordRecoveryMode=false;
   el("supabaseUrl").value="";el("supabaseKey").value="";
   setCloudPill("Nube sin configurar","warn");
-  updateAuthUI();setAccessUI();renderAll();
+  updateAuthUI();setAccessUI();safeRenderAll();
 });
 el("signInBtn").addEventListener("click",async()=>{
   if(!sb){el("authMsg").textContent="La nube no está configurada.";return;}
@@ -1488,7 +1427,7 @@ el("signOutBtn").addEventListener("click",async()=>{
   clearSupabaseAuthStorage();
   session=null;accessProfile=null;isAdmin=false;state=fresh();courseContent={};pendingNewChapters=[];
   passwordRecoveryMode=false;
-  updateAuthUI();setAccessUI();renderAll();
+  updateAuthUI();setAccessUI();safeRenderAll();
   if(sb)setCloudPill("Nube configurada","warn");
   el("authMsg").textContent=serverWarning
     ?`Sesión local cerrada. Aviso del servidor: ${serverWarning}`
@@ -1500,14 +1439,14 @@ el("adminAddBtn").addEventListener("click",adminAddUser);
 el("adminRefreshBtn").addEventListener("click",()=>renderAdminData(true));
 el("copyAppLinkBtn").addEventListener("click",async()=>{try{await navigator.clipboard.writeText(APP_URL);el("adminMsg").textContent="Enlace copiado.";}catch(e){el("adminMsg").textContent=`Enlace: ${APP_URL}`;}});
 el("dismissNewChapterBtn").addEventListener("click",()=>{markPendingNewSeen();el("newChapterDialog").close();pendingNewChapters=[];});
-el("openNewChapterBtn").addEventListener("click",()=>{const target=pendingNewChapters[0];markPendingNewSeen();el("newChapterDialog").close();pendingNewChapters=[];if(target){current=target;renderAll();switchTab("curso");}});
+el("openNewChapterBtn").addEventListener("click",()=>{const target=pendingNewChapters[0];markPendingNewSeen();el("newChapterDialog").close();pendingNewChapters=[];if(target){current=target;safeRenderAll();switchTab("curso");}});
 el("exportBtn").addEventListener("click",()=>{const blob=new Blob([JSON.stringify(state,null,2)],{type:"application/json"});const url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="curso-ia-progreso.json";a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);el("backupMsg").textContent="Copia exportada.";});
-el("importFile").addEventListener("change",e=>{const f=e.target.files&&e.target.files[0];if(!f)return;const r=new FileReader();r.onload=async()=>{try{state=mergeState(JSON.parse(String(r.result)));saveLocal(false);setSyncMeta({pendingPatch:{},seq:(getSyncMeta().seq||0)+1});renderAll();if(session)await replaceCloudWithState(false);el("backupMsg").textContent="Copia importada.";}catch(err){el("backupMsg").textContent="Archivo no válido.";}};r.readAsText(f);});
-el("resetBtn").addEventListener("click",async()=>{if(confirm("¿Borrar todo el progreso? Esta acción sustituirá también el estado de la nube si tienes sesión.")){state=fresh();saveLocal(false);setSyncMeta({pendingPatch:{},seq:(getSyncMeta().seq||0)+1});renderAll();if(session)await replaceCloudWithState(true);}});
+el("importFile").addEventListener("change",e=>{const f=e.target.files&&e.target.files[0];if(!f)return;const r=new FileReader();r.onload=async()=>{try{state=mergeState(JSON.parse(String(r.result)));saveLocal(false);setSyncMeta({pendingPatch:{},seq:(getSyncMeta().seq||0)+1});safeRenderAll();if(session)await replaceCloudWithState(false);el("backupMsg").textContent="Copia importada.";}catch(err){el("backupMsg").textContent="Archivo no válido.";}};r.readAsText(f);});
+el("resetBtn").addEventListener("click",async()=>{if(confirm("¿Borrar todo el progreso? Esta acción sustituirá también el estado de la nube si tienes sesión.")){state=fresh();saveLocal(false);setSyncMeta({pendingPatch:{},seq:(getSyncMeta().seq||0)+1});safeRenderAll();if(session)await replaceCloudWithState(true);}});
 window.addEventListener("online",async()=>{if(session&&accessProfile?.active){await syncOnLogin();await loadCourseContent(true);}});window.addEventListener("offline",()=>setCloudPill("Sin conexión · guardado local","warn"));
 
 if(window.matchMedia&&window.matchMedia("(display-mode: standalone)").matches)el("installHint").classList.add("hidden");
-state=fresh();courseContent={};opts();renderAll();setAccessUI();
+state=fresh();courseContent={};opts();safeRenderAll();setAccessUI();
 initSupabase();
 if("serviceWorker" in navigator&&location.protocol.startsWith("http"))navigator.serviceWorker.register("./sw.js").catch(()=>{});
 
