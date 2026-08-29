@@ -50,11 +50,11 @@ Recuperación de contraseña, reenvío de confirmación y mensajes de error espe
 - Si una práctica antigua estaba marcada como realizada pero sus comprobaciones no existían (v7 o anteriores), v8 reconstruye una vez los resultados desde las respuestas guardadas y los sincroniza.
 
 
-## v9 — multiusuario privado
-- Acceso al contenido solo para correos autorizados.
-- Roles Administrador y Usuario.
-- Panel para autorizar, activar/desactivar, cambiar rol y quitar acceso.
-- Progreso local separado por cuenta en el mismo navegador.
-- Progreso en Supabase separado mediante RLS.
-- El administrador ve un resumen de progreso sin modificar el trabajo de otros.
-- Alta: primero autorizar el correo; después el usuario crea cuenta y confirma email.
+## v10 — Capítulo 2 completo
+- Mantiene la arquitectura multiusuario privada de v9.
+- Práctica 2A completa: 5 ejercicios, respuestas persistentes y comprobaciones.
+- Práctica 2B completa: reescritura de prompt con rúbrica orientativa.
+- Práctica 2C completa: caso real con rúbrica orientativa.
+- Las comprobaciones quedan guardadas y sincronizadas por usuario.
+- El feedback del Capítulo 2 acepta el esquema publicado en Supabase.
+- El progreso de la práctica 2 se guarda igual que el del Capítulo 1.

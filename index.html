@@ -21,14 +21,13 @@
 .updated{font-size:.8rem;color:var(--muted);margin-top:12px}
 @media(max-width:720px){.compare,.feedback-grid{grid-template-columns:1fr}}
 @media(max-width:720px){.grid,.twocol,.stats{grid-template-columns:1fr}.app{padding:10px}.qrow{grid-template-columns:minmax(0,1fr) 78px}.qrow .result{grid-column:1/-1;margin-top:-3px}}
-.access-denied{background:#fff7ed;border-color:#fdba74}.admin-actions{display:flex;gap:6px;flex-wrap:wrap}.smallbtn{min-height:36px;padding:6px 9px;font-size:13px}
 </style>
 </head>
 <body>
 <div id="app" class="app">
 <header class="card">
-  <h1>Curso IA – ChatGPT práctico <span class="pill ok">v9</span></h1>
-  <div class="muted">Curso privado multiusuario · progreso independiente y sincronizado</div>
+  <h1>Curso IA – ChatGPT práctico <span class="pill ok">v8</span></h1>
+  <div class="muted">Curso, prácticas, notas y progreso sincronizable</div>
   <div style="display:flex;justify-content:space-between;gap:10px;margin:14px 0 7px"><strong>Progreso global</strong><span id="progressText">0 / 16 capítulos</span></div>
   <div class="progress"><i id="progressBar"></i></div>
   <div class="cloudbar">
@@ -38,8 +37,6 @@
   </div>
 </header>
 
-<div id="accessNotice" class="banner access-denied hidden"><strong>Acceso privado.</strong> <span id="accessNoticeText">Inicia sesión con un correo autorizado.</span></div>
-
 <div id="installHint" class="banner"><strong>Instalar:</strong> cuando la app esté publicada por HTTPS, en iPhone usa Safari → Compartir → Añadir a pantalla de inicio.</div>
 
 <nav class="tabs" aria-label="Secciones">
@@ -48,7 +45,6 @@
   <button class="tab" data-tab="progreso" type="button">Progreso</button>
   <button class="tab" data-tab="feedback" type="button">Feedback</button>
   <button class="tab" data-tab="nube" type="button">Nube</button>
-  <button id="adminTabBtn" class="tab hidden" data-tab="admin" type="button">Administración</button>
 </nav>
 
 <section id="curso" class="panel active">
@@ -101,8 +97,8 @@
 </section>
 
 <section id="nube" class="panel">
-  <div class="card hidden" id="cloudConfigCard">
-    <h2>Configuración técnica de nube</h2>
+  <div class="card">
+    <h2>Sincronización en nube</h2>
     <p>La app utiliza <strong>Supabase</strong>. La URL del proyecto y la <strong>publishable/anon key</strong> pueden estar en el navegador; la seguridad depende de las políticas RLS. <strong>No introduzcas nunca una service_role key.</strong></p>
     <label for="supabaseUrl">Supabase Project URL</label><input id="supabaseUrl" type="url" placeholder="https://xxxx.supabase.co">
     <label for="supabaseKey">Supabase publishable / anon key</label><input id="supabaseKey" type="text" autocomplete="off" placeholder="sb_publishable_... o anon key">
@@ -111,13 +107,13 @@
   </div>
 
   <div class="card" id="authCard">
-    <h3>Acceso privado al Curso IA</h3>
+    <h3>Cuenta del curso</h3>
     <div id="loggedOutBox">
       <label for="authEmail">Correo</label><input id="authEmail" type="email" autocomplete="email">
       <label for="authPassword">Contraseña</label><input id="authPassword" type="password" autocomplete="current-password" minlength="8">
-      <div class="btnrow"><button id="signInBtn" class="btn primary" type="button">Entrar</button><button id="signUpBtn" class="btn" type="button">Crear cuenta autorizada</button></div>
+      <div class="btnrow"><button id="signInBtn" class="btn primary" type="button">Entrar</button><button id="signUpBtn" class="btn" type="button">Crear cuenta</button></div>
       <div class="btnrow"><button id="forgotPasswordBtn" class="btn" type="button">Recuperar contraseña</button><button id="resendConfirmBtn" class="btn" type="button">Reenviar confirmación</button></div>
-      <p class="muted">Solo los correos previamente autorizados por el administrador pueden utilizar el curso. Crear una cuenta no concede acceso por sí solo.</p>
+      <p class="muted">Si ya existe una cuenta, pulsar «Crear cuenta» otra vez no cambia su contraseña.</p>
     </div>
     <div id="recoveryBox" class="hidden">
       <p><strong>Define una nueva contraseña</strong></p>
@@ -126,7 +122,7 @@
       <div class="btnrow"><button id="setNewPasswordBtn" class="btn primary" type="button">Guardar nueva contraseña</button></div>
     </div>
     <div id="loggedInBox" class="hidden">
-      <p>Sesión: <strong id="userEmail"></strong> <span id="userRole" class="pill"></span></p>
+      <p>Sesión: <strong id="userEmail"></strong></p>
       <div class="btnrow"><button id="cloudPullBtn" class="btn" type="button">Descargar nube</button><button id="cloudPushBtn" class="btn" type="button">Subir cambios de este dispositivo</button><button id="signOutBtn" class="btn danger" type="button">Cerrar sesión</button></div>
     </div>
     <div id="authMsg" class="muted" style="margin-top:8px"></div>
@@ -135,25 +131,7 @@
   <div class="card">
     <h3>Estado de sincronización</h3>
     <p id="syncDetail" class="muted">Sin sesión.</p>
-    <p class="muted">Estrategia v9: <strong>multiusuario privado + fusión atómica por cambios</strong>. Cada usuario tiene progreso, respuestas, comprobaciones, feedback y notas independientes.</p>
-  </div>
-</section>
-
-<section id="admin" class="panel">
-  <div class="card">
-    <h2>Administración de usuarios</h2>
-    <p class="muted">Autoriza primero el correo. Después esa persona puede abrir Curso IA, crear su cuenta con ese mismo correo y confirmar el mensaje de Supabase.</p>
-    <div class="twocol">
-      <div><label for="adminEmail">Correo autorizado</label><input id="adminEmail" type="email" placeholder="persona@empresa.com"></div>
-      <div><label for="adminName">Nombre</label><input id="adminName" type="text" placeholder="Nombre y apellidos"></div>
-    </div>
-    <label for="adminRoleSelect">Rol</label><select id="adminRoleSelect"><option value="member">Alumno / usuario</option><option value="admin">Administrador</option></select>
-    <div class="btnrow"><button id="authorizeUserBtn" class="btn primary" type="button">Autorizar usuario</button><button id="refreshAdminBtn" class="btn" type="button">Actualizar listado</button><button id="copyAppLinkBtn" class="btn" type="button">Copiar enlace de la app</button></div>
-    <div id="adminMsg" class="muted" style="margin-top:8px"></div>
-  </div>
-  <div class="card tablewrap">
-    <h3>Usuarios autorizados</h3>
-    <table><thead><tr><th>Usuario</th><th>Rol</th><th>Acceso</th><th>Última actividad</th><th>Progreso</th><th>Acciones</th></tr></thead><tbody id="adminUserRows"></tbody></table>
+    <p class="muted">Estrategia v10: <strong>multiusuario privado + fusión atómica</strong>. Cada usuario conserva respuestas, comprobaciones, prácticas, feedback y notas; el Capítulo 2 incorpora prácticas completas y persistentes.</p>
   </div>
 </section>
 </div>
@@ -168,7 +146,7 @@ const KEY="cursoIA_cloud_v3",CONFIG_KEY="cursoIA_supabase_config_v1",CONTENT_CAC
 const START=new Date(Date.UTC(2026,7,28));
 const APP_URL="https://mikel-1970.github.io/CURSO-IA-CHAT-GPT/";
 const el=id=>document.getElementById(id);
-let state=fresh(), current=1, courseContent={}, sb=null, session=null, accessProfile=null, syncing=false, passwordRecoveryMode=false, saveTimer=null;
+let state=fresh(), current=1, courseContent={}, sb=null, session=null, syncing=false, passwordRecoveryMode=false, saveTimer=null;
 
 function fresh(){
   return {version:4,chapters:{1:"En curso"},practices:{},notes:{},answers:{},feedback:{},checks:{},updatedAt:new Date().toISOString()};
@@ -202,19 +180,16 @@ function diffPatch(oldV,newV){
   return jsonEqual(oldV,newV)?{}:cloneJson(newV);
 }
 function hasPatch(p){return isPlainObject(p)&&Object.keys(p).length>0;}
-function scopedKey(base){return session?.user?.id?`${base}:${session.user.id}`:`${base}:guest`;}
-function isAuthorized(){return !!(session&&accessProfile&&accessProfile.active);}
-function isAdmin(){return !!(isAuthorized()&&accessProfile.role==="admin");}
-function defaultSyncMeta(){return {syncVersion:9,pendingPatch:{},seq:0,lastServerAt:null};}
+function defaultSyncMeta(){return {syncVersion:8,pendingPatch:{},seq:0,lastServerAt:null};}
 function getSyncMeta(){
   try{
-    const raw=JSON.parse(localStorage.getItem(scopedKey(SYNC_META_KEY))||"{}");
-    return raw.syncVersion===9?{...defaultSyncMeta(),...raw}:defaultSyncMeta();
+    const raw=JSON.parse(localStorage.getItem(SYNC_META_KEY)||"{}");
+    return raw.syncVersion===8?{...defaultSyncMeta(),...raw}:defaultSyncMeta();
   }catch(e){return defaultSyncMeta();}
 }
 function setSyncMeta(patch){
-  const next={...getSyncMeta(),...patch,syncVersion:9};
-  try{localStorage.setItem(scopedKey(SYNC_META_KEY),JSON.stringify(next));}catch(e){}
+  const next={...getSyncMeta(),...patch,syncVersion:8};
+  try{localStorage.setItem(SYNC_META_KEY,JSON.stringify(next));}catch(e){}
   return next;
 }
 function formatServerTime(iso){
@@ -227,20 +202,20 @@ async function waitForSync(){
   while(syncing&&Date.now()-start<10000)await new Promise(r=>setTimeout(r,100));
 }
 function loadLocal(){
-  state=fresh();
   try{
-    const raw=localStorage.getItem(scopedKey(KEY));
+    const raw=localStorage.getItem(KEY);
     if(raw)state=mergeState(JSON.parse(raw));
     el("localStatus").textContent="Guardado local";el("localStatus").className="pill ok";
   }catch(e){el("localStatus").textContent="Error guardado local";el("localStatus").className="pill bad";}
+  try{const cached=JSON.parse(localStorage.getItem(CONTENT_CACHE_KEY)||"[]");if(Array.isArray(cached))cached.forEach(c=>courseContent[c.chapter_number]=c);}catch(e){}
   try{
-    const oldMeta=JSON.parse(localStorage.getItem(scopedKey(SYNC_META_KEY))||"{}");
-    if(oldMeta.syncVersion!==9)localStorage.setItem(scopedKey(SYNC_META_KEY),JSON.stringify(defaultSyncMeta()));
-  }catch(e){try{localStorage.setItem(scopedKey(SYNC_META_KEY),JSON.stringify(defaultSyncMeta()));}catch(_){} }
+    const oldMeta=JSON.parse(localStorage.getItem(SYNC_META_KEY)||"{}");
+    if(oldMeta.syncVersion!==8)localStorage.setItem(SYNC_META_KEY,JSON.stringify(defaultSyncMeta()));
+  }catch(e){try{localStorage.setItem(SYNC_META_KEY,JSON.stringify(defaultSyncMeta()));}catch(_){} }
 }
 function saveLocal(scheduleCloud=true){
   let previous=fresh();
-  try{const raw=localStorage.getItem(scopedKey(KEY));if(raw)previous=mergeState(JSON.parse(raw));}catch(e){}
+  try{const raw=localStorage.getItem(KEY);if(raw)previous=mergeState(JSON.parse(raw));}catch(e){}
   if(scheduleCloud){
     const patch=diffPatch(previous,state);
     if(hasPatch(patch)){
@@ -249,8 +224,8 @@ function saveLocal(scheduleCloud=true){
     }
     state.updatedAt=new Date().toISOString();
   }
-  try{localStorage.setItem(scopedKey(KEY),JSON.stringify(state));el("localStatus").textContent="Guardado local";el("localStatus").className="pill ok";}catch(e){}
-  if(scheduleCloud&&isAuthorized()){clearTimeout(saveTimer);saveTimer=setTimeout(()=>pushCloud(false),700);}
+  try{localStorage.setItem(KEY,JSON.stringify(state));el("localStatus").textContent="Guardado local";el("localStatus").className="pill ok";}catch(e){}
+  if(scheduleCloud&&session){clearTimeout(saveTimer);saveTimer=setTimeout(()=>pushCloud(false),700);}
 }
 
 function dateFor(n){const d=new Date(START);d.setUTCDate(d.getUTCDate()+(n-1));return d.toLocaleDateString("es-ES",{day:"2-digit",month:"short",year:"numeric",timeZone:"UTC"});}
@@ -284,7 +259,6 @@ function checkedLabel(iso){
 
 async function loadCourseContent(){
   const cfg=getConfig();
-  if(!isAuthorized()){courseContent={};renderAll();return;}
   if(!window.supabase||!cfg.url||!cfg.key){renderAll();return;}
   try{
     const contentClient=sb||window.supabase.createClient(cfg.url,cfg.key,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
@@ -317,6 +291,7 @@ function renderPractice(){
   const c=courseContent[current], p=c?.practice||{};
   if(!c){el("practiceArea").innerHTML=`<div class="card"><h2>Práctica ${current}</h2><div class="notice">Se incorporará automáticamente al publicar el capítulo.</div></div>`;return;}
   if(current===1 && p.classification) return renderPractice1(p);
+  if(current===2 && (p.short_exercises||p.rewrite_exercise||p.real_case)) return renderPractice2(p);
   el("practiceArea").innerHTML=`<div class="card"><h2>Práctica ${current} — ${esc(c.title)}</h2><div class="notice">La práctica de este capítulo se cargará desde el contenido publicado.</div><label>Notas / preparación</label><textarea id="genericPractice" rows="6"></textarea><button id="genericDone" class="btn ok" type="button" style="margin-top:10px">Marcar realizada</button></div>`;
   el("genericPractice").value=state.answers["g"+current]||"";
   el("genericPractice").addEventListener("input",e=>{state.answers["g"+current]=e.target.value;saveLocal();});
@@ -501,6 +476,177 @@ function renderPractice1(p){
   renderComprehensionResult(saved.comprehension);
 }
 
+
+function renderPractice2(p){
+  const chapter=2;
+  const short=p.short_exercises||[];
+  const rewrite=p.rewrite_exercise||{};
+  const real=p.real_case||{};
+  const checks=practiceChecks(chapter);
+  const ansKey=id=>`ch2_${id}`;
+  const checkKey=id=>String(id);
+
+  function getAnswer(id){return state.answers[ansKey(id)]||"";}
+  function setAnswer(id,value){
+    state.answers[ansKey(id)]=value;
+    checks[checkKey(id)]=null;
+    saveLocal();
+  }
+  function getReason(id){return state.answers[ansKey(id)+"_reason"]||"";}
+  function setReason(id,value){
+    state.answers[ansKey(id)+"_reason"]=value;
+    checks[checkKey(id)]=null;
+    saveLocal();
+  }
+  function groupScore(text,groups){
+    return rubricScore(text,Array.isArray(groups)?groups:[]);
+  }
+  function criterionLabels(ex){
+    if(Array.isArray(ex.requirements))return ex.requirements;
+    if(Array.isArray(ex.rubric))return ex.rubric;
+    return [];
+  }
+  function resultBox(res,labels=[]){
+    if(!res)return "";
+    if(res.type==="choice"){
+      const cls=res.correct?"good":"review";
+      return `<div class="rubric ${cls}"><strong>${res.correct?"Elección correcta.":"Revisa la elección."}</strong> ${esc(res.explanation||"")}<br><span class="muted">Resultado guardado${checkedLabel(res.checkedAt)}</span></div>`;
+    }
+    const cls=res.pass?"good":"review";
+    const missing=Array.isArray(res.missing)?res.missing:[];
+    return `<div class="rubric ${cls}"><strong>${res.pass?"Respuesta bien planteada":"Conviene completar la respuesta"}</strong> · criterios detectados ${res.hit}/${res.total||1}.`+
+      (missing.length?`<br><span class="muted">Aspectos a revisar: ${missing.map(esc).join(" · ")}</span>`:"")+
+      `<br><span class="muted">Corrección automática orientativa${checkedLabel(res.checkedAt)}</span></div>`;
+  }
+  function buildOpenResult(id,text,groups,labels,minRatio=0.5){
+    const s=groupScore(text,groups);
+    const total=s.total||1;
+    const needed=Math.max(1,Math.ceil(total*minRatio));
+    const hitFlags=(groups||[]).map(g=>{
+      const t=norm(text);
+      return Array.isArray(g)&&g.some(k=>t.includes(norm(k)));
+    });
+    const missing=(labels||[]).filter((_,i)=>!hitFlags[i]);
+    return {type:"open",checked:true,checkedAt:new Date().toISOString(),contentVersion:courseContent[chapter]?.version||null,hit:s.hit,total,pass:s.hit>=needed,missing};
+  }
+
+  const shortHtml=short.map((ex,i)=>{
+    if(ex.type==="choice"){
+      return `<div class="mini" style="margin-bottom:14px">
+        <h3>${esc(ex.id||`2A${i+1}`)}</h3>
+        <p>${esc(ex.question||"")}</p>
+        <label>Respuesta</label>
+        <select data-p2-choice="${esc(ex.id)}"><option value=""></option><option value="A">A</option><option value="B">B</option></select>
+        <label>Motivo breve</label><textarea data-p2-reason="${esc(ex.id)}" rows="3"></textarea>
+        <div class="btnrow"><button class="btn primary" data-p2-check="${esc(ex.id)}" type="button">Comprobar</button></div>
+        <div data-p2-result="${esc(ex.id)}"></div>
+      </div>`;
+    }
+    return `<div class="mini" style="margin-bottom:14px">
+      <h3>${esc(ex.id||`2A${i+1}`)}</h3>
+      <p>${esc(ex.question||"")}</p>
+      <textarea data-p2-open="${esc(ex.id)}" rows="4"></textarea>
+      <div class="btnrow"><button class="btn primary" data-p2-check="${esc(ex.id)}" type="button">Comprobar</button></div>
+      <div data-p2-result="${esc(ex.id)}"></div>
+    </div>`;
+  }).join("");
+
+  el("practiceArea").innerHTML=`
+    <div class="card">
+      <h2>${esc(p.title||"Prácticas Capítulo 2")}</h2>
+      <p class="muted">${esc(p.instructions||"Responde primero y comprueba después.")}</p>
+      <h3>Práctica 2A — Diagnóstico rápido</h3>
+      ${shortHtml}
+    </div>
+    <div class="card">
+      <h3>${esc(rewrite.title||"Práctica 2B — Mejorar una instrucción")}</h3>
+      <p>${esc(rewrite.prompt||"")}</p>
+      <textarea id="p2Rewrite" rows="8"></textarea>
+      <div class="btnrow"><button id="p2RewriteCheck" class="btn primary" type="button">Comprobar 2B</button></div>
+      <div id="p2RewriteResult"></div>
+    </div>
+    <div class="card">
+      <h3>${esc(real.title||"Práctica 2C — Caso real")}</h3>
+      <p>${esc(real.question||"")}</p>
+      <textarea id="p2Real" rows="9"></textarea>
+      <div class="btnrow"><button id="p2RealCheck" class="btn primary" type="button">Revisar con la rúbrica</button><button id="p2Done" class="btn ok" type="button">Marcar práctica realizada</button></div>
+      <div id="p2RealResult"></div>
+      <div id="p2DoneMsg" class="muted" style="margin-top:8px"></div>
+    </div>`;
+
+  function paint(id,res,labels=[]){
+    const node=document.querySelector(`[data-p2-result="${CSS.escape(id)}"]`);
+    if(node)node.innerHTML=resultBox(res,labels);
+  }
+
+  short.forEach(ex=>{
+    const id=ex.id;
+    if(ex.type==="choice"){
+      const select=document.querySelector(`[data-p2-choice="${CSS.escape(id)}"]`);
+      const reason=document.querySelector(`[data-p2-reason="${CSS.escape(id)}"]`);
+      select.value=getAnswer(id);
+      reason.value=getReason(id);
+      select.addEventListener("change",e=>{setAnswer(id,e.target.value);paint(id,null);});
+      reason.addEventListener("input",e=>{setReason(id,e.target.value);paint(id,null);});
+      document.querySelector(`[data-p2-check="${CSS.escape(id)}"]`).addEventListener("click",()=>{
+        const choice=getAnswer(id),reasonText=getReason(id);
+        const correct=choice===ex.answer;
+        const res={type:"choice",checked:true,checkedAt:new Date().toISOString(),contentVersion:courseContent[chapter]?.version||null,choice,correct,explanation:ex.explanation||"",reasonProvided:reasonText.trim().length>0};
+        checks[checkKey(id)]=res;
+        saveLocal();
+        paint(id,res);
+      });
+      paint(id,checks[checkKey(id)]);
+    }else{
+      const ta=document.querySelector(`[data-p2-open="${CSS.escape(id)}"]`);
+      ta.value=getAnswer(id);
+      ta.addEventListener("input",e=>{setAnswer(id,e.target.value);paint(id,null);});
+      document.querySelector(`[data-p2-check="${CSS.escape(id)}"]`).addEventListener("click",()=>{
+        const labels=Array.isArray(ex.rubric)?ex.rubric:[];
+        const res=buildOpenResult(id,getAnswer(id),ex.rubric_groups||[],labels,ex.id==="2A3"?0.5:0.5);
+        checks[checkKey(id)]=res;
+        saveLocal();
+        paint(id,res,labels);
+      });
+      paint(id,checks[checkKey(id)],Array.isArray(ex.rubric)?ex.rubric:[]);
+    }
+  });
+
+  el("p2Rewrite").value=getAnswer(rewrite.id||"2B");
+  el("p2Rewrite").addEventListener("input",e=>{
+    setAnswer(rewrite.id||"2B",e.target.value);
+    el("p2RewriteResult").innerHTML="";
+  });
+  el("p2RewriteCheck").addEventListener("click",()=>{
+    const id=rewrite.id||"2B",labels=criterionLabels(rewrite);
+    const res=buildOpenResult(id,getAnswer(id),rewrite.rubric_groups||[],labels,0.67);
+    checks[checkKey(id)]=res;saveLocal();
+    el("p2RewriteResult").innerHTML=resultBox(res,labels);
+  });
+  el("p2RewriteResult").innerHTML=resultBox(checks[checkKey(rewrite.id||"2B")],criterionLabels(rewrite));
+
+  el("p2Real").value=getAnswer(real.id||"2C");
+  el("p2Real").addEventListener("input",e=>{
+    setAnswer(real.id||"2C",e.target.value);
+    el("p2RealResult").innerHTML="";
+  });
+  el("p2RealCheck").addEventListener("click",()=>{
+    const id=real.id||"2C",labels=criterionLabels(real);
+    const res=buildOpenResult(id,getAnswer(id),real.rubric_groups||[],labels,0.5);
+    checks[checkKey(id)]=res;saveLocal();
+    el("p2RealResult").innerHTML=resultBox(res,labels);
+  });
+  el("p2RealResult").innerHTML=resultBox(checks[checkKey(real.id||"2C")],criterionLabels(real));
+
+  el("p2Done").addEventListener("click",()=>{
+    state.practices[chapter]=true;
+    saveLocal();
+    renderProgress();
+    el("p2DoneMsg").textContent="Práctica 2 marcada como realizada y guardada.";
+  });
+  if(state.practices[chapter])el("p2DoneMsg").textContent="Práctica 2 ya marcada como realizada.";
+}
+
 function fieldHtml(f,val){
   const id=`fb_${f.id}`,v=val??"";
   if(f.type==="range")return `<label for="${id}">${esc(f.label)}: <strong id="${id}_v">${v||Math.ceil((f.min+f.max)/2)}</strong>/${f.max}</label><input id="${id}" type="range" min="${f.min}" max="${f.max}" value="${v||Math.ceil((f.min+f.max)/2)}">`;
@@ -511,7 +657,8 @@ function fieldHtml(f,val){
 function renderFeedback(){
   if(!el("feedbackArea"))return;
   el("feedbackChapterSelect").value=String(current);
-  const c=courseContent[current], schema=c?.feedback_schema||c?.practice?.feedback_fields||[];
+  const c=courseContent[current], rawSchema=c?.feedback_schema||c?.practice?.feedback_fields||[];
+  const schema=Array.isArray(rawSchema)?rawSchema:(Array.isArray(rawSchema?.fields)?rawSchema.fields:[]);
   el("feedbackChapterInfo").textContent=c?`Capítulo ${current} · ${c.title}`:`Capítulo ${current} aún no publicado`;
   if(!c||!schema.length){el("feedbackArea").innerHTML=`<div class="card"><div class="notice">El formulario de feedback aparecerá al publicarse el capítulo.</div></div>`;return;}
   const fb=state.feedback[current]||{};
@@ -539,52 +686,24 @@ function renderAll(){opts();renderLesson();renderPractice();renderFeedback();ren
 function switchTab(name){document.querySelectorAll(".tab").forEach(b=>b.classList.toggle("active",b.dataset.tab===name));document.querySelectorAll(".panel").forEach(p=>p.classList.toggle("active",p.id===name));}
 function getConfig(){try{const saved=JSON.parse(localStorage.getItem(CONFIG_KEY)||"{}");return {url:saved.url||DEFAULT_SUPABASE_CONFIG.url,key:saved.key||DEFAULT_SUPABASE_CONFIG.key};}catch(e){return {...DEFAULT_SUPABASE_CONFIG};}}
 function setCloudPill(text,cls="warn"){el("cloudStatus").textContent=text;el("cloudStatus").className=`pill ${cls}`;}
-async function refreshAccessProfile(){
-  accessProfile=null;
-  if(!sb||!session?.user?.email)return null;
-  const email=String(session.user.email).trim().toLowerCase();
-  const {data,error}=await sb.from("course_users").select("email,display_name,role,active,user_id,created_at,last_seen_at").eq("email",email).maybeSingle();
-  if(error){console.warn("No se pudo comprobar autorización",error);return null;}
-  accessProfile=data||null;
-  return accessProfile;
-}
-function applyAccessUI(){
-  const allowed=isAuthorized(),admin=isAdmin();
-  document.querySelectorAll('.tab[data-tab="curso"],.tab[data-tab="practicas"],.tab[data-tab="progreso"],.tab[data-tab="feedback"]').forEach(b=>b.classList.toggle("hidden",!allowed));
-  el("adminTabBtn").classList.toggle("hidden",!admin);
-  el("cloudConfigCard").classList.toggle("hidden",!admin);
-  const denied=!!session&&!allowed&&!passwordRecoveryMode;
-  el("accessNotice").classList.toggle("hidden",!denied);
-  el("accessNoticeText").textContent=denied?"Este correo no está autorizado o su acceso está desactivado. Solicita al administrador que lo habilite.":"";
-  const active=document.querySelector('.tab.active')?.dataset.tab;
-  if((!allowed&&active!=="nube")||(!admin&&active==="admin"))switchTab("nube");
-}
-async function handleSessionChange(event,newSession){
-  session=newSession;
-  if(event==="PASSWORD_RECOVERY"){
-    passwordRecoveryMode=true;switchTab("nube");
-    el("authMsg").textContent="Enlace de recuperación válido. Define ahora una nueva contraseña.";
-  }
-  if(session){
-    await refreshAccessProfile();
-    if(isAuthorized()){
-      loadLocal();await loadCourseContent();
-      if(event!=="PASSWORD_RECOVERY")await syncOnLogin();
-      if(isAdmin())await loadAdminData();
-    }else{state=fresh();courseContent={};renderAll();}
-  }else{accessProfile=null;state=fresh();courseContent={};renderAll();}
-  updateAuthUI();
-}
 async function initSupabase(){
   const cfg=getConfig();el("supabaseUrl").value=cfg.url||"";el("supabaseKey").value=cfg.key||"";
   if(!cfg.url||!cfg.key||!window.supabase){sb=null;session=null;setCloudPill("Nube no disponible","warn");updateAuthUI();return;}
   try{
     sb=window.supabase.createClient(cfg.url,cfg.key,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
     const {data,error}=await sb.auth.getSession();if(error)throw error;session=data.session||null;
-    if(session){await refreshAccessProfile();if(isAuthorized()){loadLocal();await loadCourseContent();await syncOnLogin();if(isAdmin())await loadAdminData();}}
-    sb.auth.onAuthStateChange((event,newSession)=>{setTimeout(()=>handleSessionChange(event,newSession),0);});
-    setCloudPill(isAuthorized()?"Nube conectada":session?"Sin autorización":"Nube configurada",isAuthorized()?"ok":"warn");updateAuthUI();
-  }catch(e){sb=null;session=null;accessProfile=null;setCloudPill("Error de nube","bad");el("configMsg").textContent=e.message||String(e);updateAuthUI();}
+    sb.auth.onAuthStateChange((event,newSession)=>{
+      session=newSession;
+      if(event==="PASSWORD_RECOVERY"){
+        passwordRecoveryMode=true;
+        switchTab("nube");
+        el("authMsg").textContent="Enlace de recuperación válido. Define ahora una nueva contraseña.";
+      }
+      updateAuthUI();
+      if(session && event!=="PASSWORD_RECOVERY")syncOnLogin();
+    });
+    setCloudPill(session?"Nube conectada":"Nube configurada",session?"ok":"warn");updateAuthUI();if(session)await syncOnLogin();
+  }catch(e){sb=null;session=null;setCloudPill("Error de nube","bad");el("configMsg").textContent=e.message||String(e);updateAuthUI();}
 }
 function updateAuthUI(){
   const logged=!!session,recovery=passwordRecoveryMode&&logged;
@@ -592,22 +711,20 @@ function updateAuthUI(){
   el("recoveryBox").classList.toggle("hidden",!recovery);
   el("loggedInBox").classList.toggle("hidden",!logged||recovery);
   el("userEmail").textContent=logged?(session.user.email||session.user.id):"";
-  el("userRole").textContent=isAdmin()?"Administrador":isAuthorized()?"Usuario":"Sin permiso";
-  el("userRole").className=`pill ${isAuthorized()?"ok":"warn"}`;
-  el("syncDetail").textContent=logged?(isAuthorized()?`Conectado como ${session.user.email}. Progreso privado de este usuario.`:`Conectado como ${session.user.email}, pero sin acceso autorizado.`):"Sin sesión.";
-  if(recovery)setCloudPill("Cambio de contraseña","warn");else if(isAuthorized())setCloudPill("Nube conectada","ok");else if(logged)setCloudPill("Sin autorización","warn");else if(sb)setCloudPill("Nube configurada","warn");
-  applyAccessUI();
+  el("syncDetail").textContent=logged?`Conectado como ${session.user.email||session.user.id}. Último dato local: ${state.updatedAt||"—"}`:"Sin sesión.";
+  if(recovery)setCloudPill("Cambio de contraseña","warn");
+  else if(logged)setCloudPill("Nube conectada","ok");
+  else if(sb)setCloudPill("Nube configurada","warn");
 }
-
 async function fetchRemote(){
-  if(!sb||!session||!isAuthorized())return null;
+  if(!sb||!session)return null;
   const {data,error}=await sb.rpc("get_course_progress_v2");
   if(error)throw error;
   const row=Array.isArray(data)?data[0]:data;
   return row||null;
 }
 async function pushCloud(showMessage=true){
-  if(!sb||!session||!isAuthorized()||!navigator.onLine){if(showMessage)el("authMsg").textContent="No hay conexión o sesión activa.";return false;}
+  if(!sb||!session||!navigator.onLine){if(showMessage)el("authMsg").textContent="No hay conexión o sesión activa.";return false;}
   await waitForSync();
   const captured=getSyncMeta();
   const patch=cloneJson(captured.pendingPatch||{});
@@ -643,7 +760,7 @@ async function pushCloud(showMessage=true){
   }finally{syncing=false;}
 }
 async function pullCloud(showMessage=true){
-  if(!sb||!session||!isAuthorized()){if(showMessage)el("authMsg").textContent="No hay una sesión autorizada.";return false;}
+  if(!sb||!session){if(showMessage)el("authMsg").textContent="No hay sesión activa.";return false;}
   await waitForSync();
   if(hasPatch(getSyncMeta().pendingPatch)){
     const ok=await pushCloud(false);
@@ -667,18 +784,16 @@ async function pullCloud(showMessage=true){
   }finally{syncing=false;}
 }
 async function syncOnLogin(){
-  if(!sb||!session||!isAuthorized())return;
+  if(!sb||!session)return;
   await waitForSync();
   const meta=getSyncMeta();
   if(hasPatch(meta.pendingPatch)){
     const ok=await pushCloud(false);if(!ok)return;
   }
-  const remote=await fetchRemote();
-  if(!remote){await replaceCloudWithState(false);return;}
   await pullCloud(false);
 }
 async function replaceCloudWithState(showMessage=true){
-  if(!sb||!session||!isAuthorized())return false;
+  if(!sb||!session)return false;
   await waitForSync();syncing=true;setCloudPill("Sincronizando…","warn");
   try{
     const {data,error}=await sb.rpc("replace_course_progress_v2",{p_data:state});
@@ -706,53 +821,6 @@ function clearSupabaseAuthStorage(){
   }catch(e){}
 }
 
-async function loadAdminData(){
-  if(!sb||!isAdmin())return;
-  el("adminMsg").textContent="Actualizando usuarios…";
-  const results=await Promise.all([
-    sb.from("course_users").select("email,display_name,role,active,user_id,created_at,last_seen_at").order("created_at"),
-    sb.from("course_progress_v2").select("user_id,data,updated_at")
-  ]);
-  const users=results[0].data,uerr=results[0].error,progress=results[1].data,perr=results[1].error;
-  if(uerr||perr){el("adminMsg").textContent=(uerr||perr).message;return;}
-  const pm=new Map((progress||[]).map(p=>[p.user_id,p]));
-  el("adminUserRows").innerHTML=(users||[]).map(u=>{
-    const p=u.user_id?pm.get(u.user_id):null,d=p?.data||{};
-    const done=Object.values(d.chapters||{}).filter(v=>v==="Completado").length;
-    const practices=Object.values(d.practices||{}).filter(Boolean).length;
-    const last=p?.updated_at||u.last_seen_at;
-    const self=String(u.email).toLowerCase()===String(session.user.email).toLowerCase();
-    const actions=self?'<span class="muted">Tu cuenta</span>':`<button class="btn smallbtn" data-action="toggle" data-email="${esc(u.email)}" data-active="${u.active}">${u.active?"Desactivar":"Activar"}</button><button class="btn smallbtn" data-action="role" data-email="${esc(u.email)}" data-role="${u.role}">${u.role==="admin"?"Hacer usuario":"Hacer admin"}</button><button class="btn smallbtn danger" data-action="remove" data-email="${esc(u.email)}">Quitar</button>`;
-    return `<tr><td><strong>${esc(u.display_name||u.email)}</strong><br><span class="muted">${esc(u.email)}</span></td><td>${u.role==="admin"?"Administrador":"Usuario"}</td><td><span class="pill ${u.active?"ok":"bad"}">${u.active?"Activo":"Desactivado"}</span></td><td>${last?formatServerTime(last):"—"}</td><td>${u.user_id?`${done} capítulos · ${practices} prácticas`:"Aún sin iniciar"}</td><td><div class="admin-actions">${actions}</div></td></tr>`;
-  }).join("");
-  el("adminMsg").textContent=`${(users||[]).length} usuario(s) autorizado(s).`;
-}
-async function authorizeUser(){
-  if(!isAdmin())return;
-  const email=el("adminEmail").value.trim().toLowerCase(),name=el("adminName").value.trim(),role=el("adminRoleSelect").value;
-  if(!email||!email.includes("@")){el("adminMsg").textContent="Introduce un correo válido.";return;}
-  const found=await sb.from("course_users").select("email").eq("email",email).maybeSingle();
-  if(found.error){el("adminMsg").textContent=found.error.message;return;}
-  let result;
-  if(found.data)result=await sb.from("course_users").update({display_name:name||null,role,active:true,updated_at:new Date().toISOString()}).eq("email",email);
-  else result=await sb.from("course_users").insert({email,display_name:name||null,role,active:true,added_by:session.user.id});
-  if(result.error){el("adminMsg").textContent=result.error.message;return;}
-  el("adminMsg").textContent=`${email} autorizado. Envíale el enlace de Curso IA para que cree su cuenta con ese mismo correo.`;
-  el("adminEmail").value="";el("adminName").value="";await loadAdminData();
-}
-async function adminUserAction(action,email,active,role){
-  if(!isAdmin())return;
-  let result={error:null};
-  if(action==="toggle")result=await sb.from("course_users").update({active:!active,updated_at:new Date().toISOString()}).eq("email",email);
-  if(action==="role")result=await sb.from("course_users").update({role:role==="admin"?"member":"admin",updated_at:new Date().toISOString()}).eq("email",email);
-  if(action==="remove"){
-    if(!confirm(`¿Quitar el acceso a ${email}?`))return;
-    result=await sb.from("course_users").delete().eq("email",email);
-  }
-  el("adminMsg").textContent=result.error?result.error.message:"Cambio guardado.";
-  if(!result.error)await loadAdminData();
-}
-
 function authMessage(error){
   if(!error)return "";
   const code=error.code||"";
@@ -765,13 +833,13 @@ function authMessage(error){
 }
 
 // UI
-document.querySelectorAll(".tab").forEach(b=>b.addEventListener("click",()=>{switchTab(b.dataset.tab);if(b.dataset.tab==="admin"&&isAdmin())loadAdminData();}));
+document.querySelectorAll(".tab").forEach(b=>b.addEventListener("click",()=>switchTab(b.dataset.tab)));
 el("chapterSelect").addEventListener("change",e=>{current=Number(e.target.value);renderAll();});
 el("practiceChapterSelect").addEventListener("change",e=>{current=Number(e.target.value);renderAll();});
 el("feedbackChapterSelect").addEventListener("change",e=>{current=Number(e.target.value);renderAll();});
 el("chapterStatus").addEventListener("change",e=>{state.chapters[current]=e.target.value;saveLocal();renderProgress();});
 el("notes").addEventListener("input",e=>{state.notes[current]=e.target.value;saveLocal();});
-el("syncNowBtn").addEventListener("click",async()=>{if(!isAuthorized()){switchTab("nube");el("authMsg").textContent="Inicia sesión con un correo autorizado para sincronizar.";return;}await syncOnLogin();});
+el("syncNowBtn").addEventListener("click",async()=>{if(!session){switchTab("nube");el("authMsg").textContent="Inicia sesión para sincronizar.";return;}await syncOnLogin();});
 el("saveCloudConfigBtn").addEventListener("click",async()=>{const url=el("supabaseUrl").value.trim(),key=el("supabaseKey").value.trim();if(!url||!key){el("configMsg").textContent="Introduce URL y publishable key.";return;}if(/service_role/i.test(key)){el("configMsg").textContent="No uses una service_role key en el navegador.";return;}localStorage.setItem(CONFIG_KEY,JSON.stringify({url,key}));el("configMsg").textContent="Configuración guardada.";await initSupabase();await loadCourseContent();});
 el("clearCloudConfigBtn").addEventListener("click",async()=>{
   if(sb)try{await sb.auth.signOut({scope:"local"});}catch(e){}
@@ -788,7 +856,7 @@ el("signInBtn").addEventListener("click",async()=>{
   if(!email||!password){el("authMsg").textContent="Introduce correo y contraseña.";return;}
   el("authMsg").textContent="Comprobando acceso…";
   const {error}=await sb.auth.signInWithPassword({email,password});
-  el("authMsg").textContent=error?authMessage(error):"Sesión iniciada. Comprobando autorización…";
+  el("authMsg").textContent=error?authMessage(error):"Sesión iniciada. Sincronizando…";
 });
 el("signUpBtn").addEventListener("click",async()=>{
   if(!sb){el("authMsg").textContent="La nube no está configurada.";return;}
@@ -798,8 +866,8 @@ el("signUpBtn").addEventListener("click",async()=>{
   const {data,error}=await sb.auth.signUp({email,password,options:{emailRedirectTo:APP_URL}});
   if(error){el("authMsg").textContent=authMessage(error);return;}
   el("authMsg").textContent=data.session
-    ?"Cuenta creada. Se comprobará ahora si este correo está autorizado."
-    :"Si el correo estaba previamente autorizado y la cuenta es nueva, recibirás un correo de confirmación. Crear una cuenta no concede permiso al curso.";
+    ?"Cuenta creada e iniciada."
+    :"Si la cuenta es nueva, recibirás un correo de confirmación. Si ya existía, «Crear cuenta» no cambia su contraseña: usa «Entrar» o «Recuperar contraseña».";
 });
 el("forgotPasswordBtn").addEventListener("click",async()=>{
   if(!sb){el("authMsg").textContent="La nube no está configurada.";return;}
@@ -844,9 +912,7 @@ el("signOutBtn").addEventListener("click",async()=>{
   }
   clearSupabaseAuthStorage();
   session=null;
-  accessProfile=null;
   passwordRecoveryMode=false;
-  state=fresh();courseContent={};renderAll();
   updateAuthUI();
   if(sb)setCloudPill("Nube configurada","warn");
   el("authMsg").textContent=serverWarning
@@ -855,10 +921,6 @@ el("signOutBtn").addEventListener("click",async()=>{
 });
 el("cloudPullBtn").addEventListener("click",async()=>{await pullCloud(true);});
 el("cloudPushBtn").addEventListener("click",async()=>{await pushCloud(true);});
-el("authorizeUserBtn").addEventListener("click",authorizeUser);
-el("refreshAdminBtn").addEventListener("click",loadAdminData);
-el("copyAppLinkBtn").addEventListener("click",async()=>{try{await navigator.clipboard.writeText(APP_URL);el("adminMsg").textContent="Enlace copiado: "+APP_URL;}catch(e){el("adminMsg").textContent=APP_URL;}});
-el("adminUserRows").addEventListener("click",async e=>{const b=e.target.closest("button[data-action]");if(!b)return;await adminUserAction(b.dataset.action,b.dataset.email,b.dataset.active==="true",b.dataset.role);});
 el("exportBtn").addEventListener("click",()=>{const blob=new Blob([JSON.stringify(state,null,2)],{type:"application/json"});const url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="curso-ia-progreso.json";a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);el("backupMsg").textContent="Copia exportada.";});
 el("importFile").addEventListener("change",e=>{const f=e.target.files&&e.target.files[0];if(!f)return;const r=new FileReader();r.onload=async()=>{try{state=mergeState(JSON.parse(String(r.result)));saveLocal(false);setSyncMeta({pendingPatch:{},seq:(getSyncMeta().seq||0)+1});renderAll();if(session)await replaceCloudWithState(false);el("backupMsg").textContent="Copia importada.";}catch(err){el("backupMsg").textContent="Archivo no válido.";}};r.readAsText(f);});
 el("resetBtn").addEventListener("click",async()=>{if(confirm("¿Borrar todo el progreso? Esta acción sustituirá también el estado de la nube si tienes sesión.")){state=fresh();saveLocal(false);setSyncMeta({pendingPatch:{},seq:(getSyncMeta().seq||0)+1});renderAll();if(session)await replaceCloudWithState(true);}});
@@ -866,7 +928,7 @@ window.addEventListener("online",()=>{loadCourseContent();if(session)syncOnLogin
 
 if(window.matchMedia&&window.matchMedia("(display-mode: standalone)").matches)el("installHint").classList.add("hidden");
 loadLocal();opts();renderAll();
-initSupabase();
+initSupabase().then(loadCourseContent);
 if("serviceWorker" in navigator&&location.protocol.startsWith("http"))navigator.serviceWorker.register("./sw.js").catch(()=>{});
 
 </script>
