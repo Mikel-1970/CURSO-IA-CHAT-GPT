@@ -48,3 +48,13 @@ Recuperación de contraseña, reenvío de confirmación y mensajes de error espe
 - Si se modifica una respuesta después de comprobarla, se invalida sólo esa comprobación y debe repetirse.
 
 - Si una práctica antigua estaba marcada como realizada pero sus comprobaciones no existían (v7 o anteriores), v8 reconstruye una vez los resultados desde las respuestas guardadas y los sincroniza.
+
+
+## v9 — multiusuario privado
+- Acceso al contenido solo para correos autorizados.
+- Roles Administrador y Usuario.
+- Panel para autorizar, activar/desactivar, cambiar rol y quitar acceso.
+- Progreso local separado por cuenta en el mismo navegador.
+- Progreso en Supabase separado mediante RLS.
+- El administrador ve un resumen de progreso sin modificar el trabajo de otros.
+- Alta: primero autorizar el correo; después el usuario crea cuenta y confirma email.
