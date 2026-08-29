@@ -1,0 +1,12 @@
+{
+  "app_version": 11,
+  "name": "Curso IA",
+  "features": [
+    "multiusuario privado",
+    "panel de administracion",
+    "contenido dinamico",
+    "practicas dinamicas",
+    "feedback dinamico",
+    "aviso de nuevo capitulo"
+  ]
+}

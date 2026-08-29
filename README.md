@@ -58,3 +58,13 @@ Recuperación de contraseña, reenvío de confirmación y mensajes de error espe
 - Las comprobaciones quedan guardadas y sincronizadas por usuario.
 - El feedback del Capítulo 2 acepta el esquema publicado en Supabase.
 - El progreso de la práctica 2 se guarda igual que el del Capítulo 1.
+
+
+## v11 — multiusuario real + capítulos dinámicos
+- Panel Administración visible solo a administradores.
+- Lista privada de correos autorizados; usuarios no autorizados no reciben contenido desde Supabase.
+- Estado local, caché y sincronización separados por usuario.
+- Teoría y feedback ya son completamente dinámicos desde `course_content`.
+- Prácticas de futuros capítulos usan el esquema genérico `practice.sections`/`practice.exercises`, sin actualizar GitHub.
+- Aviso emergente al abrir la app cuando hay un capítulo publicado que el usuario aún no había visto.
+- El aviso permite ir directamente al nuevo capítulo o posponerlo.

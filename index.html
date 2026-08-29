@@ -21,13 +21,15 @@
 .updated{font-size:.8rem;color:var(--muted);margin-top:12px}
 @media(max-width:720px){.compare,.feedback-grid{grid-template-columns:1fr}}
 @media(max-width:720px){.grid,.twocol,.stats{grid-template-columns:1fr}.app{padding:10px}.qrow{grid-template-columns:minmax(0,1fr) 78px}.qrow .result{grid-column:1/-1;margin-top:-3px}}
+
+.access-note{background:#fff7ed;border:1px solid #fdba74;border-radius:12px;padding:12px;margin-bottom:14px}.admin-grid{display:grid;grid-template-columns:1fr 1fr 160px;gap:10px}.admin-actions{display:flex;gap:6px;flex-wrap:wrap}.admin-actions .btn{min-height:36px;padding:6px 9px;font-size:.82rem}.badge{display:inline-block;border-radius:999px;padding:3px 7px;font-size:.76rem;font-weight:700;background:#eef2ff}.badge.admin{background:#ede9fe;color:#5b21b6}.badge.off{background:#fee2e2;color:#991b1b}dialog.chapter-dialog{border:0;border-radius:16px;padding:0;max-width:520px;width:calc(100% - 28px);box-shadow:0 18px 60px rgba(0,0,0,.25)}dialog.chapter-dialog::backdrop{background:rgba(15,23,42,.45)}.dialog-body{padding:20px}.dialog-list{margin:12px 0;padding-left:22px}.dialog-list li{margin:6px 0}.profile-line{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:8px}@media(max-width:720px){.admin-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <div id="app" class="app">
 <header class="card">
-  <h1>Curso IA – ChatGPT práctico <span class="pill ok">v8</span></h1>
-  <div class="muted">Curso, prácticas, notas y progreso sincronizable</div>
+  <h1>Curso IA – ChatGPT práctico <span class="pill ok">v11</span></h1>
+  <div class="muted">Curso privado multiusuario · contenido y prácticas actualizables desde la nube</div>
   <div style="display:flex;justify-content:space-between;gap:10px;margin:14px 0 7px"><strong>Progreso global</strong><span id="progressText">0 / 16 capítulos</span></div>
   <div class="progress"><i id="progressBar"></i></div>
   <div class="cloudbar">
@@ -37,14 +39,17 @@
   </div>
 </header>
 
+<div id="accessBanner" class="access-note hidden"></div>
+
 <div id="installHint" class="banner"><strong>Instalar:</strong> cuando la app esté publicada por HTTPS, en iPhone usa Safari → Compartir → Añadir a pantalla de inicio.</div>
 
 <nav class="tabs" aria-label="Secciones">
-  <button class="tab active" data-tab="curso" type="button">Curso</button>
-  <button class="tab" data-tab="practicas" type="button">Prácticas</button>
-  <button class="tab" data-tab="progreso" type="button">Progreso</button>
-  <button class="tab" data-tab="feedback" type="button">Feedback</button>
+  <button class="tab privateTab active" data-tab="curso" type="button">Curso</button>
+  <button class="tab privateTab" data-tab="practicas" type="button">Prácticas</button>
+  <button class="tab privateTab" data-tab="progreso" type="button">Progreso</button>
+  <button class="tab privateTab" data-tab="feedback" type="button">Feedback</button>
   <button class="tab" data-tab="nube" type="button">Nube</button>
+  <button id="adminTab" class="tab hidden" data-tab="administracion" type="button">Administración</button>
 </nav>
 
 <section id="curso" class="panel active">
@@ -111,9 +116,9 @@
     <div id="loggedOutBox">
       <label for="authEmail">Correo</label><input id="authEmail" type="email" autocomplete="email">
       <label for="authPassword">Contraseña</label><input id="authPassword" type="password" autocomplete="current-password" minlength="8">
-      <div class="btnrow"><button id="signInBtn" class="btn primary" type="button">Entrar</button><button id="signUpBtn" class="btn" type="button">Crear cuenta</button></div>
+      <div class="btnrow"><button id="signInBtn" class="btn primary" type="button">Entrar</button><button id="signUpBtn" class="btn" type="button">Crear cuenta autorizada</button></div>
       <div class="btnrow"><button id="forgotPasswordBtn" class="btn" type="button">Recuperar contraseña</button><button id="resendConfirmBtn" class="btn" type="button">Reenviar confirmación</button></div>
-      <p class="muted">Si ya existe una cuenta, pulsar «Crear cuenta» otra vez no cambia su contraseña.</p>
+      <p class="muted">El registro solo da acceso al curso si el correo ha sido autorizado previamente por un administrador. Si la cuenta ya existe, «Crear cuenta autorizada» no cambia su contraseña.</p>
     </div>
     <div id="recoveryBox" class="hidden">
       <p><strong>Define una nueva contraseña</strong></p>
@@ -122,7 +127,7 @@
       <div class="btnrow"><button id="setNewPasswordBtn" class="btn primary" type="button">Guardar nueva contraseña</button></div>
     </div>
     <div id="loggedInBox" class="hidden">
-      <p>Sesión: <strong id="userEmail"></strong></p>
+      <p>Sesión: <strong id="userEmail"></strong></p><div id="userProfileLine" class="profile-line"></div>
       <div class="btnrow"><button id="cloudPullBtn" class="btn" type="button">Descargar nube</button><button id="cloudPushBtn" class="btn" type="button">Subir cambios de este dispositivo</button><button id="signOutBtn" class="btn danger" type="button">Cerrar sesión</button></div>
     </div>
     <div id="authMsg" class="muted" style="margin-top:8px"></div>
@@ -131,9 +136,35 @@
   <div class="card">
     <h3>Estado de sincronización</h3>
     <p id="syncDetail" class="muted">Sin sesión.</p>
-    <p class="muted">Estrategia v10: <strong>multiusuario privado + fusión atómica</strong>. Cada usuario conserva respuestas, comprobaciones, prácticas, feedback y notas; el Capítulo 2 incorpora prácticas completas y persistentes.</p>
+    <p class="muted">Estrategia v11: <strong>multiusuario privado + contenido dinámico</strong>. Los capítulos, prácticas y formularios de feedback se publican desde Supabase sin reinstalar la app. Cada usuario mantiene su progreso separado.</p>
   </div>
 </section>
+
+<section id="administracion" class="panel">
+  <div class="card">
+    <h2>Administración de usuarios</h2>
+    <p class="muted">Autoriza previamente los correos que podrán utilizar Curso IA. Cada persona tendrá su propio progreso y sincronización.</p>
+    <div class="admin-grid">
+      <div><label for="adminEmail">Correo autorizado</label><input id="adminEmail" type="email" placeholder="persona@empresa.com"></div>
+      <div><label for="adminName">Nombre</label><input id="adminName" type="text" placeholder="Nombre y apellidos"></div>
+      <div><label for="adminRole">Rol</label><select id="adminRole"><option value="member">Usuario</option><option value="admin">Administrador</option></select></div>
+    </div>
+    <div class="btnrow"><button id="adminAddBtn" class="btn primary" type="button">Autorizar usuario</button><button id="adminRefreshBtn" class="btn" type="button">Actualizar listado</button><button id="copyAppLinkBtn" class="btn" type="button">Copiar enlace de la app</button></div>
+    <div id="adminMsg" class="muted" style="margin-top:8px"></div>
+  </div>
+  <div class="card tablewrap">
+    <table><thead><tr><th>Usuario</th><th>Rol</th><th>Acceso</th><th>Registro</th><th>Última actividad</th><th>Progreso</th><th>Acciones</th></tr></thead><tbody id="adminUsersBody"></tbody></table>
+  </div>
+</section>
+
+<dialog id="newChapterDialog" class="chapter-dialog">
+  <div class="dialog-body">
+    <h2 id="newChapterTitle">Nuevo capítulo disponible</h2>
+    <p id="newChapterText"></p>
+    <ul id="newChapterList" class="dialog-list"></ul>
+    <div class="btnrow"><button id="openNewChapterBtn" class="btn primary" type="button">Ir al capítulo</button><button id="dismissNewChapterBtn" class="btn" type="button">Ahora no</button></div>
+  </div>
+</dialog>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.4/dist/umd/supabase.min.js"></script>
@@ -142,19 +173,23 @@
 "use strict";
 const FALLBACK_CHAPTERS=[["Qué es realmente ChatGPT", "Fortalezas, limitaciones, tipos de tareas y control de errores."], ["Cómo dar instrucciones eficaces", "Contexto, objetivo, datos, condiciones y formato."], ["Trabajar por iteraciones", "Conversación, crítica, corrección y refinamiento progresivo."], ["Control de errores y fiabilidad", "Fuentes, hipótesis, verificación y segunda comprobación."], ["Investigación técnica y web", "Normativa, fabricantes, fuentes oficiales e información actualizada."], ["PDF, Word y documentación", "Comparar, resumir, extraer y actualizar documentos técnicos."], ["Excel, datos y cálculos", "Análisis de hojas, presupuestos, costes, horas y rentabilidad."], ["Procesamiento masivo", "Facturas, extracción de datos, duplicados y validación."], ["IA para jefatura de proyecto", "Planificación, actas, riesgos, acciones y seguimiento."], ["Personalización y memoria", "Instrucciones, contexto persistente y reglas de trabajo."], ["Organización mediante proyectos", "Separación de contextos profesionales y personales."], ["Correo, calendario y conectores", "Clasificación, preparación de reuniones y gestión asistida."], ["Tareas programadas y vigilancia", "Seguimientos periódicos y alertas sobre cambios."], ["Diseñar procesos con IA", "Flujos de trabajo y puntos de control humano."], ["Aplicaciones y automatización", "De la conversación a herramientas específicas."], ["Plan de implantación de IA", "Mapa de procesos, prioridades, riesgos y plan de despliegue."]];
 const DEFAULT_SUPABASE_CONFIG={url:"https://lijilkdfdpbezergsdly.supabase.co",key:"sb_publishable_T3Uq3IPz_svsdMvKJrTuYg_Fgh99Yfp"};
-const KEY="cursoIA_cloud_v3",CONFIG_KEY="cursoIA_supabase_config_v1",CONTENT_CACHE_KEY="cursoIA_content_cache_v1",SYNC_META_KEY="cursoIA_sync_meta_v1";
+const KEY_BASE="cursoIA_progress_v11",CONFIG_KEY="cursoIA_supabase_config_v1",CONTENT_CACHE_BASE="cursoIA_content_cache_v11",SYNC_META_BASE="cursoIA_sync_meta_v11";
 const START=new Date(Date.UTC(2026,7,28));
 const APP_URL="https://mikel-1970.github.io/CURSO-IA-CHAT-GPT/";
 const el=id=>document.getElementById(id);
-let state=fresh(), current=1, courseContent={}, sb=null, session=null, syncing=false, passwordRecoveryMode=false, saveTimer=null;
+let state=fresh(), current=1, courseContent={}, sb=null, session=null, syncing=false, passwordRecoveryMode=false, saveTimer=null, accessProfile=null, isAdmin=false, pendingNewChapters=[];
 
 function fresh(){
-  return {version:4,chapters:{1:"En curso"},practices:{},notes:{},answers:{},feedback:{},checks:{},updatedAt:new Date().toISOString()};
+  return {version:5,chapters:{1:"En curso"},practices:{},notes:{},answers:{},feedback:{},checks:{},contentSeen:{},updatedAt:new Date().toISOString()};
 }
 function mergeState(raw){
   const base=fresh(), x=raw&&typeof raw==="object"?raw:{};
-  return {...base,...x,version:Math.max(4,Number(x.version)||0),chapters:{...base.chapters,...(x.chapters||{})},practices:{...(x.practices||{})},notes:{...(x.notes||{})},answers:{...base.answers,...(x.answers||{})},feedback:{...(x.feedback||{})},checks:{...(x.checks||{})}};
+  return {...base,...x,version:Math.max(5,Number(x.version)||0),chapters:{...base.chapters,...(x.chapters||{})},practices:{...(x.practices||{})},notes:{...(x.notes||{})},answers:{...base.answers,...(x.answers||{})},feedback:{...(x.feedback||{})},checks:{...(x.checks||{})},contentSeen:{...(x.contentSeen||{})}};
 }
+function userToken(){return session?.user?.id||"guest";}
+function progressStorageKey(){return `${KEY_BASE}_${userToken()}`;}
+function contentStorageKey(){return `${CONTENT_CACHE_BASE}_${userToken()}`;}
+function syncMetaStorageKey(){return `${SYNC_META_BASE}_${userToken()}`;}
 function isPlainObject(v){return !!v&&typeof v==="object"&&!Array.isArray(v);}
 function cloneJson(v){return v===undefined?undefined:JSON.parse(JSON.stringify(v));}
 function deepMergeClient(a,b){
@@ -180,16 +215,16 @@ function diffPatch(oldV,newV){
   return jsonEqual(oldV,newV)?{}:cloneJson(newV);
 }
 function hasPatch(p){return isPlainObject(p)&&Object.keys(p).length>0;}
-function defaultSyncMeta(){return {syncVersion:8,pendingPatch:{},seq:0,lastServerAt:null};}
+function defaultSyncMeta(){return {syncVersion:11,pendingPatch:{},seq:0,lastServerAt:null};}
 function getSyncMeta(){
   try{
-    const raw=JSON.parse(localStorage.getItem(SYNC_META_KEY)||"{}");
-    return raw.syncVersion===8?{...defaultSyncMeta(),...raw}:defaultSyncMeta();
+    const raw=JSON.parse(localStorage.getItem(syncMetaStorageKey())||"{}");
+    return raw.syncVersion===11?{...defaultSyncMeta(),...raw}:defaultSyncMeta();
   }catch(e){return defaultSyncMeta();}
 }
 function setSyncMeta(patch){
-  const next={...getSyncMeta(),...patch,syncVersion:8};
-  try{localStorage.setItem(SYNC_META_KEY,JSON.stringify(next));}catch(e){}
+  const next={...getSyncMeta(),...patch,syncVersion:11};
+  try{localStorage.setItem(syncMetaStorageKey(),JSON.stringify(next));}catch(e){}
   return next;
 }
 function formatServerTime(iso){
@@ -202,20 +237,25 @@ async function waitForSync(){
   while(syncing&&Date.now()-start<10000)await new Promise(r=>setTimeout(r,100));
 }
 function loadLocal(){
+  state=fresh();courseContent={};
+  if(!session){
+    el("localStatus").textContent="Sin usuario";el("localStatus").className="pill warn";
+    return;
+  }
   try{
-    const raw=localStorage.getItem(KEY);
+    const raw=localStorage.getItem(progressStorageKey());
     if(raw)state=mergeState(JSON.parse(raw));
     el("localStatus").textContent="Guardado local";el("localStatus").className="pill ok";
   }catch(e){el("localStatus").textContent="Error guardado local";el("localStatus").className="pill bad";}
-  try{const cached=JSON.parse(localStorage.getItem(CONTENT_CACHE_KEY)||"[]");if(Array.isArray(cached))cached.forEach(c=>courseContent[c.chapter_number]=c);}catch(e){}
+  try{const cached=JSON.parse(localStorage.getItem(contentStorageKey())||"[]");if(Array.isArray(cached))cached.forEach(c=>courseContent[c.chapter_number]=c);}catch(e){}
   try{
-    const oldMeta=JSON.parse(localStorage.getItem(SYNC_META_KEY)||"{}");
-    if(oldMeta.syncVersion!==8)localStorage.setItem(SYNC_META_KEY,JSON.stringify(defaultSyncMeta()));
-  }catch(e){try{localStorage.setItem(SYNC_META_KEY,JSON.stringify(defaultSyncMeta()));}catch(_){} }
+    const oldMeta=JSON.parse(localStorage.getItem(syncMetaStorageKey())||"{}");
+    if(oldMeta.syncVersion!==11)localStorage.setItem(syncMetaStorageKey(),JSON.stringify(defaultSyncMeta()));
+  }catch(e){try{localStorage.setItem(syncMetaStorageKey(),JSON.stringify(defaultSyncMeta()));}catch(_){} }
 }
 function saveLocal(scheduleCloud=true){
   let previous=fresh();
-  try{const raw=localStorage.getItem(KEY);if(raw)previous=mergeState(JSON.parse(raw));}catch(e){}
+  try{const raw=localStorage.getItem(progressStorageKey());if(raw)previous=mergeState(JSON.parse(raw));}catch(e){}
   if(scheduleCloud){
     const patch=diffPatch(previous,state);
     if(hasPatch(patch)){
@@ -224,7 +264,7 @@ function saveLocal(scheduleCloud=true){
     }
     state.updatedAt=new Date().toISOString();
   }
-  try{localStorage.setItem(KEY,JSON.stringify(state));el("localStatus").textContent="Guardado local";el("localStatus").className="pill ok";}catch(e){}
+  try{localStorage.setItem(progressStorageKey(),JSON.stringify(state));el("localStatus").textContent="Guardado local";el("localStatus").className="pill ok";}catch(e){}
   if(scheduleCloud&&session){clearTimeout(saveTimer);saveTimer=setTimeout(()=>pushCloud(false),700);}
 }
 
@@ -257,22 +297,23 @@ function checkedLabel(iso){
   }catch(e){return "";}
 }
 
-async function loadCourseContent(){
-  const cfg=getConfig();
-  if(!window.supabase||!cfg.url||!cfg.key){renderAll();return;}
+async function loadCourseContent(showNotice=false){
+  if(!sb||!session||!accessProfile?.active){courseContent={};opts();renderAll();return false;}
   try{
-    const contentClient=sb||window.supabase.createClient(cfg.url,cfg.key,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
-    const {data,error}=await contentClient.from("course_content").select("chapter_number,title,objective,content_html,practice,feedback_schema,version,updated_at").order("chapter_number");
+    const {data,error}=await sb.from("course_content").select("chapter_number,title,objective,content_html,practice,feedback_schema,version,updated_at").order("chapter_number");
     if(error)throw error;
     if(Array.isArray(data)){
       courseContent={}; data.forEach(c=>courseContent[c.chapter_number]=c);
-      localStorage.setItem(CONTENT_CACHE_KEY,JSON.stringify(data));
-      opts(); renderAll();
+      localStorage.setItem(contentStorageKey(),JSON.stringify(data));
+      opts();renderAll();
+      if(showNotice)maybeShowNewChapterDialog();
+      return true;
     }
   }catch(e){
     console.warn("No se pudo actualizar el contenido:",e);
-    opts(); renderAll();
+    opts();renderAll();return false;
   }
+  return false;
 }
 
 function renderLesson(){
@@ -291,8 +332,9 @@ function renderPractice(){
   const c=courseContent[current], p=c?.practice||{};
   if(!c){el("practiceArea").innerHTML=`<div class="card"><h2>Práctica ${current}</h2><div class="notice">Se incorporará automáticamente al publicar el capítulo.</div></div>`;return;}
   if(current===1 && p.classification) return renderPractice1(p);
+  if(Array.isArray(p.sections)||Array.isArray(p.exercises)) return renderGenericPractice(p,current);
   if(current===2 && (p.short_exercises||p.rewrite_exercise||p.real_case)) return renderPractice2(p);
-  el("practiceArea").innerHTML=`<div class="card"><h2>Práctica ${current} — ${esc(c.title)}</h2><div class="notice">La práctica de este capítulo se cargará desde el contenido publicado.</div><label>Notas / preparación</label><textarea id="genericPractice" rows="6"></textarea><button id="genericDone" class="btn ok" type="button" style="margin-top:10px">Marcar realizada</button></div>`;
+  el("practiceArea").innerHTML=`<div class="card"><h2>Práctica ${current} — ${esc(c.title)}</h2><div class="notice">Este capítulo está publicado, pero su práctica aún no usa el esquema dinámico compatible.</div></div>`;
   el("genericPractice").value=state.answers["g"+current]||"";
   el("genericPractice").addEventListener("input",e=>{state.answers["g"+current]=e.target.value;saveLocal();});
   el("genericDone").addEventListener("click",()=>{state.practices[current]=true;saveLocal();renderProgress();});
@@ -647,6 +689,81 @@ function renderPractice2(p){
   if(state.practices[chapter])el("p2DoneMsg").textContent="Práctica 2 ya marcada como realizada.";
 }
 
+function normalizePracticeSections(p){
+  if(Array.isArray(p?.sections))return p.sections;
+  if(Array.isArray(p?.exercises))return [{id:"main",title:p.title||"Práctica",description:p.instructions||"",exercises:p.exercises}];
+  return [];
+}
+function renderGenericPractice(p,chapter){
+  const sections=normalizePracticeSections(p),checks=practiceChecks(chapter);
+  if(!sections.length){
+    el("practiceArea").innerHTML=`<div class="card"><div class="notice">La práctica publicada no utiliza todavía el esquema dinámico compatible. El contenido teórico sí está disponible.</div></div>`;return;
+  }
+  const akey=(id,suffix="")=>`ch${chapter}_${id}${suffix}`;
+  const labelsFor=ex=>Array.isArray(ex.rubric_labels)?ex.rubric_labels:(Array.isArray(ex.requirements)?ex.requirements:(Array.isArray(ex.rubric)?ex.rubric:[]));
+  const groupsFor=ex=>Array.isArray(ex.rubric_groups)?ex.rubric_groups:[];
+  const scoreOpen=(ex,text)=>{
+    const groups=groupsFor(ex),score=rubricScore(text,groups),total=score.total||1,ratio=Number(ex.min_ratio??0.5),need=Math.max(1,Math.ceil(total*ratio));
+    const labels=labelsFor(ex),t=norm(text),missing=labels.filter((_,i)=>groups[i]&&!groups[i].some(k=>t.includes(norm(k))));
+    return {type:"open",checked:true,checkedAt:new Date().toISOString(),contentVersion:courseContent[chapter]?.version||null,hit:score.hit,total,pass:groups.length?score.hit>=need:text.trim().length>=Number(ex.min_length||20),missing};
+  };
+  const resultHtml=(ex,res)=>{
+    if(!res)return "";
+    if(res.type==="choice")return `<div class="rubric ${res.correct?"good":"review"}"><strong>${res.correct?"Correcto":"Revisar"}.</strong> ${esc(res.explanation||ex.explanation||"")}<br><span class="muted">Resultado guardado${checkedLabel(res.checkedAt)}</span></div>`;
+    if(res.type==="classification")return `<div class="rubric ${res.correct===res.total?"good":"review"}"><strong>Resultado: ${res.correct}/${res.total}</strong>${res.details?.length?`<br><span class="muted">Revisar: ${res.details.map(esc).join(" · ")}</span>`:""}<br><span class="muted">Resultado guardado${checkedLabel(res.checkedAt)}</span></div>`;
+    return `<div class="rubric ${res.pass?"good":"review"}"><strong>${res.pass?"Respuesta bien planteada":"Conviene completar la respuesta"}</strong>${res.total?` · criterios detectados ${res.hit}/${res.total}`:""}${res.missing?.length?`<br><span class="muted">Aspectos a revisar: ${res.missing.map(esc).join(" · ")}</span>`:""}<br><span class="muted">Corrección orientativa${checkedLabel(res.checkedAt)}</span></div>`;
+  };
+  let body=`<div class="card"><h2>${esc(p.title||`Práctica del capítulo ${chapter}`)}</h2><p class="muted">${esc(p.instructions||"Responde primero y utiliza después la comprobación.")}</p></div>`;
+  sections.forEach((section,si)=>{
+    body+=`<div class="card"><h3>${esc(section.title||`Bloque ${si+1}`)}</h3>${section.description?`<p class="muted">${esc(section.description)}</p>`:""}`;
+    (section.exercises||[]).forEach((ex,ei)=>{
+      const id=String(ex.id||`${si+1}_${ei+1}`),type=ex.type||"open";
+      body+=`<div class="mini" style="margin-bottom:14px" data-generic-ex="${esc(id)}"><strong>${esc(ex.label||id)}</strong><p>${esc(ex.question||ex.prompt||"")}</p>`;
+      if(type==="choice"){
+        const options=Array.isArray(ex.options)&&ex.options.length?ex.options:["A","B","C"];
+        body+=`<select data-gen-choice="${esc(id)}"><option value=""></option>${options.map(o=>{const val=isPlainObject(o)?o.value:o,label=isPlainObject(o)?o.label:o;return `<option value="${esc(val)}">${esc(label)}</option>`;}).join("")}</select>`;
+        if(ex.require_reason)body+=`<label>Motivo</label><textarea rows="3" data-gen-reason="${esc(id)}"></textarea>`;
+      }else if(type==="classification"){
+        body+=(ex.items||[]).map((it,ii)=>`<div class="qrow"><span>${ii+1}. ${esc(it.text||it.question||"")}</span><select data-gen-class="${esc(id)}" data-index="${ii}"><option value=""></option>${(ex.options||["A","B","C"]).map(o=>`<option value="${esc(o)}">${esc(o)}</option>`).join("")}</select><span></span></div>`).join("");
+      }else{
+        body+=`<textarea rows="${Number(ex.rows||5)}" data-gen-open="${esc(id)}"></textarea>`;
+      }
+      body+=`<div class="btnrow"><button class="btn primary" data-gen-check="${esc(id)}" type="button">${(ex.answer||groupsFor(ex).length||type==="classification")?"Comprobar":"Guardar respuesta"}</button></div><div data-gen-result="${esc(id)}"></div></div>`;
+    });
+    body+=`</div>`;
+  });
+  body+=`<div class="card"><button id="genericPracticeDone" class="btn ok" type="button">Marcar práctica realizada</button><div id="genericPracticeDoneMsg" class="muted" style="margin-top:8px"></div></div>`;
+  el("practiceArea").innerHTML=body;
+  sections.forEach((section,si)=>(section.exercises||[]).forEach((ex,ei)=>{
+    const id=String(ex.id||`${si+1}_${ei+1}`),type=ex.type||"open",resultNode=document.querySelector(`[data-gen-result="${CSS.escape(id)}"]`);
+    const paint=()=>{if(resultNode)resultNode.innerHTML=resultHtml(ex,checks[id]);};
+    if(type==="choice"){
+      const node=document.querySelector(`[data-gen-choice="${CSS.escape(id)}"]`),reason=document.querySelector(`[data-gen-reason="${CSS.escape(id)}"]`);
+      node.value=state.answers[akey(id)]||"";if(reason)reason.value=state.answers[akey(id,"_reason")]||"";
+      node.addEventListener("change",e=>{state.answers[akey(id)]=e.target.value;checks[id]=null;saveLocal();paint();});
+      if(reason)reason.addEventListener("input",e=>{state.answers[akey(id,"_reason")]=e.target.value;checks[id]=null;saveLocal();paint();});
+    }else if(type==="classification"){
+      document.querySelectorAll(`[data-gen-class="${CSS.escape(id)}"]`).forEach(node=>{const ii=Number(node.dataset.index);node.value=state.answers[akey(id,`_${ii}`)]||"";node.addEventListener("change",e=>{state.answers[akey(id,`_${ii}`)]=e.target.value;checks[id]=null;saveLocal();paint();});});
+    }else{
+      const node=document.querySelector(`[data-gen-open="${CSS.escape(id)}"]`);node.value=state.answers[akey(id)]||"";node.addEventListener("input",e=>{state.answers[akey(id)]=e.target.value;checks[id]=null;saveLocal();paint();});
+    }
+    document.querySelector(`[data-gen-check="${CSS.escape(id)}"]`).addEventListener("click",()=>{
+      let res;
+      if(type==="choice"){
+        const value=state.answers[akey(id)]||"";res={type:"choice",checked:true,checkedAt:new Date().toISOString(),contentVersion:courseContent[chapter]?.version||null,correct:ex.answer?String(value)===String(ex.answer):true,explanation:ex.explanation||""};
+      }else if(type==="classification"){
+        let correct=0;const details=[];(ex.items||[]).forEach((it,ii)=>{const v=state.answers[akey(id,`_${ii}`)]||"";if(String(v)===String(it.answer))correct++;else details.push(`${ii+1}: ${it.explanation||`respuesta esperada ${it.answer}`}`);});res={type:"classification",checked:true,checkedAt:new Date().toISOString(),contentVersion:courseContent[chapter]?.version||null,correct,total:(ex.items||[]).length,details};
+      }else{
+        const value=state.answers[akey(id)]||"";res=scoreOpen(ex,value);
+      }
+      checks[id]=res;saveLocal();paint();
+    });
+    paint();
+  }));
+  el("genericPracticeDone").addEventListener("click",()=>{state.practices[chapter]=true;saveLocal();renderProgress();el("genericPracticeDoneMsg").textContent="Práctica marcada como realizada y guardada.";});
+  if(state.practices[chapter])el("genericPracticeDoneMsg").textContent="Práctica ya marcada como realizada.";
+}
+
 function fieldHtml(f,val){
   const id=`fb_${f.id}`,v=val??"";
   if(f.type==="range")return `<label for="${id}">${esc(f.label)}: <strong id="${id}_v">${v||Math.ceil((f.min+f.max)/2)}</strong>/${f.max}</label><input id="${id}" type="range" min="${f.min}" max="${f.max}" value="${v||Math.ceil((f.min+f.max)/2)}">`;
@@ -682,28 +799,100 @@ function renderProgress(){
   el("statDone").textContent=done;el("statDoing").textContent=doing;el("statPractice").textContent=pr;el("progressText").textContent=`${done} / ${max} capítulos`;el("progressBar").style.width=`${done/max*100}%`;
   el("rows").innerHTML=Array.from({length:max},(_,i)=>{const n=i+1,[title]=metadata(n);return `<tr><td>${n}</td><td>${esc(title)}</td><td>${dateFor(n)}</td><td>${state.chapters[n]||"Pendiente"}</td><td>${state.practices[n]?"Realizada":"Pendiente"}</td></tr>`;}).join("");
 }
-function renderAll(){opts();renderLesson();renderPractice();renderFeedback();renderProgress();}
+function renderAll(){opts();renderLesson();renderPractice();renderFeedback();renderProgress();if(isAdmin)renderAdminData(false);}
 function switchTab(name){document.querySelectorAll(".tab").forEach(b=>b.classList.toggle("active",b.dataset.tab===name));document.querySelectorAll(".panel").forEach(p=>p.classList.toggle("active",p.id===name));}
+
+function setAccessUI(){
+  const authorized=!!(session&&accessProfile?.active);
+  document.querySelectorAll(".privateTab").forEach(x=>x.classList.toggle("hidden",!authorized));
+  el("adminTab").classList.toggle("hidden",!(authorized&&isAdmin));
+  const banner=el("accessBanner");
+  if(!session){banner.classList.remove("hidden");banner.innerHTML="<strong>Curso privado.</strong> Inicia sesión con una cuenta autorizada para acceder al contenido.";if(document.querySelector('.panel.active')?.id!=="nube")switchTab("nube");}
+  else if(!authorized){banner.classList.remove("hidden");banner.innerHTML=`<strong>Acceso no autorizado.</strong> El correo ${esc(session.user.email||"")} no está activo en la lista de usuarios del curso.`;if(document.querySelector('.panel.active')?.id!=="nube")switchTab("nube");}
+  else{banner.classList.add("hidden");banner.textContent="";}
+  if(!authorized){courseContent={};try{if(session)localStorage.removeItem(contentStorageKey());}catch(e){}}
+}
+async function refreshAccess(){
+  accessProfile=null;isAdmin=false;
+  if(!sb||!session){setAccessUI();updateAuthUI();return false;}
+  const email=String(session.user.email||"").trim().toLowerCase();
+  const {data,error}=await sb.from("course_users").select("email,display_name,role,active,user_id,created_at,updated_at,last_seen_at").eq("email",email).maybeSingle();
+  if(error){console.warn("No se pudo comprobar autorización",error);setAccessUI();return false;}
+  if(!data||!data.active){setAccessUI();updateAuthUI();return false;}
+  accessProfile=data;isAdmin=data.role==="admin";setAccessUI();updateAuthUI();return true;
+}
+function implicitSeen(n){return !!(state.chapters?.[n]||state.practices?.[n]||state.feedback?.[n]||state.notes?.[n]);}
+function maybeShowNewChapterDialog(){
+  if(!session||!accessProfile?.active)return;
+  const published=Object.keys(courseContent).map(Number).filter(Number.isFinite).sort((a,b)=>a-b);
+  pendingNewChapters=published.filter(n=>!state.contentSeen?.[n]&&!implicitSeen(n));
+  if(!pendingNewChapters.length)return;
+  const dlg=el("newChapterDialog");
+  el("newChapterTitle").textContent=pendingNewChapters.length===1?"Nuevo capítulo disponible":`${pendingNewChapters.length} capítulos nuevos disponibles`;
+  el("newChapterText").textContent="Se ha publicado nuevo contenido del Curso IA.";
+  el("newChapterList").innerHTML=pendingNewChapters.map(n=>`<li><strong>Capítulo ${n}</strong> — ${esc(courseContent[n]?.title||metadata(n)[0])}</li>`).join("");
+  if(typeof dlg.showModal==="function"&&!dlg.open)dlg.showModal();
+}
+function markPendingNewSeen(){
+  if(!pendingNewChapters.length)return;
+  state.contentSeen=state.contentSeen||{};pendingNewChapters.forEach(n=>state.contentSeen[n]=new Date().toISOString());saveLocal();
+}
+function fmtDate(v){if(!v)return "—";try{return new Intl.DateTimeFormat("es-ES",{dateStyle:"short",timeStyle:"short",timeZone:"Europe/Madrid"}).format(new Date(v));}catch(e){return "—";}}
+async function renderAdminData(showMessage=false){
+  if(!isAdmin||!sb||!session)return;
+  try{
+    const [{data:users,error:uerr},{data:progress,error:perr}]=await Promise.all([
+      sb.from("course_users").select("email,display_name,role,active,user_id,created_at,last_seen_at,updated_at").order("created_at"),
+      sb.from("course_progress_v2").select("user_id,data,updated_at")
+    ]);
+    if(uerr)throw uerr;if(perr)throw perr;
+    const byUser={};(progress||[]).forEach(r=>byUser[r.user_id]=r);
+    el("adminUsersBody").innerHTML=(users||[]).map(u=>{
+      const pr=u.user_id?byUser[u.user_id]:null,d=pr?.data||{},done=Object.values(d.chapters||{}).filter(v=>v==="Completado").length,pract=Object.values(d.practices||{}).filter(Boolean).length,self=u.email===String(session.user.email||"").toLowerCase();
+      return `<tr><td><strong>${esc(u.display_name||u.email)}</strong><br><span class="muted">${esc(u.email)}</span></td><td><span class="badge ${u.role==="admin"?"admin":""}">${u.role==="admin"?"Administrador":"Usuario"}</span></td><td><span class="badge ${u.active?"":"off"}">${u.active?"Activo":"Desactivado"}</span></td><td>${u.user_id?"Registrado":"Pendiente"}</td><td>${fmtDate(u.last_seen_at||pr?.updated_at)}</td><td>${done} cap. · ${pract} prácticas</td><td><div class="admin-actions">${self?'<span class="muted">Tu cuenta</span>':`<button class="btn" data-admin-toggle="${esc(u.email)}" data-active="${u.active}">${u.active?"Desactivar":"Activar"}</button><button class="btn" data-admin-role="${esc(u.email)}" data-role="${esc(u.role)}">${u.role==="admin"?"Hacer usuario":"Hacer admin"}</button><button class="btn danger" data-admin-remove="${esc(u.email)}">Quitar</button>`}</div></td></tr>`;
+    }).join("");
+    document.querySelectorAll("[data-admin-toggle]").forEach(b=>b.addEventListener("click",()=>adminSetActive(b.dataset.adminToggle,b.dataset.active!=="true")));
+    document.querySelectorAll("[data-admin-role]").forEach(b=>b.addEventListener("click",()=>adminSetRole(b.dataset.adminRole,b.dataset.role==="admin"?"member":"admin")));
+    document.querySelectorAll("[data-admin-remove]").forEach(b=>b.addEventListener("click",()=>adminRemove(b.dataset.adminRemove)));
+    if(showMessage)el("adminMsg").textContent="Listado actualizado.";
+  }catch(e){el("adminMsg").textContent="No se pudo cargar Administración: "+(e.message||String(e));}
+}
+async function adminAddUser(){
+  if(!isAdmin)return;const email=el("adminEmail").value.trim().toLowerCase(),display_name=el("adminName").value.trim(),role=el("adminRole").value;
+  if(!email||!email.includes("@")){el("adminMsg").textContent="Introduce un correo válido.";return;}
+  const {data:existing,error:readErr}=await sb.from("course_users").select("email").eq("email",email).maybeSingle();if(readErr){el("adminMsg").textContent=readErr.message;return;}
+  let error;
+  if(existing){({error}=await sb.from("course_users").update({display_name:display_name||null,role,active:true,updated_at:new Date().toISOString()}).eq("email",email));}
+  else{({error}=await sb.from("course_users").insert({email,display_name:display_name||null,role,active:true,added_by:session.user.id}));}
+  if(error){el("adminMsg").textContent=error.message;return;}el("adminMsg").textContent=`${email} autorizado.`;el("adminEmail").value="";el("adminName").value="";await renderAdminData(false);
+}
+async function adminSetActive(email,active){const {error}=await sb.from("course_users").update({active,updated_at:new Date().toISOString()}).eq("email",email);el("adminMsg").textContent=error?error.message:`Acceso ${active?"activado":"desactivado"}.`;if(!error)await renderAdminData(false);}
+async function adminSetRole(email,role){const {error}=await sb.from("course_users").update({role,updated_at:new Date().toISOString()}).eq("email",email);el("adminMsg").textContent=error?error.message:"Rol actualizado.";if(!error)await renderAdminData(false);}
+async function adminRemove(email){if(!confirm(`¿Quitar la autorización de ${email}? Su cuenta de autenticación no se borra, pero perderá el acceso al curso.`))return;const {error}=await sb.from("course_users").delete().eq("email",email);el("adminMsg").textContent=error?error.message:"Autorización eliminada.";if(!error)await renderAdminData(false);}
+async function handleSessionReady(){
+  loadLocal();renderAll();const ok=await refreshAccess();if(!ok){courseContent={};renderAll();return;}
+  await syncOnLogin();await loadCourseContent(false);maybeShowNewChapterDialog();if(isAdmin)await renderAdminData(false);
+}
 function getConfig(){try{const saved=JSON.parse(localStorage.getItem(CONFIG_KEY)||"{}");return {url:saved.url||DEFAULT_SUPABASE_CONFIG.url,key:saved.key||DEFAULT_SUPABASE_CONFIG.key};}catch(e){return {...DEFAULT_SUPABASE_CONFIG};}}
 function setCloudPill(text,cls="warn"){el("cloudStatus").textContent=text;el("cloudStatus").className=`pill ${cls}`;}
 async function initSupabase(){
   const cfg=getConfig();el("supabaseUrl").value=cfg.url||"";el("supabaseKey").value=cfg.key||"";
-  if(!cfg.url||!cfg.key||!window.supabase){sb=null;session=null;setCloudPill("Nube no disponible","warn");updateAuthUI();return;}
+  if(!cfg.url||!cfg.key||!window.supabase){sb=null;session=null;accessProfile=null;isAdmin=false;setCloudPill("Nube no disponible","warn");updateAuthUI();setAccessUI();return;}
   try{
     sb=window.supabase.createClient(cfg.url,cfg.key,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
     const {data,error}=await sb.auth.getSession();if(error)throw error;session=data.session||null;
     sb.auth.onAuthStateChange((event,newSession)=>{
-      session=newSession;
+      const oldUser=session?.user?.id||null;session=newSession;
       if(event==="PASSWORD_RECOVERY"){
-        passwordRecoveryMode=true;
-        switchTab("nube");
-        el("authMsg").textContent="Enlace de recuperación válido. Define ahora una nueva contraseña.";
+        passwordRecoveryMode=true;switchTab("nube");el("authMsg").textContent="Enlace de recuperación válido. Define ahora una nueva contraseña.";updateAuthUI();return;
       }
-      updateAuthUI();
-      if(session && event!=="PASSWORD_RECOVERY")syncOnLogin();
+      passwordRecoveryMode=false;
+      if(!session){accessProfile=null;isAdmin=false;state=fresh();courseContent={};setAccessUI();updateAuthUI();renderAll();return;}
+      if(oldUser!==session.user.id||event==="SIGNED_IN")handleSessionReady();else updateAuthUI();
     });
-    setCloudPill(session?"Nube conectada":"Nube configurada",session?"ok":"warn");updateAuthUI();if(session)await syncOnLogin();
-  }catch(e){sb=null;session=null;setCloudPill("Error de nube","bad");el("configMsg").textContent=e.message||String(e);updateAuthUI();}
+    setCloudPill(session?"Nube conectada":"Nube configurada",session?"ok":"warn");updateAuthUI();
+    if(session)await handleSessionReady();else{state=fresh();courseContent={};renderAll();setAccessUI();}
+  }catch(e){sb=null;session=null;accessProfile=null;isAdmin=false;setCloudPill("Error de nube","bad");el("configMsg").textContent=e.message||String(e);updateAuthUI();setAccessUI();}
 }
 function updateAuthUI(){
   const logged=!!session,recovery=passwordRecoveryMode&&logged;
@@ -711,20 +900,21 @@ function updateAuthUI(){
   el("recoveryBox").classList.toggle("hidden",!recovery);
   el("loggedInBox").classList.toggle("hidden",!logged||recovery);
   el("userEmail").textContent=logged?(session.user.email||session.user.id):"";
+  if(el("userProfileLine"))el("userProfileLine").innerHTML=logged&&accessProfile?.active?`<span class="badge ${isAdmin?"admin":""}">${isAdmin?"Administrador":"Usuario autorizado"}</span>${accessProfile.display_name?`<span>${esc(accessProfile.display_name)}</span>`:""}`:(logged?'<span class="badge off">Sin autorización</span>':"");
   el("syncDetail").textContent=logged?`Conectado como ${session.user.email||session.user.id}. Último dato local: ${state.updatedAt||"—"}`:"Sin sesión.";
   if(recovery)setCloudPill("Cambio de contraseña","warn");
   else if(logged)setCloudPill("Nube conectada","ok");
   else if(sb)setCloudPill("Nube configurada","warn");
 }
 async function fetchRemote(){
-  if(!sb||!session)return null;
+  if(!sb||!session||!accessProfile?.active)return null;
   const {data,error}=await sb.rpc("get_course_progress_v2");
   if(error)throw error;
   const row=Array.isArray(data)?data[0]:data;
   return row||null;
 }
 async function pushCloud(showMessage=true){
-  if(!sb||!session||!navigator.onLine){if(showMessage)el("authMsg").textContent="No hay conexión o sesión activa.";return false;}
+  if(!sb||!session||!accessProfile?.active||!navigator.onLine){if(showMessage)el("authMsg").textContent="No hay conexión, sesión o autorización activa.";return false;}
   await waitForSync();
   const captured=getSyncMeta();
   const patch=cloneJson(captured.pendingPatch||{});
@@ -760,7 +950,7 @@ async function pushCloud(showMessage=true){
   }finally{syncing=false;}
 }
 async function pullCloud(showMessage=true){
-  if(!sb||!session){if(showMessage)el("authMsg").textContent="No hay sesión activa.";return false;}
+  if(!sb||!session||!accessProfile?.active){if(showMessage)el("authMsg").textContent="No hay sesión autorizada activa.";return false;}
   await waitForSync();
   if(hasPatch(getSyncMeta().pendingPatch)){
     const ok=await pushCloud(false);
@@ -784,7 +974,7 @@ async function pullCloud(showMessage=true){
   }finally{syncing=false;}
 }
 async function syncOnLogin(){
-  if(!sb||!session)return;
+  if(!sb||!session||!accessProfile?.active)return;
   await waitForSync();
   const meta=getSyncMeta();
   if(hasPatch(meta.pendingPatch)){
@@ -793,7 +983,7 @@ async function syncOnLogin(){
   await pullCloud(false);
 }
 async function replaceCloudWithState(showMessage=true){
-  if(!sb||!session)return false;
+  if(!sb||!session||!accessProfile?.active)return false;
   await waitForSync();syncing=true;setCloudPill("Sincronizando…","warn");
   try{
     const {data,error}=await sb.rpc("replace_course_progress_v2",{p_data:state});
@@ -840,15 +1030,15 @@ el("feedbackChapterSelect").addEventListener("change",e=>{current=Number(e.targe
 el("chapterStatus").addEventListener("change",e=>{state.chapters[current]=e.target.value;saveLocal();renderProgress();});
 el("notes").addEventListener("input",e=>{state.notes[current]=e.target.value;saveLocal();});
 el("syncNowBtn").addEventListener("click",async()=>{if(!session){switchTab("nube");el("authMsg").textContent="Inicia sesión para sincronizar.";return;}await syncOnLogin();});
-el("saveCloudConfigBtn").addEventListener("click",async()=>{const url=el("supabaseUrl").value.trim(),key=el("supabaseKey").value.trim();if(!url||!key){el("configMsg").textContent="Introduce URL y publishable key.";return;}if(/service_role/i.test(key)){el("configMsg").textContent="No uses una service_role key en el navegador.";return;}localStorage.setItem(CONFIG_KEY,JSON.stringify({url,key}));el("configMsg").textContent="Configuración guardada.";await initSupabase();await loadCourseContent();});
+el("saveCloudConfigBtn").addEventListener("click",async()=>{const url=el("supabaseUrl").value.trim(),key=el("supabaseKey").value.trim();if(!url||!key){el("configMsg").textContent="Introduce URL y publishable key.";return;}if(/service_role/i.test(key)){el("configMsg").textContent="No uses una service_role key en el navegador.";return;}localStorage.setItem(CONFIG_KEY,JSON.stringify({url,key}));el("configMsg").textContent="Configuración guardada.";await initSupabase();});
 el("clearCloudConfigBtn").addEventListener("click",async()=>{
   if(sb)try{await sb.auth.signOut({scope:"local"});}catch(e){}
   clearSupabaseAuthStorage();
   localStorage.removeItem(CONFIG_KEY);
-  sb=null;session=null;passwordRecoveryMode=false;
+  sb=null;session=null;accessProfile=null;isAdmin=false;state=fresh();courseContent={};passwordRecoveryMode=false;
   el("supabaseUrl").value="";el("supabaseKey").value="";
   setCloudPill("Nube sin configurar","warn");
-  updateAuthUI();
+  updateAuthUI();setAccessUI();renderAll();
 });
 el("signInBtn").addEventListener("click",async()=>{
   if(!sb){el("authMsg").textContent="La nube no está configurada.";return;}
@@ -862,12 +1052,12 @@ el("signUpBtn").addEventListener("click",async()=>{
   if(!sb){el("authMsg").textContent="La nube no está configurada.";return;}
   const email=el("authEmail").value.trim(),password=el("authPassword").value;
   if(!email||password.length<8){el("authMsg").textContent="Usa un correo válido y una contraseña de al menos 8 caracteres.";return;}
-  el("authMsg").textContent="Procesando registro…";
+  el("authMsg").textContent="Creando cuenta… El acceso al curso se comprobará con la lista de autorizados.";
   const {data,error}=await sb.auth.signUp({email,password,options:{emailRedirectTo:APP_URL}});
   if(error){el("authMsg").textContent=authMessage(error);return;}
   el("authMsg").textContent=data.session
-    ?"Cuenta creada e iniciada."
-    :"Si la cuenta es nueva, recibirás un correo de confirmación. Si ya existía, «Crear cuenta» no cambia su contraseña: usa «Entrar» o «Recuperar contraseña».";
+    ?"Cuenta creada. Comprobando autorización…"
+    :"Si la cuenta es nueva, recibirás un correo de confirmación. El acceso solo funcionará si este correo fue autorizado previamente. Si ya existía, usa «Entrar» o «Recuperar contraseña».";
 });
 el("forgotPasswordBtn").addEventListener("click",async()=>{
   if(!sb){el("authMsg").textContent="La nube no está configurada.";return;}
@@ -911,9 +1101,9 @@ el("signOutBtn").addEventListener("click",async()=>{
     serverWarning=e?.message||String(e);
   }
   clearSupabaseAuthStorage();
-  session=null;
+  session=null;accessProfile=null;isAdmin=false;state=fresh();courseContent={};pendingNewChapters=[];
   passwordRecoveryMode=false;
-  updateAuthUI();
+  updateAuthUI();setAccessUI();renderAll();
   if(sb)setCloudPill("Nube configurada","warn");
   el("authMsg").textContent=serverWarning
     ?`Sesión local cerrada. Aviso del servidor: ${serverWarning}`
@@ -921,14 +1111,19 @@ el("signOutBtn").addEventListener("click",async()=>{
 });
 el("cloudPullBtn").addEventListener("click",async()=>{await pullCloud(true);});
 el("cloudPushBtn").addEventListener("click",async()=>{await pushCloud(true);});
+el("adminAddBtn").addEventListener("click",adminAddUser);
+el("adminRefreshBtn").addEventListener("click",()=>renderAdminData(true));
+el("copyAppLinkBtn").addEventListener("click",async()=>{try{await navigator.clipboard.writeText(APP_URL);el("adminMsg").textContent="Enlace copiado.";}catch(e){el("adminMsg").textContent=`Enlace: ${APP_URL}`;}});
+el("dismissNewChapterBtn").addEventListener("click",()=>{markPendingNewSeen();el("newChapterDialog").close();pendingNewChapters=[];});
+el("openNewChapterBtn").addEventListener("click",()=>{const target=pendingNewChapters[0];markPendingNewSeen();el("newChapterDialog").close();pendingNewChapters=[];if(target){current=target;renderAll();switchTab("curso");}});
 el("exportBtn").addEventListener("click",()=>{const blob=new Blob([JSON.stringify(state,null,2)],{type:"application/json"});const url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="curso-ia-progreso.json";a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);el("backupMsg").textContent="Copia exportada.";});
 el("importFile").addEventListener("change",e=>{const f=e.target.files&&e.target.files[0];if(!f)return;const r=new FileReader();r.onload=async()=>{try{state=mergeState(JSON.parse(String(r.result)));saveLocal(false);setSyncMeta({pendingPatch:{},seq:(getSyncMeta().seq||0)+1});renderAll();if(session)await replaceCloudWithState(false);el("backupMsg").textContent="Copia importada.";}catch(err){el("backupMsg").textContent="Archivo no válido.";}};r.readAsText(f);});
 el("resetBtn").addEventListener("click",async()=>{if(confirm("¿Borrar todo el progreso? Esta acción sustituirá también el estado de la nube si tienes sesión.")){state=fresh();saveLocal(false);setSyncMeta({pendingPatch:{},seq:(getSyncMeta().seq||0)+1});renderAll();if(session)await replaceCloudWithState(true);}});
-window.addEventListener("online",()=>{loadCourseContent();if(session)syncOnLogin();});window.addEventListener("offline",()=>setCloudPill("Sin conexión · guardado local","warn"));
+window.addEventListener("online",async()=>{if(session&&accessProfile?.active){await syncOnLogin();await loadCourseContent(true);}});window.addEventListener("offline",()=>setCloudPill("Sin conexión · guardado local","warn"));
 
 if(window.matchMedia&&window.matchMedia("(display-mode: standalone)").matches)el("installHint").classList.add("hidden");
-loadLocal();opts();renderAll();
-initSupabase().then(loadCourseContent);
+state=fresh();courseContent={};opts();renderAll();setAccessUI();
+initSupabase();
 if("serviceWorker" in navigator&&location.protocol.startsWith("http"))navigator.serviceWorker.register("./sw.js").catch(()=>{});
 
 </script>
