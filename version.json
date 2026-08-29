@@ -1,19 +1,12 @@
 {
-  "app_version": 15,
-  "release": "FINAL",
+  "app_version": "15.1",
+  "base_version": 15,
+  "release": "FIX iPhone",
   "name": "Curso IA",
-  "chapters": 17,
-  "features": [
-    "curso común para todos los alumnos",
-    "contenido dinámico desde Supabase",
-    "progresión obligatoria capítulo a capítulo",
-    "lectura + prácticas comprobadas + feedback",
-    "capítulo 17 de recapitulación y evaluación final",
-    "test final compatible con preguntas tipo test",
-    "feedback global cerrado con 4 opciones + NS/NC",
-    "feedback global almacenado separadamente",
-    "resumen final del alumno",
-    "panel administrador con satisfacción y NPS",
-    "multiusuario y sincronización"
+  "fixes": [
+    "protección contra touch-through del teclado virtual de iOS",
+    "ocultación temporal de botones solapados por el teclado",
+    "detección mediante VisualViewport",
+    "respeto de las zonas seguras del iPhone y Dynamic Island"
   ]
 }

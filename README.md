@@ -116,3 +116,13 @@ Recuperación de contraseña, reenvío de confirmación y mensajes de error espe
 - Administración muestra número de respuestas finales, satisfacción media, NPS y dominio final percibido.
 - El test final puede incluir `category` en cada pregunta para mostrar fortalezas y áreas a reforzar.
 - Al completar el capítulo 17 se muestra el resumen final del curso.
+
+
+## v15.1 — Corrección iPhone / teclado virtual
+- Corrige el problema observado al escribir respuestas de prácticas en iPhone.
+- Detecta mediante `window.visualViewport` el área realmente visible por encima del teclado.
+- Los botones que quedan detrás del teclado se ocultan temporalmente y no pueden recibir pulsaciones.
+- Al cerrar el teclado, los controles vuelven automáticamente a su estado normal.
+- Añade una barrera adicional contra eventos `pointerdown/click` sobre controles tapados.
+- Respeta las zonas seguras (`safe-area`) de iPhone, incluida la Dynamic Island.
+- No modifica datos, progreso, prácticas, Supabase ni la lógica de desbloqueo del curso.
