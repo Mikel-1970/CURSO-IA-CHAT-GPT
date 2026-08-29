@@ -68,3 +68,51 @@ Recuperación de contraseña, reenvío de confirmación y mensajes de error espe
 - Prácticas de futuros capítulos usan el esquema genérico `practice.sections`/`practice.exercises`, sin actualizar GitHub.
 - Aviso emergente al abrir la app cuando hay un capítulo publicado que el usuario aún no había visto.
 - El aviso permite ir directamente al nuevo capítulo o posponerlo.
+
+
+## v12 — Corrección pedagógica mejorada
+- Las preguntas abiertas muestran los criterios acertados.
+- También muestran los criterios pendientes o mejorables.
+- Las prácticas pueden incluir una respuesta de referencia definida desde Supabase.
+- La respuesta de referencia se presenta como ejemplo, no como única solución válida.
+- Las comprobaciones antiguas se reconstruyen automáticamente para incorporar los aciertos.
+- Las clasificaciones muestran tanto aciertos como elementos a revisar.
+- Esta funcionalidad forma parte del renderizador genérico y se aplica a futuros capítulos sin modificar la app.
+
+
+## v13 — Progresión y capítulos adaptativos
+- El estado ya no se cambia manualmente.
+- Cada capítulo exige Lectura terminada + Prácticas comprobadas/terminadas + Feedback enviado.
+- Los capítulos posteriores quedan bloqueados.
+- Al completar un capítulo se crea en Supabase una solicitud única para el siguiente.
+- Se guarda un perfil de aprendizaje con feedback, preferencias y resultados.
+- Desde el capítulo 3 la app está preparada para priorizar contenido personalizado por usuario.
+- El estado del siguiente capítulo puede ser Pendiente, Preparando o Disponible.
+- La app comprueba periódicamente si el capítulo solicitado ya está publicado y muestra el aviso de nuevo capítulo.
+- No existe calendario diario de capítulos.
+- La generación automática del texto requiere un procesador servidor/IA con credenciales; la cola y la app ya quedan preparadas.
+
+
+## v14 — Motor IA automático
+- Al completar un capítulo, la app crea la solicitud y llama a `generate-course-chapter`.
+- La Edge Function está desplegada en Supabase con JWT obligatorio.
+- El trabajo se ejecuta en segundo plano.
+- Las solicitudes pendientes se reintentan de forma limitada.
+- El contenido generado se guarda en `course_user_content` y queda aislado por usuario.
+- Cuando el capítulo está publicado, la app lo detecta y muestra el aviso.
+- La clave `OPENAI_API_KEY` se almacena exclusivamente en los secretos de Supabase.
+
+
+# v15 FINAL — Arquitectura definitiva
+- 17 capítulos.
+- No existe generación automática de capítulos ni llamadas a OpenAI desde la app.
+- El contenido es común y se publica en `course_content`.
+- Los capítulos posteriores pueden estar publicados, pero permanecen bloqueados hasta completar todos los anteriores.
+- Cada capítulo exige: Lectura terminada + Prácticas terminadas y comprobadas + Feedback enviado.
+- El feedback no puede enviarse si faltan preguntas cerradas obligatorias; los textos libres de capítulos anteriores siguen siendo opcionales.
+- El capítulo 17 es la recapitulación y evaluación final.
+- Su feedback global es cerrado: escalas y preguntas con cuatro opciones útiles + NS/NC.
+- El feedback final se duplica en `course_final_feedback` para facilitar análisis agregado.
+- Administración muestra número de respuestas finales, satisfacción media, NPS y dominio final percibido.
+- El test final puede incluir `category` en cada pregunta para mostrar fortalezas y áreas a reforzar.
+- Al completar el capítulo 17 se muestra el resumen final del curso.

@@ -1,0 +1,144 @@
+{
+  "chapter": 17,
+  "title": "Recapitulación, evaluación final y cierre",
+  "feedback_schema": [
+    {
+      "id": "satisfaction",
+      "type": "range",
+      "min": 0,
+      "max": 10,
+      "label": "Satisfacción global con el curso"
+    },
+    {
+      "id": "professional_utility",
+      "type": "range",
+      "min": 0,
+      "max": 10,
+      "label": "Utilidad para tu actividad profesional"
+    },
+    {
+      "id": "personal_utility",
+      "type": "range",
+      "min": 0,
+      "max": 10,
+      "label": "Utilidad para tu vida personal"
+    },
+    {
+      "id": "recommend",
+      "type": "range",
+      "min": 0,
+      "max": 10,
+      "label": "Probabilidad de recomendar el curso"
+    },
+    {
+      "id": "mastery_before",
+      "type": "range",
+      "min": 0,
+      "max": 10,
+      "label": "Dominio de IA antes del curso"
+    },
+    {
+      "id": "mastery_after",
+      "type": "range",
+      "min": 0,
+      "max": 10,
+      "label": "Dominio de IA después del curso"
+    },
+    {
+      "id": "difficulty_global",
+      "type": "select",
+      "label": "Dificultad global",
+      "options": [
+        "Muy fácil",
+        "Adecuada",
+        "Algo difícil",
+        "Demasiado difícil",
+        "NS/NC"
+      ]
+    },
+    {
+      "id": "length_global",
+      "type": "select",
+      "label": "Extensión global",
+      "options": [
+        "Demasiado corta",
+        "Adecuada",
+        "Algo larga",
+        "Demasiado larga",
+        "NS/NC"
+      ]
+    },
+    {
+      "id": "most_value",
+      "type": "select",
+      "label": "Qué parte te ha aportado más valor",
+      "options": [
+        "Conceptos y fundamentos",
+        "Casos y ejemplos profesionales",
+        "Prácticas y ejercicios",
+        "Automatizaciones y aplicaciones",
+        "NS/NC"
+      ]
+    },
+    {
+      "id": "improve_priority",
+      "type": "select",
+      "label": "Qué mejorarías prioritariamente",
+      "options": [
+        "Contenido y explicaciones",
+        "Prácticas",
+        "Correcciones",
+        "Aplicación y experiencia de uso",
+        "NS/NC"
+      ]
+    },
+    {
+      "id": "progression",
+      "type": "select",
+      "label": "Cómo valorarías la progresión del curso",
+      "options": [
+        "Demasiado lenta",
+        "Adecuada",
+        "Algo rápida",
+        "Demasiado rápida",
+        "NS/NC"
+      ]
+    },
+    {
+      "id": "usage_change",
+      "type": "select",
+      "label": "Ha cambiado tu forma de utilizar ChatGPT/IA",
+      "options": [
+        "Mucho",
+        "Bastante",
+        "Poco",
+        "Nada",
+        "NS/NC"
+      ]
+    },
+    {
+      "id": "verification_confidence",
+      "type": "select",
+      "label": "Ahora te ves capaz de verificar mejor los resultados de una IA",
+      "options": [
+        "Mucho más",
+        "Bastante más",
+        "Algo más",
+        "No ha cambiado",
+        "NS/NC"
+      ]
+    },
+    {
+      "id": "real_application",
+      "type": "select",
+      "label": "Dónde has aplicado más lo aprendido",
+      "options": [
+        "Trabajo profesional",
+        "Organización personal",
+        "En ambos ámbitos",
+        "Todavía no lo he aplicado",
+        "NS/NC"
+      ]
+    }
+  ]
+}

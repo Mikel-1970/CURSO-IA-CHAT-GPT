@@ -1,12 +1,19 @@
 {
-  "app_version": 11,
+  "app_version": 15,
+  "release": "FINAL",
   "name": "Curso IA",
+  "chapters": 17,
   "features": [
-    "multiusuario privado",
-    "panel de administracion",
-    "contenido dinamico",
-    "practicas dinamicas",
-    "feedback dinamico",
-    "aviso de nuevo capitulo"
+    "curso común para todos los alumnos",
+    "contenido dinámico desde Supabase",
+    "progresión obligatoria capítulo a capítulo",
+    "lectura + prácticas comprobadas + feedback",
+    "capítulo 17 de recapitulación y evaluación final",
+    "test final compatible con preguntas tipo test",
+    "feedback global cerrado con 4 opciones + NS/NC",
+    "feedback global almacenado separadamente",
+    "resumen final del alumno",
+    "panel administrador con satisfacción y NPS",
+    "multiusuario y sincronización"
   ]
 }
