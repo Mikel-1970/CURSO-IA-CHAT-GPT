@@ -1,20 +1,15 @@
 {
-  "app_version": "15.4",
+  "app_version": "15.5",
   "base_version": 15,
-  "release": "Prácticas ágiles",
+  "release": "Refresh móvil",
   "name": "Curso IA",
   "fixes": [
-    "preguntas de selección sin justificación escrita",
-    "comprobación muestra siempre respuesta elegida",
-    "si se falla muestra la respuesta esperada",
-    "explicación breve tanto en aciertos como en errores",
-    "mantiene corrección abierta orientativa v15.3",
-    "mantiene fixes iPhone/teclado v15.2-v15.3"
-  ],
-  "editorial_policy": {
-    "future_chapters": "Preferir aproximadamente 70-80% preguntas de selección",
-    "open_questions": "Reservarlas para tareas donde redactar sea parte del aprendizaje",
-    "choice_reason_required": false,
-    "choice_feedback": "Explicación breve y útil siempre, tanto al acertar como al fallar"
-  }
+    "Descargar nube actualiza progreso y contenido",
+    "actualización de course_content al iniciar sesión",
+    "actualización al volver la PWA a primer plano",
+    "actualización al recuperar conexión",
+    "polling de contenido robusto",
+    "comprobación explícita de nuevas versiones del service worker",
+    "mantiene todas las correcciones de prácticas/iPhone de v15.4"
+  ]
 }

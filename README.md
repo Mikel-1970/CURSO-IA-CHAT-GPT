@@ -165,3 +165,18 @@ Corrección:
   - objetivo aproximado 70–80 % de preguntas de selección;
   - 20–30 % de respuestas abiertas/casos;
   - usar preguntas abiertas solo cuando redactar o razonar por escrito forme parte real del aprendizaje.
+
+
+## v15.5 — Actualización de contenido en móvil
+Problema detectado en logs:
+- el iPhone descargaba `course_progress_v2`;
+- pero no estaba solicitando `course_content`;
+- por ello podía conocer el progreso sin ver un capítulo recién publicado.
+
+Corrección:
+- al iniciar sesión se fuerza la descarga del contenido publicado;
+- `Descargar nube` descarga tanto progreso como contenido;
+- al volver la PWA a primer plano (`visibilitychange`, `pageshow`, `focus`) se comprueban capítulos nuevos;
+- al recuperar conexión se actualiza el contenido;
+- el polling periódico utiliza el mismo proceso de actualización;
+- el service worker solicita actualizaciones con `updateViaCache: "none"`.

@@ -49,7 +49,7 @@ body.ios-keyboard-open{
 <body>
 <div id="app" class="app">
 <header class="card">
-  <h1>Curso IA – ChatGPT práctico <span class="pill ok">v15.4</span></h1>
+  <h1>Curso IA – ChatGPT práctico <span class="pill ok">v15.5</span></h1>
   <div class="muted">Curso privado multiusuario · progresión obligatoria · capítulos adaptativos desde la nube</div>
   <div style="display:flex;justify-content:space-between;gap:10px;margin:14px 0 7px"><strong>Progreso global</strong><span id="progressText">0 / 16 capítulos</span></div>
   <div class="progress"><i id="progressBar"></i></div>
@@ -160,7 +160,7 @@ body.ios-keyboard-open{
   <div class="card">
     <h3>Estado de sincronización</h3>
     <p id="syncDetail" class="muted">Sin sesión.</p>
-    <p class="muted">Estrategia v15.4: <strong>curso común + contenido dinámico + progresión obligatoria</strong>. Para avanzar es obligatorio terminar la lectura, completar y comprobar las prácticas y enviar el feedback del capítulo anterior.</p>
+    <p class="muted">Estrategia v15.5: <strong>curso común + contenido dinámico + progresión obligatoria</strong>. Para avanzar es obligatorio terminar la lectura, completar y comprobar las prácticas y enviar el feedback del capítulo anterior.</p>
   </div>
 </section>
 
@@ -1209,17 +1209,60 @@ async function adminAddUser(){
 async function adminSetActive(email,active){const {error}=await sb.from("course_users").update({active,updated_at:new Date().toISOString()}).eq("email",email);el("adminMsg").textContent=error?error.message:`Acceso ${active?"activado":"desactivado"}.`;if(!error)await renderAdminData(false);}
 async function adminSetRole(email,role){const {error}=await sb.from("course_users").update({role,updated_at:new Date().toISOString()}).eq("email",email);el("adminMsg").textContent=error?error.message:"Rol actualizado.";if(!error)await renderAdminData(false);}
 async function adminRemove(email){if(!confirm(`¿Quitar la autorización de ${email}? Su cuenta de autenticación no se borra, pero perderá el acceso al curso.`))return;const {error}=await sb.from("course_users").delete().eq("email",email);el("adminMsg").textContent=error?error.message:"Autorización eliminada.";if(!error)await renderAdminData(false);}
+
+let lastForegroundContentRefresh=0;
+async function refreshPublishedCourse({showNotice=true,force=false}={}){
+  if(!sb||!session)return false;
+  const now=Date.now();
+  if(!force&&now-lastForegroundContentRefresh<5000)return false;
+  lastForegroundContentRefresh=now;
+
+  // Si la app vuelve desde segundo plano, refrescamos también autorización
+  // por si la sesión o permisos cambiaron.
+  if(!accessProfile?.active){
+    const ok=await refreshAccess();
+    if(!ok)return false;
+  }
+
+  const before=JSON.stringify(
+    Object.values(courseContent||{}).map(c=>[c.chapter_number,c.version,c.updated_at]).sort((a,b)=>a[0]-b[0])
+  );
+
+  const ok=await loadCourseContent(false);
+  if(!ok)return false;
+
+  const after=JSON.stringify(
+    Object.values(courseContent||{}).map(c=>[c.chapter_number,c.version,c.updated_at]).sort((a,b)=>a[0]-b[0])
+  );
+
+  if(before!==after){
+    opts();
+    safeRenderAll();
+    if(showNotice)maybeShowNewChapterDialog();
+  }else{
+    // Aun sin cambios de versión, recalculamos el bloqueo por si el progreso
+    // descargado acaba de completar el capítulo anterior.
+    opts();
+    safeRenderAll();
+    if(showNotice)maybeShowNewChapterDialog();
+  }
+  return true;
+}
+
 async function handleSessionReady(){
-  loadLocal();safeRenderAll();const ok=await refreshAccess();if(!ok){courseContent={};safeRenderAll();return;}
-  await syncOnLogin();await loadCourseContent(false);maybeShowNewChapterDialog();if(isAdmin)await renderAdminData(false);startContentPolling();
+  loadLocal();safeRenderAll();
+  const ok=await refreshAccess();
+  if(!ok){courseContent={};safeRenderAll();return;}
+  await syncOnLogin();
+  await refreshPublishedCourse({showNotice:true,force:true});
+  if(isAdmin)await renderAdminData(false);
+  startContentPolling();
 }
 function startContentPolling(){
-  if(contentPollTimer)clearInterval(contentPollTimer);if(!session||!accessProfile?.active)return;
+  if(contentPollTimer)clearInterval(contentPollTimer);
+  if(!session||!accessProfile?.active)return;
   contentPollTimer=setInterval(async()=>{try{
-    const before=JSON.stringify(Object.keys(courseContent).sort());
-    await loadCourseContent(false);
-    const after=JSON.stringify(Object.keys(courseContent).sort());
-    if(before!==after)maybeShowNewChapterDialog();
+    await refreshPublishedCourse({showNotice:true,force:true});
   }catch(e){console.warn("No se pudo comprobar contenido nuevo",e);}},60000);
 }
 
@@ -1430,7 +1473,7 @@ async function pullCloud(showMessage=true){
       setSyncMeta({pendingPatch:{},lastServerAt:remote.updated_at||null});
       safeRenderAll();
       el("syncDetail").textContent=`Estado completo descargado: ${formatServerTime(remote.updated_at)}`;
-      if(showMessage)el("authMsg").textContent="Curso, prácticas, progreso, feedback y notas descargados correctamente.";
+      if(showMessage)el("authMsg").textContent="Progreso, prácticas, feedback y notas descargados correctamente.";
     }else if(showMessage){el("authMsg").textContent="No hay datos remotos todavía.";}
     setCloudPill("Sincronizado","ok");return true;
   }catch(e){
@@ -1574,7 +1617,15 @@ el("signOutBtn").addEventListener("click",async()=>{
     ?`Sesión local cerrada. Aviso del servidor: ${serverWarning}`
     :"Sesión cerrada correctamente.";
 });
-el("cloudPullBtn").addEventListener("click",async()=>{await pullCloud(true);});
+el("cloudPullBtn").addEventListener("click",async()=>{
+  const progressOk=await pullCloud(false);
+  const contentOk=await refreshPublishedCourse({showNotice:true,force:true});
+  if(progressOk&&contentOk){
+    el("authMsg").textContent="Progreso y contenido del curso descargados correctamente.";
+  }else if(progressOk){
+    el("authMsg").textContent="Progreso descargado, pero no se pudo actualizar el contenido del curso.";
+  }
+});
 el("cloudPushBtn").addEventListener("click",async()=>{await pushCloud(true);});
 el("adminAddBtn").addEventListener("click",adminAddUser);
 el("adminRefreshBtn").addEventListener("click",()=>renderAdminData(true));
@@ -1584,12 +1635,34 @@ el("openNewChapterBtn").addEventListener("click",()=>{const target=pendingNewCha
 el("exportBtn").addEventListener("click",()=>{const blob=new Blob([JSON.stringify(state,null,2)],{type:"application/json"});const url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="curso-ia-progreso.json";a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);el("backupMsg").textContent="Copia exportada.";});
 el("importFile").addEventListener("change",e=>{const f=e.target.files&&e.target.files[0];if(!f)return;const r=new FileReader();r.onload=async()=>{try{state=mergeState(JSON.parse(String(r.result)));saveLocal(false);setSyncMeta({pendingPatch:{},seq:(getSyncMeta().seq||0)+1});safeRenderAll();if(session)await replaceCloudWithState(false);el("backupMsg").textContent="Copia importada.";}catch(err){el("backupMsg").textContent="Archivo no válido.";}};r.readAsText(f);});
 el("resetBtn").addEventListener("click",async()=>{if(confirm("¿Borrar todo el progreso? Esta acción sustituirá también el estado de la nube si tienes sesión.")){state=fresh();saveLocal(false);setSyncMeta({pendingPatch:{},seq:(getSyncMeta().seq||0)+1});safeRenderAll();if(session)await replaceCloudWithState(true);}});
-window.addEventListener("online",async()=>{if(session&&accessProfile?.active){await syncOnLogin();await loadCourseContent(true);}});window.addEventListener("offline",()=>setCloudPill("Sin conexión · guardado local","warn"));
+window.addEventListener("online",async()=>{if(session&&accessProfile?.active){await syncOnLogin();await refreshPublishedCourse({showNotice:true,force:true});}});window.addEventListener("offline",()=>setCloudPill("Sin conexión · guardado local","warn"));
+
+
+/* v15.5 — iOS puede mantener una PWA suspendida durante horas/días.
+   Al volver al primer plano actualizamos explícitamente el contenido. */
+document.addEventListener("visibilitychange",()=>{
+  if(document.visibilityState==="visible"&&session){
+    refreshPublishedCourse({showNotice:true,force:false}).catch(e=>console.warn("Refresh al reanudar",e));
+  }
+});
+window.addEventListener("pageshow",()=>{
+  if(session)refreshPublishedCourse({showNotice:true,force:false}).catch(()=>{});
+},{passive:true});
+window.addEventListener("focus",()=>{
+  if(session)refreshPublishedCourse({showNotice:true,force:false}).catch(()=>{});
+},{passive:true});
 
 if(window.matchMedia&&window.matchMedia("(display-mode: standalone)").matches)el("installHint").classList.add("hidden");
 state=fresh();courseContent={};opts();safeRenderAll();setAccessUI();
 initSupabase();
-if("serviceWorker" in navigator&&location.protocol.startsWith("http"))navigator.serviceWorker.register("./sw.js").catch(()=>{});
+if("serviceWorker" in navigator&&location.protocol.startsWith("http")){
+  navigator.serviceWorker.register("./sw.js",{updateViaCache:"none"}).then(reg=>{
+    reg.update().catch(()=>{});
+    document.addEventListener("visibilitychange",()=>{
+      if(document.visibilityState==="visible")reg.update().catch(()=>{});
+    });
+  }).catch(()=>{});
+}
 
 </script>
 </body>
