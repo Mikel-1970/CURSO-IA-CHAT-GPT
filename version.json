@@ -1,16 +1,15 @@
 {
-  "app_version": "18.3",
+  "app_version": "19.0",
   "name": "Curso IA ChatGPT",
-  "release": "Idioma persistente + feedback automático + cabecera móvil",
+  "release": "Teoría + Ejercicios + Examen",
   "changes": [
-    "el idioma elegido en acceso se guarda como preferencia del usuario",
-    "cambio de idioma del perfil se refleja inmediatamente en la interfaz",
-    "más textos de administración, progreso y selectores traducidos",
-    "feedback eliminado del menú principal",
-    "feedback del capítulo se abre automáticamente al terminar la práctica",
-    "al enviar feedback se completa el capítulo y se vuelve a inicio",
-    "cabecera móvil más compacta para que todos los botones permanezcan visibles",
-    "resumen emergente de progreso centrado en teoría, prácticas y resultados",
-    "aviso explícito cuando el contenido de un capítulo aún no tiene traducción publicada"
+    "Prácticas pasa a denominarse Examen sin perder progreso existente",
+    "Nueva pantalla Ejercicios con 3–4 tareas prácticas por capítulo",
+    "Los Ejercicios son opcionales y no condicionan el desbloqueo",
+    "El desbloqueo depende exclusivamente de Teoría y Examen del capítulo anterior",
+    "Feedback continúa apareciendo tras el examen pero no bloquea el avance",
+    "Progreso oficial calculado solo con Teoría y Examen",
+    "Fondo definitivo con cilindro holográfico proyectado por el robot",
+    "Ejercicios disponibles en seis idiomas para los capítulos 1 a 6"
   ]
 }

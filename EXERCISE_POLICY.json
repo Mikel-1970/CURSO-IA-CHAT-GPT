@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "name": "course_exercises_policy",
+  "blocking": false,
+  "count_per_chapter": "3-4",
+  "purpose": "practice_with_chatgpt",
+  "required_fields": [
+    "id",
+    "title",
+    "task",
+    "expected",
+    "observe"
+  ],
+  "rules": [
+    "Exercises must be performed with ChatGPT rather than answered inside the course",
+    "Do not provide a perfect prompt to copy when the learning goal is to formulate the instruction",
+    "Expected results are criteria, not a unique model answer",
+    "Use increasingly real tasks and user documents as the course progresses",
+    "Exercises never unlock or block chapters"
+  ],
+  "completion_tracking": "optional; may be added later for information only, never for unlocking",
+  "unlock_rule": "Exercises become available after Theory reading for that chapter; they never block the next chapter."
+}

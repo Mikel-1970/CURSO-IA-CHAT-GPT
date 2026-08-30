@@ -1,36 +1,39 @@
 {
-  "practice_design": {
+  "exam_design": {
+    "storage_compatibility": "The existing practice field/state remains the Exam internally so previous progress is preserved.",
     "selection_questions_target_percent": "70-80%",
     "open_or_case_target_percent": "20-30%",
     "selection_requires_written_reason": false,
+    "blocking": true,
+    "unlock_rule": "A chapter is complete when Theory reading and Exam are complete. Feedback and Exercises never block.",
     "when_to_use_open_questions": [
-      "redactar una instrucción o prompt",
-      "resolver un caso donde la formulación sea parte del aprendizaje",
-      "explicar un razonamiento que no pueda evaluarse razonablemente con opciones"
+      "write an instruction or prompt",
+      "solve a case where formulation is part of learning",
+      "explain reasoning that cannot reasonably be assessed with options"
     ],
     "choice_check_behavior": {
       "correct": [
-        "mostrar Correcto",
-        "mostrar la respuesta elegida",
-        "dar explicación breve y útil"
+        "show Correct",
+        "show selected answer",
+        "give a short useful explanation"
       ],
       "incorrect": [
-        "mostrar Incorrecto",
-        "mostrar la respuesta elegida",
-        "mostrar respuesta esperada",
-        "dar explicación breve y útil"
+        "show Incorrect",
+        "show selected answer",
+        "show expected answer",
+        "give a short useful explanation"
       ]
     },
     "choice_interaction": {
       "selection_method": "tap option directly; no separate dropdown",
-      "after_check": "lock the answer permanently and persist result locally and in cloud",
+      "after_check": "lock answer permanently and persist result locally and in cloud",
       "explanation": "show concise explanation after checking"
     },
     "answer_position_policy": {
       "method": "balanced randomization",
       "rules": [
         "randomize the order of plausible alternatives",
-        "keep A/B/C/D approximately balanced across a practice",
+        "keep A/B/C/D approximately balanced across an exam",
         "avoid obvious repeated patterns",
         "update the stored correct answer whenever alternatives are reordered"
       ]

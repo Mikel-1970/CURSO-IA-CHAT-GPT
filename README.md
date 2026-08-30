@@ -237,3 +237,21 @@ Revisión de excelencia: capítulo 0, fondo futurista visible, selectores emerge
 - La cabecera móvil se compacta para mantener visibles progreso, instalación, perfil y salida.
 - El resumen de progreso muestra teoría, prácticas, comprobaciones y porcentaje de acierto.
 - Si una traducción de contenido aún no está publicada, se avisa de forma explícita.
+
+
+## v18.4
+Activación de usuarios, perfil limpio, permisos corregidos, contraste e idioma inmediato.
+
+
+## v19.0 — Teoría · Ejercicios · Examen
+La estructura pedagógica queda separada en Teoría, Ejercicios opcionales y Examen. El progreso y desbloqueo dependen solo de Teoría + Examen. Los ejercicios se realizan con ChatGPT y muestran criterios de resultado y observación. La clave interna `practice` se conserva como Examen para mantener compatibilidad con el progreso histórico.
+
+## v19.0 — Teoría + Ejercicios + Examen
+
+- La antigua zona Prácticas pasa a ser Examen conservando todo el progreso.
+- Nueva zona Ejercicios: 3–4 actividades aplicadas por capítulo para realizar con ChatGPT.
+- Los Ejercicios son opcionales y no bloquean el avance.
+- Un capítulo se considera completado con Teoría + Examen.
+- El feedback aparece después del examen, pero no bloquea.
+- El progreso oficial se calcula con Teoría y Examen.
+- Fondo definitivo de acceso: cilindro holográfico proyectado por el robot.
