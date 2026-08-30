@@ -1,15 +1,18 @@
 {
-  "app_version": "18.1",
+  "app_version": "18.2",
   "name": "Curso IA ChatGPT",
-  "release": "Correcciones de acceso, perfil, Teoría y tipografía",
+  "release": "Excelencia UX, capítulo 0, prácticas persistentes y progreso emergente",
   "changes": [
-    "acceso holográfico alineado con el diseño aprobado",
-    "panel de acceso más estrecho y alto, proyectado desde el robot derecho",
-    "recuerdo del último correo sin guardar contraseña",
-    "refresco inmediato del nombre tras editar el propio usuario",
-    "Teoría sustituye a Curso como nombre de la sección",
-    "selector emergente Selecciona Capítulo",
-    "listas con primera letra en mayúscula",
-    "texto justificado sin división automática con guion"
+    "Capítulo 0 informativo sin prácticas, feedback ni impacto en progreso",
+    "Capítulo 5 reescrito y fuentes generales trasladadas al capítulo 0",
+    "listas sin punto y coma final y con mayúscula inicial",
+    "Lectura terminada y Práctica Terminada vuelven siempre a la pantalla anterior",
+    "acceso holográfico más pequeño y fondo futurista más visible en toda la app",
+    "selector emergente Selecciona Práctica",
+    "respuestas de selección por toque directo, sin desplegable, bloqueadas tras comprobar",
+    "comprobaciones persistentes con sincronización inmediata y protección frente a carreras",
+    "Progreso como ventana emergente con teoría, prácticas, feedback y porcentaje de acierto",
+    "Administración sin Actualizar listado ni Copiar enlace; refresco automático y alta visible aunque falle la invitación",
+    "política de respuestas correctas con aleatorización equilibrada A/B/C/D"
   ]
 }

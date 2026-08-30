@@ -20,6 +20,21 @@
         "mostrar respuesta esperada",
         "dar explicación breve y útil"
       ]
-    }
+    },
+    "choice_interaction": {
+      "selection_method": "tap option directly; no separate dropdown",
+      "after_check": "lock the answer permanently and persist result locally and in cloud",
+      "explanation": "show concise explanation after checking"
+    },
+    "answer_position_policy": {
+      "method": "balanced randomization",
+      "rules": [
+        "randomize the order of plausible alternatives",
+        "keep A/B/C/D approximately balanced across a practice",
+        "avoid obvious repeated patterns",
+        "update the stored correct answer whenever alternatives are reordered"
+      ]
+    },
+    "supervision_language": "Do not present A/B/C as a learner-facing taxonomy. Explain explicitly whether AI can execute alone, requires human review, or requires a human final decision."
   }
 }

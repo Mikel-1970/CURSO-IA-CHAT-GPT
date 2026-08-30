@@ -269,7 +269,7 @@ body{background:#eef4fb}
 }
 .workspace select option,#administracion select option{background:#0a315b!important;color:#fff!important}
 .workspace textarea::placeholder,.workspace input::placeholder{color:#9cbcd3!important}
-.workspace-foot-progress,.progress-copy{color:#a9cbe1!important}
+.workspace-foot-progress{color:#a9cbe1!important}
 
 /* ---------- CURSO ---------- */
 .lesson-visual{
@@ -464,6 +464,44 @@ dialog.chapter-dialog::backdrop{background:rgba(0,9,23,.66)!important}
 
 .lesson-content p,.lesson-content li,#practiceArea .mini>p,#practiceArea .mini .practice-question,.choice-option-text{-webkit-hyphens:none!important;hyphens:none!important;word-break:normal!important;overflow-wrap:break-word!important}
 
+
+/* =====================================================
+   v18.2 — excelencia móvil, holograma, fondo y prácticas
+   ===================================================== */
+/* Mantener visibles los elementos del fondo en todas las pantallas */
+.app-shell,.workspace{
+  background:
+    linear-gradient(rgba(2,17,39,.58),rgba(2,18,42,.72)),
+    url("./login-futurista.png") 52% center/cover fixed no-repeat!important;
+}
+.home-welcome,.zone-card,.card,.workspace-select{background-color:rgba(4,34,68,.69)!important;backdrop-filter:blur(6px)!important;-webkit-backdrop-filter:blur(6px)!important}
+
+/* Acceso: holograma más pequeño, desplazado hacia la proyección del robot derecho */
+.login-screen{
+  background:linear-gradient(90deg,rgba(1,13,31,.00),rgba(1,13,31,.06)),url("./login-futurista.png") 55% center/cover no-repeat!important;
+  padding-top:max(7vh,env(safe-area-inset-top))!important;padding-right:max(2vw,8px)!important;
+}
+.login-card{width:min(330px,42vw)!important;margin:0 1.5vw 0 0!important;padding:14px 15px 15px!important;border-radius:23px!important;background:linear-gradient(145deg,rgba(5,48,91,.58),rgba(8,73,126,.43))!important;border:1px solid rgba(155,230,255,.78)!important;box-shadow:0 0 34px rgba(50,203,255,.26),inset 0 0 18px rgba(83,203,255,.08)!important;backdrop-filter:blur(7px) saturate(135%)!important;-webkit-backdrop-filter:blur(7px) saturate(135%)!important}
+.login-card::before{right:-12%!important;bottom:-78px!important;width:46%!important;height:86px!important;transform:rotate(-4deg)!important;opacity:.8!important}
+.login-card::after{right:-10%!important;bottom:-74px!important;width:42%!important;height:82px!important;transform:rotate(-4deg)!important}
+.login-card .brand-mark{width:48px!important;height:48px!important;margin-bottom:5px!important}.login-card .brand-mark svg{width:32px!important;height:32px!important}.login-card h1{font-size:1.18rem!important}.login-sub{font-size:.78rem!important;margin-bottom:5px!important}.login-language{margin-bottom:4px!important}.login-language select{font-size:.72rem!important;min-width:96px!important;padding:5px 24px 5px 7px!important}.login-field{margin:6px 0!important;grid-template-columns:30px minmax(0,1fr) 30px!important;border-radius:11px!important}.login-field input{min-height:42px!important;font-size:16px!important;padding:8px 1px!important}.login-card .btn.primary{min-height:42px!important}.login-links{gap:5px!important;margin-top:6px!important}.login-links .btn{min-height:36px!important;font-size:.74rem!important;padding:7px 8px!important}#authMsg{font-size:.70rem!important}
+@media(max-width:600px){.login-card{width:min(275px,64vw)!important;margin-right:1vw!important;margin-top:1.5vh!important;padding:12px 12px 13px!important}.login-card h1{font-size:1.04rem!important}.login-card .brand-mark{width:44px!important;height:44px!important}.login-card .brand-mark svg{width:29px!important;height:29px!important}.login-language{justify-content:flex-end!important}.login-language label{display:none!important}.login-field{grid-template-columns:28px minmax(0,1fr) 28px!important}.login-field input{min-height:40px!important}.login-links .btn{font-size:.70rem!important}}
+
+/* Selectores emergentes */
+.theory-picker-bar,.practice-picker-bar{display:flex;justify-content:flex-start;margin-bottom:14px}.chapter-picker-trigger,.practice-picker-trigger{min-width:180px;background:rgba(8,65,116,.78)!important;border-color:rgba(94,208,255,.58)!important}.progress-trigger{appearance:none;border:0!important;padding:0!important;background:transparent!important;color:inherit!important;text-align:initial!important;cursor:pointer!important}.progress-trigger:focus-visible{outline:2px solid #66d8ff!important;outline-offset:4px!important;border-radius:8px!important}
+
+/* Opciones de práctica: la propia opción es el control */
+.choice-options-list{display:grid;gap:9px;margin:12px 0 14px}.choice-option-row{appearance:none;width:100%;display:grid!important;grid-template-columns:36px minmax(0,1fr)!important;gap:9px!important;align-items:start!important;text-align:left!important;padding:10px 12px!important;border:1px solid rgba(98,184,235,.28)!important;border-radius:12px!important;background:rgba(6,44,83,.46)!important;color:#e8f6ff!important;cursor:pointer!important}.choice-option-row:hover{border-color:rgba(103,215,255,.65)!important}.choice-option-row.selected{border-color:#64ddff!important;background:rgba(18,105,161,.66)!important;box-shadow:0 0 0 2px rgba(67,207,255,.12),0 0 18px rgba(34,168,235,.16)!important}.choice-option-row.locked{cursor:default!important}.choice-option-row.locked:not(.selected){opacity:.58}.choice-option-row:disabled{color:#e8f6ff!important}.choice-option-letter{pointer-events:none}.choice-option-text{pointer-events:none}
+
+/* Sin partición con guion y sin punto y coma final en listas (normalizado también por JS) */
+.lesson-content p,.lesson-content li,#practiceArea .practice-question,.choice-option-text{-webkit-hyphens:none!important;hyphens:none!important;word-break:normal!important;overflow-wrap:break-word!important}
+
+/* Resumen emergente de progreso */
+.progress-dialog{width:min(620px,94vw)!important}.progress-summary-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.progress-metric{padding:13px;border-radius:14px;border:1px solid rgba(98,190,242,.28);background:rgba(5,43,82,.62)}.progress-metric strong{font-size:1.4rem;color:#78e0ff}.progress-metric span{display:block;color:#b9d4e8;margin-top:3px}.progress-bar-detail{height:8px;background:rgba(139,193,225,.15);border-radius:999px;overflow:hidden;margin-top:8px}.progress-bar-detail i{display:block;height:100%;background:linear-gradient(90deg,#39caff,#147be9);border-radius:inherit}.accuracy-note{margin-top:12px;color:#b9d4e8;font-size:.86rem}@media(max-width:520px){.progress-summary-grid{grid-template-columns:1fr}}
+
+/* Capítulo 0 */
+.chapter-zero-note{margin-top:12px}
+
 </style>
 </head>
 <body>
@@ -503,12 +541,12 @@ dialog.chapter-dialog::backdrop{background:rgba(0,9,23,.66)!important}
 <div id="appShell" class="app-shell hidden">
   <header class="shell-header">
     <div class="shell-header-inner">
-      <div class="shell-brand">Curso IA ChatGPT <span class="pill ok">v18.1</span></div>
+      <div class="shell-brand">Curso IA ChatGPT <span class="pill ok">v18.2</span></div>
       <div class="shell-spacer"></div>
-      <div class="compact-progress">
+      <button id="progressSummaryBtn" class="compact-progress progress-trigger" type="button" aria-label="Ver resumen de progreso">
         <div class="compact-progress-line"><span data-i18n="progress">Progreso</span><strong id="progressText">0%</strong></div>
         <div class="progress"><i id="progressBar"></i></div>
-      </div>
+      </button>
       <div class="shell-actions">
         <button id="installAppBtn" class="icon-btn hidden" type="button" title="Instalar"><span data-i18n="install">Instalar</span> ⤓</button><button id="adminTab" class="icon-btn hidden" type="button" title="Administración"><span data-i18n="profile_admin">Perfil</span> ⚙︎</button>
         <button id="signOutBtn" class="icon-btn" type="button" title="Cerrar sesión"><span data-i18n="sign_out">Salir</span> ⎋</button>
@@ -532,7 +570,6 @@ dialog.chapter-dialog::backdrop{background:rgba(0,9,23,.66)!important}
       <div id="lesson" class="card"></div>
       <div class="card notes-card"><label for="notes" data-i18n="my_notes">Mis notas y comentarios</label><textarea id="notes" rows="6" placeholder="Ideas, dudas, aplicaciones reales, mejoras..." data-i18n-placeholder="notes_placeholder"></textarea></div>
       <div id="chapterCompletionCard" class="card reading-card"></div>
-      <div class="workspace-foot-progress progress-copy"></div>
       <div class="hidden-tech"><span id="chapterDate"></span><span id="chapterStatusText"></span><span id="chapterLockInfo"></span></div>
     </div>
   </section>
@@ -540,9 +577,8 @@ dialog.chapter-dialog::backdrop{background:rgba(0,9,23,.66)!important}
   <section id="practicas" class="workspace">
     <div class="workspace-head"><div class="workspace-head-inner"><button class="icon-btn" data-close-zone type="button" data-i18n="back">← Volver</button><div class="workspace-title" data-i18n="practices">Prácticas</div></div></div>
     <div class="workspace-body">
-      <div class="workspace-select"><label for="practiceChapterSelect" data-i18n="chapter">Capítulo</label><select id="practiceChapterSelect"></select></div>
+      <div class="practice-picker-bar"><button id="openPracticePickerBtn" class="btn practice-picker-trigger" type="button">Selecciona Práctica</button><select id="practiceChapterSelect" class="hidden" aria-hidden="true" tabindex="-1"></select></div>
       <div id="practiceArea"></div>
-      <div class="workspace-foot-progress progress-copy"></div>
     </div>
   </section>
 
@@ -551,7 +587,6 @@ dialog.chapter-dialog::backdrop{background:rgba(0,9,23,.66)!important}
     <div class="workspace-body">
       <div class="workspace-select"><label for="feedbackChapterSelect" data-i18n="chapter">Capítulo</label><select id="feedbackChapterSelect"></select><div id="feedbackChapterInfo" class="muted" style="margin-top:7px"></div></div>
       <div id="feedbackArea"></div>
-      <div class="workspace-foot-progress progress-copy"></div>
     </div>
   </section>
 
@@ -586,13 +621,12 @@ dialog.chapter-dialog::backdrop{background:rgba(0,9,23,.66)!important}
             <div><label for="adminRole">Rol</label><select id="adminRole"><option value="member">Usuario</option><option value="admin">Administrador</option></select></div>
             <div><label for="adminLanguage">Idioma</label><select id="adminLanguage"><option value="es">Español</option><option value="en">English</option><option value="fr">Français</option><option value="de">Deutsch</option><option value="it">Italiano</option><option value="pt">Português</option></select></div>
           </div>
-          <div class="btnrow"><button id="adminAddBtn" class="btn primary" type="button">Crear e invitar usuario</button><button id="adminRefreshBtn" class="btn" type="button">Actualizar listado</button><button id="copyAppLinkBtn" class="btn" type="button">Copiar enlace</button></div>
+          <div class="btnrow"><button id="adminAddBtn" class="btn primary" type="button">Crear e invitar usuario</button></div>
           <div id="adminMsg" class="muted" style="margin-top:8px"></div>
         </div>
         <div id="adminTranslationStatus" class="card"></div>
         <div class="card tablewrap"><table><thead><tr><th>Usuario</th><th>Rol</th><th>Acceso</th><th>Invitación</th><th>Última actividad</th><th>Progreso</th><th>Acciones</th></tr></thead><tbody id="adminUsersBody"></tbody></table></div>
       </div>
-      <div class="workspace-foot-progress progress-copy"></div>
     </div>
   </section>
 
@@ -604,6 +638,12 @@ dialog.chapter-dialog::backdrop{background:rgba(0,9,23,.66)!important}
     <div id="statDone"></div><div id="statDoing"></div><div id="statPractice"></div><table><tbody id="rows"></tbody></table><div id="finalCourseSummary"></div>
   </div>
 
+  <dialog id="practicePickerDialog" class="chapter-dialog chapter-picker-dialog">
+    <div class="dialog-body"><div class="chapter-picker-head"><h2>Selecciona Práctica</h2><button id="closePracticePickerBtn" class="icon-btn" type="button">×</button></div><div id="practicePickerList" class="chapter-picker-list"></div></div>
+  </dialog>
+  <dialog id="progressDialog" class="chapter-dialog progress-dialog">
+    <div class="dialog-body"><div class="chapter-picker-head"><h2>Resumen de progreso</h2><button id="closeProgressDialogBtn" class="icon-btn" type="button">×</button></div><div id="progressSummaryBody"></div></div>
+  </dialog>
   <dialog id="chapterPickerDialog" class="chapter-dialog chapter-picker-dialog">
     <div class="dialog-body"><div class="chapter-picker-head"><h2>Selecciona Capítulo</h2><button id="closeChapterPickerBtn" class="icon-btn" type="button">×</button></div><div id="chapterPickerList" class="chapter-picker-list"></div></div>
   </dialog>
@@ -872,6 +912,7 @@ function opts(){
   if(el("practiceChapterSelect"))el("practiceChapterSelect").innerHTML=build("practice");
   if(el("feedbackChapterSelect"))el("feedbackChapterSelect").innerHTML=build("feedback");
   renderChapterPicker();
+  renderPracticePicker();
 }
 function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));}
 function norm(s){return String(s||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^\p{L}\p{N}\s]/gu," ").replace(/\s+/g," ").trim();}
@@ -910,12 +951,26 @@ async function loadCourseContent(showNotice=false){
 function lessonIllustration(n,title){
   return `<div class="lesson-visual"><svg viewBox="0 0 160 120" fill="none" aria-hidden="true"><circle cx="80" cy="58" r="36" stroke="rgba(255,255,255,.72)" stroke-width="2"/><circle cx="42" cy="30" r="7" fill="#bceaff"/><circle cx="118" cy="28" r="7" fill="#bceaff"/><circle cx="127" cy="76" r="7" fill="#bceaff"/><circle cx="57" cy="94" r="7" fill="#bceaff"/><circle cx="80" cy="58" r="9" fill="white"/><path d="M48 34 72 52m39-19L89 52m30 21-30-11M61 89l14-23" stroke="#dff5ff" stroke-width="3"/></svg><div><h2>Capítulo ${n}</h2><p>${esc(title)}</p></div></div>`;
 }
-function capitalizeFirstLetterDeep(node){const walker=document.createTreeWalker(node,NodeFilter.SHOW_TEXT);let t;while(t=walker.nextNode()){if(!t.nodeValue||!/\p{L}/u.test(t.nodeValue))continue;t.nodeValue=t.nodeValue.replace(/\p{L}/u,ch=>ch.toLocaleUpperCase(currentLanguage));return;}}
-function decorateLessonContent(){const root=el("lesson")?.querySelector(".lesson-content");if(!root)return;root.querySelectorAll("li").forEach(capitalizeFirstLetterDeep);root.querySelectorAll("table").forEach(table=>{if(table.parentElement?.classList.contains("lesson-table-scroll"))return;const wrap=document.createElement("div");wrap.className="lesson-table-scroll";table.parentNode.insertBefore(wrap,table);wrap.appendChild(table);});}
+function normalizeListItem(node){
+  const walker=document.createTreeWalker(node,NodeFilter.SHOW_TEXT);const texts=[];let t,capitalized=false;
+  while(t=walker.nextNode()){
+    texts.push(t);
+    if(!capitalized&&t.nodeValue&&/\p{L}/u.test(t.nodeValue)){t.nodeValue=t.nodeValue.replace(/\p{L}/u,ch=>ch.toLocaleUpperCase(currentLanguage));capitalized=true;}
+  }
+  for(let i=texts.length-1;i>=0;i--){if(texts[i].nodeValue&&texts[i].nodeValue.trim()){texts[i].nodeValue=texts[i].nodeValue.replace(/;\s*$/,'');break;}}
+}
+function decorateLessonContent(){const root=el("lesson")?.querySelector(".lesson-content");if(!root)return;root.querySelectorAll("li").forEach(normalizeListItem);root.querySelectorAll("table").forEach(table=>{if(table.parentElement?.classList.contains("lesson-table-scroll"))return;const wrap=document.createElement("div");wrap.className="lesson-table-scroll";table.parentNode.insertBefore(wrap,table);wrap.appendChild(table);});}
 function renderChapterPicker(){
   const box=el("chapterPickerList");if(!box)return;
-  box.innerHTML=Array.from({length:maxChapter()},(_,i)=>{const n=i+1,[title]=metadata(n),allowed=availableForUser(n)&&isChapterUnlocked(n),stateText=chapterComplete(n)?"✓":(allowed?"Disponible":"Bloqueado");return `<button class="chapter-picker-item ${n===current?"current":""}" type="button" data-pick-chapter="${n}" ${allowed?"":"disabled"}><span class="chapter-picker-number">${n}</span><span class="chapter-picker-title">${esc(title)}</span><span class="chapter-picker-state">${stateText}</span></button>`;}).join("");
+  const nums=[0,...Array.from({length:maxChapter()},(_,i)=>i+1)].filter(n=>availableForUser(n)||n>0);
+  box.innerHTML=nums.map(n=>{const [title]=metadata(n),allowed=n===0?availableForUser(0):(availableForUser(n)&&isChapterUnlocked(n)),stateText=n===0?"Información":(chapterComplete(n)?"✓":(allowed?"Disponible":"Bloqueado"));return `<button class="chapter-picker-item ${n===current?"current":""}" type="button" data-pick-chapter="${n}" ${allowed?"":"disabled"}><span class="chapter-picker-number">${n}</span><span class="chapter-picker-title">${esc(title)}</span><span class="chapter-picker-state">${stateText}</span></button>`;}).join("");
   box.querySelectorAll("[data-pick-chapter]").forEach(b=>b.addEventListener("click",()=>{current=Number(b.dataset.pickChapter);el("chapterPickerDialog").close();safeRenderAll();}));
+}
+function renderPracticePicker(){
+  const box=el("practicePickerList");if(!box)return;
+  const nums=Array.from({length:maxChapter()},(_,i)=>i+1);
+  box.innerHTML=nums.map(n=>{const [title]=metadata(n),allowed=availableForUser(n)&&isChapterUnlocked(n)&&readingRequirementsMet(n),stateText=practiceRequirementsMet(n)?"✓":(allowed?"Disponible":(!availableForUser(n)?"Pendiente":!readingRequirementsMet(n)?"Lectura pendiente":"Bloqueada"));return `<button class="chapter-picker-item ${n===current?"current":""}" type="button" data-pick-practice="${n}" ${allowed?"":"disabled"}><span class="chapter-picker-number">${n}</span><span class="chapter-picker-title">${esc(title)}</span><span class="chapter-picker-state">${stateText}</span></button>`;}).join("");
+  box.querySelectorAll("[data-pick-practice]").forEach(b=>b.addEventListener("click",()=>{current=Number(b.dataset.pickPractice);el("practicePickerDialog").close();safeRenderAll();}));
 }
 function renderLesson(){
   ensureCurrentAccessible();
@@ -925,14 +980,16 @@ function renderLesson(){
   if(el("chapterStatusText"))el("chapterStatusText").textContent=derivedChapterState(current);
   if(el("chapterLockInfo"))el("chapterLockInfo").textContent="";
   if(el("notes"))el("notes").value=state.notes[current]||"";
+  const notesCard=document.querySelector("#curso .notes-card");if(notesCard)notesCard.classList.toggle("hidden",current===0);
   if(!unlocked){el("lesson").innerHTML=`<div class="locked-card"><h2>Capítulo ${current} bloqueado</h2><p>Completa el capítulo anterior para continuar.</p></div>`;el("chapterCompletionCard").innerHTML="";return;}
   if(!available){el("lesson").innerHTML=`${lessonIllustration(current,title)}<p>${esc(obj)}</p><div class="notice"><strong>Pendiente de publicación.</strong></div>`;el("chapterCompletionCard").innerHTML="";return;}
   el("lesson").innerHTML=`${lessonIllustration(current,title)}${c._translationFallback?`<div class="notice"><strong>${esc(tr("translation_pending"))}</strong></div>`:""}<div class="lesson-content">${c.content_html}</div><div class="updated">Versión ${c.version} · ${new Date(c.updated_at).toLocaleDateString(currentLanguage==="en"?"en-GB":currentLanguage)}</div>`;
   decorateLessonContent();
+  if(current===0){el("chapterCompletionCard").innerHTML=`<div class="notice chapter-zero-note"><strong>Capítulo informativo.</strong> No tiene prácticas, feedback ni afecta al progreso del curso.</div><div class="btnrow"><button id="chapterZeroBackBtn" class="btn primary" type="button">Volver al inicio</button></div>`;el("chapterZeroBackBtn").addEventListener("click",closeWorkspace);return;}
   const done=readingRequirementsMet(current);
-  el("chapterCompletionCard").innerHTML=`<button id="readingDoneBtn" class="btn ${done?"ok":"primary"}" type="button" ${done?"disabled":""}>${esc(tr("reading_done"))}</button>${done?'<div class="muted" style="margin-top:8px">La lectura de este capítulo ya está marcada como terminada.</div>':''}`;
+  el("chapterCompletionCard").innerHTML=`<button id="readingDoneBtn" class="btn ${done?"ok":"primary"}" type="button">${esc(tr("reading_done"))}</button>${done?'<div class="muted" style="margin-top:8px">La lectura de este capítulo ya está marcada como terminada.</div>':''}`;
   const btn=el("readingDoneBtn");
-  if(btn&&!done)btn.addEventListener("click",async()=>{state.readingDone[current]=new Date().toISOString();saveLocal();await pushCloud(false);opts();renderProgress();closeWorkspace();});
+  if(btn)btn.addEventListener("click",async()=>{if(!done){state.readingDone[current]=new Date().toISOString();saveLocal();clearTimeout(saveTimer);await pushCloud(false);opts();renderProgress();}closeWorkspace();});
 }
 function renderPractice(){
   const c=courseContent[current], p=c?.practice||{};
@@ -1099,8 +1156,9 @@ function renderPractice1(p){
   });
 
   el("practiceDoneBtn").addEventListener("click",async()=>{
+    if(state.practices[1]){closeWorkspace();return;}
     if(!practiceChecksComplete(1)){alert("Antes de terminar las prácticas, comprueba 1A, 1B y la prueba de comprensión.");return;}
-    state.practices[1]=true;saveLocal();safeRenderAll();if(chapterComplete(1))maybeShowNewChapterDialog();
+    state.practices[1]=true;saveLocal();clearTimeout(saveTimer);await pushCloud(false);renderProgress();closeWorkspace();if(chapterComplete(1))maybeShowNewChapterDialog();
   });
 
   const checkStore=practiceChecks(1);
@@ -1288,11 +1346,9 @@ function renderPractice2(p){
   });
   el("p2RealResult").innerHTML=resultBox(checks[checkKey(real.id||"2C")],criterionLabels(real));
 
-  el("p2Done").addEventListener("click",()=>{
-    state.practices[chapter]=true;
-    saveLocal();
-    renderProgress();
-    el("p2DoneMsg").textContent="Práctica 2 marcada como realizada y guardada.";
+  el("p2Done").addEventListener("click",async()=>{
+    if(state.practices[chapter]){closeWorkspace();return;}
+    state.practices[chapter]=true;saveLocal();clearTimeout(saveTimer);await pushCloud(false);renderProgress();closeWorkspace();
   });
   if(state.practices[chapter])el("p2DoneMsg").textContent="Práctica 2 ya marcada como realizada.";
 }
@@ -1340,6 +1396,7 @@ function renderGenericPractice(p,chapter){
   const choiceOptionLabel=(ex,value)=>{const found=effectiveChoiceOptions(ex).find(o=>String(o.value)===String(value));return found?`${found.value}. ${found.label}`:String(value??"");};
   const resultHtml=(ex,res)=>{
     if(!res)return "";
+    if(res.type==="recovered")return `<div class="rubric good"><strong>Comprobación recuperada</strong><div style="margin-top:8px">Este ejercicio constaba como comprobado antes de una incidencia de sincronización. Se conserva como realizado, pero no se asigna acierto ni error porque el detalle original de la respuesta no quedó guardado.</div></div>`;
     if(res.type==="choice"){
       const selected=choiceOptionLabel(ex,res.selected??"");
       const expected=choiceOptionLabel(ex,res.expected??ex.answer??"");
@@ -1384,7 +1441,7 @@ function renderGenericPractice(p,chapter){
       body+=`<div class="mini" style="margin-bottom:28px" data-generic-ex="${esc(id)}"><strong>${esc(ex.label||id)}</strong><p class="practice-question">${esc(questionText)}</p>`;
       if(type==="choice"){
         const options=effectiveChoiceOptions(ex).map(o=>({...o,label:String(o.label||"").replace(/\p{L}/u,ch=>ch.toLocaleUpperCase(currentLanguage))}));
-        body+=`<div class="choice-options-list">${options.map(o=>`<div class="choice-option-row"><span class="choice-option-letter">${esc(o.value)}</span><span class="choice-option-text">${esc(o.label)}</span></div>`).join("")}</div><select data-gen-choice="${esc(id)}"><option value=""></option>${options.map(o=>`<option value="${esc(o.value)}">${esc(o.value)} — ${esc(o.label)}</option>`).join("")}</select>`;
+        body+=`<div class="choice-options-list" data-gen-choice-group="${esc(id)}">${options.map(o=>`<button class="choice-option-row" type="button" data-gen-option="${esc(id)}" data-value="${esc(o.value)}"><span class="choice-option-letter">${esc(o.value)}</span><span class="choice-option-text">${esc(o.label)}</span></button>`).join("")}</div>`;
       }else if(type==="classification"){
         body+=(ex.items||[]).map((it,ii)=>`<div class="qrow"><span>${ii+1}. ${esc(it.text||it.question||"")}</span><select data-gen-class="${esc(id)}" data-index="${ii}"><option value=""></option>${(ex.options||["A","B","C"]).map(o=>`<option value="${esc(o)}">${esc(o)}</option>`).join("")}</select><span></span></div>`).join("");
       }else{
@@ -1398,6 +1455,9 @@ function renderGenericPractice(p,chapter){
   el("practiceArea").innerHTML=body;
 
   const totalPracticeExercises=sections.reduce((n,s)=>n+(s.exercises||[]).length,0);
+  const runtimeChecksComplete=()=>sections.every((s,si)=>(s.exercises||[]).every((ex,ei)=>!!checks[String(ex.id||`${si+1}_${ei+1}`)]));
+  const persistRuntimeChecks=()=>{state.checks=state.checks||{};state.checks[chapter]=deepMergeClient(state.checks[chapter]||{},checks);};
+  const persistCheckedResult=async(id,res)=>{checks[id]=res;persistRuntimeChecks();saveLocal();clearTimeout(saveTimer);await pushCloud(false);persistRuntimeChecks();saveLocal(false);};
   const updatePracticeCounter=()=>{
     const done=(sections||[]).reduce((n,s)=>n+(s.exercises||[]).filter((ex,ei)=>{
       const sid=String(ex.id||`${sections.indexOf(s)+1}_${ei+1}`);
@@ -1422,15 +1482,18 @@ function renderGenericPractice(p,chapter){
     }
     const paint=()=>{if(resultNode)resultNode.innerHTML=resultHtml(ex,checks[id]);};
     if(type==="choice"){
-      const node=document.querySelector(`[data-gen-choice="${CSS.escape(id)}"]`);
-      node.value=state.answers[akey(id)]||"";
-      node.addEventListener("change",e=>{state.answers[akey(id)]=e.target.value;checks[id]=null;saveLocal();paint();updatePracticeCounter();});
+      const optionNodes=[...document.querySelectorAll(`[data-gen-option="${CSS.escape(id)}"]`)];
+      const checkBtn=document.querySelector(`[data-gen-check="${CSS.escape(id)}"]`);
+      const paintChoice=()=>{const selected=String(checks[id]?.selected??state.answers[akey(id)]??"");const locked=!!checks[id];optionNodes.forEach(node=>{const on=String(node.dataset.value)===selected;node.classList.toggle("selected",on);node.classList.toggle("locked",locked);node.disabled=locked;});if(checkBtn)checkBtn.disabled=locked||!selected;};
+      optionNodes.forEach(node=>node.addEventListener("click",()=>{if(checks[id])return;state.answers[akey(id)]=node.dataset.value||"";saveLocal();paintChoice();}));
+      paintChoice();
     }else if(type==="classification"){
-      document.querySelectorAll(`[data-gen-class="${CSS.escape(id)}"]`).forEach(node=>{const ii=Number(node.dataset.index);node.value=state.answers[akey(id,`_${ii}`)]||"";node.addEventListener("change",e=>{state.answers[akey(id,`_${ii}`)]=e.target.value;checks[id]=null;saveLocal();paint();updatePracticeCounter();});});
+      document.querySelectorAll(`[data-gen-class="${CSS.escape(id)}"]`).forEach(node=>{const ii=Number(node.dataset.index);node.value=state.answers[akey(id,`_${ii}`)]||"";node.disabled=!!checks[id];if(!checks[id])node.addEventListener("change",e=>{state.answers[akey(id,`_${ii}`)]=e.target.value;saveLocal();});});
     }else{
-      const node=document.querySelector(`[data-gen-open="${CSS.escape(id)}"]`);node.value=state.answers[akey(id)]||"";node.addEventListener("input",e=>{state.answers[akey(id)]=e.target.value;checks[id]=null;saveLocal();paint();updatePracticeCounter();});
+      const node=document.querySelector(`[data-gen-open="${CSS.escape(id)}"]`);node.value=state.answers[akey(id)]||"";node.disabled=!!checks[id];if(!checks[id])node.addEventListener("input",e=>{state.answers[akey(id)]=e.target.value;saveLocal();});
     }
-    document.querySelector(`[data-gen-check="${CSS.escape(id)}"]`).addEventListener("click",()=>{
+    const exerciseCheckBtn=document.querySelector(`[data-gen-check="${CSS.escape(id)}"]`);if(checks[id])exerciseCheckBtn.disabled=true;
+    exerciseCheckBtn.addEventListener("click",async()=>{if(checks[id])return;
       let res;
       if(type==="choice"){
         const value=state.answers[akey(id)]||"";
@@ -1455,43 +1518,35 @@ function renderGenericPractice(p,chapter){
       }else{
         const value=state.answers[akey(id)]||"";res=scoreOpen(ex,value);
       }
-      checks[id]=res;
-      saveLocal();
-
-      // Cancelamos cualquier reconstrucción aplazada originada mientras se
-      // escribía y mantenemos este resultado en el DOM actual.
+      await persistCheckedResult(id,res);
       deferredFullRender=false;
       paint();
-      requestAnimationFrame(()=>paint());
-      setTimeout(()=>paint(),150);
-      setTimeout(()=>paint(),800);
+      const btnNow=document.querySelector(`[data-gen-check="${CSS.escape(id)}"]`);if(btnNow)btnNow.disabled=true;
+      if(type==="choice"){document.querySelectorAll(`[data-gen-option="${CSS.escape(id)}"]`).forEach(node=>{node.disabled=true;node.classList.add("locked");node.classList.toggle("selected",String(node.dataset.value)===String(res.selected||""));});}
+      if(type==="classification")document.querySelectorAll(`[data-gen-class="${CSS.escape(id)}"]`).forEach(node=>node.disabled=true);
+      if(type!=="choice"&&type!=="classification"){const openNode=document.querySelector(`[data-gen-open="${CSS.escape(id)}"]`);if(openNode)openNode.disabled=true;}
       updatePracticeCounter();
-
       const doneBtn=el("genericPracticeDone"),doneMsg=el("genericPracticeDoneMsg");
-      if(doneBtn&&practiceChecksComplete(chapter)){
+      if(doneBtn&&runtimeChecksComplete()){
         doneBtn.disabled=false;
         if(doneMsg&&!state.practices[chapter])doneMsg.textContent="Todos los ejercicios han sido respondidos y comprobados. Ya puedes marcar las prácticas como terminadas.";
       }
     });
     paint();
   }));
-  const practiceReady=practiceChecksComplete(chapter);el("genericPracticeDone").disabled=!practiceReady&&!state.practices[chapter];
+  const practiceReady=runtimeChecksComplete();el("genericPracticeDone").disabled=!practiceReady&&!state.practices[chapter];
   if(!practiceReady&&!state.practices[chapter])el("genericPracticeDoneMsg").textContent="Comprueba todos los ejercicios obligatorios para poder terminar las prácticas.";
   el("genericPracticeDone").addEventListener("click",async()=>{
-    if(!practiceChecksComplete(chapter)){
-      el("genericPracticeDoneMsg").textContent="Aún quedan ejercicios sin comprobar.";
-      updatePracticeCounter();
-      return;
+    if(state.practices[chapter]){closeWorkspace();return;}
+    if(!runtimeChecksComplete()){
+      el("genericPracticeDoneMsg").textContent="Aún quedan ejercicios sin comprobar.";updatePracticeCounter();return;
     }
-    state.practices[chapter]=true;
-    saveLocal();
+    persistRuntimeChecks();state.practices[chapter]=true;saveLocal();clearTimeout(saveTimer);
     el("genericPracticeDoneMsg").textContent="Práctica terminada. Guardando en la nube…";
-    await pushCloud(false);
-    opts();renderProgress();
-    closeWorkspace();
-    if(chapterComplete(chapter))maybeShowNewChapterDialog();
+    await pushCloud(false);persistRuntimeChecks();state.practices[chapter]=true;saveLocal(false);
+    opts();renderProgress();closeWorkspace();if(chapterComplete(chapter))maybeShowNewChapterDialog();
   });
-  if(state.practices[chapter])el("genericPracticeDoneMsg").textContent="Prácticas terminadas y guardadas.";
+  if(state.practices[chapter])el("genericPracticeDoneMsg").textContent="Prácticas terminadas y guardadas. Puedes pulsar el botón para volver.";
 }
 
 function fieldHtml(f,val){
@@ -1582,18 +1637,11 @@ function renderFeedback(){
     if(chapterComplete(current))maybeShowNewChapterDialog();
   });
 }
+function exerciseAccuracySummary(){let correct=0,total=0,checked=0;Object.entries(state.checks||{}).forEach(([chapter,obj])=>{if(Number(chapter)<1||!obj||typeof obj!=="object")return;Object.values(obj).forEach(res=>{if(!res||typeof res!=="object"||!res.checked)return;checked++;if(res.type==="choice"&&typeof res.correct==="boolean"){total++;if(res.correct)correct++;}else if(res.type==="classification"&&Number.isFinite(Number(res.total))){total+=Number(res.total);correct+=Number(res.correct)||0;}});});return {correct,total,checked,pct:total?Math.round(correct*100/total):0};}
+function renderProgressSummary(pct){const box=el("progressSummaryBody");if(!box)return;const max=maxChapter(),nums=Array.from({length:max},(_,i)=>i+1),theory=nums.filter(readingRequirementsMet).length,pract=nums.filter(n=>!!state.practices?.[n]&&practiceChecksComplete(n)).length,feedback=nums.filter(feedbackRequirementsMet).length,acc=exerciseAccuracySummary(),p=v=>max?Math.round(v*100/max):0;box.innerHTML=`<div class="progress-summary-grid"><div class="progress-metric"><strong>${pct}%</strong><span>Progreso global</span><div class="progress-bar-detail"><i style="width:${pct}%"></i></div></div><div class="progress-metric"><strong>${p(theory)}%</strong><span>Teoría · ${theory}/${max}</span><div class="progress-bar-detail"><i style="width:${p(theory)}%"></i></div></div><div class="progress-metric"><strong>${p(pract)}%</strong><span>Prácticas · ${pract}/${max}</span><div class="progress-bar-detail"><i style="width:${p(pract)}%"></i></div></div><div class="progress-metric"><strong>${p(feedback)}%</strong><span>Feedback · ${feedback}/${max}</span><div class="progress-bar-detail"><i style="width:${p(feedback)}%"></i></div></div><div class="progress-metric"><strong>${acc.total?acc.pct+"%":"—"}</strong><span>Aciertos en ejercicios cerrados${acc.total?` · ${acc.correct}/${acc.total}`:""}</span><div class="progress-bar-detail"><i style="width:${acc.total?acc.pct:0}%"></i></div></div><div class="progress-metric"><strong>${acc.checked}</strong><span>Ejercicios comprobados</span></div></div><p class="accuracy-note">El porcentaje de acierto utiliza únicamente ejercicios que admiten corrección automática objetiva. Las respuestas abiertas no se convierten artificialmente en un porcentaje de acierto.</p>`;}
 function renderProgress(){
-  syncDerivedChapterStates();
-  const max=maxChapter();let points=0;
-  for(let n=1;n<=max;n++){const r=chapterRequirements(n);if(r.reading)points++;if(r.practice)points++;if(r.feedback)points++;}
-  const pct=max?Math.round(points/(max*3)*100):0;
-  if(el("progressText"))el("progressText").textContent=`${pct}%`;
-  if(el("progressBar"))el("progressBar").style.width=`${pct}%`;
-  document.querySelectorAll(".progress-copy").forEach(x=>x.textContent=`Progreso del curso: ${pct}%`);
-  if(el("statDone"))el("statDone").textContent=Array.from({length:max},(_,i)=>i+1).filter(chapterComplete).length;
-  if(el("statDoing"))el("statDoing").textContent=Array.from({length:max},(_,i)=>i+1).filter(n=>derivedChapterState(n)==="En curso").length;
-  if(el("statPractice"))el("statPractice").textContent=Array.from({length:max},(_,i)=>i+1).filter(n=>practiceRequirementsMet(n)).length;
-  renderFinalCourseSummary();
+  syncDerivedChapterStates();const max=maxChapter();let points=0;for(let n=1;n<=max;n++){const r=chapterRequirements(n);if(r.reading)points++;if(r.practice)points++;if(r.feedback)points++;}
+  const pct=max?Math.round(points/(max*3)*100):0;if(el("progressText"))el("progressText").textContent=`${pct}%`;if(el("progressBar"))el("progressBar").style.width=`${pct}%`;if(el("statDone"))el("statDone").textContent=Array.from({length:max},(_,i)=>i+1).filter(chapterComplete).length;if(el("statDoing"))el("statDoing").textContent=Array.from({length:max},(_,i)=>i+1).filter(n=>derivedChapterState(n)==="En curso").length;if(el("statPractice"))el("statPractice").textContent=Array.from({length:max},(_,i)=>i+1).filter(n=>practiceRequirementsMet(n)).length;renderProgressSummary(pct);renderFinalCourseSummary();
 }
 function renderAll(){applyLanguage();ensureCurrentAccessible();opts();renderLesson();renderPractice();renderFeedback();renderProgress();if(isAdmin)renderAdminData(false);}
 function closeWorkspace(){document.querySelectorAll(".workspace").forEach(w=>w.classList.remove("open"));document.body.style.overflow="";if(el("homeMenu"))el("homeMenu").scrollIntoView({block:"start"});}
@@ -1624,7 +1672,7 @@ async function refreshAccess(){
 function implicitSeen(n){return !!(state.readingDone?.[n]||state.practices?.[n]||state.feedback?.[n]?.submittedAt||state.notes?.[n]);}
 function maybeShowNewChapterDialog(){
   if(!session||!accessProfile?.active)return;
-  const published=publishedChapters().filter(n=>isChapterUnlocked(n));
+  const published=publishedChapters().filter(n=>n>=1&&isChapterUnlocked(n));
   pendingNewChapters=published.filter(n=>!state.contentSeen?.[n]&&!implicitSeen(n));
   if(!pendingNewChapters.length)return;
   const dlg=el("newChapterDialog");
@@ -1659,29 +1707,19 @@ async function saveMyProfile(){
 }
 async function renderAdminData(showMessage=false){
   if(!isAdmin||!sb||!session)return;
-  try{
-    const [{data:users,error:uerr},{data:progress,error:perr},{data:finalFb,error:ferr},{data:translations,error:terr}]=await Promise.all([
-      sb.from("course_users").select("email,display_name,role,active,user_id,created_at,last_seen_at,updated_at,preferred_language,invitation_status,invitation_sent_at,auth_confirmed_at").order("created_at"),
-      sb.from("course_progress_v2").select("user_id,data,updated_at"),
-      sb.from("course_final_feedback").select("user_id,answers,final_test,submitted_at,updated_at"),
-      sb.from("course_content_translations").select("chapter_number,language,published")
-    ]);
-    if(uerr)throw uerr;if(perr)throw perr;if(ferr)throw ferr;if(terr)throw terr;
-    const rowsFb=finalFb||[],scores=rowsFb.map(r=>Number(r.answers?.satisfaction)).filter(Number.isFinite),recs=rowsFb.map(r=>Number(r.answers?.recommend)).filter(Number.isFinite),after=rowsFb.map(r=>Number(r.answers?.mastery_after)).filter(Number.isFinite);
-    const avg=a=>a.length?(a.reduce((x,y)=>x+y,0)/a.length).toFixed(1):"—";
-    const promoters=recs.filter(x=>x>=9).length,detractors=recs.filter(x=>x<=6).length,nps=recs.length?Math.round((promoters-detractors)*100/recs.length):"—";
-    const sumBox=el("adminFinalFeedbackSummary");
-    if(sumBox){
-      sumBox.classList.remove("hidden");
-      sumBox.innerHTML=`<h3>Feedback global del curso</h3><div class="stats"><div><strong>${rowsFb.length}</strong><br><span class="muted">Respuestas finales</span></div><div><strong>${avg(scores)}/10</strong><br><span class="muted">Satisfacción media</span></div><div><strong>${nps}</strong><br><span class="muted">NPS</span></div><div><strong>${avg(after)}/10</strong><br><span class="muted">Dominio final percibido</span></div></div>`;
-    }
-    const tbox=el("adminTranslationStatus");if(tbox){const langs=["es","en","fr","de","it","pt"],publishedSet=new Set((translations||[]).filter(x=>x.published).map(x=>`${x.chapter_number}:${x.language}`)),chapters=publishedChapters();tbox.innerHTML=`<h3>Idiomas del curso</h3><p class="muted">La interfaz ya admite seis idiomas. El contenido usa español como versión maestra y solo muestra una traducción cuando está publicada.</p><div class="translation-grid">${chapters.map(n=>`<div class="translation-row"><strong>Cap. ${n}</strong>${langs.map(l=>`<span class="translation-cell ${l==="es"||publishedSet.has(`${n}:${l}`)?"ok":"pending"}">${l.toUpperCase()} ${l==="es"||publishedSet.has(`${n}:${l}`)?"✓":"…"}</span>`).join("")}</div>`).join("")}</div>`;}const byUser={};(progress||[]).forEach(r=>byUser[r.user_id]=r);
-    el("adminUsersBody").innerHTML=(users||[]).map(u=>{const pr=u.user_id?byUser[u.user_id]:null,d=pr?.data||{},done=Object.values(d.chapters||{}).filter(v=>v==="Completado").length,pract=Object.values(d.practices||{}).filter(Boolean).length,self=u.email===String(session.user.email||"").toLowerCase(),inviteLabel=u.auth_confirmed_at?"Confirmado":u.invitation_status==="sent"?"Enviada":u.invitation_status==="failed"?"Error":"Pendiente";return `<tr><td><strong>${esc(u.display_name||u.email)}</strong><br><span class="muted">${esc(u.email)}</span><br><span class="muted">${esc((u.preferred_language||"es").toUpperCase())}</span></td><td><span class="badge ${u.role==="admin"?"admin":""}">${u.role==="admin"?"Administrador":"Usuario"}</span></td><td><span class="badge ${u.active?"":"off"}">${u.active?"Activo":"Desactivado"}</span></td><td><span class="badge">${inviteLabel}</span>${u.invitation_sent_at?`<br><span class="muted">${fmtDate(u.invitation_sent_at)}</span>`:""}</td><td>${fmtDate(u.last_seen_at||pr?.updated_at)}</td><td>${done} cap. · ${pract} prácticas</td><td><div class="admin-actions"><button class="btn" data-admin-edit="${esc(u.email)}">Editar</button>${!u.auth_confirmed_at?`<button class="btn" data-admin-resend="${esc(u.email)}">${u.invitation_status==="sent"?"Reenviar invitación":"Enviar invitación"}</button>`:""}${self?'<span class="muted">Tu cuenta</span>':`<button class="btn danger" data-admin-remove="${esc(u.email)}">Quitar</button>`}</div></td></tr>`;}).join("");
-    document.querySelectorAll("[data-admin-edit]").forEach(b=>b.addEventListener("click",()=>openEditUser((users||[]).find(u=>u.email===b.dataset.adminEdit))));
-    document.querySelectorAll("[data-admin-resend]").forEach(b=>b.addEventListener("click",()=>adminResendInvite(b.dataset.adminResend)));
-    document.querySelectorAll("[data-admin-remove]").forEach(b=>b.addEventListener("click",()=>adminRemove(b.dataset.adminRemove)));
-    if(showMessage)el("adminMsg").textContent="Listado actualizado.";
-  }catch(e){el("adminMsg").textContent="No se pudo cargar Administración: "+(e.message||String(e));}
+  const {data:users,error:uerr}=await sb.from("course_users").select("email,display_name,role,active,user_id,created_at,last_seen_at,updated_at,preferred_language,invitation_status,invitation_sent_at,auth_confirmed_at").order("created_at");
+  if(uerr){el("adminMsg").textContent="No se pudo cargar el listado de usuarios: "+uerr.message;return;}
+  let progress=[],finalFb=[],translations=[];
+  try{const r=await sb.from("course_progress_v2").select("user_id,data,updated_at");if(!r.error)progress=r.data||[];}catch(e){}
+  try{const r=await sb.from("course_final_feedback").select("user_id,answers,final_test,submitted_at,updated_at");if(!r.error)finalFb=r.data||[];}catch(e){}
+  try{const r=await sb.from("course_content_translations").select("chapter_number,language,published");if(!r.error)translations=r.data||[];}catch(e){}
+  const scores=finalFb.map(r=>Number(r.answers?.satisfaction)).filter(Number.isFinite),recs=finalFb.map(r=>Number(r.answers?.recommend)).filter(Number.isFinite),after=finalFb.map(r=>Number(r.answers?.mastery_after)).filter(Number.isFinite),avg=a=>a.length?(a.reduce((x,y)=>x+y,0)/a.length).toFixed(1):"—",promoters=recs.filter(x=>x>=9).length,detractors=recs.filter(x=>x<=6).length,nps=recs.length?Math.round((promoters-detractors)*100/recs.length):"—";
+  const sumBox=el("adminFinalFeedbackSummary");if(sumBox){sumBox.classList.remove("hidden");sumBox.innerHTML=`<h3>Feedback global del curso</h3><div class="stats"><div><strong>${finalFb.length}</strong><br><span class="muted">Respuestas finales</span></div><div><strong>${avg(scores)}/10</strong><br><span class="muted">Satisfacción media</span></div><div><strong>${nps}</strong><br><span class="muted">NPS</span></div><div><strong>${avg(after)}/10</strong><br><span class="muted">Dominio final percibido</span></div></div>`;}
+  const tbox=el("adminTranslationStatus");if(tbox){const langs=["es","en","fr","de","it","pt"],publishedSet=new Set(translations.filter(x=>x.published).map(x=>`${x.chapter_number}:${x.language}`)),chapters=publishedChapters();tbox.innerHTML=`<h3>Idiomas del curso</h3><p class="muted">La interfaz admite seis idiomas. El contenido usa español como versión maestra y solo muestra una traducción cuando está publicada.</p><div class="translation-grid">${chapters.map(n=>`<div class="translation-row"><strong>Cap. ${n}</strong>${langs.map(l=>`<span class="translation-cell ${l==="es"||publishedSet.has(`${n}:${l}`)?"ok":"pending"}">${l.toUpperCase()} ${l==="es"||publishedSet.has(`${n}:${l}`)?"✓":"…"}</span>`).join("")}</div>`).join("")}</div>`;}
+  const byUser={};progress.forEach(r=>byUser[r.user_id]=r);
+  el("adminUsersBody").innerHTML=users.map(u=>{const pr=u.user_id?byUser[u.user_id]:null,d=pr?.data||{},done=Object.values(d.chapters||{}).filter(v=>v==="Completado").length,pract=Object.values(d.practices||{}).filter(Boolean).length,self=u.email===String(session.user.email||"").toLowerCase(),inviteLabel=u.auth_confirmed_at?"Confirmado":u.invitation_status==="sent"?"Enviada":u.invitation_status==="failed"?"Error de envío":"Pendiente";return `<tr><td><strong>${esc(u.display_name||u.email)}</strong><br><span class="muted">${esc(u.email)}</span><br><span class="muted">${esc((u.preferred_language||"es").toUpperCase())}</span></td><td><span class="badge ${u.role==="admin"?"admin":""}">${u.role==="admin"?"Administrador":"Usuario"}</span></td><td><span class="badge ${u.active?"":"off"}">${u.active?"Activo":"Desactivado"}</span></td><td><span class="badge">${inviteLabel}</span>${u.invitation_sent_at?`<br><span class="muted">${fmtDate(u.invitation_sent_at)}</span>`:""}</td><td>${fmtDate(u.last_seen_at||pr?.updated_at)}</td><td>${done} cap. · ${pract} prácticas</td><td><div class="admin-actions"><button class="btn" data-admin-edit="${esc(u.email)}">Editar</button>${!u.auth_confirmed_at?`<button class="btn" data-admin-resend="${esc(u.email)}">${u.invitation_status==="sent"?"Reenviar invitación":"Enviar invitación"}</button>`:""}${self?'<span class="muted">Tu cuenta</span>':`<button class="btn danger" data-admin-remove="${esc(u.email)}">Quitar</button>`}</div></td></tr>`;}).join("");
+  document.querySelectorAll("[data-admin-edit]").forEach(b=>b.addEventListener("click",()=>openEditUser(users.find(u=>u.email===b.dataset.adminEdit))));document.querySelectorAll("[data-admin-resend]").forEach(b=>b.addEventListener("click",()=>adminResendInvite(b.dataset.adminResend)));document.querySelectorAll("[data-admin-remove]").forEach(b=>b.addEventListener("click",()=>adminRemove(b.dataset.adminRemove)));
+  if(showMessage)el("adminMsg").textContent="Listado actualizado automáticamente.";
 }
 async function adminAddUser(){
   if(!isAdmin||!sb||!session)return;
@@ -1690,12 +1728,9 @@ async function adminAddUser(){
   el("adminMsg").textContent="Creando usuario y enviando invitación…";
   try{
     const {data,error}=await sb.functions.invoke("invite-course-user",{body:{action:"invite",email,display_name,role,preferred_language}});
-    if(error)throw error;
-    if(data?.error)throw new Error(data.error);
-    el("adminMsg").textContent=data?.message||`${email} autorizado.`;
-    el("adminEmail").value="";el("adminName").value="";
-    await renderAdminData(false);
-  }catch(e){el("adminMsg").textContent="No se pudo crear/invitar el usuario: "+(e.message||String(e));await renderAdminData(false);}
+    const message=data?.message||data?.error||error?.message||`${email} autorizado.`;
+    el("adminEmail").value="";el("adminName").value="";await renderAdminData(false);el("adminMsg").textContent=message;
+  }catch(e){await renderAdminData(false);el("adminMsg").textContent="El usuario puede haberse creado, pero hubo una incidencia con la invitación: "+(e.message||String(e));}
 }
 function openEditUser(u){if(!u)return;el("editUserEmail").value=u.email;el("editUserDisplayName").value=u.display_name||"";el("editUserRole").value=u.role||"member";el("editUserLanguage").value=u.preferred_language||"es";el("editUserActive").checked=!!u.active;el("editUserMsg").textContent="";const dlg=el("editUserDialog");if(typeof dlg.showModal==="function")dlg.showModal();}
 async function saveEditedUser(){const email=el("editUserEmail").value,display_name=el("editUserDisplayName").value.trim(),role=el("editUserRole").value,preferred_language=el("editUserLanguage").value,active=el("editUserActive").checked;el("editUserMsg").textContent="Guardando…";const {data,error}=await sb.functions.invoke("invite-course-user",{body:{action:"update",email,display_name,role,preferred_language,active}});if(error||data?.error){el("editUserMsg").textContent=data?.error||error?.message||"No se pudo actualizar.";return;}el("editUserDialog").close();if(email===String(session?.user?.email||"").toLowerCase())await refreshAccess();el("adminMsg").textContent="Usuario actualizado.";safeRenderAll();await renderAdminData(false);}
@@ -2046,6 +2081,10 @@ function selectChapterFromControl(value,zone="curso"){const n=Number(value);let 
 el("chapterSelect").addEventListener("change",e=>selectChapterFromControl(e.target.value,"curso"));
 el("openChapterPickerBtn").addEventListener("click",()=>{renderChapterPicker();const dlg=el("chapterPickerDialog");if(typeof dlg.showModal==="function")dlg.showModal();});
 el("closeChapterPickerBtn").addEventListener("click",()=>el("chapterPickerDialog").close());
+el("openPracticePickerBtn").addEventListener("click",()=>{renderPracticePicker();const dlg=el("practicePickerDialog");if(typeof dlg.showModal==="function")dlg.showModal();});
+el("closePracticePickerBtn").addEventListener("click",()=>el("practicePickerDialog").close());
+el("progressSummaryBtn").addEventListener("click",()=>{renderProgress();const dlg=el("progressDialog");if(typeof dlg.showModal==="function")dlg.showModal();});
+el("closeProgressDialogBtn").addEventListener("click",()=>el("progressDialog").close());
 el("practiceChapterSelect").addEventListener("change",e=>selectChapterFromControl(e.target.value,"practicas"));
 el("feedbackChapterSelect").addEventListener("change",e=>selectChapterFromControl(e.target.value,"feedback"));
 el("notes").addEventListener("input",e=>{state.notes[current]=e.target.value;saveLocal();});
@@ -2151,8 +2190,6 @@ el("cloudPullBtn").addEventListener("click",async()=>{
 });
 el("cloudPushBtn").addEventListener("click",async()=>{await pushCloud(true);});
 el("adminAddBtn").addEventListener("click",adminAddUser);
-el("adminRefreshBtn").addEventListener("click",()=>renderAdminData(true));
-el("copyAppLinkBtn").addEventListener("click",async()=>{try{await navigator.clipboard.writeText(APP_URL);el("adminMsg").textContent="Enlace copiado.";}catch(e){el("adminMsg").textContent=`Enlace: ${APP_URL}`;}});
 el("dismissNewChapterBtn").addEventListener("click",()=>{markPendingNewSeen();el("newChapterDialog").close();pendingNewChapters=[];});
 el("openNewChapterBtn").addEventListener("click",()=>{const target=pendingNewChapters[0];markPendingNewSeen();el("newChapterDialog").close();pendingNewChapters=[];if(target){current=target;safeRenderAll();openZone("curso");}});
 el("exportBtn").addEventListener("click",()=>{const blob=new Blob([JSON.stringify(state,null,2)],{type:"application/json"});const url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="curso-ia-progreso.json";a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);el("backupMsg").textContent="Copia exportada.";});

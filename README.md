@@ -224,3 +224,7 @@ Revisión integral de interfaz, usuarios, instalación PWA y soporte multilingü
 
 ## v18.1
 Correcciones posteriores a la prueba móvil: diseño de acceso aprobado, recuerdo de usuario, refresco del perfil, Teoría, selector emergente de capítulo, listas con mayúscula inicial y justificación sin guiones automáticos.
+
+
+## v18.2
+Revisión de excelencia: capítulo 0, fondo futurista visible, selectores emergentes, respuestas por toque, bloqueo y persistencia de comprobaciones, progreso emergente y administración simplificada con refresco automático.
