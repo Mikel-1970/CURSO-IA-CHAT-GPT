@@ -424,6 +424,46 @@ dialog.chapter-dialog::backdrop{background:rgba(0,9,23,.66)!important}
 .admin-grid{grid-template-columns:1fr 1fr 150px 150px!important}@media(max-width:760px){.admin-grid{grid-template-columns:1fr!important}}.translation-grid{display:grid;gap:8px}.translation-row{display:grid;grid-template-columns:minmax(0,1fr) repeat(6,52px);gap:6px;align-items:center}.translation-cell{text-align:center;padding:5px 3px;border-radius:8px;background:rgba(8,51,94,.56);font-size:.77rem}.translation-cell.ok{color:#9ff0c5;background:rgba(19,101,76,.42)}.translation-cell.pending{color:#ffdfa0;background:rgba(115,79,17,.40)}
 .install-platform-title{font-weight:800;color:#72ddff;margin-bottom:7px}.install-steps{padding-left:22px}.install-steps li{margin:8px 0;line-height:1.45}
 
+
+/* v18.1 — acceso según diseño holográfico aprobado */
+.sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+.login-screen{align-items:start!important;justify-items:end!important}
+.login-card{
+  width:min(420px,68vw)!important;margin:11vh 2.5vw 0 0!important;transform:none!important;padding:19px 20px 20px!important;border-radius:25px!important;
+  background:linear-gradient(150deg,rgba(4,49,93,.72),rgba(7,72,127,.54))!important;border:1px solid rgba(144,225,255,.76)!important;
+  box-shadow:0 0 0 1px rgba(100,211,255,.08) inset,0 0 28px rgba(28,180,255,.27),0 30px 72px rgba(0,17,46,.36)!important;
+  backdrop-filter:blur(9px) saturate(125%)!important;-webkit-backdrop-filter:blur(9px) saturate(125%)!important
+}
+.login-card::before{content:"";position:absolute;right:5%;bottom:-83px;width:150px;height:84px;pointer-events:none;background:linear-gradient(168deg,rgba(92,229,255,.00) 6%,rgba(92,229,255,.20) 47%,rgba(44,174,255,.00) 77%);clip-path:polygon(25% 0,75% 0,100% 100%,0 100%);filter:blur(1px);opacity:.95}
+.login-card::after{content:"";position:absolute;right:7%;bottom:-72px;width:120px;height:80px;pointer-events:none;background:repeating-linear-gradient(170deg,transparent 0 10px,rgba(89,219,255,.28) 11px 12px,transparent 13px 18px);clip-path:polygon(30% 0,70% 0,100% 100%,0 100%);filter:drop-shadow(0 0 5px rgba(64,213,255,.45))}
+.login-card .brand-mark{width:62px!important;height:62px!important;margin:0 auto 8px!important;border-radius:50%!important;color:#ecfbff!important;background:rgba(0,67,125,.28)!important;border:1px solid rgba(177,236,255,.75)!important;box-shadow:0 0 24px rgba(72,211,255,.25)!important}
+.login-card .brand-mark svg{width:42px!important;height:42px!important}
+.login-card h1{text-align:center!important;font-size:clamp(1.45rem,5vw,1.85rem)!important;margin:2px 0 2px!important}
+.login-sub{text-align:center!important;margin:0 0 9px!important;color:#d5efff!important;font-size:.96rem!important}
+.login-language{margin:0 0 8px!important;justify-content:center!important}.login-language label{font-size:.72rem!important}.login-language select{min-width:110px!important;padding-top:6px!important;padding-bottom:6px!important}
+.login-field{display:grid;grid-template-columns:37px minmax(0,1fr) 36px;align-items:center;margin:8px 0;border:1px solid rgba(201,239,255,.69);border-radius:14px;background:rgba(2,48,91,.42);overflow:hidden;box-shadow:inset 0 0 18px rgba(36,157,235,.04)}
+.login-field:focus-within{border-color:#8ee9ff;box-shadow:0 0 0 2px rgba(71,209,255,.12),0 0 18px rgba(27,166,255,.14)}
+.login-field-icon{display:grid;place-items:center;color:#e2f7ff;font-size:1.15rem;opacity:.95}.login-field input{margin:0!important;border:0!important;outline:0!important;background:transparent!important;padding:12px 4px!important;min-height:49px!important;box-shadow:none!important;width:100%!important;color:#fff!important}.login-field input::placeholder{color:#e2f3ff!important;opacity:.92}
+.password-eye{width:36px;height:46px;border:0;background:transparent;color:#e2f7ff;font-size:1.1rem;cursor:pointer}
+.login-card .btn.primary{min-height:48px!important;margin-top:2px!important;background:linear-gradient(135deg,#1da9f2,#1479e9)!important;box-shadow:0 0 20px rgba(29,171,245,.22)!important}
+.login-links{grid-template-columns:1fr!important;gap:7px!important;margin-top:8px!important}.login-links .btn{min-height:43px!important}
+#authMsg:empty{display:none!important}#authMsg{font-size:.78rem!important;margin-top:7px!important;line-height:1.3!important}
+@media(max-width:520px){
+  .login-card{width:min(340px,68vw)!important;margin-top:10vh!important;margin-right:2vw!important;padding:15px 14px 16px!important}
+  .login-card .brand-mark{width:52px!important;height:52px!important}.login-card .brand-mark svg{width:36px!important;height:36px!important}
+  .login-card h1{font-size:1.26rem!important}.login-sub{font-size:.82rem!important}
+  .login-language{justify-content:flex-end!important}.login-language label{display:none!important}.login-language select{min-width:104px!important;font-size:.75rem!important}
+  .login-field{grid-template-columns:33px minmax(0,1fr) 32px!important;border-radius:12px!important}.login-field input{min-height:46px!important;font-size:16px!important;padding:10px 2px!important}
+  .login-card .btn.primary{min-height:46px!important}.login-links .btn{min-height:40px!important;font-size:.8rem!important}
+}
+
+
+.theory-picker-bar{display:flex;justify-content:flex-start;margin-bottom:14px}.chapter-picker-trigger{min-width:175px;background:rgba(11,70,124,.84)!important;color:#fff!important;border-color:rgba(90,205,255,.55)!important;box-shadow:0 0 15px rgba(41,164,235,.10)}
+.chapter-picker-dialog{width:min(680px,94vw)!important}.chapter-picker-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}.chapter-picker-head h2{margin:0}.chapter-picker-list{display:grid;gap:8px;max-height:min(70vh,650px);overflow:auto;padding-right:3px}.chapter-picker-item{width:100%;display:grid;grid-template-columns:45px minmax(0,1fr) auto;align-items:center;gap:10px;text-align:left;padding:12px;border-radius:12px;border:1px solid rgba(84,186,241,.28);background:rgba(7,48,90,.67);color:#eaf7ff}.chapter-picker-item:hover,.chapter-picker-item.current{border-color:#66d8ff;background:rgba(9,76,133,.80)}.chapter-picker-item:disabled{opacity:.43}.chapter-picker-number{font-weight:850;color:#74ddff}.chapter-picker-title{font-weight:650}.chapter-picker-state{font-size:.75rem;color:#b9d4e8}
+
+
+.lesson-content p,.lesson-content li,#practiceArea .mini>p,#practiceArea .mini .practice-question,.choice-option-text{-webkit-hyphens:none!important;hyphens:none!important;word-break:normal!important;overflow-wrap:break-word!important}
+
 </style>
 </head>
 <body>
@@ -435,14 +475,14 @@ dialog.chapter-dialog::backdrop{background:rgba(0,9,23,.66)!important}
       <svg viewBox="0 0 64 64" fill="none"><path d="M18 20c0-7 5-12 12-12 5 0 9 3 11 7 6-1 12 4 12 11 0 4-2 8-5 10 2 8-4 16-12 16-3 0-6-1-8-3-3 3-8 4-12 2-6-3-8-11-4-17-5-2-8-8-6-14Z" stroke="white" stroke-width="3"/><circle cx="23" cy="25" r="3" fill="white"/><circle cx="39" cy="22" r="3" fill="white"/><circle cx="34" cy="38" r="3" fill="white"/><path d="M25 26l11-3m-1 13-10-9m13-2-3 10" stroke="white" stroke-width="2"/></svg>
     </div>
     <h1>Curso IA ChatGPT</h1>
-    <div class="login-sub" data-i18n="login_subtitle">Formación práctica y progresiva en inteligencia artificial.</div>
+    <div class="login-sub" data-i18n="login_subtitle">Acceso al curso</div>
     <div class="login-language"><label for="loginLanguageSelect" data-i18n="language">Idioma</label><select id="loginLanguageSelect" aria-label="Idioma"><option value="es">Español</option><option value="en">English</option><option value="fr">Français</option><option value="de">Deutsch</option><option value="it">Italiano</option><option value="pt">Português</option></select></div>
     <form id="loginForm" autocomplete="on">
       <div id="loggedOutBox">
-        <label for="authEmail" data-i18n="user">Usuario</label>
-        <input id="authEmail" name="username" type="email" inputmode="email" autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="correo@empresa.com" data-i18n-placeholder="email_placeholder">
-        <label for="authPassword" data-i18n="password">Contraseña</label>
-        <input id="authPassword" name="password" type="password" autocomplete="current-password" minlength="8" placeholder="Contraseña" data-i18n-placeholder="password">
+        <label class="sr-only" for="authEmail" data-i18n="user">Usuario</label>
+        <div class="login-field"><span class="login-field-icon" aria-hidden="true">♙</span><input id="authEmail" name="username" type="email" inputmode="email" autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="Usuario" data-i18n-placeholder="user"></div>
+        <label class="sr-only" for="authPassword" data-i18n="password">Contraseña</label>
+        <div class="login-field"><span class="login-field-icon" aria-hidden="true">▣</span><input id="authPassword" name="password" type="password" autocomplete="current-password" minlength="8" enterkeyhint="go" placeholder="Clave"><button id="togglePasswordBtn" class="password-eye" type="button" aria-label="Mostrar u ocultar contraseña">◉</button></div>
         <div style="margin-top:16px"><button id="signInBtn" class="btn primary" type="submit" data-i18n="enter">Entrar</button></div>
         <div class="login-links"><button id="forgotPasswordBtn" class="btn" type="button" data-i18n="recover_password">Recuperar contraseña</button><button id="adminEntryBtn" class="btn" type="button" data-i18n="admin_access">Panel de administrador</button></div>
         <button id="resendConfirmBtn" class="btn hidden" type="button">Reenviar confirmación</button>
@@ -456,14 +496,14 @@ dialog.chapter-dialog::backdrop{background:rgba(0,9,23,.66)!important}
       <div style="margin-top:14px"><button id="setNewPasswordBtn" class="btn primary" type="button">Guardar nueva contraseña</button></div>
     </div>
     <div id="authMsg" class="muted" style="margin-top:12px"></div>
-    <div class="login-note">La app no guarda tu contraseña. En iPhone, el autocompletado depende de Contraseñas/iCloud Keychain; los campos están configurados para que iOS pueda reconocerlos.</div>
+    
   </div>
 </div>
 
 <div id="appShell" class="app-shell hidden">
   <header class="shell-header">
     <div class="shell-header-inner">
-      <div class="shell-brand">Curso IA ChatGPT <span class="pill ok">v18</span></div>
+      <div class="shell-brand">Curso IA ChatGPT <span class="pill ok">v18.1</span></div>
       <div class="shell-spacer"></div>
       <div class="compact-progress">
         <div class="compact-progress-line"><span data-i18n="progress">Progreso</span><strong id="progressText">0%</strong></div>
@@ -488,7 +528,7 @@ dialog.chapter-dialog::backdrop{background:rgba(0,9,23,.66)!important}
   <section id="curso" class="workspace">
     <div class="workspace-head"><div class="workspace-head-inner"><button class="icon-btn" data-close-zone type="button" data-i18n="back">← Volver</button><div class="workspace-title" data-i18n="course">Curso</div></div></div>
     <div class="workspace-body">
-      <div class="workspace-select"><label for="chapterSelect" data-i18n="chapter">Capítulo</label><select id="chapterSelect"></select></div>
+      <div class="theory-picker-bar"><button id="openChapterPickerBtn" class="btn chapter-picker-trigger" type="button">Selecciona Capítulo</button><select id="chapterSelect" class="hidden" aria-hidden="true" tabindex="-1"></select></div>
       <div id="lesson" class="card"></div>
       <div class="card notes-card"><label for="notes" data-i18n="my_notes">Mis notas y comentarios</label><textarea id="notes" rows="6" placeholder="Ideas, dudas, aplicaciones reales, mejoras..." data-i18n-placeholder="notes_placeholder"></textarea></div>
       <div id="chapterCompletionCard" class="card reading-card"></div>
@@ -564,6 +604,9 @@ dialog.chapter-dialog::backdrop{background:rgba(0,9,23,.66)!important}
     <div id="statDone"></div><div id="statDoing"></div><div id="statPractice"></div><table><tbody id="rows"></tbody></table><div id="finalCourseSummary"></div>
   </div>
 
+  <dialog id="chapterPickerDialog" class="chapter-dialog chapter-picker-dialog">
+    <div class="dialog-body"><div class="chapter-picker-head"><h2>Selecciona Capítulo</h2><button id="closeChapterPickerBtn" class="icon-btn" type="button">×</button></div><div id="chapterPickerList" class="chapter-picker-list"></div></div>
+  </dialog>
   <dialog id="installDialog" class="chapter-dialog">
     <div class="dialog-body"><h2 data-i18n="install_title">Instalar Curso IA ChatGPT</h2><div id="installGuide"></div><div class="btnrow"><button id="installNativeBtn" class="btn primary hidden" type="button" data-i18n="install_now">Instalar ahora</button><button id="closeInstallBtn" class="btn" type="button" data-i18n="close">Cerrar</button></div></div>
   </dialog>
@@ -602,17 +645,18 @@ const APP_URL="https://mikel-1970.github.io/CURSO-IA-CHAT-GPT/";
 const el=id=>document.getElementById(id);
 let state=fresh(), current=1, courseContent={}, sb=null, session=null, syncing=false, passwordRecoveryMode=false, saveTimer=null, accessProfile=null, isAdmin=false, pendingNewChapters=[], contentPollTimer=null;
 let currentLanguage=localStorage.getItem("curso_ia_language")||"es", deferredInstallPrompt=null;
+const LAST_EMAIL_KEY="curso_ia_last_email";
 let loginTargetAdmin=false;
 const incomingInvite=/[?&#]type=invite(?:&|$)/i.test(location.href);
 
 const LANGS=["es","en","fr","de","it","pt"];
 const I18N={
-es:{login_subtitle:"Formación práctica y progresiva en inteligencia artificial.",language:"Idioma",user:"Usuario",password:"Contraseña",email:"Correo",email_placeholder:"correo@empresa.com",enter:"Entrar",recover_password:"Recuperar contraseña",admin_access:"Panel de administrador",progress:"Progreso",install:"Instalar",profile_admin:"Perfil",sign_out:"Salir",home_subtitle:"Continúa tu aprendizaje en Inteligencia Artificial y ChatGPT.",course:"Curso",course_desc:"Lee los capítulos disponibles, toma notas y marca la lectura cuando termines.",practices:"Prácticas",practices_desc:"Accede a los ejercicios del capítulo una vez terminada su lectura.",feedback:"Feedback",feedback_desc:"Valora el capítulo después de terminar sus prácticas.",back:"← Volver",chapter:"Capítulo",my_notes:"Mis notas y comentarios",notes_placeholder:"Ideas, dudas, aplicaciones reales, mejoras...",reading_done:"Lectura terminada",practice_done:"Práctica Terminada",check:"Comprobar",save_answer:"Guardar respuesta",correct:"Correcto",incorrect:"Incorrecto",your_answer:"Tu respuesta",expected_answer:"Respuesta esperada",explanation:"Explicación",my_profile:"Mi perfil",name:"Nombre",change_password:"Cambiar contraseña",new_password:"Nueva contraseña",save_changes:"Guardar cambios",install_title:"Instalar Curso IA ChatGPT",install_now:"Instalar ahora",close:"Cerrar",translation_pending:"Traducción pendiente; se muestra temporalmente la versión española.",pending_publication:"pendiente de publicación",blocked:"bloqueado",finish_reading:"termina la lectura",finish_practices:"termina las prácticas"},
-en:{login_subtitle:"Practical, progressive training in artificial intelligence.",language:"Language",user:"User",password:"Password",email:"Email",email_placeholder:"email@company.com",enter:"Sign in",recover_password:"Recover password",admin_access:"Administrator panel",progress:"Progress",install:"Install",profile_admin:"Profile",sign_out:"Sign out",home_subtitle:"Continue learning Artificial Intelligence and ChatGPT.",course:"Course",course_desc:"Read available chapters, take notes and mark the reading as complete.",practices:"Practice",practices_desc:"Access chapter exercises after completing the reading.",feedback:"Feedback",feedback_desc:"Rate the chapter after completing its practice.",back:"← Back",chapter:"Chapter",my_notes:"My notes and comments",notes_placeholder:"Ideas, questions, real applications, improvements...",reading_done:"Reading completed",practice_done:"Practice Completed",check:"Check",save_answer:"Save answer",correct:"Correct",incorrect:"Incorrect",your_answer:"Your answer",expected_answer:"Expected answer",explanation:"Explanation",my_profile:"My profile",name:"Name",change_password:"Change password",new_password:"New password",save_changes:"Save changes",install_title:"Install Curso IA ChatGPT",install_now:"Install now",close:"Close",translation_pending:"Translation pending; the Spanish version is shown temporarily.",pending_publication:"pending publication",blocked:"locked",finish_reading:"finish the reading",finish_practices:"finish the practice"},
-fr:{login_subtitle:"Formation pratique et progressive en intelligence artificielle.",language:"Langue",user:"Utilisateur",password:"Mot de passe",email:"E-mail",email_placeholder:"email@entreprise.com",enter:"Entrer",recover_password:"Récupérer le mot de passe",admin_access:"Panneau administrateur",progress:"Progression",install:"Installer",profile_admin:"Profil",sign_out:"Déconnexion",home_subtitle:"Poursuivez votre apprentissage de l’IA et de ChatGPT.",course:"Cours",course_desc:"Lisez les chapitres disponibles, prenez des notes et marquez la lecture comme terminée.",practices:"Exercices",practices_desc:"Accédez aux exercices après avoir terminé la lecture.",feedback:"Feedback",feedback_desc:"Évaluez le chapitre après les exercices.",back:"← Retour",chapter:"Chapitre",my_notes:"Mes notes et commentaires",notes_placeholder:"Idées, questions, applications réelles, améliorations...",reading_done:"Lecture terminée",practice_done:"Exercices terminés",check:"Vérifier",save_answer:"Enregistrer",correct:"Correct",incorrect:"Incorrect",your_answer:"Votre réponse",expected_answer:"Réponse attendue",explanation:"Explication",my_profile:"Mon profil",name:"Nom",change_password:"Changer le mot de passe",new_password:"Nouveau mot de passe",save_changes:"Enregistrer",install_title:"Installer Curso IA ChatGPT",install_now:"Installer maintenant",close:"Fermer",translation_pending:"Traduction en attente ; la version espagnole est affichée temporairement.",pending_publication:"publication en attente",blocked:"bloqué",finish_reading:"terminez la lecture",finish_practices:"terminez les exercices"},
-de:{login_subtitle:"Praxisorientierte, schrittweise Schulung in Künstlicher Intelligenz.",language:"Sprache",user:"Benutzer",password:"Passwort",email:"E-Mail",email_placeholder:"email@firma.de",enter:"Anmelden",recover_password:"Passwort wiederherstellen",admin_access:"Administratorbereich",progress:"Fortschritt",install:"Installieren",profile_admin:"Profil",sign_out:"Abmelden",home_subtitle:"Setzen Sie Ihr Lernen zu KI und ChatGPT fort.",course:"Kurs",course_desc:"Lesen Sie verfügbare Kapitel, machen Sie Notizen und markieren Sie die Lektüre als abgeschlossen.",practices:"Übungen",practices_desc:"Öffnen Sie die Übungen nach Abschluss der Lektüre.",feedback:"Feedback",feedback_desc:"Bewerten Sie das Kapitel nach den Übungen.",back:"← Zurück",chapter:"Kapitel",my_notes:"Meine Notizen und Kommentare",notes_placeholder:"Ideen, Fragen, reale Anwendungen, Verbesserungen...",reading_done:"Lektüre abgeschlossen",practice_done:"Übung abgeschlossen",check:"Prüfen",save_answer:"Antwort speichern",correct:"Richtig",incorrect:"Falsch",your_answer:"Ihre Antwort",expected_answer:"Erwartete Antwort",explanation:"Erklärung",my_profile:"Mein Profil",name:"Name",change_password:"Passwort ändern",new_password:"Neues Passwort",save_changes:"Speichern",install_title:"Curso IA ChatGPT installieren",install_now:"Jetzt installieren",close:"Schließen",translation_pending:"Übersetzung ausstehend; vorübergehend wird die spanische Version angezeigt.",pending_publication:"Veröffentlichung ausstehend",blocked:"gesperrt",finish_reading:"Lektüre abschließen",finish_practices:"Übungen abschließen"},
-it:{login_subtitle:"Formazione pratica e progressiva sull’intelligenza artificiale.",language:"Lingua",user:"Utente",password:"Password",email:"Email",email_placeholder:"email@azienda.it",enter:"Entra",recover_password:"Recupera password",admin_access:"Pannello amministratore",progress:"Progresso",install:"Installa",profile_admin:"Profilo",sign_out:"Esci",home_subtitle:"Continua il tuo apprendimento di Intelligenza Artificiale e ChatGPT.",course:"Corso",course_desc:"Leggi i capitoli disponibili, prendi note e segna la lettura come completata.",practices:"Esercizi",practices_desc:"Accedi agli esercizi dopo aver completato la lettura.",feedback:"Feedback",feedback_desc:"Valuta il capitolo dopo gli esercizi.",back:"← Indietro",chapter:"Capitolo",my_notes:"Le mie note e commenti",notes_placeholder:"Idee, dubbi, applicazioni reali, miglioramenti...",reading_done:"Lettura terminata",practice_done:"Esercizio terminato",check:"Controlla",save_answer:"Salva risposta",correct:"Corretto",incorrect:"Errato",your_answer:"La tua risposta",expected_answer:"Risposta attesa",explanation:"Spiegazione",my_profile:"Il mio profilo",name:"Nome",change_password:"Cambia password",new_password:"Nuova password",save_changes:"Salva modifiche",install_title:"Installa Curso IA ChatGPT",install_now:"Installa ora",close:"Chiudi",translation_pending:"Traduzione in sospeso; viene mostrata temporaneamente la versione spagnola.",pending_publication:"pubblicazione in sospeso",blocked:"bloccato",finish_reading:"termina la lettura",finish_practices:"termina gli esercizi"},
-pt:{login_subtitle:"Formação prática e progressiva em inteligência artificial.",language:"Idioma",user:"Utilizador",password:"Palavra-passe",email:"E-mail",email_placeholder:"email@empresa.pt",enter:"Entrar",recover_password:"Recuperar palavra-passe",admin_access:"Painel de administrador",progress:"Progresso",install:"Instalar",profile_admin:"Perfil",sign_out:"Sair",home_subtitle:"Continue a sua aprendizagem em Inteligência Artificial e ChatGPT.",course:"Curso",course_desc:"Leia os capítulos disponíveis, tome notas e marque a leitura como concluída.",practices:"Práticas",practices_desc:"Aceda aos exercícios depois de concluir a leitura.",feedback:"Feedback",feedback_desc:"Avalie o capítulo depois de concluir as práticas.",back:"← Voltar",chapter:"Capítulo",my_notes:"As minhas notas e comentários",notes_placeholder:"Ideias, dúvidas, aplicações reais, melhorias...",reading_done:"Leitura concluída",practice_done:"Prática concluída",check:"Verificar",save_answer:"Guardar resposta",correct:"Correto",incorrect:"Incorreto",your_answer:"A sua resposta",expected_answer:"Resposta esperada",explanation:"Explicação",my_profile:"O meu perfil",name:"Nome",change_password:"Alterar palavra-passe",new_password:"Nova palavra-passe",save_changes:"Guardar alterações",install_title:"Instalar Curso IA ChatGPT",install_now:"Instalar agora",close:"Fechar",translation_pending:"Tradução pendente; a versão em espanhol é apresentada temporariamente.",pending_publication:"publicação pendente",blocked:"bloqueado",finish_reading:"conclua a leitura",finish_practices:"conclua as práticas"}
+es:{login_subtitle:"Acceso al curso",language:"Idioma",user:"Usuario",password:"Contraseña",email:"Correo",email_placeholder:"correo@empresa.com",enter:"Entrar",recover_password:"Recuperar contraseña",admin_access:"Panel de administrador",progress:"Progreso",install:"Instalar",profile_admin:"Perfil",sign_out:"Salir",home_subtitle:"Continúa tu aprendizaje en Inteligencia Artificial y ChatGPT.",course:"Teoría",course_desc:"Consulta la teoría de cada capítulo, toma notas y marca la lectura cuando termines.",practices:"Prácticas",practices_desc:"Accede a los ejercicios del capítulo una vez terminada su lectura.",feedback:"Feedback",feedback_desc:"Valora el capítulo después de terminar sus prácticas.",back:"← Volver",chapter:"Capítulo",my_notes:"Mis notas y comentarios",notes_placeholder:"Ideas, dudas, aplicaciones reales, mejoras...",reading_done:"Lectura terminada",practice_done:"Práctica Terminada",check:"Comprobar",save_answer:"Guardar respuesta",correct:"Correcto",incorrect:"Incorrecto",your_answer:"Tu respuesta",expected_answer:"Respuesta esperada",explanation:"Explicación",my_profile:"Mi perfil",name:"Nombre",change_password:"Cambiar contraseña",new_password:"Nueva contraseña",save_changes:"Guardar cambios",install_title:"Instalar Curso IA ChatGPT",install_now:"Instalar ahora",close:"Cerrar",translation_pending:"Traducción pendiente; se muestra temporalmente la versión española.",pending_publication:"pendiente de publicación",blocked:"bloqueado",finish_reading:"termina la lectura",finish_practices:"termina las prácticas"},
+en:{login_subtitle:"Course access",language:"Language",user:"User",password:"Password",email:"Email",email_placeholder:"email@company.com",enter:"Sign in",recover_password:"Recover password",admin_access:"Administrator panel",progress:"Progress",install:"Install",profile_admin:"Profile",sign_out:"Sign out",home_subtitle:"Continue learning Artificial Intelligence and ChatGPT.",course:"Theory",course_desc:"Read available chapters, take notes and mark the reading as complete.",practices:"Practice",practices_desc:"Access chapter exercises after completing the reading.",feedback:"Feedback",feedback_desc:"Rate the chapter after completing its practice.",back:"← Back",chapter:"Chapter",my_notes:"My notes and comments",notes_placeholder:"Ideas, questions, real applications, improvements...",reading_done:"Reading completed",practice_done:"Practice Completed",check:"Check",save_answer:"Save answer",correct:"Correct",incorrect:"Incorrect",your_answer:"Your answer",expected_answer:"Expected answer",explanation:"Explanation",my_profile:"My profile",name:"Name",change_password:"Change password",new_password:"New password",save_changes:"Save changes",install_title:"Install Curso IA ChatGPT",install_now:"Install now",close:"Close",translation_pending:"Translation pending; the Spanish version is shown temporarily.",pending_publication:"pending publication",blocked:"locked",finish_reading:"finish the reading",finish_practices:"finish the practice"},
+fr:{login_subtitle:"Accès au cours",language:"Langue",user:"Utilisateur",password:"Mot de passe",email:"E-mail",email_placeholder:"email@entreprise.com",enter:"Entrer",recover_password:"Récupérer le mot de passe",admin_access:"Panneau administrateur",progress:"Progression",install:"Installer",profile_admin:"Profil",sign_out:"Déconnexion",home_subtitle:"Poursuivez votre apprentissage de l’IA et de ChatGPT.",course:"Théorie",course_desc:"Lisez les chapitres disponibles, prenez des notes et marquez la lecture comme terminée.",practices:"Exercices",practices_desc:"Accédez aux exercices après avoir terminé la lecture.",feedback:"Feedback",feedback_desc:"Évaluez le chapitre après les exercices.",back:"← Retour",chapter:"Chapitre",my_notes:"Mes notes et commentaires",notes_placeholder:"Idées, questions, applications réelles, améliorations...",reading_done:"Lecture terminée",practice_done:"Exercices terminés",check:"Vérifier",save_answer:"Enregistrer",correct:"Correct",incorrect:"Incorrect",your_answer:"Votre réponse",expected_answer:"Réponse attendue",explanation:"Explication",my_profile:"Mon profil",name:"Nom",change_password:"Changer le mot de passe",new_password:"Nouveau mot de passe",save_changes:"Enregistrer",install_title:"Installer Curso IA ChatGPT",install_now:"Installer maintenant",close:"Fermer",translation_pending:"Traduction en attente ; la version espagnole est affichée temporairement.",pending_publication:"publication en attente",blocked:"bloqué",finish_reading:"terminez la lecture",finish_practices:"terminez les exercices"},
+de:{login_subtitle:"Kurszugang",language:"Sprache",user:"Benutzer",password:"Passwort",email:"E-Mail",email_placeholder:"email@firma.de",enter:"Anmelden",recover_password:"Passwort wiederherstellen",admin_access:"Administratorbereich",progress:"Fortschritt",install:"Installieren",profile_admin:"Profil",sign_out:"Abmelden",home_subtitle:"Setzen Sie Ihr Lernen zu KI und ChatGPT fort.",course:"Theorie",course_desc:"Lesen Sie verfügbare Kapitel, machen Sie Notizen und markieren Sie die Lektüre als abgeschlossen.",practices:"Übungen",practices_desc:"Öffnen Sie die Übungen nach Abschluss der Lektüre.",feedback:"Feedback",feedback_desc:"Bewerten Sie das Kapitel nach den Übungen.",back:"← Zurück",chapter:"Kapitel",my_notes:"Meine Notizen und Kommentare",notes_placeholder:"Ideen, Fragen, reale Anwendungen, Verbesserungen...",reading_done:"Lektüre abgeschlossen",practice_done:"Übung abgeschlossen",check:"Prüfen",save_answer:"Antwort speichern",correct:"Richtig",incorrect:"Falsch",your_answer:"Ihre Antwort",expected_answer:"Erwartete Antwort",explanation:"Erklärung",my_profile:"Mein Profil",name:"Name",change_password:"Passwort ändern",new_password:"Neues Passwort",save_changes:"Speichern",install_title:"Curso IA ChatGPT installieren",install_now:"Jetzt installieren",close:"Schließen",translation_pending:"Übersetzung ausstehend; vorübergehend wird die spanische Version angezeigt.",pending_publication:"Veröffentlichung ausstehend",blocked:"gesperrt",finish_reading:"Lektüre abschließen",finish_practices:"Übungen abschließen"},
+it:{login_subtitle:"Accesso al corso",language:"Lingua",user:"Utente",password:"Password",email:"Email",email_placeholder:"email@azienda.it",enter:"Entra",recover_password:"Recupera password",admin_access:"Pannello amministratore",progress:"Progresso",install:"Installa",profile_admin:"Profilo",sign_out:"Esci",home_subtitle:"Continua il tuo apprendimento di Intelligenza Artificiale e ChatGPT.",course:"Teoria",course_desc:"Leggi i capitoli disponibili, prendi note e segna la lettura come completata.",practices:"Esercizi",practices_desc:"Accedi agli esercizi dopo aver completato la lettura.",feedback:"Feedback",feedback_desc:"Valuta il capitolo dopo gli esercizi.",back:"← Indietro",chapter:"Capitolo",my_notes:"Le mie note e commenti",notes_placeholder:"Idee, dubbi, applicazioni reali, miglioramenti...",reading_done:"Lettura terminata",practice_done:"Esercizio terminato",check:"Controlla",save_answer:"Salva risposta",correct:"Corretto",incorrect:"Errato",your_answer:"La tua risposta",expected_answer:"Risposta attesa",explanation:"Spiegazione",my_profile:"Il mio profilo",name:"Nome",change_password:"Cambia password",new_password:"Nuova password",save_changes:"Salva modifiche",install_title:"Installa Curso IA ChatGPT",install_now:"Installa ora",close:"Chiudi",translation_pending:"Traduzione in sospeso; viene mostrata temporaneamente la versione spagnola.",pending_publication:"pubblicazione in sospeso",blocked:"bloccato",finish_reading:"termina la lettura",finish_practices:"termina gli esercizi"},
+pt:{login_subtitle:"Acesso ao curso",language:"Idioma",user:"Utilizador",password:"Palavra-passe",email:"E-mail",email_placeholder:"email@empresa.pt",enter:"Entrar",recover_password:"Recuperar palavra-passe",admin_access:"Painel de administrador",progress:"Progresso",install:"Instalar",profile_admin:"Perfil",sign_out:"Sair",home_subtitle:"Continue a sua aprendizagem em Inteligência Artificial e ChatGPT.",course:"Teoria",course_desc:"Leia os capítulos disponíveis, tome notas e marque a leitura como concluída.",practices:"Práticas",practices_desc:"Aceda aos exercícios depois de concluir a leitura.",feedback:"Feedback",feedback_desc:"Avalie o capítulo depois de concluir as práticas.",back:"← Voltar",chapter:"Capítulo",my_notes:"As minhas notas e comentários",notes_placeholder:"Ideias, dúvidas, aplicações reais, melhorias...",reading_done:"Leitura concluída",practice_done:"Prática concluída",check:"Verificar",save_answer:"Guardar resposta",correct:"Correto",incorrect:"Incorreto",your_answer:"A sua resposta",expected_answer:"Resposta esperada",explanation:"Explicação",my_profile:"O meu perfil",name:"Nome",change_password:"Alterar palavra-passe",new_password:"Nova palavra-passe",save_changes:"Guardar alterações",install_title:"Instalar Curso IA ChatGPT",install_now:"Instalar agora",close:"Fechar",translation_pending:"Tradução pendente; a versão em espanhol é apresentada temporariamente.",pending_publication:"publicação pendente",blocked:"bloqueado",finish_reading:"conclua a leitura",finish_practices:"conclua as práticas"}
 };
 function tr(key){return I18N[currentLanguage]?.[key]||I18N.es[key]||key;}
 function applyLanguage(){if(!LANGS.includes(currentLanguage))currentLanguage="es";localStorage.setItem("curso_ia_language",currentLanguage);document.documentElement.lang=currentLanguage;document.querySelectorAll("[data-i18n]").forEach(n=>{const k=n.dataset.i18n;if(I18N[currentLanguage]?.[k]||I18N.es[k])n.textContent=tr(k);});document.querySelectorAll("[data-i18n-placeholder]").forEach(n=>{n.placeholder=tr(n.dataset.i18nPlaceholder);});if(el("loginLanguageSelect"))el("loginLanguageSelect").value=currentLanguage;if(el("profileLanguage"))el("profileLanguage").value=currentLanguage;}
@@ -827,6 +871,7 @@ function opts(){
   if(el("chapterSelect"))el("chapterSelect").innerHTML=build("course");
   if(el("practiceChapterSelect"))el("practiceChapterSelect").innerHTML=build("practice");
   if(el("feedbackChapterSelect"))el("feedbackChapterSelect").innerHTML=build("feedback");
+  renderChapterPicker();
 }
 function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));}
 function norm(s){return String(s||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^\p{L}\p{N}\s]/gu," ").replace(/\s+/g," ").trim();}
@@ -865,7 +910,13 @@ async function loadCourseContent(showNotice=false){
 function lessonIllustration(n,title){
   return `<div class="lesson-visual"><svg viewBox="0 0 160 120" fill="none" aria-hidden="true"><circle cx="80" cy="58" r="36" stroke="rgba(255,255,255,.72)" stroke-width="2"/><circle cx="42" cy="30" r="7" fill="#bceaff"/><circle cx="118" cy="28" r="7" fill="#bceaff"/><circle cx="127" cy="76" r="7" fill="#bceaff"/><circle cx="57" cy="94" r="7" fill="#bceaff"/><circle cx="80" cy="58" r="9" fill="white"/><path d="M48 34 72 52m39-19L89 52m30 21-30-11M61 89l14-23" stroke="#dff5ff" stroke-width="3"/></svg><div><h2>Capítulo ${n}</h2><p>${esc(title)}</p></div></div>`;
 }
-function decorateLessonContent(){const root=el("lesson")?.querySelector(".lesson-content");if(!root)return;root.querySelectorAll("table").forEach(table=>{if(table.parentElement?.classList.contains("lesson-table-scroll"))return;const wrap=document.createElement("div");wrap.className="lesson-table-scroll";table.parentNode.insertBefore(wrap,table);wrap.appendChild(table);});}
+function capitalizeFirstLetterDeep(node){const walker=document.createTreeWalker(node,NodeFilter.SHOW_TEXT);let t;while(t=walker.nextNode()){if(!t.nodeValue||!/\p{L}/u.test(t.nodeValue))continue;t.nodeValue=t.nodeValue.replace(/\p{L}/u,ch=>ch.toLocaleUpperCase(currentLanguage));return;}}
+function decorateLessonContent(){const root=el("lesson")?.querySelector(".lesson-content");if(!root)return;root.querySelectorAll("li").forEach(capitalizeFirstLetterDeep);root.querySelectorAll("table").forEach(table=>{if(table.parentElement?.classList.contains("lesson-table-scroll"))return;const wrap=document.createElement("div");wrap.className="lesson-table-scroll";table.parentNode.insertBefore(wrap,table);wrap.appendChild(table);});}
+function renderChapterPicker(){
+  const box=el("chapterPickerList");if(!box)return;
+  box.innerHTML=Array.from({length:maxChapter()},(_,i)=>{const n=i+1,[title]=metadata(n),allowed=availableForUser(n)&&isChapterUnlocked(n),stateText=chapterComplete(n)?"✓":(allowed?"Disponible":"Bloqueado");return `<button class="chapter-picker-item ${n===current?"current":""}" type="button" data-pick-chapter="${n}" ${allowed?"":"disabled"}><span class="chapter-picker-number">${n}</span><span class="chapter-picker-title">${esc(title)}</span><span class="chapter-picker-state">${stateText}</span></button>`;}).join("");
+  box.querySelectorAll("[data-pick-chapter]").forEach(b=>b.addEventListener("click",()=>{current=Number(b.dataset.pickChapter);el("chapterPickerDialog").close();safeRenderAll();}));
+}
 function renderLesson(){
   ensureCurrentAccessible();
   if(el("chapterSelect"))el("chapterSelect").value=String(current);
@@ -1332,7 +1383,7 @@ function renderGenericPractice(p,chapter){
       const parsedChoice=type==="choice"?parseChoiceQuestion(ex):null,questionText=parsedChoice?.statement||String(ex.question||ex.prompt||"");
       body+=`<div class="mini" style="margin-bottom:28px" data-generic-ex="${esc(id)}"><strong>${esc(ex.label||id)}</strong><p class="practice-question">${esc(questionText)}</p>`;
       if(type==="choice"){
-        const options=effectiveChoiceOptions(ex);
+        const options=effectiveChoiceOptions(ex).map(o=>({...o,label:String(o.label||"").replace(/\p{L}/u,ch=>ch.toLocaleUpperCase(currentLanguage))}));
         body+=`<div class="choice-options-list">${options.map(o=>`<div class="choice-option-row"><span class="choice-option-letter">${esc(o.value)}</span><span class="choice-option-text">${esc(o.label)}</span></div>`).join("")}</div><select data-gen-choice="${esc(id)}"><option value=""></option>${options.map(o=>`<option value="${esc(o.value)}">${esc(o.value)} — ${esc(o.label)}</option>`).join("")}</select>`;
       }else if(type==="classification"){
         body+=(ex.items||[]).map((it,ii)=>`<div class="qrow"><span>${ii+1}. ${esc(it.text||it.question||"")}</span><select data-gen-class="${esc(id)}" data-index="${ii}"><option value=""></option>${(ex.options||["A","B","C"]).map(o=>`<option value="${esc(o)}">${esc(o)}</option>`).join("")}</select><span></span></div>`).join("");
@@ -1588,7 +1639,24 @@ function markPendingNewSeen(){
 }
 function fmtDate(v){if(!v)return "—";try{return new Intl.DateTimeFormat("es-ES",{dateStyle:"short",timeStyle:"short",timeZone:"Europe/Madrid"}).format(new Date(v));}catch(e){return "—";}}
 function renderProfileCard(){if(!session||!accessProfile)return;if(el("profileName"))el("profileName").value=accessProfile.display_name||"";if(el("profileEmail"))el("profileEmail").value=session.user.email||accessProfile.email||"";if(el("profileLanguage"))el("profileLanguage").value=accessProfile.preferred_language||currentLanguage;}
-async function saveMyProfile(){if(!sb||!session)return;const display_name=el("profileName").value.trim(),preferred_language=el("profileLanguage").value,newEmail=el("profileEmail").value.trim().toLowerCase(),newPassword=el("profilePassword").value;el("profileMsg").textContent="Guardando…";const {data,error}=await sb.rpc("update_my_course_profile",{p_display_name:display_name,p_preferred_language:preferred_language});if(error){el("profileMsg").textContent=error.message;return;}if(newPassword){if(newPassword.length<8){el("profileMsg").textContent="La contraseña debe tener al menos 8 caracteres.";return;}const {error:perr}=await sb.auth.updateUser({password:newPassword});if(perr){el("profileMsg").textContent=authMessage(perr);return;}}if(newEmail&&newEmail!==String(session.user.email||"").toLowerCase()){const {error:eerr}=await sb.auth.updateUser({email:newEmail});if(eerr){el("profileMsg").textContent=authMessage(eerr);return;}el("profileMsg").textContent="Perfil guardado. El cambio de correo requiere confirmación por email.";}else el("profileMsg").textContent="Perfil actualizado.";el("profilePassword").value="";accessProfile={...accessProfile,...data,preferred_language};currentLanguage=preferred_language;applyLanguage();await loadCourseContent(false);renderProfileCard();safeRenderAll();}
+async function saveMyProfile(){
+  if(!sb||!session)return;
+  const display_name=el("profileName").value.trim(),preferred_language=el("profileLanguage").value,newEmail=el("profileEmail").value.trim().toLowerCase(),newPassword=el("profilePassword").value;
+  el("profileMsg").textContent="Guardando…";
+  const {error}=await sb.rpc("update_my_course_profile",{p_display_name:display_name,p_preferred_language:preferred_language});
+  if(error){el("profileMsg").textContent=error.message;return;}
+  if(newPassword){
+    if(newPassword.length<8){el("profileMsg").textContent="La contraseña debe tener al menos 8 caracteres.";return;}
+    const {error:perr}=await sb.auth.updateUser({password:newPassword});if(perr){el("profileMsg").textContent=authMessage(perr);return;}
+  }
+  let emailChange=false;
+  if(newEmail&&newEmail!==String(session.user.email||"").toLowerCase()){
+    const {error:eerr}=await sb.auth.updateUser({email:newEmail});if(eerr){el("profileMsg").textContent=authMessage(eerr);return;}emailChange=true;
+  }
+  el("profilePassword").value="";currentLanguage=preferred_language;applyLanguage();
+  await refreshAccess();await loadCourseContent(false);renderProfileCard();safeRenderAll();
+  el("profileMsg").textContent=emailChange?"Perfil guardado. El nuevo correo requiere confirmación por email.":"Perfil actualizado.";
+}
 async function renderAdminData(showMessage=false){
   if(!isAdmin||!sb||!session)return;
   try{
@@ -1630,7 +1698,7 @@ async function adminAddUser(){
   }catch(e){el("adminMsg").textContent="No se pudo crear/invitar el usuario: "+(e.message||String(e));await renderAdminData(false);}
 }
 function openEditUser(u){if(!u)return;el("editUserEmail").value=u.email;el("editUserDisplayName").value=u.display_name||"";el("editUserRole").value=u.role||"member";el("editUserLanguage").value=u.preferred_language||"es";el("editUserActive").checked=!!u.active;el("editUserMsg").textContent="";const dlg=el("editUserDialog");if(typeof dlg.showModal==="function")dlg.showModal();}
-async function saveEditedUser(){const email=el("editUserEmail").value,display_name=el("editUserDisplayName").value.trim(),role=el("editUserRole").value,preferred_language=el("editUserLanguage").value,active=el("editUserActive").checked;el("editUserMsg").textContent="Guardando…";const {data,error}=await sb.functions.invoke("invite-course-user",{body:{action:"update",email,display_name,role,preferred_language,active}});if(error||data?.error){el("editUserMsg").textContent=data?.error||error?.message||"No se pudo actualizar.";return;}el("editUserDialog").close();el("adminMsg").textContent="Usuario actualizado.";await renderAdminData(false);}
+async function saveEditedUser(){const email=el("editUserEmail").value,display_name=el("editUserDisplayName").value.trim(),role=el("editUserRole").value,preferred_language=el("editUserLanguage").value,active=el("editUserActive").checked;el("editUserMsg").textContent="Guardando…";const {data,error}=await sb.functions.invoke("invite-course-user",{body:{action:"update",email,display_name,role,preferred_language,active}});if(error||data?.error){el("editUserMsg").textContent=data?.error||error?.message||"No se pudo actualizar.";return;}el("editUserDialog").close();if(email===String(session?.user?.email||"").toLowerCase())await refreshAccess();el("adminMsg").textContent="Usuario actualizado.";safeRenderAll();await renderAdminData(false);}
 async function adminResendInvite(email){if(!confirm(`¿Enviar una nueva invitación a ${email}?`))return;el("adminMsg").textContent="Enviando invitación…";const {data,error}=await sb.functions.invoke("invite-course-user",{body:{action:"resend",email}});el("adminMsg").textContent=error?.message||data?.error||data?.message||"Invitación procesada.";await renderAdminData(false);}
 async function adminRemove(email){if(!confirm(`¿Quitar la autorización de ${email}? Su cuenta de autenticación no se borra, pero perderá el acceso al curso.`))return;const {error}=await sb.from("course_users").delete().eq("email",email);el("adminMsg").textContent=error?error.message:"Autorización eliminada.";if(!error)await renderAdminData(false);}
 
@@ -1976,12 +2044,15 @@ function authMessage(error){
 document.querySelectorAll(".tab").forEach(b=>b.addEventListener("click",()=>switchTab(b.dataset.tab)));
 function selectChapterFromControl(value,zone="curso"){const n=Number(value);let ok=availableForUser(n)&&isChapterUnlocked(n);if(zone==="practicas")ok=ok&&readingRequirementsMet(n);if(zone==="feedback")ok=ok&&practiceRequirementsMet(n);if(!ok){current=highestZoneChapter(zone);safeRenderAll();return;}current=n;safeRenderAll();}
 el("chapterSelect").addEventListener("change",e=>selectChapterFromControl(e.target.value,"curso"));
+el("openChapterPickerBtn").addEventListener("click",()=>{renderChapterPicker();const dlg=el("chapterPickerDialog");if(typeof dlg.showModal==="function")dlg.showModal();});
+el("closeChapterPickerBtn").addEventListener("click",()=>el("chapterPickerDialog").close());
 el("practiceChapterSelect").addEventListener("change",e=>selectChapterFromControl(e.target.value,"practicas"));
 el("feedbackChapterSelect").addEventListener("change",e=>selectChapterFromControl(e.target.value,"feedback"));
 el("notes").addEventListener("input",e=>{state.notes[current]=e.target.value;saveLocal();});
 el("syncNowBtn").addEventListener("click",async()=>{if(!session){el("authMsg").textContent="Inicia sesión para sincronizar.";return;}await syncOnLogin();el("syncDetail").textContent="Sincronización completada.";});
 
 el("loginLanguageSelect").addEventListener("change",e=>{currentLanguage=e.target.value;applyLanguage();});
+el("togglePasswordBtn").addEventListener("click",()=>{const input=el("authPassword"),show=input.type==="password";input.type=show?"text":"password";el("togglePasswordBtn").textContent=show?"◌":"◉";});
 el("saveProfileBtn").addEventListener("click",saveMyProfile);
 el("installAppBtn").addEventListener("click",openInstallDialog);el("closeInstallBtn").addEventListener("click",()=>el("installDialog").close());el("installNativeBtn").addEventListener("click",async()=>{if(!deferredInstallPrompt)return;deferredInstallPrompt.prompt();await deferredInstallPrompt.userChoice;deferredInstallPrompt=null;el("installDialog").close();updateInstallUI();});window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredInstallPrompt=e;updateInstallUI();});window.addEventListener("appinstalled",()=>{deferredInstallPrompt=null;updateInstallUI();});
 el("saveEditedUserBtn").addEventListener("click",saveEditedUser);el("cancelEditUserBtn").addEventListener("click",()=>el("editUserDialog").close());
@@ -2005,6 +2076,7 @@ el("loginForm").addEventListener("submit",async(e)=>{e.preventDefault();
   if(!email||!password){el("authMsg").textContent="Introduce correo y contraseña.";return;}
   el("authMsg").textContent="Comprobando acceso…";
   const {error}=await sb.auth.signInWithPassword({email,password});
+  if(!error)localStorage.setItem(LAST_EMAIL_KEY,email.toLowerCase());
   el("authMsg").textContent=error?authMessage(error):"Sesión iniciada. Sincronizando…";
 });
 el("signUpBtn").addEventListener("click",async()=>{
@@ -2064,9 +2136,9 @@ el("signOutBtn").addEventListener("click",async()=>{
   passwordRecoveryMode=false;
   updateAuthUI();setAccessUI();safeRenderAll();
   if(sb)setCloudPill("Nube configurada","warn");
-  el("authMsg").textContent=serverWarning
-    ?`Sesión local cerrada. Aviso del servidor: ${serverWarning}`
-    :"Sesión cerrada correctamente.";
+  el("authMsg").textContent=serverWarning?`Aviso al cerrar sesión: ${serverWarning}`:"";
+  const remembered=localStorage.getItem(LAST_EMAIL_KEY)||"";
+  if(remembered)el("authEmail").value=remembered;
 });
 el("cloudPullBtn").addEventListener("click",async()=>{
   const progressOk=await pullCloud(false);
@@ -2105,6 +2177,8 @@ window.addEventListener("focus",()=>{
 
 if(window.matchMedia&&window.matchMedia("(display-mode: standalone)").matches)el("installHint").classList.add("hidden");
 state=fresh();courseContent={};applyLanguage();opts();safeRenderAll();setAccessUI();updateInstallUI();
+const rememberedEmail=localStorage.getItem(LAST_EMAIL_KEY)||"";
+if(rememberedEmail)el("authEmail").value=rememberedEmail;
 initSupabase();
 if("serviceWorker" in navigator&&location.protocol.startsWith("http")){
   navigator.serviceWorker.register("./sw.js",{updateViaCache:"none"}).then(reg=>{

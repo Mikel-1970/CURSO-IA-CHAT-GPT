@@ -1,17 +1,15 @@
 {
-  "app_version": "18",
+  "app_version": "18.1",
   "name": "Curso IA ChatGPT",
-  "release": "Pulido integral + usuarios + PWA multilingüe",
+  "release": "Correcciones de acceso, perfil, Teoría y tipografía",
   "changes": [
-    "login holográfico más compacto",
-    "texto justificado y tablas móviles corregidas",
-    "opciones A/B/C/D listadas",
-    "comprobaciones simplificadas",
-    "correo del pie eliminado",
-    "edición de perfiles y usuarios",
-    "reenvío de invitaciones",
-    "instalación PWA iOS/Android/Windows/Mac",
-    "interfaz ES/EN/FR/DE/IT/PT",
-    "infraestructura de traducciones de capítulos"
+    "acceso holográfico alineado con el diseño aprobado",
+    "panel de acceso más estrecho y alto, proyectado desde el robot derecho",
+    "recuerdo del último correo sin guardar contraseña",
+    "refresco inmediato del nombre tras editar el propio usuario",
+    "Teoría sustituye a Curso como nombre de la sección",
+    "selector emergente Selecciona Capítulo",
+    "listas con primera letra en mayúscula",
+    "texto justificado sin división automática con guion"
   ]
 }

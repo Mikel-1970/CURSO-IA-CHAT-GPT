@@ -220,3 +220,7 @@ Solución:
 
 ## v18
 Revisión integral de interfaz, usuarios, instalación PWA y soporte multilingüe. El español continúa siendo la versión maestra; las traducciones de contenido se publican en `course_content_translations` y, mientras no existan, la app muestra un aviso y usa español.
+
+
+## v18.1
+Correcciones posteriores a la prueba móvil: diseño de acceso aprobado, recuerdo de usuario, refresco del perfil, Teoría, selector emergente de capítulo, listas con mayúscula inicial y justificación sin guiones automáticos.
