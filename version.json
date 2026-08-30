@@ -1,15 +1,15 @@
 {
-  "app_version": "15.5",
-  "base_version": 15,
-  "release": "Refresh móvil",
-  "name": "Curso IA",
-  "fixes": [
-    "Descargar nube actualiza progreso y contenido",
-    "actualización de course_content al iniciar sesión",
-    "actualización al volver la PWA a primer plano",
-    "actualización al recuperar conexión",
-    "polling de contenido robusto",
-    "comprobación explícita de nuevas versiones del service worker",
-    "mantiene todas las correcciones de prácticas/iPhone de v15.4"
+  "app_version": "17.3",
+  "name": "Curso IA ChatGPT",
+  "release": "Interfaz futurista completa",
+  "changes": [
+    "pantalla inicial final: panel desplazado arriba y a la derecha, con campos grandes en móvil",
+    "mismo fondo futurista tras iniciar sesión",
+    "menú principal oscuro translúcido con Curso, Prácticas y Feedback",
+    "Curso, Prácticas, Feedback y Administración con paneles futuristas",
+    "progreso compacto integrado en cabecera/pie",
+    "se mantiene la lógica Lectura terminada → Práctica Terminada → Feedback",
+    "se mantiene invitación segura de usuarios desde Administración",
+    "se mantienen sincronización automática y herramientas de recuperación en Administración"
   ]
 }

@@ -180,3 +180,39 @@ Corrección:
 - al recuperar conexión se actualiza el contenido;
 - el polling periódico utiliza el mismo proceso de actualización;
 - el service worker solicita actualizaciones con `updateViaCache: "none"`.
+
+
+## v15.6 — Estabilidad de las prácticas
+Problema observado:
+- durante una práctica, una respuesta de sincronización podía llegar con un estado capturado unos instantes antes;
+- algunas comprobaciones podían desaparecer y había que volver a pulsar `Comprobar`.
+
+Solución:
+- se conserva un snapshot local del capítulo activo durante cada subida;
+- después de fusionar la respuesta de Supabase se restaura encima la práctica local activa;
+- el polling de `course_content` no reconstruye la práctica si las versiones publicadas no han cambiado;
+- aparece `Comprobados X / Y`;
+- al marcar la práctica terminada se fuerza una sincronización completa antes de continuar.
+
+
+## v17 — Rediseño solicitado
+- Nombre: Curso IA ChatGPT.
+- Pantalla inicial de acceso moderna en tonos azules.
+- Login preparado para gestores de contraseñas (`autocomplete=username/current-password`).
+- Menú principal con Curso, Prácticas y Feedback.
+- Progreso mostrado como porcentaje compacto.
+- Curso y prácticas en ventanas de trabajo independientes.
+- Prácticas bloqueadas hasta `Lectura terminada`.
+- Feedback bloqueado hasta `Práctica Terminada`.
+- Nube retirada del menú normal e integrada en Administración/Sincronización.
+- Administración completa para admin; para usuario normal solo sincronización.
+- Nueva Edge Function `invite-course-user`: alta autorizada + invitación por correo.
+
+
+## v17.3 — Interfaz futurista completa
+- El mismo fondo futurista se utiliza en la pantalla principal y en las ventanas funcionales.
+- Se conserva únicamente la estructura acordada: Curso, Prácticas y Feedback.
+- Administración continúa separada.
+- En móvil, el panel de acceso se desplaza hacia la zona superior derecha y ocupa aprox. 82 % del ancho, manteniendo inputs de 17 px y 50 px de altura.
+- Curso, prácticas, feedback y administración usan paneles oscuros translúcidos con alto contraste.
+- No se añaden calendario, foro, logros u otras funciones mostradas solo como inspiración visual en los mockups.

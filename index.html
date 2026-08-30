@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#16324F">
+<meta name="theme-color" content="#071c3d">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Curso IA">
+<meta name="apple-mobile-web-app-title" content="Curso IA ChatGPT">
 <link rel="apple-touch-icon" href="icon-192.png">
 <link rel="manifest" href="manifest.webmanifest">
-<title>Curso IA – ChatGPT práctico</title>
+<title>Curso IA ChatGPT</title>
 <style>
 :root{--bg:#f7f7f8;--card:#fff;--text:#111827;--muted:#6b7280;--border:#d1d5db;--accent:#2563eb;--soft:#dbeafe;--ok:#15803d;--warn:#b45309;--bad:#b91c1c;--navy:#16324F}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}.app{
@@ -44,154 +44,503 @@ body.ios-keyboard-open{
   overscroll-behavior-y:contain;
 }
 
+
+/* v17 — Rediseño general */
+:root{
+  --blue-950:#06172f;--blue-900:#0a2348;--blue-800:#12396d;--blue-700:#1759a6;
+  --blue-600:#2476d8;--blue-500:#4295ef;--blue-100:#eaf4ff;--cyan:#61d5ff;
+}
+body{background:#eef4fb}
+.login-screen{
+  min-height:100dvh;
+  position:relative;
+  overflow:hidden;
+  display:grid;
+  align-items:center;
+  justify-items:center;
+  padding:
+    max(24px,env(safe-area-inset-top))
+    max(18px,env(safe-area-inset-right))
+    max(24px,env(safe-area-inset-bottom))
+    max(18px,env(safe-area-inset-left));
+  background:
+    linear-gradient(90deg,rgba(2,18,41,.04),rgba(2,18,41,.11)),
+    url("./login-futurista.png") center center/cover no-repeat;
+  color:#fff
+}
+.login-screen::before,.login-screen::after{content:"";position:absolute;border:1px solid rgba(255,255,255,.10);border-radius:50%;width:440px;height:440px}
+.login-screen::before{left:-220px;bottom:-160px}.login-screen::after{right:-180px;top:-160px}
+.ai-nodes{display:none}
+.login-card{
+  position:relative;
+  z-index:1;
+  width:min(470px,calc(100vw - 36px));
+  margin-left:clamp(0px,20vw,330px);
+  background:linear-gradient(145deg,rgba(10,47,91,.78),rgba(12,74,128,.60));
+  color:#fff;
+  border:1px solid rgba(183,230,255,.62);
+  border-radius:30px;
+  padding:28px;
+  box-shadow:
+    0 30px 90px rgba(0,12,35,.45),
+    inset 0 1px 0 rgba(255,255,255,.20),
+    0 0 34px rgba(74,177,255,.16);
+  backdrop-filter:blur(15px) saturate(135%);
+  -webkit-backdrop-filter:blur(15px) saturate(135%)
+}
+.brand-mark{width:64px;height:64px;border-radius:20px;display:grid;place-items:center;margin-bottom:18px;background:linear-gradient(145deg,var(--blue-700),var(--cyan));box-shadow:0 12px 30px rgba(36,118,216,.35)}
+.brand-mark svg{width:38px;height:38px}.login-card h1{font-size:1.95rem;color:#fff;margin-bottom:5px;text-shadow:0 2px 15px rgba(0,0,0,.20)}.login-sub{color:#d9eeff;margin-bottom:22px}
+.login-card label{color:#ecf7ff}.login-card input{background:rgba(5,43,82,.42);color:#fff;border-color:rgba(197,232,255,.72);padding:13px 14px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.03)}.login-card input::placeholder{color:#c5ddf1}
+.login-card .btn.primary{width:100%;background:linear-gradient(135deg,#1762b9,#288ce8);border:0;box-shadow:0 10px 24px rgba(31,116,207,.23)}
+.login-links{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.login-links .btn{font-size:.9rem;background:rgba(10,55,101,.46);color:#fff;border-color:rgba(192,229,255,.66)}
+.login-note{font-size:.78rem;color:#d4eaff;margin-top:14px;line-height:1.4}
+
+.app-shell{min-height:100dvh;background:linear-gradient(180deg,#f2f7fd,#eef3f8);padding-bottom:max(24px,env(safe-area-inset-bottom))}
+.shell-header{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.94);backdrop-filter:blur(14px);border-bottom:1px solid #d9e4f0;padding:max(10px,env(safe-area-inset-top)) 14px 10px}
+.shell-header-inner{max-width:1080px;margin:auto;display:flex;align-items:center;gap:12px}.shell-brand{font-weight:800;color:#0a2b57;white-space:nowrap}.shell-spacer{flex:1}
+.compact-progress{min-width:190px}.compact-progress-line{display:flex;justify-content:space-between;font-size:.78rem;color:#4d647c;margin-bottom:4px}.compact-progress .progress{height:7px;background:#dce8f4}.compact-progress .progress>i{background:linear-gradient(90deg,#246fd0,#43a6f2)}
+.shell-actions{display:flex;gap:6px}.icon-btn{border:1px solid #cddbea;background:#fff;border-radius:12px;min-height:40px;padding:8px 10px;font-weight:700;color:#163b66}
+.home-menu{max-width:980px;margin:0 auto;padding:34px 16px}.home-welcome{margin-bottom:22px}.home-welcome h2{font-size:1.65rem;color:#0a2b57;margin-bottom:7px}.home-welcome p{color:#60758c}
+.zone-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.zone-card{appearance:none;text-align:left;border:1px solid #d5e1ee;background:#fff;border-radius:22px;padding:22px;box-shadow:0 12px 35px rgba(24,58,94,.08);min-height:170px;transition:.18s transform,.18s box-shadow}.zone-card:hover{transform:translateY(-2px);box-shadow:0 16px 40px rgba(24,58,94,.12)}
+.zone-icon{width:48px;height:48px;border-radius:15px;background:linear-gradient(145deg,#e8f3ff,#d8ecff);display:grid;place-items:center;color:#1764b9;font-size:1.35rem;margin-bottom:18px}.zone-card strong{display:block;color:#102d50;font-size:1.15rem;margin-bottom:6px}.zone-card span{color:#6a7f95;font-size:.9rem;line-height:1.4}
+
+.workspace{position:fixed;z-index:50;inset:0;background:#eef4fb;display:none;overflow:auto;padding-bottom:max(20px,env(safe-area-inset-bottom))}.workspace.open{display:block}.workspace-head{position:sticky;top:0;z-index:5;background:rgba(255,255,255,.96);backdrop-filter:blur(12px);border-bottom:1px solid #d5e1ee;padding:max(10px,env(safe-area-inset-top)) 14px 10px}.workspace-head-inner{max-width:980px;margin:auto;display:flex;align-items:center;gap:10px}.workspace-title{font-weight:800;color:#12365e}.workspace-body{max-width:980px;margin:auto;padding:18px 14px 34px}.workspace-select{background:#fff;border:1px solid #d6e2ef;border-radius:16px;padding:13px 15px;margin-bottom:16px;box-shadow:0 8px 24px rgba(30,64,100,.06)}
+.workspace-foot-progress{font-size:.78rem;color:#617891;text-align:center;padding:14px}
+
+#curso .card,#practicas .card,#feedback .card,#administracion .card{border-color:#d7e3ef;box-shadow:0 8px 24px rgba(30,64,100,.06)}
+.lesson-content{font-size:1rem;line-height:1.65}.lesson-content h2{color:#135ca7;border-bottom:2px solid #d9ecff;padding-bottom:8px;margin-top:30px}.lesson-content h3{color:#1d75c7;margin-top:24px}.lesson-content strong{color:#123b67}.lesson-content blockquote{margin:16px 0;padding:12px 15px;border-left:4px solid #2784dd;background:#f0f7ff;border-radius:8px}.lesson-content ul,.lesson-content ol{padding-left:24px}.lesson-content li{margin:8px 0}
+.lesson-visual{margin:0 0 18px;background:linear-gradient(135deg,#0c376c,#1769b6 60%,#2aa4e6);border-radius:20px;min-height:150px;color:#fff;position:relative;overflow:hidden;padding:22px;display:flex;align-items:center;gap:20px}.lesson-visual svg{width:130px;min-width:130px;opacity:.95}.lesson-visual h2{border:0;color:#fff;margin:0 0 7px;padding:0}.lesson-visual p{margin:0;color:#dceeff}.lesson-visual::after{content:"";position:absolute;width:180px;height:180px;border:1px solid rgba(255,255,255,.16);border-radius:50%;right:-60px;top:-70px}
+.notes-card{background:#fffef8!important;border-color:#eadfb0!important}.notes-card textarea{background:#fffdf3}
+.reading-card{text-align:center}.reading-card .btn{min-width:220px}
+
+#practiceArea .mini{background:#fff;border:1px solid #d3e1ef;border-radius:16px;padding:16px;margin:0 0 26px!important;box-shadow:0 6px 18px rgba(33,70,108,.05)}
+#practiceArea .mini + .mini{margin-top:20px!important}#practiceArea select,#practiceArea textarea{margin-top:8px}.practice-gap{height:12px}
+#genericPracticeDone{min-width:210px}.rubric{margin-top:14px}
+
+.admin-sync{background:#f0f7ff!important}.admin-sync .sync-line{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.admin-sync .muted{line-height:1.45}
+.hidden-tech{display:none!important}
+
+@media(max-width:760px){
+  .zone-grid{grid-template-columns:1fr}.zone-card{min-height:120px}.compact-progress{min-width:125px}.shell-brand{font-size:.92rem}.shell-actions .icon-btn span{display:none}.lesson-visual{align-items:flex-start}.lesson-visual svg{width:86px;min-width:86px}.login-card{padding:22px;margin-left:0;margin-top:-6vh}.login-links{grid-template-columns:1fr}.workspace-body{padding:14px 10px 28px}
+}
+@media(min-width:761px){
+  .login-screen{justify-items:end;padding-right:max(6vw,40px)}
+  .login-card{margin-left:0;margin-right:8vw}
+}
+
+
+/* =========================================================
+   v17.3 — INTERFAZ FUTURISTA COMPLETA
+   Mantiene la arquitectura funcional acordada.
+   ========================================================= */
+
+:root{
+  --f-bg:#03162e;
+  --f-panel:rgba(4,31,65,.86);
+  --f-panel-2:rgba(7,48,91,.76);
+  --f-line:rgba(102,197,255,.40);
+  --f-line-strong:rgba(131,218,255,.68);
+  --f-text:#eef8ff;
+  --f-muted:#b6d1e6;
+  --f-cyan:#5ad8ff;
+  --f-blue:#2389ef;
+  --f-green:#5de3a1;
+  --f-warn:#ffd66b;
+}
+
+/* ---------- LOGIN DEFINITIVO ---------- */
+.login-screen{
+  align-items:start!important;
+  justify-items:end!important;
+  padding-top:max(6.5vh,env(safe-area-inset-top))!important;
+  padding-right:max(3.5vw,14px)!important;
+  padding-left:max(14px,env(safe-area-inset-left))!important;
+  background:
+    linear-gradient(90deg,rgba(1,13,31,.01),rgba(1,13,31,.10)),
+    url("./login-futurista.png") center center/cover no-repeat!important;
+}
+.login-card{
+  width:min(520px,54vw)!important;
+  margin:0 2.5vw 0 0!important;
+  padding:24px 26px!important;
+  border-radius:30px!important;
+  background:linear-gradient(145deg,rgba(5,40,81,.78),rgba(11,67,118,.65))!important;
+  border:1px solid rgba(185,232,255,.73)!important;
+  box-shadow:0 30px 90px rgba(0,9,28,.46),0 0 38px rgba(62,183,255,.17),inset 0 1px 0 rgba(255,255,255,.19)!important;
+}
+.login-card .brand-mark{
+  width:68px;height:68px;margin:0 auto 12px!important;border-radius:50%!important;
+  background:rgba(5,52,99,.48)!important;border:1px solid rgba(164,231,255,.74)!important;
+  box-shadow:0 0 26px rgba(77,210,255,.31)!important;
+}
+.login-card h1{text-align:center!important;font-size:2rem!important;margin:0!important}
+.login-sub{text-align:center!important;font-size:1.04rem!important;margin:5px 0 17px!important}
+.login-card label{font-size:.92rem!important;margin-top:9px!important}
+.login-card input{
+  min-height:54px!important;
+  padding:13px 15px!important;
+  font-size:17px!important;
+  border-radius:14px!important;
+  background:rgba(13,67,118,.43)!important;
+}
+.login-card .btn{min-height:50px!important;font-size:16px!important;border-radius:14px!important}
+.login-card .btn.primary{
+  background:linear-gradient(135deg,#39bfff,#087be7)!important;
+  box-shadow:0 10px 28px rgba(0,115,220,.32)!important;
+}
+.login-links{grid-template-columns:1fr!important;gap:8px!important}
+.login-note{font-size:.72rem!important;margin-top:10px!important}
+
+/* ---------- FONDO COMÚN TRAS ACCESO ---------- */
+.app-shell,
+.workspace{
+  background:
+    linear-gradient(rgba(2,17,39,.83),rgba(2,18,42,.91)),
+    url("./login-futurista.png") center center/cover fixed no-repeat!important;
+  color:var(--f-text)!important;
+}
+.app-shell{min-height:100dvh!important}
+.workspace{background-attachment:fixed!important}
+
+/* ---------- CABECERA ---------- */
+.shell-header,
+.workspace-head{
+  background:rgba(2,20,45,.82)!important;
+  border-color:rgba(102,197,255,.24)!important;
+  box-shadow:0 6px 26px rgba(0,8,27,.18)!important;
+  -webkit-backdrop-filter:blur(16px) saturate(135%)!important;
+  backdrop-filter:blur(16px) saturate(135%)!important;
+}
+.shell-brand,.workspace-title{color:#fff!important;text-shadow:0 1px 14px rgba(73,190,255,.18)}
+.compact-progress-line{color:#c5e2f5!important}
+.compact-progress .progress{background:rgba(132,190,226,.18)!important}
+.compact-progress .progress>i{background:linear-gradient(90deg,#38c9ff,#1578ea)!important;box-shadow:0 0 10px rgba(58,201,255,.35)!important}
+.icon-btn{
+  background:rgba(8,42,80,.62)!important;
+  border-color:rgba(108,194,246,.36)!important;
+  color:#e9f7ff!important;
+}
+
+/* ---------- INICIO ---------- */
+.home-menu{max-width:1040px!important;padding-top:clamp(32px,7vh,72px)!important}
+.home-welcome{
+  max-width:680px;
+  padding:16px 20px;
+  border-left:3px solid rgba(71,205,255,.72);
+  background:linear-gradient(90deg,rgba(5,39,78,.56),transparent);
+  border-radius:0 18px 18px 0;
+}
+.home-welcome h2{color:#fff!important;font-size:clamp(1.7rem,4vw,2.25rem)!important;text-shadow:0 2px 20px rgba(0,0,0,.26)}
+.home-welcome p{color:#c8e4f5!important;font-size:1rem!important}
+.zone-grid{gap:18px!important}
+.zone-card{
+  min-height:185px!important;
+  background:linear-gradient(145deg,rgba(5,35,72,.88),rgba(7,54,101,.72))!important;
+  border:1px solid rgba(91,190,246,.35)!important;
+  box-shadow:0 18px 48px rgba(0,8,25,.25),inset 0 1px 0 rgba(255,255,255,.06)!important;
+  -webkit-backdrop-filter:blur(12px)!important;
+  backdrop-filter:blur(12px)!important;
+}
+.zone-card:hover{border-color:rgba(95,213,255,.70)!important;box-shadow:0 20px 52px rgba(0,9,27,.32),0 0 25px rgba(37,147,228,.13)!important}
+.zone-icon{
+  background:linear-gradient(145deg,rgba(18,103,180,.34),rgba(52,192,244,.14))!important;
+  border:1px solid rgba(83,204,255,.32)!important;
+  color:#6de2ff!important;
+}
+.zone-card strong{color:#fff!important}
+.zone-card span{color:#b9d5e8!important}
+
+/* ---------- CONTENEDORES DE LAS ZONAS ---------- */
+.workspace-body{max-width:1040px!important}
+.workspace-select,
+#curso .card,#practicas .card,#feedback .card,#administracion .card,
+.card{
+  background:linear-gradient(145deg,rgba(4,29,61,.91),rgba(6,48,91,.78))!important;
+  color:var(--f-text)!important;
+  border-color:rgba(91,188,244,.31)!important;
+  box-shadow:0 12px 34px rgba(0,8,27,.22),inset 0 1px 0 rgba(255,255,255,.045)!important;
+}
+.workspace-select label,.card label{color:#d7efff!important}
+.workspace select,.workspace textarea,.workspace input[type="text"],.workspace input[type="email"],.workspace input[type="password"],.workspace input[type="url"],
+#administracion select,#administracion textarea,#administracion input{
+  color:#f2f9ff!important;
+  background:rgba(8,43,82,.72)!important;
+  border-color:rgba(109,188,235,.42)!important;
+}
+.workspace select option,#administracion select option{background:#0a315b!important;color:#fff!important}
+.workspace textarea::placeholder,.workspace input::placeholder{color:#9cbcd3!important}
+.workspace-foot-progress,.progress-copy{color:#a9cbe1!important}
+
+/* ---------- CURSO ---------- */
+.lesson-visual{
+  background:linear-gradient(135deg,rgba(9,64,118,.94),rgba(13,108,177,.88),rgba(29,155,214,.75))!important;
+  border:1px solid rgba(103,215,255,.30)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 12px 30px rgba(0,14,38,.20)!important;
+}
+.lesson-content{color:#e9f5fd!important}
+.lesson-content p,.lesson-content li{color:#d5e8f5!important}
+.lesson-content h2{
+  color:#72ddff!important;
+  border-bottom-color:rgba(89,202,255,.27)!important;
+}
+.lesson-content h3{color:#82bbff!important}
+.lesson-content strong{color:#fff!important}
+.lesson-content blockquote,.callout{
+  color:#dff4ff!important;
+  background:rgba(12,75,129,.38)!important;
+  border-color:#55d2ff!important;
+}
+.compare>div{
+  background:rgba(8,50,93,.55)!important;
+  border-color:rgba(92,180,235,.30)!important;
+}
+.notes-card{
+  background:linear-gradient(145deg,rgba(41,49,55,.84),rgba(51,60,48,.72))!important;
+  border-color:rgba(215,198,107,.35)!important;
+}
+.notes-card textarea{background:rgba(28,40,42,.70)!important;color:#fff!important}
+.reading-card .btn.primary,
+#genericPracticeDone.btn,
+#feedbackArea .btn.primary{
+  background:linear-gradient(135deg,#2eb8ff,#0878e6)!important;
+  border-color:transparent!important;
+  color:#fff!important;
+  box-shadow:0 10px 24px rgba(0,111,215,.24)!important;
+}
+
+/* ---------- PRÁCTICAS ---------- */
+#practiceArea .mini,
+#practiceArea .card{
+  background:linear-gradient(145deg,rgba(4,31,65,.92),rgba(7,51,96,.80))!important;
+  border-color:rgba(90,190,246,.31)!important;
+}
+#practiceArea .mini{
+  margin-bottom:32px!important;
+  padding:19px!important;
+}
+#practiceArea .notice,
+.notice{
+  background:rgba(11,78,131,.35)!important;
+  color:#dff4ff!important;
+  border-color:rgba(86,199,251,.31)!important;
+}
+#practiceArea .rubric,
+.rubric{
+  background:rgba(5,45,80,.70)!important;
+  border-color:rgba(95,186,235,.29)!important;
+  color:#e9f6ff!important;
+}
+#practiceArea .rubric.good,.rubric.good{
+  background:rgba(13,91,72,.48)!important;
+  border-color:rgba(89,230,163,.44)!important;
+}
+#practiceArea .rubric.review,.rubric.review{
+  background:rgba(102,76,17,.48)!important;
+  border-color:rgba(255,212,107,.43)!important;
+}
+#genericPracticeCounter{color:#dff4ff!important}
+
+/* ---------- FEEDBACK ---------- */
+.feedback-grid{gap:14px!important}
+.checkitem{
+  color:#dcefff!important;
+  background:rgba(9,50,92,.54)!important;
+  border-color:rgba(94,180,235,.30)!important;
+}
+#feedbackArea .muted,.workspace .muted,.updated{color:#abc9dd!important}
+
+/* ---------- ADMINISTRACIÓN ---------- */
+.admin-sync{background:rgba(7,55,103,.60)!important}
+#administracion table{color:#e8f5fd!important}
+#administracion th,#administracion td{border-color:rgba(99,177,224,.22)!important}
+#administracion thead th{background:rgba(6,41,79,.86)!important;color:#cfeaff!important}
+.badge{background:rgba(33,100,158,.42)!important;color:#d9efff!important}
+.badge.admin{background:rgba(93,69,169,.44)!important;color:#e7ddff!important}
+.pill.ok{background:rgba(28,127,87,.40)!important;color:#a9f2cc!important}
+.pill.warn{background:rgba(137,97,21,.48)!important;color:#ffe1a0!important}
+.pill.bad{background:rgba(139,45,54,.48)!important;color:#ffc4c8!important}
+
+/* ---------- BLOQUEOS / DIÁLOGOS ---------- */
+.locked-card{
+  color:#d4e6f4!important;
+  background:rgba(5,35,68,.68)!important;
+  border-color:rgba(139,194,229,.45)!important;
+}
+dialog.chapter-dialog{
+  color:#eaf7ff!important;
+  background:#082c54!important;
+  border:1px solid rgba(92,188,241,.38)!important;
+}
+dialog.chapter-dialog::backdrop{background:rgba(0,9,23,.66)!important}
+.dialog-body{background:linear-gradient(145deg,#062447,#0a3d70)!important}
+.dialog-body .btn{background:rgba(9,58,108,.72)!important;color:#fff!important;border-color:rgba(102,195,247,.35)!important}
+.dialog-body .btn.primary{background:linear-gradient(135deg,#2eb8ff,#0878e6)!important}
+
+/* ---------- MÓVIL ---------- */
+@media(max-width:760px){
+  .login-screen{
+    align-items:start!important;
+    justify-items:end!important;
+    padding-top:max(6vh,env(safe-area-inset-top))!important;
+    padding-right:max(2.5vw,8px)!important;
+  }
+  .login-card{
+    width:min(385px,82vw)!important;
+    margin:0!important;
+    padding:17px 18px!important;
+    border-radius:24px!important;
+  }
+  .login-card .brand-mark{width:56px!important;height:56px!important;margin-bottom:7px!important}
+  .login-card .brand-mark svg{width:34px!important;height:34px!important}
+  .login-card h1{font-size:clamp(1.38rem,6.2vw,1.75rem)!important;line-height:1.08!important}
+  .login-sub{font-size:.92rem!important;margin-bottom:11px!important}
+  .login-card label{font-size:.82rem!important;margin:6px 0 4px!important}
+  .login-card input{min-height:50px!important;font-size:17px!important;padding:11px 13px!important}
+  .login-card .btn{min-height:47px!important;font-size:14.5px!important;padding:9px 11px!important}
+  .login-links{gap:6px!important}
+  .login-note{font-size:.64rem!important;line-height:1.25!important}
+  .zone-card{min-height:124px!important;padding:17px!important}
+  .zone-icon{margin-bottom:10px!important}
+  .home-menu{padding:23px 12px!important}
+  .home-welcome{padding:12px 14px!important;margin-bottom:15px!important}
+  .home-welcome h2{font-size:1.55rem!important}
+  .workspace-body{padding:13px 9px 28px!important}
+  .workspace-select{padding:11px 12px!important}
+  #practiceArea .mini{padding:15px!important;margin-bottom:27px!important}
+  .compact-progress{min-width:112px!important}
+}
+@media(min-width:761px){
+  .login-card{width:min(500px,45vw)!important;margin-right:3.5vw!important}
+}
+
 </style>
 </head>
 <body>
-<div id="app" class="app">
-<header class="card">
-  <h1>Curso IA – ChatGPT práctico <span class="pill ok">v15.5</span></h1>
-  <div class="muted">Curso privado multiusuario · progresión obligatoria · capítulos adaptativos desde la nube</div>
-  <div style="display:flex;justify-content:space-between;gap:10px;margin:14px 0 7px"><strong>Progreso global</strong><span id="progressText">0 / 16 capítulos</span></div>
-  <div class="progress"><i id="progressBar"></i></div>
-  <div class="cloudbar">
-    <span id="localStatus" class="pill ok">Guardado local</span>
-    <span id="cloudStatus" class="pill warn">Nube sin configurar</span>
-    <button id="syncNowBtn" class="btn" type="button">Sincronizar ahora</button>
-  </div>
-</header>
 
-<div id="accessBanner" class="access-note hidden"></div>
-
-<div id="installHint" class="banner"><strong>Instalar:</strong> cuando la app esté publicada por HTTPS, en iPhone usa Safari → Compartir → Añadir a pantalla de inicio.</div>
-
-<nav class="tabs" aria-label="Secciones">
-  <button class="tab privateTab active" data-tab="curso" type="button">Curso</button>
-  <button class="tab privateTab" data-tab="practicas" type="button">Prácticas</button>
-  <button class="tab privateTab" data-tab="progreso" type="button">Progreso</button>
-  <button class="tab privateTab" data-tab="feedback" type="button">Feedback</button>
-  <button class="tab" data-tab="nube" type="button">Nube</button>
-  <button id="adminTab" class="tab hidden" data-tab="administracion" type="button">Administración</button>
-</nav>
-
-<section id="curso" class="panel active">
-<div class="grid">
-  <aside class="card">
-    <label for="chapterSelect">Capítulo</label><select id="chapterSelect"></select>
-    <div id="chapterDate" class="muted" style="margin:8px 0"></div>
-    <label>Estado</label>
-    <div id="chapterStatusText" class="chapter-state">Pendiente</div>
-    <div id="chapterLockInfo" class="muted" style="margin-top:6px"></div>
-  </aside>
-  <main>
-    <article id="lesson" class="card"></article>
-    <div id="chapterCompletionCard" class="card"></div>
-    <div class="card"><label for="notes">Mis notas</label><textarea id="notes" rows="6" placeholder="Ideas, dudas, aplicaciones reales, mejoras..."></textarea></div>
-  </main>
-</div>
-</section>
-
-<section id="practicas" class="panel">
-  <div class="card"><label for="practiceChapterSelect">Práctica del capítulo</label><select id="practiceChapterSelect"></select></div>
-  <div id="practiceArea"></div>
-</section>
-
-<section id="progreso" class="panel">
-  <div class="stats">
-    <div class="card"><div class="muted">Completados</div><div id="statDone" class="num">0</div></div>
-    <div class="card"><div class="muted">En curso</div><div id="statDoing" class="num">0</div></div>
-    <div class="card"><div class="muted">Prácticas</div><div id="statPractice" class="num">0</div></div>
-  </div>
-  <div class="card tablewrap"><table><thead><tr><th>Cap.</th><th>Tema</th><th>Acceso</th><th>Lectura</th><th>Prácticas</th><th>Feedback</th><th>Estado</th></tr></thead><tbody id="rows"></tbody></table></div>
-  <div id="finalCourseSummary" class="card hidden"></div>
-  <div class="card">
-    <h3>Copia de seguridad manual</h3>
-    <div class="btnrow"><button id="exportBtn" class="btn primary" type="button">Exportar copia</button><label class="btn" style="display:inline-flex;align-items:center;margin:0;cursor:pointer">Importar copia<input id="importFile" type="file" accept=".json,application/json" hidden></label><button id="resetBtn" class="btn danger" type="button">Reiniciar</button></div>
-    <div id="backupMsg" class="muted" style="margin-top:8px"></div>
-  </div>
-</section>
-
-
-<section id="feedback" class="panel">
-  <div class="card">
-    <div class="grid">
-      <div>
-        <label for="feedbackChapterSelect">Feedback del capítulo</label>
-        <select id="feedbackChapterSelect"></select>
-        <div id="feedbackChapterInfo" class="muted" style="margin-top:8px"></div>
+<div id="loginScreen" class="login-screen">
+  <div class="ai-nodes"></div>
+  <div class="login-card">
+    <div class="brand-mark" aria-hidden="true">
+      <svg viewBox="0 0 64 64" fill="none"><path d="M18 20c0-7 5-12 12-12 5 0 9 3 11 7 6-1 12 4 12 11 0 4-2 8-5 10 2 8-4 16-12 16-3 0-6-1-8-3-3 3-8 4-12 2-6-3-8-11-4-17-5-2-8-8-6-14Z" stroke="white" stroke-width="3"/><circle cx="23" cy="25" r="3" fill="white"/><circle cx="39" cy="22" r="3" fill="white"/><circle cx="34" cy="38" r="3" fill="white"/><path d="M25 26l11-3m-1 13-10-9m13-2-3 10" stroke="white" stroke-width="2"/></svg>
+    </div>
+    <h1>Curso IA ChatGPT</h1>
+    <div class="login-sub">Formación práctica y progresiva en inteligencia artificial.</div>
+    <form id="loginForm" autocomplete="on">
+      <div id="loggedOutBox">
+        <label for="authEmail">Usuario</label>
+        <input id="authEmail" name="username" type="email" inputmode="email" autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="correo@empresa.com">
+        <label for="authPassword">Contraseña</label>
+        <input id="authPassword" name="password" type="password" autocomplete="current-password" minlength="8" placeholder="Contraseña">
+        <div style="margin-top:16px"><button id="signInBtn" class="btn primary" type="submit">Entrar</button></div>
+        <div class="login-links"><button id="forgotPasswordBtn" class="btn" type="button">Recuperar contraseña</button><button id="adminEntryBtn" class="btn" type="button">Acceso administración</button></div>
+        <button id="resendConfirmBtn" class="btn hidden" type="button">Reenviar confirmación</button>
+        <button id="signUpBtn" class="btn hidden" type="button">Crear cuenta autorizada</button>
       </div>
-      <div class="notice"><strong>Para qué sirve:</strong> el feedback se guarda y sincroniza con la nube. En el capítulo final se utilizará además para evaluar globalmente la satisfacción y utilidad del curso.</div>
-    </div>
-  </div>
-  <div id="feedbackArea"></div>
-</section>
-
-<section id="nube" class="panel">
-  <div class="card">
-    <h2>Sincronización en nube</h2>
-    <p>La app utiliza <strong>Supabase</strong>. La URL del proyecto y la <strong>publishable/anon key</strong> pueden estar en el navegador; la seguridad depende de las políticas RLS. <strong>No introduzcas nunca una service_role key.</strong></p>
-    <label for="supabaseUrl">Supabase Project URL</label><input id="supabaseUrl" type="url" placeholder="https://xxxx.supabase.co">
-    <label for="supabaseKey">Supabase publishable / anon key</label><input id="supabaseKey" type="text" autocomplete="off" placeholder="sb_publishable_... o anon key">
-    <div class="btnrow"><button id="saveCloudConfigBtn" class="btn primary" type="button">Guardar configuración</button><button id="clearCloudConfigBtn" class="btn" type="button">Borrar configuración</button></div>
-    <div id="configMsg" class="muted" style="margin-top:8px"></div>
-  </div>
-
-  <div class="card" id="authCard">
-    <h3>Cuenta del curso</h3>
-    <div id="loggedOutBox">
-      <label for="authEmail">Correo</label><input id="authEmail" type="email" autocomplete="email">
-      <label for="authPassword">Contraseña</label><input id="authPassword" type="password" autocomplete="current-password" minlength="8">
-      <div class="btnrow"><button id="signInBtn" class="btn primary" type="button">Entrar</button><button id="signUpBtn" class="btn" type="button">Crear cuenta autorizada</button></div>
-      <div class="btnrow"><button id="forgotPasswordBtn" class="btn" type="button">Recuperar contraseña</button><button id="resendConfirmBtn" class="btn" type="button">Reenviar confirmación</button></div>
-      <p class="muted">El registro solo da acceso al curso si el correo ha sido autorizado previamente por un administrador. Si la cuenta ya existe, «Crear cuenta autorizada» no cambia su contraseña.</p>
-    </div>
+    </form>
     <div id="recoveryBox" class="hidden">
       <p><strong>Define una nueva contraseña</strong></p>
       <label for="newPassword">Nueva contraseña</label><input id="newPassword" type="password" autocomplete="new-password" minlength="8">
       <label for="newPassword2">Repite la contraseña</label><input id="newPassword2" type="password" autocomplete="new-password" minlength="8">
-      <div class="btnrow"><button id="setNewPasswordBtn" class="btn primary" type="button">Guardar nueva contraseña</button></div>
+      <div style="margin-top:14px"><button id="setNewPasswordBtn" class="btn primary" type="button">Guardar nueva contraseña</button></div>
     </div>
-    <div id="loggedInBox" class="hidden">
-      <p>Sesión: <strong id="userEmail"></strong></p><div id="userProfileLine" class="profile-line"></div>
-      <div class="btnrow"><button id="cloudPullBtn" class="btn" type="button">Descargar nube</button><button id="cloudPushBtn" class="btn" type="button">Subir cambios de este dispositivo</button><button id="signOutBtn" class="btn danger" type="button">Cerrar sesión</button></div>
-    </div>
-    <div id="authMsg" class="muted" style="margin-top:8px"></div>
+    <div id="authMsg" class="muted" style="margin-top:12px"></div>
+    <div class="login-note">La app no guarda tu contraseña. En iPhone, el autocompletado depende de Contraseñas/iCloud Keychain; los campos están configurados para que iOS pueda reconocerlos.</div>
   </div>
-
-  <div class="card">
-    <h3>Estado de sincronización</h3>
-    <p id="syncDetail" class="muted">Sin sesión.</p>
-    <p class="muted">Estrategia v15.5: <strong>curso común + contenido dinámico + progresión obligatoria</strong>. Para avanzar es obligatorio terminar la lectura, completar y comprobar las prácticas y enviar el feedback del capítulo anterior.</p>
-  </div>
-</section>
-
-<section id="administracion" class="panel">
-  <div id="adminFinalFeedbackSummary" class="card hidden"></div>
-  <div class="card">
-    <h2>Administración de usuarios</h2>
-    <p class="muted">Autoriza previamente los correos que podrán utilizar Curso IA. Cada persona tendrá su propio progreso y sincronización.</p>
-    <div class="admin-grid">
-      <div><label for="adminEmail">Correo autorizado</label><input id="adminEmail" type="email" placeholder="persona@empresa.com"></div>
-      <div><label for="adminName">Nombre</label><input id="adminName" type="text" placeholder="Nombre y apellidos"></div>
-      <div><label for="adminRole">Rol</label><select id="adminRole"><option value="member">Usuario</option><option value="admin">Administrador</option></select></div>
-    </div>
-    <div class="btnrow"><button id="adminAddBtn" class="btn primary" type="button">Autorizar usuario</button><button id="adminRefreshBtn" class="btn" type="button">Actualizar listado</button><button id="copyAppLinkBtn" class="btn" type="button">Copiar enlace de la app</button></div>
-    <div id="adminMsg" class="muted" style="margin-top:8px"></div>
-  </div>
-  <div class="card tablewrap">
-    <table><thead><tr><th>Usuario</th><th>Rol</th><th>Acceso</th><th>Registro</th><th>Última actividad</th><th>Progreso</th><th>Acciones</th></tr></thead><tbody id="adminUsersBody"></tbody></table>
-  </div>
-</section>
-
-<dialog id="newChapterDialog" class="chapter-dialog">
-  <div class="dialog-body">
-    <h2 id="newChapterTitle">Nuevo capítulo disponible</h2>
-    <p id="newChapterText"></p>
-    <ul id="newChapterList" class="dialog-list"></ul>
-    <div class="btnrow"><button id="openNewChapterBtn" class="btn primary" type="button">Ir al capítulo</button><button id="dismissNewChapterBtn" class="btn" type="button">Ahora no</button></div>
-  </div>
-</dialog>
 </div>
 
+<div id="appShell" class="app-shell hidden">
+  <header class="shell-header">
+    <div class="shell-header-inner">
+      <div class="shell-brand">Curso IA ChatGPT <span class="pill ok">v17.3</span></div>
+      <div class="shell-spacer"></div>
+      <div class="compact-progress">
+        <div class="compact-progress-line"><span>Progreso</span><strong id="progressText">0%</strong></div>
+        <div class="progress"><i id="progressBar"></i></div>
+      </div>
+      <div class="shell-actions">
+        <button id="adminTab" class="icon-btn hidden" type="button" title="Administración"><span>Administración</span> ⚙︎</button>
+        <button id="signOutBtn" class="icon-btn" type="button" title="Cerrar sesión"><span>Salir</span> ⎋</button>
+      </div>
+    </div>
+  </header>
+
+  <main id="homeMenu" class="home-menu">
+    <div class="home-welcome"><h2 id="welcomeTitle">Tu curso</h2><p>Continúa tu aprendizaje en Inteligencia Artificial y ChatGPT.</p></div>
+    <div class="zone-grid">
+      <button class="zone-card" data-open-zone="curso" type="button"><div class="zone-icon">▤</div><strong>Curso</strong><span>Lee los capítulos disponibles, toma notas y marca la lectura cuando termines.</span></button>
+      <button class="zone-card" data-open-zone="practicas" type="button"><div class="zone-icon">✓</div><strong>Prácticas</strong><span>Accede a los ejercicios del capítulo una vez terminada su lectura.</span></button>
+      <button class="zone-card" data-open-zone="feedback" type="button"><div class="zone-icon">◌</div><strong>Feedback</strong><span>Valora el capítulo después de terminar sus prácticas.</span></button>
+    </div>
+  </main>
+
+  <section id="curso" class="workspace">
+    <div class="workspace-head"><div class="workspace-head-inner"><button class="icon-btn" data-close-zone type="button">← Volver</button><div class="workspace-title">Curso</div></div></div>
+    <div class="workspace-body">
+      <div class="workspace-select"><label for="chapterSelect">Capítulo</label><select id="chapterSelect"></select></div>
+      <div id="lesson" class="card"></div>
+      <div class="card notes-card"><label for="notes">Mis notas y comentarios</label><textarea id="notes" rows="6" placeholder="Ideas, dudas, aplicaciones reales, mejoras..."></textarea></div>
+      <div id="chapterCompletionCard" class="card reading-card"></div>
+      <div class="workspace-foot-progress progress-copy"></div>
+      <div class="hidden-tech"><span id="chapterDate"></span><span id="chapterStatusText"></span><span id="chapterLockInfo"></span></div>
+    </div>
+  </section>
+
+  <section id="practicas" class="workspace">
+    <div class="workspace-head"><div class="workspace-head-inner"><button class="icon-btn" data-close-zone type="button">← Volver</button><div class="workspace-title">Prácticas</div></div></div>
+    <div class="workspace-body">
+      <div class="workspace-select"><label for="practiceChapterSelect">Capítulo</label><select id="practiceChapterSelect"></select></div>
+      <div id="practiceArea"></div>
+      <div class="workspace-foot-progress progress-copy"></div>
+    </div>
+  </section>
+
+  <section id="feedback" class="workspace">
+    <div class="workspace-head"><div class="workspace-head-inner"><button class="icon-btn" data-close-zone type="button">← Volver</button><div class="workspace-title">Feedback</div></div></div>
+    <div class="workspace-body">
+      <div class="workspace-select"><label for="feedbackChapterSelect">Capítulo</label><select id="feedbackChapterSelect"></select><div id="feedbackChapterInfo" class="muted" style="margin-top:7px"></div></div>
+      <div id="feedbackArea"></div>
+      <div class="workspace-foot-progress progress-copy"></div>
+    </div>
+  </section>
+
+  <section id="administracion" class="workspace">
+    <div class="workspace-head"><div class="workspace-head-inner"><button class="icon-btn" data-close-zone type="button">← Volver</button><div class="workspace-title" id="adminWorkspaceTitle">Administración</div></div></div>
+    <div class="workspace-body">
+      <div class="card admin-sync">
+        <h3>Sincronización</h3>
+        <div class="sync-line"><span id="cloudStatus" class="pill warn">Comprobando…</span><span id="localStatus" class="pill ok">Guardado local</span></div>
+        <p id="syncDetail" class="muted">Sin sesión.</p>
+        <div class="btnrow"><button id="syncNowBtn" class="btn primary" type="button">Sincronizar ahora</button><button id="cloudPullBtn" class="btn" type="button">Recuperar datos de nube</button><button id="cloudPushBtn" class="btn" type="button">Enviar cambios pendientes</button></div>
+      </div>
+      <div id="adminOnlyArea">
+        <div id="adminFinalFeedbackSummary" class="card hidden"></div>
+        <div class="card">
+          <h2>Gestión de usuarios</h2>
+          <p class="muted">Crear un usuario lo autoriza en el curso y envía una invitación a su correo para activar el acceso.</p>
+          <div class="admin-grid">
+            <div><label for="adminEmail">Correo</label><input id="adminEmail" type="email" placeholder="persona@empresa.com"></div>
+            <div><label for="adminName">Nombre</label><input id="adminName" type="text" placeholder="Nombre y apellidos"></div>
+            <div><label for="adminRole">Rol</label><select id="adminRole"><option value="member">Usuario</option><option value="admin">Administrador</option></select></div>
+          </div>
+          <div class="btnrow"><button id="adminAddBtn" class="btn primary" type="button">Crear e invitar usuario</button><button id="adminRefreshBtn" class="btn" type="button">Actualizar listado</button><button id="copyAppLinkBtn" class="btn" type="button">Copiar enlace</button></div>
+          <div id="adminMsg" class="muted" style="margin-top:8px"></div>
+        </div>
+        <div class="card tablewrap"><table><thead><tr><th>Usuario</th><th>Rol</th><th>Acceso</th><th>Registro</th><th>Última actividad</th><th>Progreso</th><th>Acciones</th></tr></thead><tbody id="adminUsersBody"></tbody></table></div>
+      </div>
+      <div class="workspace-foot-progress progress-copy"></div>
+    </div>
+  </section>
+
+  <div id="accessBanner" class="hidden"></div><div id="installHint" class="hidden"></div>
+  <div id="loggedInBox" class="hidden"><span id="userEmail"></span><span id="userProfileLine"></span></div>
+  <div class="hidden-tech">
+    <input id="supabaseUrl" type="url"><input id="supabaseKey" type="text"><button id="saveCloudConfigBtn"></button><button id="clearCloudConfigBtn"></button><div id="configMsg"></div>
+    <button id="exportBtn"></button><input id="importFile" type="file"><button id="resetBtn"></button><div id="backupMsg"></div>
+    <div id="statDone"></div><div id="statDoing"></div><div id="statPractice"></div><table><tbody id="rows"></tbody></table><div id="finalCourseSummary"></div>
+  </div>
+
+  <dialog id="newChapterDialog" class="chapter-dialog"><div class="dialog-body"><h2 id="newChapterTitle">Nuevo capítulo disponible</h2><p id="newChapterText"></p><ul id="newChapterList" class="dialog-list"></ul><div class="btnrow"><button id="openNewChapterBtn" class="btn primary" type="button">Ir al capítulo</button><button id="dismissNewChapterBtn" class="btn" type="button">Ahora no</button></div></div></dialog>
+</div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.4/dist/umd/supabase.min.js"></script>
 <script>
 
@@ -221,6 +570,8 @@ const START=new Date(Date.UTC(2026,7,28));
 const APP_URL="https://mikel-1970.github.io/CURSO-IA-CHAT-GPT/";
 const el=id=>document.getElementById(id);
 let state=fresh(), current=1, courseContent={}, sb=null, session=null, syncing=false, passwordRecoveryMode=false, saveTimer=null, accessProfile=null, isAdmin=false, pendingNewChapters=[], contentPollTimer=null;
+let loginTargetAdmin=false;
+const incomingInvite=/[?&#]type=invite(?:&|$)/i.test(location.href);
 
 function fresh(){
   return {version:7,chapters:{1:"En curso"},readingDone:{},practices:{},notes:{},answers:{},feedback:{},checks:{},contentSeen:{},updatedAt:new Date().toISOString()};
@@ -416,15 +767,22 @@ function renderFinalCourseSummary(){
 
 function opts(){
   const max=maxChapter();
-  const s=Array.from({length:max},(_,i)=>{
-    const n=i+1,[title]=metadata(n),available=availableForUser(n),unlocked=isChapterUnlocked(n);
+  const build=(zone)=>Array.from({length:max},(_,i)=>{
+    const n=i+1,[title]=metadata(n),published=availableForUser(n),baseUnlocked=isChapterUnlocked(n);
+    let allowed=published&&baseUnlocked;
+    if(zone==="practice")allowed=allowed&&readingRequirementsMet(n);
+    if(zone==="feedback")allowed=allowed&&practiceRequirementsMet(n);
     let suffix="";
-    if(!available)suffix=" · pendiente de publicación";
-    else if(!unlocked)suffix=" · 🔒 bloqueado";
+    if(!published)suffix=" · pendiente de publicación";
+    else if(!baseUnlocked)suffix=" · bloqueado";
+    else if(zone==="practice"&&!readingRequirementsMet(n))suffix=" · termina la lectura";
+    else if(zone==="feedback"&&!practiceRequirementsMet(n))suffix=" · termina las prácticas";
     else if(chapterComplete(n))suffix=" · ✓";
-    return `<option value="${n}"${(!available||!unlocked)?" disabled":""}>${n}. ${esc(title)}${suffix}</option>`;
+    return `<option value="${n}"${allowed?"":" disabled"}>${n}. ${esc(title)}${suffix}</option>`;
   }).join("");
-  ["chapterSelect","practiceChapterSelect","feedbackChapterSelect"].forEach(id=>{if(el(id))el(id).innerHTML=s;});
+  if(el("chapterSelect"))el("chapterSelect").innerHTML=build("course");
+  if(el("practiceChapterSelect"))el("practiceChapterSelect").innerHTML=build("practice");
+  if(el("feedbackChapterSelect"))el("feedbackChapterSelect").innerHTML=build("feedback");
 }
 function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));}
 function norm(s){return String(s||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^\p{L}\p{N}\s]/gu," ").replace(/\s+/g," ").trim();}
@@ -449,57 +807,64 @@ function checkedLabel(iso){
 async function loadCourseContent(showNotice=false){
   if(!sb||!session||!accessProfile?.active){courseContent={};opts();safeRenderAll();return false;}
   try{
+    const previousSignature=JSON.stringify(
+      Object.values(courseContent||{}).map(c=>[Number(c.chapter_number),Number(c.version||0),String(c.updated_at||"")]).sort((a,b)=>a[0]-b[0])
+    );
     const {data,error}=await sb.from("course_content")
       .select("chapter_number,title,objective,content_html,practice,feedback_schema,version,updated_at,published")
       .eq("published",true).order("chapter_number");
     if(error)throw error;
-    courseContent={};(data||[]).forEach(c=>courseContent[c.chapter_number]=c);
+
+    const next={};(data||[]).forEach(c=>next[c.chapter_number]=c);
+    const nextSignature=JSON.stringify(
+      Object.values(next).map(c=>[Number(c.chapter_number),Number(c.version||0),String(c.updated_at||"")]).sort((a,b)=>a[0]-b[0])
+    );
+    const contentChanged=previousSignature!==nextSignature;
+
+    courseContent=next;
     localStorage.setItem(contentStorageKey(),JSON.stringify(Object.values(courseContent)));
-    ensureCurrentAccessible();opts();safeRenderAll();if(showNotice)maybeShowNewChapterDialog();return true;
-  }catch(e){console.warn("No se pudo actualizar el contenido:",e);opts();safeRenderAll();return false;}
+    ensureCurrentAccessible();
+    opts();
+
+    // El polling no debe reconstruir una práctica en curso si no ha cambiado
+    // realmente ningún capítulo.
+    if(contentChanged){
+      safeRenderAll();
+      if(showNotice)maybeShowNewChapterDialog();
+    }else{
+      renderProgress();
+      updateAuthUI();
+    }
+    return true;
+  }catch(e){
+    console.warn("No se pudo actualizar el contenido:",e);
+    opts();
+    return false;
+  }
+}
+function lessonIllustration(n,title){
+  return `<div class="lesson-visual"><svg viewBox="0 0 160 120" fill="none" aria-hidden="true"><circle cx="80" cy="58" r="36" stroke="rgba(255,255,255,.72)" stroke-width="2"/><circle cx="42" cy="30" r="7" fill="#bceaff"/><circle cx="118" cy="28" r="7" fill="#bceaff"/><circle cx="127" cy="76" r="7" fill="#bceaff"/><circle cx="57" cy="94" r="7" fill="#bceaff"/><circle cx="80" cy="58" r="9" fill="white"/><path d="M48 34 72 52m39-19L89 52m30 21-30-11M61 89l14-23" stroke="#dff5ff" stroke-width="3"/></svg><div><h2>Capítulo ${n}</h2><p>${esc(title)}</p></div></div>`;
 }
 function renderLesson(){
   ensureCurrentAccessible();
-  el("chapterSelect").value=String(current);el("practiceChapterSelect").value=String(current);if(el("feedbackChapterSelect"))el("feedbackChapterSelect").value=String(current);
-  const c=courseContent[current],[title,obj]=metadata(current),unlocked=isChapterUnlocked(current),available=availableForUser(current),status=derivedChapterState(current);
-  el("chapterDate").textContent=available?`Contenido publicado · versión ${c?.version||1}`:"Contenido aún no publicado";
-  el("chapterStatusText").textContent=status;
-  el("chapterLockInfo").textContent=!unlocked?"Bloqueado hasta completar los capítulos anteriores":(available?"Acceso disponible":"Pendiente de publicación");
-  el("notes").value=state.notes[current]||"";
-  if(!unlocked){
-    el("lesson").innerHTML=`<div class="locked-card"><h2>🔒 Capítulo ${current} bloqueado</h2><p>Completa Lectura, Prácticas y Feedback de todos los capítulos anteriores.</p></div>`;
-    el("chapterCompletionCard").innerHTML="";return;
-  }
-  if(!available){
-    el("lesson").innerHTML=`<h2>Capítulo ${current} — ${esc(title)}</h2><p>${esc(obj)}</p><div class="notice"><strong>Pendiente de publicación.</strong><br>El contenido aparecerá en la app cuando se publique en Supabase; no será necesario reinstalar la aplicación.</div>`;
-    el("chapterCompletionCard").innerHTML="";return;
-  }
-  el("lesson").innerHTML=`<div class="lesson-content">${c.content_html}</div><div class="updated">Versión ${c.version} · contenido actualizado ${new Date(c.updated_at).toLocaleDateString("es-ES")}</div>`;
-  const req=chapterRequirements(current);
-  let endMsg="";
-  if(chapterComplete(current)){
-    if(current===17)endMsg='<div class="generation-box"><strong>Curso completado.</strong><br><span class="muted">Has terminado la lectura, la evaluación final y el feedback global.</span></div>';
-    else{
-      const next=current+1;
-      endMsg=`<div class="generation-box"><strong>Capítulo completado.</strong><br><span class="muted">${availableForUser(next)?"El siguiente capítulo está desbloqueado y disponible.":"El siguiente capítulo se desbloqueará automáticamente cuando esté publicado."}</span></div>`;
-    }
-  }else endMsg='<div class="muted" style="margin-top:8px">Los tres requisitos son obligatorios para desbloquear el siguiente capítulo.</div>';
-  el("chapterCompletionCard").innerHTML=`<h3>Requisitos para completar el capítulo</h3>
-    <div class="gate-grid">
-      <div class="gate-item ${req.reading?"ok":"pending"}"><strong>${req.reading?"✓":"○"} Lectura</strong><div class="muted">${req.reading?"Terminada":"Pendiente"}</div></div>
-      <div class="gate-item ${req.practice?"ok":"pending"}"><strong>${req.practice?"✓":"○"} Prácticas</strong><div class="muted">${req.practice?"Realizadas y comprobadas":"Pendientes"}</div></div>
-      <div class="gate-item ${req.feedback?"ok":"pending"}"><strong>${req.feedback?"✓":"○"} Feedback</strong><div class="muted">${req.feedback?"Enviado":"Pendiente"}</div></div>
-    </div>
-    <div class="btnrow"><button id="readingDoneBtn" class="btn ${req.reading?"":"primary"}" type="button" ${req.reading?"disabled":""}>${req.reading?"Lectura terminada":"Terminado — marcar lectura"}</button></div>${endMsg}`;
+  if(el("chapterSelect"))el("chapterSelect").value=String(current);
+  const c=courseContent[current],[title,obj]=metadata(current),unlocked=isChapterUnlocked(current),available=availableForUser(current);
+  if(el("chapterDate"))el("chapterDate").textContent=available?`Contenido publicado · versión ${c?.version||1}`:"Contenido aún no publicado";
+  if(el("chapterStatusText"))el("chapterStatusText").textContent=derivedChapterState(current);
+  if(el("chapterLockInfo"))el("chapterLockInfo").textContent="";
+  if(el("notes"))el("notes").value=state.notes[current]||"";
+  if(!unlocked){el("lesson").innerHTML=`<div class="locked-card"><h2>Capítulo ${current} bloqueado</h2><p>Completa el capítulo anterior para continuar.</p></div>`;el("chapterCompletionCard").innerHTML="";return;}
+  if(!available){el("lesson").innerHTML=`${lessonIllustration(current,title)}<p>${esc(obj)}</p><div class="notice"><strong>Pendiente de publicación.</strong></div>`;el("chapterCompletionCard").innerHTML="";return;}
+  el("lesson").innerHTML=`${lessonIllustration(current,title)}<div class="lesson-content">${c.content_html}</div><div class="updated">Versión ${c.version} · actualizado ${new Date(c.updated_at).toLocaleDateString("es-ES")}</div>`;
+  const done=readingRequirementsMet(current);
+  el("chapterCompletionCard").innerHTML=`<button id="readingDoneBtn" class="btn ${done?"ok":"primary"}" type="button" ${done?"disabled":""}>${done?"Lectura terminada":"Lectura terminada"}</button>${done?'<div class="muted" style="margin-top:8px">La lectura de este capítulo ya está marcada como terminada.</div>':''}`;
   const btn=el("readingDoneBtn");
-  if(btn&&!req.reading)btn.addEventListener("click",()=>{
-    state.readingDone[current]=new Date().toISOString();saveLocal();safeRenderAll();
-    if(chapterComplete(current))maybeShowNewChapterDialog();
-  });
+  if(btn&&!done)btn.addEventListener("click",async()=>{state.readingDone[current]=new Date().toISOString();saveLocal();await pushCloud(false);opts();renderProgress();closeWorkspace();});
 }
 function renderPractice(){
   const c=courseContent[current], p=c?.practice||{};
-  if(!isChapterUnlocked(current)){el("practiceArea").innerHTML=`<div class="card"><div class="locked-card">🔒 Las prácticas del capítulo ${current} están bloqueadas hasta completar los capítulos anteriores.</div></div>`;return;}
+  if(!isChapterUnlocked(current)){el("practiceArea").innerHTML=`<div class="card"><div class="locked-card">Las prácticas del capítulo ${current} están bloqueadas hasta completar el capítulo anterior.</div></div>`;return;}
+  if(!readingRequirementsMet(current)){el("practiceArea").innerHTML=`<div class="card"><div class="locked-card"><strong>Lectura pendiente.</strong><br>Marca “Lectura terminada” en el capítulo ${current} antes de acceder a sus prácticas.</div></div>`;return;}
   if(!availableForUser(current)){el("practiceArea").innerHTML=`<div class="card"><div class="notice">Prácticas pendientes de publicación.</div></div>`;return;}
   if(!c){el("practiceArea").innerHTML=`<div class="card"><h2>Práctica ${current}</h2><div class="notice">Se incorporará automáticamente al publicar el capítulo.</div></div>`;return;}
   if(current===1 && p.classification) return renderPractice1(p);
@@ -528,7 +893,7 @@ function renderPractice1(p){
   </div>
   <div class="card"><h3>Prueba de comprensión</h3><p class="muted">La corrección automática es orientativa y usa una rúbrica de conceptos, no coincidencia literal.</p>
     ${qs.map((q,i)=>`<label>${i+1}. ${esc(q.question)}</label><textarea data-q="q${i+1}" rows="3"></textarea><div id="qr${i+1}"></div>`).join("")}
-    <div class="btnrow"><button id="checkComprehensionBtn" class="btn primary" type="button">Comprobar comprensión</button><button id="practiceDoneBtn" class="btn ok" type="button">Marcar práctica realizada</button></div><div id="compScore" style="margin-top:10px;font-weight:700"></div>
+    <div class="btnrow"><button id="checkComprehensionBtn" class="btn primary" type="button">Comprobar comprensión</button><button id="practiceDoneBtn" class="btn ok" type="button">Práctica Terminada</button></div><div id="compScore" style="margin-top:10px;font-weight:700"></div>
   </div>`;
 
   function renderClassResult(res){
@@ -781,7 +1146,7 @@ function renderPractice2(p){
       <h3>${esc(real.title||"Práctica 2C — Caso real")}</h3>
       <p>${esc(real.question||"")}</p>
       <textarea id="p2Real" rows="9"></textarea>
-      <div class="btnrow"><button id="p2RealCheck" class="btn primary" type="button">Revisar con la rúbrica</button><button id="p2Done" class="btn ok" type="button">Marcar práctica realizada</button></div>
+      <div class="btnrow"><button id="p2RealCheck" class="btn primary" type="button">Revisar con la rúbrica</button><button id="p2Done" class="btn ok" type="button">Práctica Terminada</button></div>
       <div id="p2RealResult"></div>
       <div id="p2DoneMsg" class="muted" style="margin-top:8px"></div>
     </div>`;
@@ -945,7 +1310,7 @@ function renderGenericPractice(p,chapter){
     body+=`<div class="card"><h3>${esc(section.title||`Bloque ${si+1}`)}</h3>${section.description?`<p class="muted">${esc(section.description)}</p>`:""}`;
     (section.exercises||[]).forEach((ex,ei)=>{
       const id=String(ex.id||`${si+1}_${ei+1}`),type=ex.type||"open";
-      body+=`<div class="mini" style="margin-bottom:14px" data-generic-ex="${esc(id)}"><strong>${esc(ex.label||id)}</strong><p>${esc(ex.question||ex.prompt||"")}</p>`;
+      body+=`<div class="mini" style="margin-bottom:28px" data-generic-ex="${esc(id)}"><strong>${esc(ex.label||id)}</strong><p>${esc(ex.question||ex.prompt||"")}</p>`;
       if(type==="choice"){
         const options=Array.isArray(ex.options)&&ex.options.length?ex.options:["A","B","C"];
         body+=`<select data-gen-choice="${esc(id)}"><option value=""></option>${options.map(o=>{const val=isPlainObject(o)?o.value:o,label=isPlainObject(o)?o.label:o;return `<option value="${esc(val)}">${esc(label)}</option>`;}).join("")}</select>`;
@@ -958,8 +1323,20 @@ function renderGenericPractice(p,chapter){
     });
     body+=`</div>`;
   });
-  body+=`<div class="card"><button id="genericPracticeDone" class="btn ok" type="button">Marcar práctica realizada</button><div id="genericPracticeDoneMsg" class="muted" style="margin-top:8px"></div></div>`;
+  body+=`<div class="card"><div id="genericPracticeCounter" class="notice" style="margin-bottom:10px"></div><button id="genericPracticeDone" class="btn ok" type="button">Práctica Terminada</button><div id="genericPracticeDoneMsg" class="muted" style="margin-top:8px"></div></div>`;
   el("practiceArea").innerHTML=body;
+
+  const totalPracticeExercises=sections.reduce((n,s)=>n+(s.exercises||[]).length,0);
+  const updatePracticeCounter=()=>{
+    const done=(sections||[]).reduce((n,s)=>n+(s.exercises||[]).filter((ex,ei)=>{
+      const sid=String(ex.id||`${sections.indexOf(s)+1}_${ei+1}`);
+      return !!checks[sid];
+    }).length,0);
+    const counter=el("genericPracticeCounter");
+    if(counter)counter.innerHTML=`<strong>Comprobados: ${done} / ${totalPracticeExercises}</strong>${done===totalPracticeExercises?" · Ya puedes terminar la práctica.":" · Faltan "+(totalPracticeExercises-done)+"."}`;
+    return done;
+  };
+  updatePracticeCounter();
   sections.forEach((section,si)=>(section.exercises||[]).forEach((ex,ei)=>{
     const id=String(ex.id||`${si+1}_${ei+1}`),type=ex.type||"open",resultNode=document.querySelector(`[data-gen-result="${CSS.escape(id)}"]`);
     if(type!=="choice"&&type!=="classification"&&checks[id]&&checks[id].type==="open"&&!Array.isArray(checks[id].achieved)){
@@ -976,11 +1353,11 @@ function renderGenericPractice(p,chapter){
     if(type==="choice"){
       const node=document.querySelector(`[data-gen-choice="${CSS.escape(id)}"]`);
       node.value=state.answers[akey(id)]||"";
-      node.addEventListener("change",e=>{state.answers[akey(id)]=e.target.value;checks[id]=null;saveLocal();paint();});
+      node.addEventListener("change",e=>{state.answers[akey(id)]=e.target.value;checks[id]=null;saveLocal();paint();updatePracticeCounter();});
     }else if(type==="classification"){
-      document.querySelectorAll(`[data-gen-class="${CSS.escape(id)}"]`).forEach(node=>{const ii=Number(node.dataset.index);node.value=state.answers[akey(id,`_${ii}`)]||"";node.addEventListener("change",e=>{state.answers[akey(id,`_${ii}`)]=e.target.value;checks[id]=null;saveLocal();paint();});});
+      document.querySelectorAll(`[data-gen-class="${CSS.escape(id)}"]`).forEach(node=>{const ii=Number(node.dataset.index);node.value=state.answers[akey(id,`_${ii}`)]||"";node.addEventListener("change",e=>{state.answers[akey(id,`_${ii}`)]=e.target.value;checks[id]=null;saveLocal();paint();updatePracticeCounter();});});
     }else{
-      const node=document.querySelector(`[data-gen-open="${CSS.escape(id)}"]`);node.value=state.answers[akey(id)]||"";node.addEventListener("input",e=>{state.answers[akey(id)]=e.target.value;checks[id]=null;saveLocal();paint();});
+      const node=document.querySelector(`[data-gen-open="${CSS.escape(id)}"]`);node.value=state.answers[akey(id)]||"";node.addEventListener("input",e=>{state.answers[akey(id)]=e.target.value;checks[id]=null;saveLocal();paint();updatePracticeCounter();});
     }
     document.querySelector(`[data-gen-check="${CSS.escape(id)}"]`).addEventListener("click",()=>{
       let res;
@@ -1017,6 +1394,7 @@ function renderGenericPractice(p,chapter){
       requestAnimationFrame(()=>paint());
       setTimeout(()=>paint(),150);
       setTimeout(()=>paint(),800);
+      updatePracticeCounter();
 
       const doneBtn=el("genericPracticeDone"),doneMsg=el("genericPracticeDoneMsg");
       if(doneBtn&&practiceChecksComplete(chapter)){
@@ -1028,7 +1406,20 @@ function renderGenericPractice(p,chapter){
   }));
   const practiceReady=practiceChecksComplete(chapter);el("genericPracticeDone").disabled=!practiceReady&&!state.practices[chapter];
   if(!practiceReady&&!state.practices[chapter])el("genericPracticeDoneMsg").textContent="Comprueba todos los ejercicios obligatorios para poder terminar las prácticas.";
-  el("genericPracticeDone").addEventListener("click",()=>{if(!practiceChecksComplete(chapter)){el("genericPracticeDoneMsg").textContent="Aún quedan ejercicios sin comprobar.";return;}state.practices[chapter]=true;saveLocal();safeRenderAll();if(chapterComplete(chapter))maybeShowNewChapterDialog();});
+  el("genericPracticeDone").addEventListener("click",async()=>{
+    if(!practiceChecksComplete(chapter)){
+      el("genericPracticeDoneMsg").textContent="Aún quedan ejercicios sin comprobar.";
+      updatePracticeCounter();
+      return;
+    }
+    state.practices[chapter]=true;
+    saveLocal();
+    el("genericPracticeDoneMsg").textContent="Práctica terminada. Guardando en la nube…";
+    await pushCloud(false);
+    opts();renderProgress();
+    closeWorkspace();
+    if(chapterComplete(chapter))maybeShowNewChapterDialog();
+  });
   if(state.practices[chapter])el("genericPracticeDoneMsg").textContent="Prácticas terminadas y guardadas.";
 }
 
@@ -1078,6 +1469,7 @@ function renderFeedback(){
   el("feedbackChapterInfo").textContent=c?`Capítulo ${current} · ${c.title}`:`Capítulo ${current}`;
   if(!isChapterUnlocked(current)){el("feedbackArea").innerHTML=`<div class="card"><div class="locked-card">🔒 Feedback bloqueado hasta completar los capítulos anteriores.</div></div>`;return;}
   if(!availableForUser(current)){el("feedbackArea").innerHTML=`<div class="card"><div class="notice">Feedback pendiente de publicación.</div></div>`;return;}
+  if(!practiceRequirementsMet(current)){el("feedbackArea").innerHTML=`<div class="card"><div class="locked-card"><strong>Prácticas pendientes.</strong><br>Termina las prácticas del capítulo ${current} antes de enviar su feedback.</div></div>`;return;}
   if(!schema.length){el("feedbackArea").innerHTML=`<div class="card"><div class="notice">El formulario de feedback aún no está configurado.</div></div>`;return;}
   const fb=state.feedback[current]||{};
   const finalIntro=current===17
@@ -1115,32 +1507,38 @@ function renderFeedback(){
       try{await saveFinalFeedbackRecord(target);}
       catch(e){delete target.submittedAt;el("feedbackMsg").textContent="No se pudo guardar el feedback global en la nube: "+(e.message||String(e));return;}
     }
-    saveLocal();safeRenderAll();
+    saveLocal();await pushCloud(false);opts();renderProgress();closeWorkspace();
     if(chapterComplete(current))maybeShowNewChapterDialog();
   });
 }
 function renderProgress(){
   syncDerivedChapterStates();
-  const max=maxChapter(),done=Array.from({length:max},(_,i)=>i+1).filter(chapterComplete).length,doing=Array.from({length:max},(_,i)=>i+1).filter(n=>derivedChapterState(n)==="En curso").length,pr=Array.from({length:max},(_,i)=>i+1).filter(n=>practiceRequirementsMet(n)).length;
-  el("statDone").textContent=done;el("statDoing").textContent=doing;el("statPractice").textContent=pr;el("progressText").textContent=`${done} / ${max} capítulos`;el("progressBar").style.width=`${max?done/max*100:0}%`;
-  el("rows").innerHTML=Array.from({length:max},(_,i)=>{
-    const n=i+1,[title]=metadata(n),available=availableForUser(n),unlocked=isChapterUnlocked(n),r=chapterRequirements(n);
-    const access=!available?"Pendiente publicación":(!unlocked?"🔒 Bloqueado":"Disponible");
-    return `<tr><td>${n}</td><td>${esc(title)}</td><td>${esc(access)}</td><td>${r.reading?"✓":"—"}</td><td>${r.practice?"✓":"—"}</td><td>${r.feedback?"✓":"—"}</td><td>${derivedChapterState(n)}</td></tr>`;
-  }).join("");
+  const max=maxChapter();let points=0;
+  for(let n=1;n<=max;n++){const r=chapterRequirements(n);if(r.reading)points++;if(r.practice)points++;if(r.feedback)points++;}
+  const pct=max?Math.round(points/(max*3)*100):0;
+  if(el("progressText"))el("progressText").textContent=`${pct}%`;
+  if(el("progressBar"))el("progressBar").style.width=`${pct}%`;
+  document.querySelectorAll(".progress-copy").forEach(x=>x.textContent=`Progreso del curso: ${pct}%`);
+  if(el("statDone"))el("statDone").textContent=Array.from({length:max},(_,i)=>i+1).filter(chapterComplete).length;
+  if(el("statDoing"))el("statDoing").textContent=Array.from({length:max},(_,i)=>i+1).filter(n=>derivedChapterState(n)==="En curso").length;
+  if(el("statPractice"))el("statPractice").textContent=Array.from({length:max},(_,i)=>i+1).filter(n=>practiceRequirementsMet(n)).length;
   renderFinalCourseSummary();
 }
 function renderAll(){ensureCurrentAccessible();opts();renderLesson();renderPractice();renderFeedback();renderProgress();if(isAdmin)renderAdminData(false);}
-function switchTab(name){document.querySelectorAll(".tab").forEach(b=>b.classList.toggle("active",b.dataset.tab===name));document.querySelectorAll(".panel").forEach(p=>p.classList.toggle("active",p.id===name));}
+function closeWorkspace(){document.querySelectorAll(".workspace").forEach(w=>w.classList.remove("open"));document.body.style.overflow="";if(el("homeMenu"))el("homeMenu").scrollIntoView({block:"start"});}
+function highestZoneChapter(zone){for(let n=maxChapter();n>=1;n--){if(!availableForUser(n)||!isChapterUnlocked(n))continue;if(zone==="practicas"&&!readingRequirementsMet(n))continue;if(zone==="feedback"&&!practiceRequirementsMet(n))continue;return n;}return 1;}
+function openZone(name){if(!session||!accessProfile?.active)return;if(name==="administracion"){el("adminOnlyArea").classList.toggle("hidden",!isAdmin);el("adminWorkspaceTitle").textContent=isAdmin?"Administración":"Sincronización";}else current=highestZoneChapter(name);opts();safeRenderAll();document.querySelectorAll(".workspace").forEach(w=>w.classList.toggle("open",w.id===name));document.body.style.overflow="hidden";}
+function switchTab(name){if(name==="nube"){if(session)openZone("administracion");else{el("loginScreen").classList.remove("hidden");el("appShell").classList.add("hidden");}return;}if(["curso","practicas","feedback","administracion"].includes(name))openZone(name);}
 
 function setAccessUI(){
   const authorized=!!(session&&accessProfile?.active);
-  document.querySelectorAll(".privateTab").forEach(x=>x.classList.toggle("hidden",!authorized));
-  el("adminTab").classList.toggle("hidden",!(authorized&&isAdmin));
-  const banner=el("accessBanner");
-  if(!session){banner.classList.remove("hidden");banner.innerHTML="<strong>Curso privado.</strong> Inicia sesión con una cuenta autorizada para acceder al contenido.";if(document.querySelector('.panel.active')?.id!=="nube")switchTab("nube");}
-  else if(!authorized){banner.classList.remove("hidden");banner.innerHTML=`<strong>Acceso no autorizado.</strong> El correo ${esc(session.user.email||"")} no está activo en la lista de usuarios del curso.`;if(document.querySelector('.panel.active')?.id!=="nube")switchTab("nube");}
-  else{banner.classList.add("hidden");banner.textContent="";}
+  const showLogin=!authorized||passwordRecoveryMode;
+  if(el("loginScreen"))el("loginScreen").classList.toggle("hidden",!showLogin);
+  if(el("appShell"))el("appShell").classList.toggle("hidden",showLogin);
+  if(el("adminTab"))el("adminTab").classList.toggle("hidden",!authorized);
+  if(el("adminOnlyArea"))el("adminOnlyArea").classList.toggle("hidden",!isAdmin);
+  if(el("welcomeTitle")&&authorized)el("welcomeTitle").textContent=accessProfile?.display_name?`Hola, ${accessProfile.display_name}`:"Tu curso";
+  if(!authorized)closeWorkspace();
   if(!authorized){courseContent={};try{if(session)localStorage.removeItem(contentStorageKey());}catch(e){}}
 }
 async function refreshAccess(){
@@ -1198,13 +1596,18 @@ async function renderAdminData(showMessage=false){
   }catch(e){el("adminMsg").textContent="No se pudo cargar Administración: "+(e.message||String(e));}
 }
 async function adminAddUser(){
-  if(!isAdmin)return;const email=el("adminEmail").value.trim().toLowerCase(),display_name=el("adminName").value.trim(),role=el("adminRole").value;
+  if(!isAdmin||!sb||!session)return;
+  const email=el("adminEmail").value.trim().toLowerCase(),display_name=el("adminName").value.trim(),role=el("adminRole").value;
   if(!email||!email.includes("@")){el("adminMsg").textContent="Introduce un correo válido.";return;}
-  const {data:existing,error:readErr}=await sb.from("course_users").select("email").eq("email",email).maybeSingle();if(readErr){el("adminMsg").textContent=readErr.message;return;}
-  let error;
-  if(existing){({error}=await sb.from("course_users").update({display_name:display_name||null,role,active:true,updated_at:new Date().toISOString()}).eq("email",email));}
-  else{({error}=await sb.from("course_users").insert({email,display_name:display_name||null,role,active:true,added_by:session.user.id}));}
-  if(error){el("adminMsg").textContent=error.message;return;}el("adminMsg").textContent=`${email} autorizado.`;el("adminEmail").value="";el("adminName").value="";await renderAdminData(false);
+  el("adminMsg").textContent="Creando usuario y enviando invitación…";
+  try{
+    const {data,error}=await sb.functions.invoke("invite-course-user",{body:{email,display_name,role}});
+    if(error)throw error;
+    if(data?.error)throw new Error(data.error);
+    el("adminMsg").textContent=data?.message||`${email} autorizado.`;
+    el("adminEmail").value="";el("adminName").value="";
+    await renderAdminData(false);
+  }catch(e){el("adminMsg").textContent="No se pudo crear/invitar el usuario: "+(e.message||String(e));await renderAdminData(false);}
 }
 async function adminSetActive(email,active){const {error}=await sb.from("course_users").update({active,updated_at:new Date().toISOString()}).eq("email",email);el("adminMsg").textContent=error?error.message:`Acceso ${active?"activado":"desactivado"}.`;if(!error)await renderAdminData(false);}
 async function adminSetRole(email,role){const {error}=await sb.from("course_users").update({role,updated_at:new Date().toISOString()}).eq("email",email);el("adminMsg").textContent=error?error.message:"Rol actualizado.";if(!error)await renderAdminData(false);}
@@ -1235,17 +1638,11 @@ async function refreshPublishedCourse({showNotice=true,force=false}={}){
     Object.values(courseContent||{}).map(c=>[c.chapter_number,c.version,c.updated_at]).sort((a,b)=>a[0]-b[0])
   );
 
-  if(before!==after){
-    opts();
-    safeRenderAll();
-    if(showNotice)maybeShowNewChapterDialog();
-  }else{
-    // Aun sin cambios de versión, recalculamos el bloqueo por si el progreso
-    // descargado acaba de completar el capítulo anterior.
-    opts();
-    safeRenderAll();
-    if(showNotice)maybeShowNewChapterDialog();
-  }
+  // loadCourseContent() ya decide si hace falta reconstruir la interfaz.
+  // Aquí solo recalculamos los selectores/progreso y mostramos el aviso.
+  opts();
+  renderProgress();
+  if(showNotice&&before!==after)maybeShowNewChapterDialog();
   return true;
 }
 
@@ -1257,6 +1654,9 @@ async function handleSessionReady(){
   await refreshPublishedCourse({showNotice:true,force:true});
   if(isAdmin)await renderAdminData(false);
   startContentPolling();
+  setAccessUI();renderProgress();
+  if(incomingInvite){passwordRecoveryMode=true;setAccessUI();updateAuthUI();el("authMsg").textContent="Invitación aceptada. Define una contraseña para poder entrar posteriormente.";return;}
+  if(loginTargetAdmin){loginTargetAdmin=false;openZone("administracion");}
 }
 function startContentPolling(){
   if(contentPollTimer)clearInterval(contentPollTimer);
@@ -1387,7 +1787,7 @@ async function initSupabase(){
     sb.auth.onAuthStateChange((event,newSession)=>{
       const oldUser=session?.user?.id||null;session=newSession;
       if(event==="PASSWORD_RECOVERY"){
-        passwordRecoveryMode=true;switchTab("nube");el("authMsg").textContent="Enlace de recuperación válido. Define ahora una nueva contraseña.";updateAuthUI();return;
+        passwordRecoveryMode=true;el("authMsg").textContent="Enlace válido. Define ahora una nueva contraseña.";setAccessUI();updateAuthUI();return;
       }
       passwordRecoveryMode=false;
       if(!session){if(contentPollTimer)clearInterval(contentPollTimer);contentPollTimer=null;accessProfile=null;isAdmin=false;state=fresh();courseContent={};setAccessUI();updateAuthUI();safeRenderAll();return;}
@@ -1399,15 +1799,12 @@ async function initSupabase(){
 }
 function updateAuthUI(){
   const logged=!!session,recovery=passwordRecoveryMode&&logged;
-  el("loggedOutBox").classList.toggle("hidden",logged||recovery);
-  el("recoveryBox").classList.toggle("hidden",!recovery);
-  el("loggedInBox").classList.toggle("hidden",!logged||recovery);
-  el("userEmail").textContent=logged?(session.user.email||session.user.id):"";
-  if(el("userProfileLine"))el("userProfileLine").innerHTML=logged&&accessProfile?.active?`<span class="badge ${isAdmin?"admin":""}">${isAdmin?"Administrador":"Usuario autorizado"}</span>${accessProfile.display_name?`<span>${esc(accessProfile.display_name)}</span>`:""}`:(logged?'<span class="badge off">Sin autorización</span>':"");
-  el("syncDetail").textContent=logged?`Conectado como ${session.user.email||session.user.id}. Último dato local: ${state.updatedAt||"—"}`:"Sin sesión.";
-  if(recovery)setCloudPill("Cambio de contraseña","warn");
-  else if(logged)setCloudPill("Nube conectada","ok");
-  else if(sb)setCloudPill("Nube configurada","warn");
+  if(el("loggedOutBox"))el("loggedOutBox").classList.toggle("hidden",logged||recovery);
+  if(el("recoveryBox"))el("recoveryBox").classList.toggle("hidden",!recovery);
+  if(el("loggedInBox"))el("loggedInBox").classList.toggle("hidden",!logged||recovery);
+  if(el("userEmail"))el("userEmail").textContent=logged?(session.user.email||session.user.id):"";
+  if(el("syncDetail"))el("syncDetail").textContent=logged?`Conectado como ${session.user.email||session.user.id}. Sincronización automática activa.`:"Sin sesión.";
+  if(recovery)setCloudPill("Cambio de contraseña","warn");else if(logged)setCloudPill("Sincronizado","ok");else if(sb)setCloudPill("Preparado","warn");
 }
 async function fetchRemote(){
   if(!sb||!session||!accessProfile?.active)return null;
@@ -1422,6 +1819,16 @@ async function pushCloud(showMessage=true){
   const captured=getSyncMeta();
   const patch=cloneJson(captured.pendingPatch||{});
   const capturedSeq=captured.seq||0;
+
+  // Snapshot del capítulo que el usuario está manipulando. Si la respuesta
+  // del servidor llega unos instantes tarde, esta información local tiene
+  // prioridad para evitar que desaparezcan respuestas/comprobaciones ya hechas.
+  const interactionChapter=Number(current);
+  const localChapterChecks=cloneJson(state.checks?.[interactionChapter]||{});
+  const localChapterAnswers=Object.fromEntries(
+    Object.entries(state.answers||{}).filter(([k])=>k.startsWith(`ch${interactionChapter}_`))
+  );
+  const localPracticeDone=state.practices?.[interactionChapter];
   if(!hasPatch(patch)){
     if(showMessage)el("authMsg").textContent="Todo está sincronizado. No hay cambios pendientes de subir.";
     return true;
@@ -1440,10 +1847,21 @@ async function pushCloud(showMessage=true){
       setSyncMeta({lastServerAt:row.updated_at||null});
       clearTimeout(saveTimer);saveTimer=setTimeout(()=>pushCloud(false),250);
     }
+    // La nube puede haber respondido con un estado capturado antes de la
+    // última interacción del usuario. Restauramos encima la práctica local
+    // activa; así nunca desaparece una comprobación por una respuesta tardía.
+    state.checks=state.checks||{};
+    state.checks[interactionChapter]=deepMergeClient(
+      state.checks[interactionChapter]||{},
+      localChapterChecks
+    );
+    state.answers=state.answers||{};
+    Object.entries(localChapterAnswers).forEach(([k,v])=>{state.answers[k]=v;});
+    state.practices=state.practices||{};
+    if(localPracticeDone!==undefined)state.practices[interactionChapter]=localPracticeDone;
+
     saveLocal(false);
-    // No reconstruir toda la interfaz tras un autosync. La pantalla ya refleja
-    // el estado local y reconstruirla puede borrar momentáneamente resultados
-    // de prácticas o alterar el foco. Solo actualizamos indicadores seguros.
+    // No reconstruir toda la interfaz tras un autosync.
     renderProgress();
     updateAuthUI();
     setCloudPill("Sincronizado","ok");
@@ -1532,12 +1950,17 @@ function authMessage(error){
 
 // UI
 document.querySelectorAll(".tab").forEach(b=>b.addEventListener("click",()=>switchTab(b.dataset.tab)));
-function selectChapterFromControl(value){const n=Number(value);if(!availableForUser(n)||!isChapterUnlocked(n)){current=highestAccessibleChapter();safeRenderAll();return;}current=n;safeRenderAll();}
-el("chapterSelect").addEventListener("change",e=>selectChapterFromControl(e.target.value));
-el("practiceChapterSelect").addEventListener("change",e=>selectChapterFromControl(e.target.value));
-el("feedbackChapterSelect").addEventListener("change",e=>selectChapterFromControl(e.target.value));
+function selectChapterFromControl(value,zone="curso"){const n=Number(value);let ok=availableForUser(n)&&isChapterUnlocked(n);if(zone==="practicas")ok=ok&&readingRequirementsMet(n);if(zone==="feedback")ok=ok&&practiceRequirementsMet(n);if(!ok){current=highestZoneChapter(zone);safeRenderAll();return;}current=n;safeRenderAll();}
+el("chapterSelect").addEventListener("change",e=>selectChapterFromControl(e.target.value,"curso"));
+el("practiceChapterSelect").addEventListener("change",e=>selectChapterFromControl(e.target.value,"practicas"));
+el("feedbackChapterSelect").addEventListener("change",e=>selectChapterFromControl(e.target.value,"feedback"));
 el("notes").addEventListener("input",e=>{state.notes[current]=e.target.value;saveLocal();});
-el("syncNowBtn").addEventListener("click",async()=>{if(!session){switchTab("nube");el("authMsg").textContent="Inicia sesión para sincronizar.";return;}await syncOnLogin();});
+el("syncNowBtn").addEventListener("click",async()=>{if(!session){el("authMsg").textContent="Inicia sesión para sincronizar.";return;}await syncOnLogin();el("syncDetail").textContent="Sincronización completada.";});
+
+document.querySelectorAll("[data-open-zone]").forEach(b=>b.addEventListener("click",()=>openZone(b.dataset.openZone)));
+document.querySelectorAll("[data-close-zone]").forEach(b=>b.addEventListener("click",closeWorkspace));
+el("adminTab").addEventListener("click",()=>openZone("administracion"));
+el("adminEntryBtn").addEventListener("click",()=>{loginTargetAdmin=true;el("authMsg").textContent="Introduce tus credenciales de administrador y pulsa Entrar.";el("authEmail").focus();});
 el("saveCloudConfigBtn").addEventListener("click",async()=>{const url=el("supabaseUrl").value.trim(),key=el("supabaseKey").value.trim();if(!url||!key){el("configMsg").textContent="Introduce URL y publishable key.";return;}if(/service_role/i.test(key)){el("configMsg").textContent="No uses una service_role key en el navegador.";return;}localStorage.setItem(CONFIG_KEY,JSON.stringify({url,key}));el("configMsg").textContent="Configuración guardada.";await initSupabase();});
 el("clearCloudConfigBtn").addEventListener("click",async()=>{
   if(sb)try{await sb.auth.signOut({scope:"local"});}catch(e){}
@@ -1548,7 +1971,7 @@ el("clearCloudConfigBtn").addEventListener("click",async()=>{
   setCloudPill("Nube sin configurar","warn");
   updateAuthUI();setAccessUI();safeRenderAll();
 });
-el("signInBtn").addEventListener("click",async()=>{
+el("loginForm").addEventListener("submit",async(e)=>{e.preventDefault();
   if(!sb){el("authMsg").textContent="La nube no está configurada.";return;}
   const email=el("authEmail").value.trim(),password=el("authPassword").value;
   if(!email||!password){el("authMsg").textContent="Introduce correo y contraseña.";return;}
@@ -1631,7 +2054,7 @@ el("adminAddBtn").addEventListener("click",adminAddUser);
 el("adminRefreshBtn").addEventListener("click",()=>renderAdminData(true));
 el("copyAppLinkBtn").addEventListener("click",async()=>{try{await navigator.clipboard.writeText(APP_URL);el("adminMsg").textContent="Enlace copiado.";}catch(e){el("adminMsg").textContent=`Enlace: ${APP_URL}`;}});
 el("dismissNewChapterBtn").addEventListener("click",()=>{markPendingNewSeen();el("newChapterDialog").close();pendingNewChapters=[];});
-el("openNewChapterBtn").addEventListener("click",()=>{const target=pendingNewChapters[0];markPendingNewSeen();el("newChapterDialog").close();pendingNewChapters=[];if(target){current=target;safeRenderAll();switchTab("curso");}});
+el("openNewChapterBtn").addEventListener("click",()=>{const target=pendingNewChapters[0];markPendingNewSeen();el("newChapterDialog").close();pendingNewChapters=[];if(target){current=target;safeRenderAll();openZone("curso");}});
 el("exportBtn").addEventListener("click",()=>{const blob=new Blob([JSON.stringify(state,null,2)],{type:"application/json"});const url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="curso-ia-progreso.json";a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);el("backupMsg").textContent="Copia exportada.";});
 el("importFile").addEventListener("change",e=>{const f=e.target.files&&e.target.files[0];if(!f)return;const r=new FileReader();r.onload=async()=>{try{state=mergeState(JSON.parse(String(r.result)));saveLocal(false);setSyncMeta({pendingPatch:{},seq:(getSyncMeta().seq||0)+1});safeRenderAll();if(session)await replaceCloudWithState(false);el("backupMsg").textContent="Copia importada.";}catch(err){el("backupMsg").textContent="Archivo no válido.";}};r.readAsText(f);});
 el("resetBtn").addEventListener("click",async()=>{if(confirm("¿Borrar todo el progreso? Esta acción sustituirá también el estado de la nube si tienes sesión.")){state=fresh();saveLocal(false);setSyncMeta({pendingPatch:{},seq:(getSyncMeta().seq||0)+1});safeRenderAll();if(session)await replaceCloudWithState(true);}});
