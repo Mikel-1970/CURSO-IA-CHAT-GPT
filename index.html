@@ -413,6 +413,17 @@ dialog.chapter-dialog::backdrop{background:rgba(0,9,23,.66)!important}
   .login-card{width:min(500px,45vw)!important;margin-right:3.5vw!important}
 }
 
+
+/* v18 — pulido solicitado */
+.login-language{display:flex;align-items:center;justify-content:flex-end;gap:8px;margin:-4px 0 8px}.login-language label{margin:0!important;font-size:.75rem!important;color:#d8efff!important}.login-language select{width:auto;min-width:118px;padding:7px 28px 7px 9px;border-radius:10px;color:#fff;background:rgba(5,44,84,.48);border:1px solid rgba(190,230,255,.55);font-size:.82rem}
+.login-card{position:relative!important}.login-card::after{content:"";position:absolute;right:-8%;bottom:-8%;width:42%;height:16%;background:radial-gradient(ellipse at right bottom,rgba(88,221,255,.36),rgba(49,170,255,.12) 35%,transparent 70%);filter:blur(5px);transform:rotate(17deg);pointer-events:none}
+@media(max-width:760px){.login-screen{padding-top:max(10vh,env(safe-area-inset-top))!important;padding-right:max(1.5vw,5px)!important}.login-card{width:min(365px,76vw)!important;padding:15px 16px!important;margin-right:1vw!important;transform:translateY(4vh)!important}.login-card .brand-mark{width:48px!important;height:48px!important}.login-card h1{font-size:clamp(1.25rem,5.4vw,1.58rem)!important}.login-sub{font-size:.82rem!important}.login-card input{min-height:49px!important;font-size:17px!important}.login-card .btn{min-height:45px!important}}@media(min-width:761px){.login-card{width:min(470px,40vw)!important;margin-right:5vw!important;transform:translateY(5vh)!important}}
+.lesson-content{overflow-x:hidden!important}.lesson-content p,.lesson-content li{text-align:justify!important;text-justify:inter-word;hyphens:auto;overflow-wrap:anywhere}.lesson-table-scroll{width:100%;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;margin:16px 0;border:1px solid rgba(90,190,246,.30);border-radius:12px}.lesson-table-scroll table{min-width:620px!important;width:100%!important;margin:0!important;background:rgba(3,28,59,.75)!important;border-collapse:collapse!important}.lesson-table-scroll thead,.lesson-table-scroll tbody,.lesson-table-scroll tr{background:transparent!important}.lesson-table-scroll th{background:rgba(7,55,103,.94)!important;color:#dff4ff!important;font-weight:800!important;border-color:rgba(90,190,246,.28)!important}.lesson-table-scroll td{background:rgba(4,35,70,.72)!important;color:#e5f3fc!important;border-color:rgba(90,190,246,.23)!important}.lesson-table-scroll th,.lesson-table-scroll td{white-space:normal!important;min-width:140px!important;vertical-align:top!important}.lesson-table-scroll caption{background:rgba(7,55,103,.94)!important;color:#dff4ff!important;padding:9px!important}@media(max-width:760px){.lesson-table-scroll table{font-size:14px!important}.lesson-table-scroll th,.lesson-table-scroll td{padding:9px 8px!important}.workspace-body{overflow-x:hidden!important}}
+#practiceArea .mini>p,#practiceArea .mini .practice-question{text-align:justify!important;text-justify:inter-word;hyphens:auto;overflow-wrap:anywhere;line-height:1.55}.choice-options-list{display:grid;gap:8px;margin:12px 0 14px}.choice-option-row{display:grid;grid-template-columns:34px minmax(0,1fr);gap:8px;align-items:start;padding:8px 10px;border:1px solid rgba(98,184,235,.25);border-radius:10px;background:rgba(6,44,83,.42)}.choice-option-letter{width:27px;height:27px;border-radius:8px;display:grid;place-items:center;background:rgba(35,137,239,.24);border:1px solid rgba(90,211,255,.32);color:#83e5ff;font-weight:800}.choice-option-text{text-align:justify;line-height:1.4}#practiceArea select{min-height:48px}
+.profile-edit-grid{display:grid;grid-template-columns:1fr 1.2fr 170px;gap:10px}.profile-password{margin-top:10px}.profile-password summary{cursor:pointer;font-weight:700;color:#cfeaff}.profile-password input{max-width:420px}@media(max-width:760px){.profile-edit-grid{grid-template-columns:1fr}.profile-editor{padding:15px!important}}
+.admin-grid{grid-template-columns:1fr 1fr 150px 150px!important}@media(max-width:760px){.admin-grid{grid-template-columns:1fr!important}}.translation-grid{display:grid;gap:8px}.translation-row{display:grid;grid-template-columns:minmax(0,1fr) repeat(6,52px);gap:6px;align-items:center}.translation-cell{text-align:center;padding:5px 3px;border-radius:8px;background:rgba(8,51,94,.56);font-size:.77rem}.translation-cell.ok{color:#9ff0c5;background:rgba(19,101,76,.42)}.translation-cell.pending{color:#ffdfa0;background:rgba(115,79,17,.40)}
+.install-platform-title{font-weight:800;color:#72ddff;margin-bottom:7px}.install-steps{padding-left:22px}.install-steps li{margin:8px 0;line-height:1.45}
+
 </style>
 </head>
 <body>
@@ -424,15 +435,16 @@ dialog.chapter-dialog::backdrop{background:rgba(0,9,23,.66)!important}
       <svg viewBox="0 0 64 64" fill="none"><path d="M18 20c0-7 5-12 12-12 5 0 9 3 11 7 6-1 12 4 12 11 0 4-2 8-5 10 2 8-4 16-12 16-3 0-6-1-8-3-3 3-8 4-12 2-6-3-8-11-4-17-5-2-8-8-6-14Z" stroke="white" stroke-width="3"/><circle cx="23" cy="25" r="3" fill="white"/><circle cx="39" cy="22" r="3" fill="white"/><circle cx="34" cy="38" r="3" fill="white"/><path d="M25 26l11-3m-1 13-10-9m13-2-3 10" stroke="white" stroke-width="2"/></svg>
     </div>
     <h1>Curso IA ChatGPT</h1>
-    <div class="login-sub">Formación práctica y progresiva en inteligencia artificial.</div>
+    <div class="login-sub" data-i18n="login_subtitle">Formación práctica y progresiva en inteligencia artificial.</div>
+    <div class="login-language"><label for="loginLanguageSelect" data-i18n="language">Idioma</label><select id="loginLanguageSelect" aria-label="Idioma"><option value="es">Español</option><option value="en">English</option><option value="fr">Français</option><option value="de">Deutsch</option><option value="it">Italiano</option><option value="pt">Português</option></select></div>
     <form id="loginForm" autocomplete="on">
       <div id="loggedOutBox">
-        <label for="authEmail">Usuario</label>
-        <input id="authEmail" name="username" type="email" inputmode="email" autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="correo@empresa.com">
-        <label for="authPassword">Contraseña</label>
-        <input id="authPassword" name="password" type="password" autocomplete="current-password" minlength="8" placeholder="Contraseña">
-        <div style="margin-top:16px"><button id="signInBtn" class="btn primary" type="submit">Entrar</button></div>
-        <div class="login-links"><button id="forgotPasswordBtn" class="btn" type="button">Recuperar contraseña</button><button id="adminEntryBtn" class="btn" type="button">Acceso administración</button></div>
+        <label for="authEmail" data-i18n="user">Usuario</label>
+        <input id="authEmail" name="username" type="email" inputmode="email" autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="correo@empresa.com" data-i18n-placeholder="email_placeholder">
+        <label for="authPassword" data-i18n="password">Contraseña</label>
+        <input id="authPassword" name="password" type="password" autocomplete="current-password" minlength="8" placeholder="Contraseña" data-i18n-placeholder="password">
+        <div style="margin-top:16px"><button id="signInBtn" class="btn primary" type="submit" data-i18n="enter">Entrar</button></div>
+        <div class="login-links"><button id="forgotPasswordBtn" class="btn" type="button" data-i18n="recover_password">Recuperar contraseña</button><button id="adminEntryBtn" class="btn" type="button" data-i18n="admin_access">Panel de administrador</button></div>
         <button id="resendConfirmBtn" class="btn hidden" type="button">Reenviar confirmación</button>
         <button id="signUpBtn" class="btn hidden" type="button">Crear cuenta autorizada</button>
       </div>
@@ -451,34 +463,34 @@ dialog.chapter-dialog::backdrop{background:rgba(0,9,23,.66)!important}
 <div id="appShell" class="app-shell hidden">
   <header class="shell-header">
     <div class="shell-header-inner">
-      <div class="shell-brand">Curso IA ChatGPT <span class="pill ok">v17.3</span></div>
+      <div class="shell-brand">Curso IA ChatGPT <span class="pill ok">v18</span></div>
       <div class="shell-spacer"></div>
       <div class="compact-progress">
-        <div class="compact-progress-line"><span>Progreso</span><strong id="progressText">0%</strong></div>
+        <div class="compact-progress-line"><span data-i18n="progress">Progreso</span><strong id="progressText">0%</strong></div>
         <div class="progress"><i id="progressBar"></i></div>
       </div>
       <div class="shell-actions">
-        <button id="adminTab" class="icon-btn hidden" type="button" title="Administración"><span>Administración</span> ⚙︎</button>
-        <button id="signOutBtn" class="icon-btn" type="button" title="Cerrar sesión"><span>Salir</span> ⎋</button>
+        <button id="installAppBtn" class="icon-btn hidden" type="button" title="Instalar"><span data-i18n="install">Instalar</span> ⤓</button><button id="adminTab" class="icon-btn hidden" type="button" title="Administración"><span data-i18n="profile_admin">Perfil</span> ⚙︎</button>
+        <button id="signOutBtn" class="icon-btn" type="button" title="Cerrar sesión"><span data-i18n="sign_out">Salir</span> ⎋</button>
       </div>
     </div>
   </header>
 
   <main id="homeMenu" class="home-menu">
-    <div class="home-welcome"><h2 id="welcomeTitle">Tu curso</h2><p>Continúa tu aprendizaje en Inteligencia Artificial y ChatGPT.</p></div>
+    <div class="home-welcome"><h2 id="welcomeTitle">Tu curso</h2><p data-i18n="home_subtitle">Continúa tu aprendizaje en Inteligencia Artificial y ChatGPT.</p></div>
     <div class="zone-grid">
-      <button class="zone-card" data-open-zone="curso" type="button"><div class="zone-icon">▤</div><strong>Curso</strong><span>Lee los capítulos disponibles, toma notas y marca la lectura cuando termines.</span></button>
-      <button class="zone-card" data-open-zone="practicas" type="button"><div class="zone-icon">✓</div><strong>Prácticas</strong><span>Accede a los ejercicios del capítulo una vez terminada su lectura.</span></button>
-      <button class="zone-card" data-open-zone="feedback" type="button"><div class="zone-icon">◌</div><strong>Feedback</strong><span>Valora el capítulo después de terminar sus prácticas.</span></button>
+      <button class="zone-card" data-open-zone="curso" type="button"><div class="zone-icon">▤</div><strong data-i18n="course">Curso</strong><span data-i18n="course_desc">Lee los capítulos disponibles, toma notas y marca la lectura cuando termines.</span></button>
+      <button class="zone-card" data-open-zone="practicas" type="button"><div class="zone-icon">✓</div><strong data-i18n="practices">Prácticas</strong><span data-i18n="practices_desc">Accede a los ejercicios del capítulo una vez terminada su lectura.</span></button>
+      <button class="zone-card" data-open-zone="feedback" type="button"><div class="zone-icon">◌</div><strong data-i18n="feedback">Feedback</strong><span data-i18n="feedback_desc">Valora el capítulo después de terminar sus prácticas.</span></button>
     </div>
   </main>
 
   <section id="curso" class="workspace">
-    <div class="workspace-head"><div class="workspace-head-inner"><button class="icon-btn" data-close-zone type="button">← Volver</button><div class="workspace-title">Curso</div></div></div>
+    <div class="workspace-head"><div class="workspace-head-inner"><button class="icon-btn" data-close-zone type="button" data-i18n="back">← Volver</button><div class="workspace-title" data-i18n="course">Curso</div></div></div>
     <div class="workspace-body">
-      <div class="workspace-select"><label for="chapterSelect">Capítulo</label><select id="chapterSelect"></select></div>
+      <div class="workspace-select"><label for="chapterSelect" data-i18n="chapter">Capítulo</label><select id="chapterSelect"></select></div>
       <div id="lesson" class="card"></div>
-      <div class="card notes-card"><label for="notes">Mis notas y comentarios</label><textarea id="notes" rows="6" placeholder="Ideas, dudas, aplicaciones reales, mejoras..."></textarea></div>
+      <div class="card notes-card"><label for="notes" data-i18n="my_notes">Mis notas y comentarios</label><textarea id="notes" rows="6" placeholder="Ideas, dudas, aplicaciones reales, mejoras..." data-i18n-placeholder="notes_placeholder"></textarea></div>
       <div id="chapterCompletionCard" class="card reading-card"></div>
       <div class="workspace-foot-progress progress-copy"></div>
       <div class="hidden-tech"><span id="chapterDate"></span><span id="chapterStatusText"></span><span id="chapterLockInfo"></span></div>
@@ -486,26 +498,37 @@ dialog.chapter-dialog::backdrop{background:rgba(0,9,23,.66)!important}
   </section>
 
   <section id="practicas" class="workspace">
-    <div class="workspace-head"><div class="workspace-head-inner"><button class="icon-btn" data-close-zone type="button">← Volver</button><div class="workspace-title">Prácticas</div></div></div>
+    <div class="workspace-head"><div class="workspace-head-inner"><button class="icon-btn" data-close-zone type="button" data-i18n="back">← Volver</button><div class="workspace-title" data-i18n="practices">Prácticas</div></div></div>
     <div class="workspace-body">
-      <div class="workspace-select"><label for="practiceChapterSelect">Capítulo</label><select id="practiceChapterSelect"></select></div>
+      <div class="workspace-select"><label for="practiceChapterSelect" data-i18n="chapter">Capítulo</label><select id="practiceChapterSelect"></select></div>
       <div id="practiceArea"></div>
       <div class="workspace-foot-progress progress-copy"></div>
     </div>
   </section>
 
   <section id="feedback" class="workspace">
-    <div class="workspace-head"><div class="workspace-head-inner"><button class="icon-btn" data-close-zone type="button">← Volver</button><div class="workspace-title">Feedback</div></div></div>
+    <div class="workspace-head"><div class="workspace-head-inner"><button class="icon-btn" data-close-zone type="button" data-i18n="back">← Volver</button><div class="workspace-title" data-i18n="feedback">Feedback</div></div></div>
     <div class="workspace-body">
-      <div class="workspace-select"><label for="feedbackChapterSelect">Capítulo</label><select id="feedbackChapterSelect"></select><div id="feedbackChapterInfo" class="muted" style="margin-top:7px"></div></div>
+      <div class="workspace-select"><label for="feedbackChapterSelect" data-i18n="chapter">Capítulo</label><select id="feedbackChapterSelect"></select><div id="feedbackChapterInfo" class="muted" style="margin-top:7px"></div></div>
       <div id="feedbackArea"></div>
       <div class="workspace-foot-progress progress-copy"></div>
     </div>
   </section>
 
   <section id="administracion" class="workspace">
-    <div class="workspace-head"><div class="workspace-head-inner"><button class="icon-btn" data-close-zone type="button">← Volver</button><div class="workspace-title" id="adminWorkspaceTitle">Administración</div></div></div>
+    <div class="workspace-head"><div class="workspace-head-inner"><button class="icon-btn" data-close-zone type="button" data-i18n="back">← Volver</button><div class="workspace-title" id="adminWorkspaceTitle">Administración</div></div></div>
     <div class="workspace-body">
+      <div id="profileCard" class="card profile-editor">
+        <h2 data-i18n="my_profile">Mi perfil</h2>
+        <div class="profile-edit-grid">
+          <div><label for="profileName" data-i18n="name">Nombre</label><input id="profileName" type="text"></div>
+          <div><label for="profileEmail" data-i18n="email">Correo</label><input id="profileEmail" type="email" autocomplete="email"></div>
+          <div><label for="profileLanguage" data-i18n="language">Idioma</label><select id="profileLanguage"><option value="es">Español</option><option value="en">English</option><option value="fr">Français</option><option value="de">Deutsch</option><option value="it">Italiano</option><option value="pt">Português</option></select></div>
+        </div>
+        <details class="profile-password"><summary data-i18n="change_password">Cambiar contraseña</summary><label for="profilePassword" data-i18n="new_password">Nueva contraseña</label><input id="profilePassword" type="password" autocomplete="new-password" minlength="8"></details>
+        <div class="btnrow"><button id="saveProfileBtn" class="btn primary" type="button" data-i18n="save_changes">Guardar cambios</button></div>
+        <div id="profileMsg" class="muted"></div>
+      </div>
       <div class="card admin-sync">
         <h3>Sincronización</h3>
         <div class="sync-line"><span id="cloudStatus" class="pill warn">Comprobando…</span><span id="localStatus" class="pill ok">Guardado local</span></div>
@@ -521,11 +544,13 @@ dialog.chapter-dialog::backdrop{background:rgba(0,9,23,.66)!important}
             <div><label for="adminEmail">Correo</label><input id="adminEmail" type="email" placeholder="persona@empresa.com"></div>
             <div><label for="adminName">Nombre</label><input id="adminName" type="text" placeholder="Nombre y apellidos"></div>
             <div><label for="adminRole">Rol</label><select id="adminRole"><option value="member">Usuario</option><option value="admin">Administrador</option></select></div>
+            <div><label for="adminLanguage">Idioma</label><select id="adminLanguage"><option value="es">Español</option><option value="en">English</option><option value="fr">Français</option><option value="de">Deutsch</option><option value="it">Italiano</option><option value="pt">Português</option></select></div>
           </div>
           <div class="btnrow"><button id="adminAddBtn" class="btn primary" type="button">Crear e invitar usuario</button><button id="adminRefreshBtn" class="btn" type="button">Actualizar listado</button><button id="copyAppLinkBtn" class="btn" type="button">Copiar enlace</button></div>
           <div id="adminMsg" class="muted" style="margin-top:8px"></div>
         </div>
-        <div class="card tablewrap"><table><thead><tr><th>Usuario</th><th>Rol</th><th>Acceso</th><th>Registro</th><th>Última actividad</th><th>Progreso</th><th>Acciones</th></tr></thead><tbody id="adminUsersBody"></tbody></table></div>
+        <div id="adminTranslationStatus" class="card"></div>
+        <div class="card tablewrap"><table><thead><tr><th>Usuario</th><th>Rol</th><th>Acceso</th><th>Invitación</th><th>Última actividad</th><th>Progreso</th><th>Acciones</th></tr></thead><tbody id="adminUsersBody"></tbody></table></div>
       </div>
       <div class="workspace-foot-progress progress-copy"></div>
     </div>
@@ -539,6 +564,12 @@ dialog.chapter-dialog::backdrop{background:rgba(0,9,23,.66)!important}
     <div id="statDone"></div><div id="statDoing"></div><div id="statPractice"></div><table><tbody id="rows"></tbody></table><div id="finalCourseSummary"></div>
   </div>
 
+  <dialog id="installDialog" class="chapter-dialog">
+    <div class="dialog-body"><h2 data-i18n="install_title">Instalar Curso IA ChatGPT</h2><div id="installGuide"></div><div class="btnrow"><button id="installNativeBtn" class="btn primary hidden" type="button" data-i18n="install_now">Instalar ahora</button><button id="closeInstallBtn" class="btn" type="button" data-i18n="close">Cerrar</button></div></div>
+  </dialog>
+  <dialog id="editUserDialog" class="chapter-dialog">
+    <div class="dialog-body"><h2>Editar usuario</h2><input id="editUserEmail" type="hidden"><label for="editUserDisplayName">Nombre</label><input id="editUserDisplayName" type="text"><label for="editUserRole">Rol</label><select id="editUserRole"><option value="member">Usuario</option><option value="admin">Administrador</option></select><label for="editUserLanguage">Idioma</label><select id="editUserLanguage"><option value="es">Español</option><option value="en">English</option><option value="fr">Français</option><option value="de">Deutsch</option><option value="it">Italiano</option><option value="pt">Português</option></select><label class="checkitem"><input id="editUserActive" type="checkbox"> Activo</label><div class="btnrow"><button id="saveEditedUserBtn" class="btn primary" type="button">Guardar</button><button id="cancelEditUserBtn" class="btn" type="button">Cancelar</button></div><div id="editUserMsg" class="muted"></div></div>
+  </dialog>
   <dialog id="newChapterDialog" class="chapter-dialog"><div class="dialog-body"><h2 id="newChapterTitle">Nuevo capítulo disponible</h2><p id="newChapterText"></p><ul id="newChapterList" class="dialog-list"></ul><div class="btnrow"><button id="openNewChapterBtn" class="btn primary" type="button">Ir al capítulo</button><button id="dismissNewChapterBtn" class="btn" type="button">Ahora no</button></div></div></dialog>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.4/dist/umd/supabase.min.js"></script>
@@ -570,8 +601,21 @@ const START=new Date(Date.UTC(2026,7,28));
 const APP_URL="https://mikel-1970.github.io/CURSO-IA-CHAT-GPT/";
 const el=id=>document.getElementById(id);
 let state=fresh(), current=1, courseContent={}, sb=null, session=null, syncing=false, passwordRecoveryMode=false, saveTimer=null, accessProfile=null, isAdmin=false, pendingNewChapters=[], contentPollTimer=null;
+let currentLanguage=localStorage.getItem("curso_ia_language")||"es", deferredInstallPrompt=null;
 let loginTargetAdmin=false;
 const incomingInvite=/[?&#]type=invite(?:&|$)/i.test(location.href);
+
+const LANGS=["es","en","fr","de","it","pt"];
+const I18N={
+es:{login_subtitle:"Formación práctica y progresiva en inteligencia artificial.",language:"Idioma",user:"Usuario",password:"Contraseña",email:"Correo",email_placeholder:"correo@empresa.com",enter:"Entrar",recover_password:"Recuperar contraseña",admin_access:"Panel de administrador",progress:"Progreso",install:"Instalar",profile_admin:"Perfil",sign_out:"Salir",home_subtitle:"Continúa tu aprendizaje en Inteligencia Artificial y ChatGPT.",course:"Curso",course_desc:"Lee los capítulos disponibles, toma notas y marca la lectura cuando termines.",practices:"Prácticas",practices_desc:"Accede a los ejercicios del capítulo una vez terminada su lectura.",feedback:"Feedback",feedback_desc:"Valora el capítulo después de terminar sus prácticas.",back:"← Volver",chapter:"Capítulo",my_notes:"Mis notas y comentarios",notes_placeholder:"Ideas, dudas, aplicaciones reales, mejoras...",reading_done:"Lectura terminada",practice_done:"Práctica Terminada",check:"Comprobar",save_answer:"Guardar respuesta",correct:"Correcto",incorrect:"Incorrecto",your_answer:"Tu respuesta",expected_answer:"Respuesta esperada",explanation:"Explicación",my_profile:"Mi perfil",name:"Nombre",change_password:"Cambiar contraseña",new_password:"Nueva contraseña",save_changes:"Guardar cambios",install_title:"Instalar Curso IA ChatGPT",install_now:"Instalar ahora",close:"Cerrar",translation_pending:"Traducción pendiente; se muestra temporalmente la versión española.",pending_publication:"pendiente de publicación",blocked:"bloqueado",finish_reading:"termina la lectura",finish_practices:"termina las prácticas"},
+en:{login_subtitle:"Practical, progressive training in artificial intelligence.",language:"Language",user:"User",password:"Password",email:"Email",email_placeholder:"email@company.com",enter:"Sign in",recover_password:"Recover password",admin_access:"Administrator panel",progress:"Progress",install:"Install",profile_admin:"Profile",sign_out:"Sign out",home_subtitle:"Continue learning Artificial Intelligence and ChatGPT.",course:"Course",course_desc:"Read available chapters, take notes and mark the reading as complete.",practices:"Practice",practices_desc:"Access chapter exercises after completing the reading.",feedback:"Feedback",feedback_desc:"Rate the chapter after completing its practice.",back:"← Back",chapter:"Chapter",my_notes:"My notes and comments",notes_placeholder:"Ideas, questions, real applications, improvements...",reading_done:"Reading completed",practice_done:"Practice Completed",check:"Check",save_answer:"Save answer",correct:"Correct",incorrect:"Incorrect",your_answer:"Your answer",expected_answer:"Expected answer",explanation:"Explanation",my_profile:"My profile",name:"Name",change_password:"Change password",new_password:"New password",save_changes:"Save changes",install_title:"Install Curso IA ChatGPT",install_now:"Install now",close:"Close",translation_pending:"Translation pending; the Spanish version is shown temporarily.",pending_publication:"pending publication",blocked:"locked",finish_reading:"finish the reading",finish_practices:"finish the practice"},
+fr:{login_subtitle:"Formation pratique et progressive en intelligence artificielle.",language:"Langue",user:"Utilisateur",password:"Mot de passe",email:"E-mail",email_placeholder:"email@entreprise.com",enter:"Entrer",recover_password:"Récupérer le mot de passe",admin_access:"Panneau administrateur",progress:"Progression",install:"Installer",profile_admin:"Profil",sign_out:"Déconnexion",home_subtitle:"Poursuivez votre apprentissage de l’IA et de ChatGPT.",course:"Cours",course_desc:"Lisez les chapitres disponibles, prenez des notes et marquez la lecture comme terminée.",practices:"Exercices",practices_desc:"Accédez aux exercices après avoir terminé la lecture.",feedback:"Feedback",feedback_desc:"Évaluez le chapitre après les exercices.",back:"← Retour",chapter:"Chapitre",my_notes:"Mes notes et commentaires",notes_placeholder:"Idées, questions, applications réelles, améliorations...",reading_done:"Lecture terminée",practice_done:"Exercices terminés",check:"Vérifier",save_answer:"Enregistrer",correct:"Correct",incorrect:"Incorrect",your_answer:"Votre réponse",expected_answer:"Réponse attendue",explanation:"Explication",my_profile:"Mon profil",name:"Nom",change_password:"Changer le mot de passe",new_password:"Nouveau mot de passe",save_changes:"Enregistrer",install_title:"Installer Curso IA ChatGPT",install_now:"Installer maintenant",close:"Fermer",translation_pending:"Traduction en attente ; la version espagnole est affichée temporairement.",pending_publication:"publication en attente",blocked:"bloqué",finish_reading:"terminez la lecture",finish_practices:"terminez les exercices"},
+de:{login_subtitle:"Praxisorientierte, schrittweise Schulung in Künstlicher Intelligenz.",language:"Sprache",user:"Benutzer",password:"Passwort",email:"E-Mail",email_placeholder:"email@firma.de",enter:"Anmelden",recover_password:"Passwort wiederherstellen",admin_access:"Administratorbereich",progress:"Fortschritt",install:"Installieren",profile_admin:"Profil",sign_out:"Abmelden",home_subtitle:"Setzen Sie Ihr Lernen zu KI und ChatGPT fort.",course:"Kurs",course_desc:"Lesen Sie verfügbare Kapitel, machen Sie Notizen und markieren Sie die Lektüre als abgeschlossen.",practices:"Übungen",practices_desc:"Öffnen Sie die Übungen nach Abschluss der Lektüre.",feedback:"Feedback",feedback_desc:"Bewerten Sie das Kapitel nach den Übungen.",back:"← Zurück",chapter:"Kapitel",my_notes:"Meine Notizen und Kommentare",notes_placeholder:"Ideen, Fragen, reale Anwendungen, Verbesserungen...",reading_done:"Lektüre abgeschlossen",practice_done:"Übung abgeschlossen",check:"Prüfen",save_answer:"Antwort speichern",correct:"Richtig",incorrect:"Falsch",your_answer:"Ihre Antwort",expected_answer:"Erwartete Antwort",explanation:"Erklärung",my_profile:"Mein Profil",name:"Name",change_password:"Passwort ändern",new_password:"Neues Passwort",save_changes:"Speichern",install_title:"Curso IA ChatGPT installieren",install_now:"Jetzt installieren",close:"Schließen",translation_pending:"Übersetzung ausstehend; vorübergehend wird die spanische Version angezeigt.",pending_publication:"Veröffentlichung ausstehend",blocked:"gesperrt",finish_reading:"Lektüre abschließen",finish_practices:"Übungen abschließen"},
+it:{login_subtitle:"Formazione pratica e progressiva sull’intelligenza artificiale.",language:"Lingua",user:"Utente",password:"Password",email:"Email",email_placeholder:"email@azienda.it",enter:"Entra",recover_password:"Recupera password",admin_access:"Pannello amministratore",progress:"Progresso",install:"Installa",profile_admin:"Profilo",sign_out:"Esci",home_subtitle:"Continua il tuo apprendimento di Intelligenza Artificiale e ChatGPT.",course:"Corso",course_desc:"Leggi i capitoli disponibili, prendi note e segna la lettura come completata.",practices:"Esercizi",practices_desc:"Accedi agli esercizi dopo aver completato la lettura.",feedback:"Feedback",feedback_desc:"Valuta il capitolo dopo gli esercizi.",back:"← Indietro",chapter:"Capitolo",my_notes:"Le mie note e commenti",notes_placeholder:"Idee, dubbi, applicazioni reali, miglioramenti...",reading_done:"Lettura terminata",practice_done:"Esercizio terminato",check:"Controlla",save_answer:"Salva risposta",correct:"Corretto",incorrect:"Errato",your_answer:"La tua risposta",expected_answer:"Risposta attesa",explanation:"Spiegazione",my_profile:"Il mio profilo",name:"Nome",change_password:"Cambia password",new_password:"Nuova password",save_changes:"Salva modifiche",install_title:"Installa Curso IA ChatGPT",install_now:"Installa ora",close:"Chiudi",translation_pending:"Traduzione in sospeso; viene mostrata temporaneamente la versione spagnola.",pending_publication:"pubblicazione in sospeso",blocked:"bloccato",finish_reading:"termina la lettura",finish_practices:"termina gli esercizi"},
+pt:{login_subtitle:"Formação prática e progressiva em inteligência artificial.",language:"Idioma",user:"Utilizador",password:"Palavra-passe",email:"E-mail",email_placeholder:"email@empresa.pt",enter:"Entrar",recover_password:"Recuperar palavra-passe",admin_access:"Painel de administrador",progress:"Progresso",install:"Instalar",profile_admin:"Perfil",sign_out:"Sair",home_subtitle:"Continue a sua aprendizagem em Inteligência Artificial e ChatGPT.",course:"Curso",course_desc:"Leia os capítulos disponíveis, tome notas e marque a leitura como concluída.",practices:"Práticas",practices_desc:"Aceda aos exercícios depois de concluir a leitura.",feedback:"Feedback",feedback_desc:"Avalie o capítulo depois de concluir as práticas.",back:"← Voltar",chapter:"Capítulo",my_notes:"As minhas notas e comentários",notes_placeholder:"Ideias, dúvidas, aplicações reais, melhorias...",reading_done:"Leitura concluída",practice_done:"Prática concluída",check:"Verificar",save_answer:"Guardar resposta",correct:"Correto",incorrect:"Incorreto",your_answer:"A sua resposta",expected_answer:"Resposta esperada",explanation:"Explicação",my_profile:"O meu perfil",name:"Nome",change_password:"Alterar palavra-passe",new_password:"Nova palavra-passe",save_changes:"Guardar alterações",install_title:"Instalar Curso IA ChatGPT",install_now:"Instalar agora",close:"Fechar",translation_pending:"Tradução pendente; a versão em espanhol é apresentada temporariamente.",pending_publication:"publicação pendente",blocked:"bloqueado",finish_reading:"conclua a leitura",finish_practices:"conclua as práticas"}
+};
+function tr(key){return I18N[currentLanguage]?.[key]||I18N.es[key]||key;}
+function applyLanguage(){if(!LANGS.includes(currentLanguage))currentLanguage="es";localStorage.setItem("curso_ia_language",currentLanguage);document.documentElement.lang=currentLanguage;document.querySelectorAll("[data-i18n]").forEach(n=>{const k=n.dataset.i18n;if(I18N[currentLanguage]?.[k]||I18N.es[k])n.textContent=tr(k);});document.querySelectorAll("[data-i18n-placeholder]").forEach(n=>{n.placeholder=tr(n.dataset.i18nPlaceholder);});if(el("loginLanguageSelect"))el("loginLanguageSelect").value=currentLanguage;if(el("profileLanguage"))el("profileLanguage").value=currentLanguage;}
 
 function fresh(){
   return {version:7,chapters:{1:"En curso"},readingDone:{},practices:{},notes:{},answers:{},feedback:{},checks:{},contentSeen:{},updatedAt:new Date().toISOString()};
@@ -584,7 +628,7 @@ function mergeState(raw){
 }
 function userToken(){return session?.user?.id||"guest";}
 function progressStorageKey(){return `${KEY_BASE}_${userToken()}`;}
-function contentStorageKey(){return `${CONTENT_CACHE_BASE}_${userToken()}`;}
+function contentStorageKey(){return `${CONTENT_CACHE_BASE}_${userToken()}_${currentLanguage}`;}
 function syncMetaStorageKey(){return `${SYNC_META_BASE}_${userToken()}`;}
 function isPlainObject(v){return !!v&&typeof v==="object"&&!Array.isArray(v);}
 function cloneJson(v){return v===undefined?undefined:JSON.parse(JSON.stringify(v));}
@@ -773,10 +817,10 @@ function opts(){
     if(zone==="practice")allowed=allowed&&readingRequirementsMet(n);
     if(zone==="feedback")allowed=allowed&&practiceRequirementsMet(n);
     let suffix="";
-    if(!published)suffix=" · pendiente de publicación";
-    else if(!baseUnlocked)suffix=" · bloqueado";
-    else if(zone==="practice"&&!readingRequirementsMet(n))suffix=" · termina la lectura";
-    else if(zone==="feedback"&&!practiceRequirementsMet(n))suffix=" · termina las prácticas";
+    if(!published)suffix=` · ${tr("pending_publication")}`;
+    else if(!baseUnlocked)suffix=` · ${tr("blocked")}`;
+    else if(zone==="practice"&&!readingRequirementsMet(n))suffix=` · ${tr("finish_reading")}`;
+    else if(zone==="feedback"&&!practiceRequirementsMet(n))suffix=` · ${tr("finish_practices")}`;
     else if(chapterComplete(n))suffix=" · ✓";
     return `<option value="${n}"${allowed?"":" disabled"}>${n}. ${esc(title)}${suffix}</option>`;
   }).join("");
@@ -797,54 +841,31 @@ function practiceChecks(chapter=1){
   if(!isPlainObject(state.checks[chapter]))state.checks[chapter]={};
   return state.checks[chapter];
 }
-function checkedLabel(iso){
-  if(!iso)return "";
-  try{
-    return " · comprobado "+new Intl.DateTimeFormat("es-ES",{dateStyle:"short",timeStyle:"short",timeZone:"Europe/Madrid"}).format(new Date(iso));
-  }catch(e){return "";}
-}
+function checkedLabel(iso){return "";}
 
 async function loadCourseContent(showNotice=false){
   if(!sb||!session||!accessProfile?.active){courseContent={};opts();safeRenderAll();return false;}
   try{
-    const previousSignature=JSON.stringify(
-      Object.values(courseContent||{}).map(c=>[Number(c.chapter_number),Number(c.version||0),String(c.updated_at||"")]).sort((a,b)=>a[0]-b[0])
-    );
-    const {data,error}=await sb.from("course_content")
-      .select("chapter_number,title,objective,content_html,practice,feedback_schema,version,updated_at,published")
-      .eq("published",true).order("chapter_number");
+    const previousSignature=JSON.stringify(Object.values(courseContent||{}).map(c=>[Number(c.chapter_number),Number(c.version||0),String(c.updated_at||""),String(c._language||"es")]).sort((a,b)=>a[0]-b[0]));
+    const {data:base,error}=await sb.from("course_content").select("chapter_number,title,objective,content_html,practice,feedback_schema,version,updated_at,published").eq("published",true).order("chapter_number");
     if(error)throw error;
-
-    const next={};(data||[]).forEach(c=>next[c.chapter_number]=c);
-    const nextSignature=JSON.stringify(
-      Object.values(next).map(c=>[Number(c.chapter_number),Number(c.version||0),String(c.updated_at||"")]).sort((a,b)=>a[0]-b[0])
-    );
-    const contentChanged=previousSignature!==nextSignature;
-
-    courseContent=next;
-    localStorage.setItem(contentStorageKey(),JSON.stringify(Object.values(courseContent)));
-    ensureCurrentAccessible();
-    opts();
-
-    // El polling no debe reconstruir una práctica en curso si no ha cambiado
-    // realmente ningún capítulo.
-    if(contentChanged){
-      safeRenderAll();
-      if(showNotice)maybeShowNewChapterDialog();
-    }else{
-      renderProgress();
-      updateAuthUI();
+    const next={};(base||[]).forEach(c=>next[c.chapter_number]={...c,_language:"es",_translationFallback:false});
+    if(currentLanguage!=="es"){
+      const {data:translated,error:terr}=await sb.from("course_content_translations").select("chapter_number,language,title,objective,content_html,practice,feedback_schema,version,updated_at,published").eq("language",currentLanguage).eq("published",true).order("chapter_number");
+      if(terr)throw terr;
+      const map={};(translated||[]).forEach(t=>map[t.chapter_number]=t);
+      Object.keys(next).forEach(k=>{const n=Number(k),t=map[n];next[n]=t?{...next[n],...t,chapter_number:n,_language:currentLanguage,_translationFallback:false}:{...next[n],_language:"es",_translationFallback:true};});
     }
+    const nextSignature=JSON.stringify(Object.values(next).map(c=>[Number(c.chapter_number),Number(c.version||0),String(c.updated_at||""),String(c._language||"es")]).sort((a,b)=>a[0]-b[0]));
+    const contentChanged=previousSignature!==nextSignature;courseContent=next;localStorage.setItem(contentStorageKey(),JSON.stringify(Object.values(courseContent)));ensureCurrentAccessible();opts();
+    if(contentChanged){safeRenderAll();if(showNotice)maybeShowNewChapterDialog();}else{renderProgress();updateAuthUI();}
     return true;
-  }catch(e){
-    console.warn("No se pudo actualizar el contenido:",e);
-    opts();
-    return false;
-  }
+  }catch(e){console.warn("No se pudo actualizar el contenido:",e);opts();return false;}
 }
 function lessonIllustration(n,title){
   return `<div class="lesson-visual"><svg viewBox="0 0 160 120" fill="none" aria-hidden="true"><circle cx="80" cy="58" r="36" stroke="rgba(255,255,255,.72)" stroke-width="2"/><circle cx="42" cy="30" r="7" fill="#bceaff"/><circle cx="118" cy="28" r="7" fill="#bceaff"/><circle cx="127" cy="76" r="7" fill="#bceaff"/><circle cx="57" cy="94" r="7" fill="#bceaff"/><circle cx="80" cy="58" r="9" fill="white"/><path d="M48 34 72 52m39-19L89 52m30 21-30-11M61 89l14-23" stroke="#dff5ff" stroke-width="3"/></svg><div><h2>Capítulo ${n}</h2><p>${esc(title)}</p></div></div>`;
 }
+function decorateLessonContent(){const root=el("lesson")?.querySelector(".lesson-content");if(!root)return;root.querySelectorAll("table").forEach(table=>{if(table.parentElement?.classList.contains("lesson-table-scroll"))return;const wrap=document.createElement("div");wrap.className="lesson-table-scroll";table.parentNode.insertBefore(wrap,table);wrap.appendChild(table);});}
 function renderLesson(){
   ensureCurrentAccessible();
   if(el("chapterSelect"))el("chapterSelect").value=String(current);
@@ -855,9 +876,10 @@ function renderLesson(){
   if(el("notes"))el("notes").value=state.notes[current]||"";
   if(!unlocked){el("lesson").innerHTML=`<div class="locked-card"><h2>Capítulo ${current} bloqueado</h2><p>Completa el capítulo anterior para continuar.</p></div>`;el("chapterCompletionCard").innerHTML="";return;}
   if(!available){el("lesson").innerHTML=`${lessonIllustration(current,title)}<p>${esc(obj)}</p><div class="notice"><strong>Pendiente de publicación.</strong></div>`;el("chapterCompletionCard").innerHTML="";return;}
-  el("lesson").innerHTML=`${lessonIllustration(current,title)}<div class="lesson-content">${c.content_html}</div><div class="updated">Versión ${c.version} · actualizado ${new Date(c.updated_at).toLocaleDateString("es-ES")}</div>`;
+  el("lesson").innerHTML=`${lessonIllustration(current,title)}${c._translationFallback?`<div class="notice"><strong>${esc(tr("translation_pending"))}</strong></div>`:""}<div class="lesson-content">${c.content_html}</div><div class="updated">Versión ${c.version} · ${new Date(c.updated_at).toLocaleDateString(currentLanguage==="en"?"en-GB":currentLanguage)}</div>`;
+  decorateLessonContent();
   const done=readingRequirementsMet(current);
-  el("chapterCompletionCard").innerHTML=`<button id="readingDoneBtn" class="btn ${done?"ok":"primary"}" type="button" ${done?"disabled":""}>${done?"Lectura terminada":"Lectura terminada"}</button>${done?'<div class="muted" style="margin-top:8px">La lectura de este capítulo ya está marcada como terminada.</div>':''}`;
+  el("chapterCompletionCard").innerHTML=`<button id="readingDoneBtn" class="btn ${done?"ok":"primary"}" type="button" ${done?"disabled":""}>${esc(tr("reading_done"))}</button>${done?'<div class="muted" style="margin-top:8px">La lectura de este capítulo ya está marcada como terminada.</div>':''}`;
   const btn=el("readingDoneBtn");
   if(btn&&!done)btn.addEventListener("click",async()=>{state.readingDone[current]=new Date().toISOString();saveLocal();await pushCloud(false);opts();renderProgress();closeWorkspace();});
 }
@@ -893,7 +915,7 @@ function renderPractice1(p){
   </div>
   <div class="card"><h3>Prueba de comprensión</h3><p class="muted">La corrección automática es orientativa y usa una rúbrica de conceptos, no coincidencia literal.</p>
     ${qs.map((q,i)=>`<label>${i+1}. ${esc(q.question)}</label><textarea data-q="q${i+1}" rows="3"></textarea><div id="qr${i+1}"></div>`).join("")}
-    <div class="btnrow"><button id="checkComprehensionBtn" class="btn primary" type="button">Comprobar comprensión</button><button id="practiceDoneBtn" class="btn ok" type="button">Práctica Terminada</button></div><div id="compScore" style="margin-top:10px;font-weight:700"></div>
+    <div class="btnrow"><button id="checkComprehensionBtn" class="btn primary" type="button">Comprobar comprensión</button><button id="practiceDoneBtn" class="btn ok" type="button">${esc(tr("practice_done"))}</button></div><div id="compScore" style="margin-top:10px;font-weight:700"></div>
   </div>`;
 
   function renderClassResult(res){
@@ -1262,12 +1284,9 @@ function renderGenericPractice(p,chapter){
   };
   const bulletList=(items,emptyText="")=>items?.length?`<ul style="margin:6px 0 8px 20px">${items.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>`:(emptyText?`<div class="muted">${esc(emptyText)}</div>`:"");
   const referenceFor=ex=>ex.reference_answer||ex.model_answer||ex.reference_solution||ex.sample_answer||"";
-  const choiceOptionLabel=(ex,value)=>{
-    const opts=Array.isArray(ex.options)?ex.options:[];
-    const found=opts.find(o=>String(isPlainObject(o)?o.value:o)===String(value));
-    if(found===undefined)return String(value??"");
-    return String(isPlainObject(found)?found.label:found);
-  };
+  const parseChoiceQuestion=ex=>{const raw=String(ex.question||ex.prompt||"").trim(),matches=[...raw.matchAll(/(?:^|\s)([A-H])[\)\.]\s*/g)];if(matches.length<2)return {statement:raw,derived:[]};const statement=raw.slice(0,matches[0].index).trim();const derived=matches.map((m,i)=>{const start=(m.index||0)+m[0].length,end=i+1<matches.length?(matches[i+1].index||raw.length):raw.length;return {value:m[1],label:raw.slice(start,end).trim()};});return {statement,derived};};
+  const effectiveChoiceOptions=ex=>{const parsed=parseChoiceQuestion(ex),raw=Array.isArray(ex.options)?ex.options:[],normalized=raw.map(o=>({value:String(isPlainObject(o)?o.value:o),label:String(isPlainObject(o)?o.label:o)})),onlyLetters=normalized.length&&normalized.every(o=>/^[A-H]$/.test(o.label.trim()));return parsed.derived.length&&onlyLetters?parsed.derived:(normalized.length?normalized:parsed.derived);};
+  const choiceOptionLabel=(ex,value)=>{const found=effectiveChoiceOptions(ex).find(o=>String(o.value)===String(value));return found?`${found.value}. ${found.label}`:String(value??"");};
   const resultHtml=(ex,res)=>{
     if(!res)return "";
     if(res.type==="choice"){
@@ -1278,11 +1297,11 @@ function renderGenericPractice(p,chapter){
           ?"La opción elegida encaja con el criterio trabajado en este ejercicio."
           :"La respuesta esperada se ajusta mejor al criterio trabajado en este ejercicio.");
       return `<div class="rubric ${res.correct?"good":"review"}">`+
-        `<strong>${res.correct?"Correcto":"Incorrecto"}</strong>`+
-        `<div style="margin-top:8px"><strong>Tu respuesta:</strong> ${esc(selected||"Sin respuesta")}</div>`+
-        (!res.correct&&expected?`<div style="margin-top:6px"><strong>Respuesta esperada:</strong> ${esc(expected)}</div>`:"")+
-        `<div style="margin-top:10px"><strong>Explicación</strong><div>${esc(explanation)}</div></div>`+
-        `<div class="muted" style="margin-top:8px">No necesitas justificar por escrito la respuesta.${checkedLabel(res.checkedAt)}</div>`+
+        `<strong>${esc(res.correct?tr("correct"):tr("incorrect"))}</strong>`+
+        `<div style="margin-top:8px"><strong>${esc(tr("your_answer"))}:</strong> ${esc(selected||"—")}</div>`+
+        (!res.correct&&expected?`<div style="margin-top:6px"><strong>${esc(tr("expected_answer"))}:</strong> ${esc(expected)}</div>`:"")+
+        `<div style="margin-top:10px"><strong>${esc(tr("explanation"))}</strong><div>${esc(explanation)}</div></div>`+
+        ""+
         `</div>`;
     }
     if(res.type==="classification"){
@@ -1291,7 +1310,7 @@ function renderGenericPractice(p,chapter){
       return `<div class="rubric ${res.correct===res.total?"good":"review"}"><strong>Resultado: ${res.correct}/${res.total}</strong>`+
         `<div style="margin-top:8px"><strong>Aciertos</strong>${bulletList(good,"Sin elementos correctos todavía.")}</div>`+
         (bad.length?`<div style="margin-top:8px"><strong>A revisar</strong>${bulletList(bad)}</div>`:"")+
-        `<span class="muted">Resultado guardado${checkedLabel(res.checkedAt)}</span></div>`;
+        `</div>`;
     }
     const achieved=res.achieved||[];
     const missing=res.missing||[];
@@ -1303,23 +1322,24 @@ function renderGenericPractice(p,chapter){
       (missing.length?`<div style="margin-top:10px"><strong>Criterios no reconocidos automáticamente</strong>${bulletList(missing)}<div class="muted">Revísalos: pueden faltar realmente o estar expresados con otras palabras.</div></div>`:"")+
       (ex.explanation?`<div style="margin-top:10px"><strong>Explicación del criterio esperado</strong><div>${esc(ex.explanation)}</div></div>`:"")+
       (ref?`<div style="margin-top:10px"><strong>Una posible respuesta de referencia</strong><div style="margin-top:5px">${esc(ref)}</div><div class="muted" style="margin-top:5px">No es la única solución válida. Tu respuesta puede ser correcta si expresa la misma idea con otras palabras o aporta un razonamiento equivalente.</div></div>`:"")+
-      `<div class="muted" style="margin-top:10px">Corrección automática orientativa${checkedLabel(res.checkedAt)}. La coincidencia literal de palabras no sustituye a la valoración del razonamiento.</div></div>`;
+      `<div class="muted" style="margin-top:10px">Corrección automática orientativa. La coincidencia literal de palabras no sustituye a la valoración del razonamiento.</div></div>`;
   };
   let body=`<div class="card"><h2>${esc(p.title||`Práctica del capítulo ${chapter}`)}</h2><p class="muted">${esc(p.instructions||"Responde primero y utiliza después la comprobación.")}</p><div class="notice"><strong>Formato de prácticas:</strong> las preguntas de selección no requieren justificación escrita; al comprobar recibirás una explicación breve tanto si aciertas como si fallas. En respuestas abiertas, la comprobación sigue siendo orientativa y la respuesta de referencia es solo una posible solución.</div></div>`;
   sections.forEach((section,si)=>{
     body+=`<div class="card"><h3>${esc(section.title||`Bloque ${si+1}`)}</h3>${section.description?`<p class="muted">${esc(section.description)}</p>`:""}`;
     (section.exercises||[]).forEach((ex,ei)=>{
       const id=String(ex.id||`${si+1}_${ei+1}`),type=ex.type||"open";
-      body+=`<div class="mini" style="margin-bottom:28px" data-generic-ex="${esc(id)}"><strong>${esc(ex.label||id)}</strong><p>${esc(ex.question||ex.prompt||"")}</p>`;
+      const parsedChoice=type==="choice"?parseChoiceQuestion(ex):null,questionText=parsedChoice?.statement||String(ex.question||ex.prompt||"");
+      body+=`<div class="mini" style="margin-bottom:28px" data-generic-ex="${esc(id)}"><strong>${esc(ex.label||id)}</strong><p class="practice-question">${esc(questionText)}</p>`;
       if(type==="choice"){
-        const options=Array.isArray(ex.options)&&ex.options.length?ex.options:["A","B","C"];
-        body+=`<select data-gen-choice="${esc(id)}"><option value=""></option>${options.map(o=>{const val=isPlainObject(o)?o.value:o,label=isPlainObject(o)?o.label:o;return `<option value="${esc(val)}">${esc(label)}</option>`;}).join("")}</select>`;
+        const options=effectiveChoiceOptions(ex);
+        body+=`<div class="choice-options-list">${options.map(o=>`<div class="choice-option-row"><span class="choice-option-letter">${esc(o.value)}</span><span class="choice-option-text">${esc(o.label)}</span></div>`).join("")}</div><select data-gen-choice="${esc(id)}"><option value=""></option>${options.map(o=>`<option value="${esc(o.value)}">${esc(o.value)} — ${esc(o.label)}</option>`).join("")}</select>`;
       }else if(type==="classification"){
         body+=(ex.items||[]).map((it,ii)=>`<div class="qrow"><span>${ii+1}. ${esc(it.text||it.question||"")}</span><select data-gen-class="${esc(id)}" data-index="${ii}"><option value=""></option>${(ex.options||["A","B","C"]).map(o=>`<option value="${esc(o)}">${esc(o)}</option>`).join("")}</select><span></span></div>`).join("");
       }else{
         body+=`<textarea rows="${Number(ex.rows||5)}" data-gen-open="${esc(id)}"></textarea>`;
       }
-      body+=`<div class="btnrow"><button class="btn primary" data-gen-check="${esc(id)}" type="button">${(ex.answer||groupsFor(ex).length||type==="classification")?"Comprobar":"Guardar respuesta"}</button></div><div data-gen-result="${esc(id)}"></div></div>`;
+      body+=`<div class="btnrow"><button class="btn primary" data-gen-check="${esc(id)}" type="button">${esc((ex.answer||groupsFor(ex).length||type==="classification")?tr("check"):tr("save_answer"))}</button></div><div data-gen-result="${esc(id)}"></div></div>`;
     });
     body+=`</div>`;
   });
@@ -1524,10 +1544,10 @@ function renderProgress(){
   if(el("statPractice"))el("statPractice").textContent=Array.from({length:max},(_,i)=>i+1).filter(n=>practiceRequirementsMet(n)).length;
   renderFinalCourseSummary();
 }
-function renderAll(){ensureCurrentAccessible();opts();renderLesson();renderPractice();renderFeedback();renderProgress();if(isAdmin)renderAdminData(false);}
+function renderAll(){applyLanguage();ensureCurrentAccessible();opts();renderLesson();renderPractice();renderFeedback();renderProgress();if(isAdmin)renderAdminData(false);}
 function closeWorkspace(){document.querySelectorAll(".workspace").forEach(w=>w.classList.remove("open"));document.body.style.overflow="";if(el("homeMenu"))el("homeMenu").scrollIntoView({block:"start"});}
 function highestZoneChapter(zone){for(let n=maxChapter();n>=1;n--){if(!availableForUser(n)||!isChapterUnlocked(n))continue;if(zone==="practicas"&&!readingRequirementsMet(n))continue;if(zone==="feedback"&&!practiceRequirementsMet(n))continue;return n;}return 1;}
-function openZone(name){if(!session||!accessProfile?.active)return;if(name==="administracion"){el("adminOnlyArea").classList.toggle("hidden",!isAdmin);el("adminWorkspaceTitle").textContent=isAdmin?"Administración":"Sincronización";}else current=highestZoneChapter(name);opts();safeRenderAll();document.querySelectorAll(".workspace").forEach(w=>w.classList.toggle("open",w.id===name));document.body.style.overflow="hidden";}
+function openZone(name){if(!session||!accessProfile?.active)return;if(name==="administracion"){el("adminOnlyArea").classList.toggle("hidden",!isAdmin);el("adminWorkspaceTitle").textContent=isAdmin?"Administración":"Perfil y sincronización";}else current=highestZoneChapter(name);opts();safeRenderAll();document.querySelectorAll(".workspace").forEach(w=>w.classList.toggle("open",w.id===name));document.body.style.overflow="hidden";}
 function switchTab(name){if(name==="nube"){if(session)openZone("administracion");else{el("loginScreen").classList.remove("hidden");el("appShell").classList.add("hidden");}return;}if(["curso","practicas","feedback","administracion"].includes(name))openZone(name);}
 
 function setAccessUI(){
@@ -1545,10 +1565,10 @@ async function refreshAccess(){
   accessProfile=null;isAdmin=false;
   if(!sb||!session){setAccessUI();updateAuthUI();return false;}
   const email=String(session.user.email||"").trim().toLowerCase();
-  const {data,error}=await sb.from("course_users").select("email,display_name,role,active,user_id,created_at,updated_at,last_seen_at").eq("email",email).maybeSingle();
+  const {data,error}=await sb.from("course_users").select("email,display_name,role,active,user_id,created_at,updated_at,last_seen_at,preferred_language,invitation_status,invitation_sent_at,auth_confirmed_at").eq("email",email).maybeSingle();
   if(error){console.warn("No se pudo comprobar autorización",error);setAccessUI();return false;}
   if(!data||!data.active){setAccessUI();updateAuthUI();return false;}
-  accessProfile=data;isAdmin=data.role==="admin";setAccessUI();updateAuthUI();return true;
+  accessProfile=data;isAdmin=data.role==="admin";currentLanguage=LANGS.includes(data.preferred_language)?data.preferred_language:currentLanguage;applyLanguage();setAccessUI();updateAuthUI();renderProfileCard();return true;
 }
 function implicitSeen(n){return !!(state.readingDone?.[n]||state.practices?.[n]||state.feedback?.[n]?.submittedAt||state.notes?.[n]);}
 function maybeShowNewChapterDialog(){
@@ -1567,15 +1587,18 @@ function markPendingNewSeen(){
   state.contentSeen=state.contentSeen||{};pendingNewChapters.forEach(n=>state.contentSeen[n]=new Date().toISOString());saveLocal();
 }
 function fmtDate(v){if(!v)return "—";try{return new Intl.DateTimeFormat("es-ES",{dateStyle:"short",timeStyle:"short",timeZone:"Europe/Madrid"}).format(new Date(v));}catch(e){return "—";}}
+function renderProfileCard(){if(!session||!accessProfile)return;if(el("profileName"))el("profileName").value=accessProfile.display_name||"";if(el("profileEmail"))el("profileEmail").value=session.user.email||accessProfile.email||"";if(el("profileLanguage"))el("profileLanguage").value=accessProfile.preferred_language||currentLanguage;}
+async function saveMyProfile(){if(!sb||!session)return;const display_name=el("profileName").value.trim(),preferred_language=el("profileLanguage").value,newEmail=el("profileEmail").value.trim().toLowerCase(),newPassword=el("profilePassword").value;el("profileMsg").textContent="Guardando…";const {data,error}=await sb.rpc("update_my_course_profile",{p_display_name:display_name,p_preferred_language:preferred_language});if(error){el("profileMsg").textContent=error.message;return;}if(newPassword){if(newPassword.length<8){el("profileMsg").textContent="La contraseña debe tener al menos 8 caracteres.";return;}const {error:perr}=await sb.auth.updateUser({password:newPassword});if(perr){el("profileMsg").textContent=authMessage(perr);return;}}if(newEmail&&newEmail!==String(session.user.email||"").toLowerCase()){const {error:eerr}=await sb.auth.updateUser({email:newEmail});if(eerr){el("profileMsg").textContent=authMessage(eerr);return;}el("profileMsg").textContent="Perfil guardado. El cambio de correo requiere confirmación por email.";}else el("profileMsg").textContent="Perfil actualizado.";el("profilePassword").value="";accessProfile={...accessProfile,...data,preferred_language};currentLanguage=preferred_language;applyLanguage();await loadCourseContent(false);renderProfileCard();safeRenderAll();}
 async function renderAdminData(showMessage=false){
   if(!isAdmin||!sb||!session)return;
   try{
-    const [{data:users,error:uerr},{data:progress,error:perr},{data:finalFb,error:ferr}]=await Promise.all([
-      sb.from("course_users").select("email,display_name,role,active,user_id,created_at,last_seen_at,updated_at").order("created_at"),
+    const [{data:users,error:uerr},{data:progress,error:perr},{data:finalFb,error:ferr},{data:translations,error:terr}]=await Promise.all([
+      sb.from("course_users").select("email,display_name,role,active,user_id,created_at,last_seen_at,updated_at,preferred_language,invitation_status,invitation_sent_at,auth_confirmed_at").order("created_at"),
       sb.from("course_progress_v2").select("user_id,data,updated_at"),
-      sb.from("course_final_feedback").select("user_id,answers,final_test,submitted_at,updated_at")
+      sb.from("course_final_feedback").select("user_id,answers,final_test,submitted_at,updated_at"),
+      sb.from("course_content_translations").select("chapter_number,language,published")
     ]);
-    if(uerr)throw uerr;if(perr)throw perr;if(ferr)throw ferr;
+    if(uerr)throw uerr;if(perr)throw perr;if(ferr)throw ferr;if(terr)throw terr;
     const rowsFb=finalFb||[],scores=rowsFb.map(r=>Number(r.answers?.satisfaction)).filter(Number.isFinite),recs=rowsFb.map(r=>Number(r.answers?.recommend)).filter(Number.isFinite),after=rowsFb.map(r=>Number(r.answers?.mastery_after)).filter(Number.isFinite);
     const avg=a=>a.length?(a.reduce((x,y)=>x+y,0)/a.length).toFixed(1):"—";
     const promoters=recs.filter(x=>x>=9).length,detractors=recs.filter(x=>x<=6).length,nps=recs.length?Math.round((promoters-detractors)*100/recs.length):"—";
@@ -1584,24 +1607,21 @@ async function renderAdminData(showMessage=false){
       sumBox.classList.remove("hidden");
       sumBox.innerHTML=`<h3>Feedback global del curso</h3><div class="stats"><div><strong>${rowsFb.length}</strong><br><span class="muted">Respuestas finales</span></div><div><strong>${avg(scores)}/10</strong><br><span class="muted">Satisfacción media</span></div><div><strong>${nps}</strong><br><span class="muted">NPS</span></div><div><strong>${avg(after)}/10</strong><br><span class="muted">Dominio final percibido</span></div></div>`;
     }
-    const byUser={};(progress||[]).forEach(r=>byUser[r.user_id]=r);
-    el("adminUsersBody").innerHTML=(users||[]).map(u=>{
-      const pr=u.user_id?byUser[u.user_id]:null,d=pr?.data||{},done=Object.values(d.chapters||{}).filter(v=>v==="Completado").length,pract=Object.values(d.practices||{}).filter(Boolean).length,self=u.email===String(session.user.email||"").toLowerCase();
-      return `<tr><td><strong>${esc(u.display_name||u.email)}</strong><br><span class="muted">${esc(u.email)}</span></td><td><span class="badge ${u.role==="admin"?"admin":""}">${u.role==="admin"?"Administrador":"Usuario"}</span></td><td><span class="badge ${u.active?"":"off"}">${u.active?"Activo":"Desactivado"}</span></td><td>${u.user_id?"Registrado":"Pendiente"}</td><td>${fmtDate(u.last_seen_at||pr?.updated_at)}</td><td>${done} cap. · ${pract} prácticas</td><td><div class="admin-actions">${self?'<span class="muted">Tu cuenta</span>':`<button class="btn" data-admin-toggle="${esc(u.email)}" data-active="${u.active}">${u.active?"Desactivar":"Activar"}</button><button class="btn" data-admin-role="${esc(u.email)}" data-role="${esc(u.role)}">${u.role==="admin"?"Hacer usuario":"Hacer admin"}</button><button class="btn danger" data-admin-remove="${esc(u.email)}">Quitar</button>`}</div></td></tr>`;
-    }).join("");
-    document.querySelectorAll("[data-admin-toggle]").forEach(b=>b.addEventListener("click",()=>adminSetActive(b.dataset.adminToggle,b.dataset.active!=="true")));
-    document.querySelectorAll("[data-admin-role]").forEach(b=>b.addEventListener("click",()=>adminSetRole(b.dataset.adminRole,b.dataset.role==="admin"?"member":"admin")));
+    const tbox=el("adminTranslationStatus");if(tbox){const langs=["es","en","fr","de","it","pt"],publishedSet=new Set((translations||[]).filter(x=>x.published).map(x=>`${x.chapter_number}:${x.language}`)),chapters=publishedChapters();tbox.innerHTML=`<h3>Idiomas del curso</h3><p class="muted">La interfaz ya admite seis idiomas. El contenido usa español como versión maestra y solo muestra una traducción cuando está publicada.</p><div class="translation-grid">${chapters.map(n=>`<div class="translation-row"><strong>Cap. ${n}</strong>${langs.map(l=>`<span class="translation-cell ${l==="es"||publishedSet.has(`${n}:${l}`)?"ok":"pending"}">${l.toUpperCase()} ${l==="es"||publishedSet.has(`${n}:${l}`)?"✓":"…"}</span>`).join("")}</div>`).join("")}</div>`;}const byUser={};(progress||[]).forEach(r=>byUser[r.user_id]=r);
+    el("adminUsersBody").innerHTML=(users||[]).map(u=>{const pr=u.user_id?byUser[u.user_id]:null,d=pr?.data||{},done=Object.values(d.chapters||{}).filter(v=>v==="Completado").length,pract=Object.values(d.practices||{}).filter(Boolean).length,self=u.email===String(session.user.email||"").toLowerCase(),inviteLabel=u.auth_confirmed_at?"Confirmado":u.invitation_status==="sent"?"Enviada":u.invitation_status==="failed"?"Error":"Pendiente";return `<tr><td><strong>${esc(u.display_name||u.email)}</strong><br><span class="muted">${esc(u.email)}</span><br><span class="muted">${esc((u.preferred_language||"es").toUpperCase())}</span></td><td><span class="badge ${u.role==="admin"?"admin":""}">${u.role==="admin"?"Administrador":"Usuario"}</span></td><td><span class="badge ${u.active?"":"off"}">${u.active?"Activo":"Desactivado"}</span></td><td><span class="badge">${inviteLabel}</span>${u.invitation_sent_at?`<br><span class="muted">${fmtDate(u.invitation_sent_at)}</span>`:""}</td><td>${fmtDate(u.last_seen_at||pr?.updated_at)}</td><td>${done} cap. · ${pract} prácticas</td><td><div class="admin-actions"><button class="btn" data-admin-edit="${esc(u.email)}">Editar</button>${!u.auth_confirmed_at?`<button class="btn" data-admin-resend="${esc(u.email)}">${u.invitation_status==="sent"?"Reenviar invitación":"Enviar invitación"}</button>`:""}${self?'<span class="muted">Tu cuenta</span>':`<button class="btn danger" data-admin-remove="${esc(u.email)}">Quitar</button>`}</div></td></tr>`;}).join("");
+    document.querySelectorAll("[data-admin-edit]").forEach(b=>b.addEventListener("click",()=>openEditUser((users||[]).find(u=>u.email===b.dataset.adminEdit))));
+    document.querySelectorAll("[data-admin-resend]").forEach(b=>b.addEventListener("click",()=>adminResendInvite(b.dataset.adminResend)));
     document.querySelectorAll("[data-admin-remove]").forEach(b=>b.addEventListener("click",()=>adminRemove(b.dataset.adminRemove)));
     if(showMessage)el("adminMsg").textContent="Listado actualizado.";
   }catch(e){el("adminMsg").textContent="No se pudo cargar Administración: "+(e.message||String(e));}
 }
 async function adminAddUser(){
   if(!isAdmin||!sb||!session)return;
-  const email=el("adminEmail").value.trim().toLowerCase(),display_name=el("adminName").value.trim(),role=el("adminRole").value;
+  const email=el("adminEmail").value.trim().toLowerCase(),display_name=el("adminName").value.trim(),role=el("adminRole").value,preferred_language=el("adminLanguage").value;
   if(!email||!email.includes("@")){el("adminMsg").textContent="Introduce un correo válido.";return;}
   el("adminMsg").textContent="Creando usuario y enviando invitación…";
   try{
-    const {data,error}=await sb.functions.invoke("invite-course-user",{body:{email,display_name,role}});
+    const {data,error}=await sb.functions.invoke("invite-course-user",{body:{action:"invite",email,display_name,role,preferred_language}});
     if(error)throw error;
     if(data?.error)throw new Error(data.error);
     el("adminMsg").textContent=data?.message||`${email} autorizado.`;
@@ -1609,8 +1629,9 @@ async function adminAddUser(){
     await renderAdminData(false);
   }catch(e){el("adminMsg").textContent="No se pudo crear/invitar el usuario: "+(e.message||String(e));await renderAdminData(false);}
 }
-async function adminSetActive(email,active){const {error}=await sb.from("course_users").update({active,updated_at:new Date().toISOString()}).eq("email",email);el("adminMsg").textContent=error?error.message:`Acceso ${active?"activado":"desactivado"}.`;if(!error)await renderAdminData(false);}
-async function adminSetRole(email,role){const {error}=await sb.from("course_users").update({role,updated_at:new Date().toISOString()}).eq("email",email);el("adminMsg").textContent=error?error.message:"Rol actualizado.";if(!error)await renderAdminData(false);}
+function openEditUser(u){if(!u)return;el("editUserEmail").value=u.email;el("editUserDisplayName").value=u.display_name||"";el("editUserRole").value=u.role||"member";el("editUserLanguage").value=u.preferred_language||"es";el("editUserActive").checked=!!u.active;el("editUserMsg").textContent="";const dlg=el("editUserDialog");if(typeof dlg.showModal==="function")dlg.showModal();}
+async function saveEditedUser(){const email=el("editUserEmail").value,display_name=el("editUserDisplayName").value.trim(),role=el("editUserRole").value,preferred_language=el("editUserLanguage").value,active=el("editUserActive").checked;el("editUserMsg").textContent="Guardando…";const {data,error}=await sb.functions.invoke("invite-course-user",{body:{action:"update",email,display_name,role,preferred_language,active}});if(error||data?.error){el("editUserMsg").textContent=data?.error||error?.message||"No se pudo actualizar.";return;}el("editUserDialog").close();el("adminMsg").textContent="Usuario actualizado.";await renderAdminData(false);}
+async function adminResendInvite(email){if(!confirm(`¿Enviar una nueva invitación a ${email}?`))return;el("adminMsg").textContent="Enviando invitación…";const {data,error}=await sb.functions.invoke("invite-course-user",{body:{action:"resend",email}});el("adminMsg").textContent=error?.message||data?.error||data?.message||"Invitación procesada.";await renderAdminData(false);}
 async function adminRemove(email){if(!confirm(`¿Quitar la autorización de ${email}? Su cuenta de autenticación no se borra, pero perderá el acceso al curso.`))return;const {error}=await sb.from("course_users").delete().eq("email",email);el("adminMsg").textContent=error?error.message:"Autorización eliminada.";if(!error)await renderAdminData(false);}
 
 let lastForegroundContentRefresh=0;
@@ -1797,11 +1818,14 @@ async function initSupabase(){
     if(session)await handleSessionReady();else{state=fresh();courseContent={};safeRenderAll();setAccessUI();}
   }catch(e){sb=null;session=null;accessProfile=null;isAdmin=false;setCloudPill("Error de nube","bad");el("configMsg").textContent=e.message||String(e);updateAuthUI();setAccessUI();}
 }
+function isStandalone(){return !!(window.matchMedia?.("(display-mode: standalone)").matches||navigator.standalone===true);}function platformKind(){const ua=navigator.userAgent||"",p=navigator.platform||"";if(/iPhone|iPad|iPod/.test(ua)||(p==="MacIntel"&&navigator.maxTouchPoints>1))return "ios";if(/Android/.test(ua))return "android";if(/Macintosh|Mac OS X/.test(ua))return "mac";if(/Windows/.test(ua))return "windows";return "other";}
+const INSTALL_GUIDES={es:{ios:["Abre Curso IA ChatGPT en Safari.","Pulsa Compartir.","Selecciona «Añadir a pantalla de inicio».","Activa «Abrir como app web» y pulsa Añadir."],android:["Abre el curso en Chrome o Edge.","Abre el menú del navegador.","Pulsa «Instalar aplicación» o «Añadir a pantalla de inicio».","Confirma la instalación."],windows:["Abre el curso en Edge o Chrome.","Pulsa el icono de instalación de la barra de direcciones, si aparece.","También puedes usar el menú del navegador → Aplicaciones/Instalar.","Confirma la instalación."],mac:["En Safari, abre el curso.","Usa Archivo → Añadir al Dock o Compartir → Añadir al Dock.","En Chrome, utiliza el icono de instalación si está disponible.","Después podrás abrirlo desde el Dock/Aplicaciones."],other:["Abre el menú de tu navegador.","Busca «Instalar aplicación» o «Añadir a pantalla de inicio».","Si no aparece, sigue usando el curso desde el navegador."]},en:{ios:["Open Curso IA ChatGPT in Safari.","Tap Share.","Choose “Add to Home Screen”.","Enable “Open as Web App” and tap Add."],android:["Open the course in Chrome or Edge.","Open the browser menu.","Choose “Install app” or “Add to Home screen”.","Confirm."],windows:["Open the course in Edge or Chrome.","Use the install icon in the address bar if available.","Or use the browser menu → Apps/Install.","Confirm."],mac:["Open the course in Safari.","Choose File → Add to Dock or Share → Add to Dock.","In Chrome, use the install icon if available.","Open it later from Dock/Applications."],other:["Open your browser menu.","Look for “Install app” or “Add to Home screen”."]}};
+function installGuideText(){const lang=INSTALL_GUIDES[currentLanguage]?currentLanguage:"en",kind=platformKind(),steps=(INSTALL_GUIDES[lang]||INSTALL_GUIDES.en)[kind]||(INSTALL_GUIDES[lang]||INSTALL_GUIDES.en).other,names={ios:"iPhone / iPad",android:"Android",windows:"Windows",mac:"Mac",other:"Web"};return `<div class="install-platform-title">${names[kind]}</div><ol class="install-steps">${steps.map(s=>`<li>${esc(s)}</li>`).join("")}</ol>`;}function updateInstallUI(){if(el("installAppBtn"))el("installAppBtn").classList.toggle("hidden",isStandalone());}function openInstallDialog(){el("installGuide").innerHTML=installGuideText();el("installNativeBtn").classList.toggle("hidden",!deferredInstallPrompt);const dlg=el("installDialog");if(typeof dlg.showModal==="function")dlg.showModal();}
 function updateAuthUI(){
   const logged=!!session,recovery=passwordRecoveryMode&&logged;
   if(el("loggedOutBox"))el("loggedOutBox").classList.toggle("hidden",logged||recovery);
   if(el("recoveryBox"))el("recoveryBox").classList.toggle("hidden",!recovery);
-  if(el("loggedInBox"))el("loggedInBox").classList.toggle("hidden",!logged||recovery);
+  if(el("loggedInBox"))el("loggedInBox").classList.add("hidden");
   if(el("userEmail"))el("userEmail").textContent=logged?(session.user.email||session.user.id):"";
   if(el("syncDetail"))el("syncDetail").textContent=logged?`Conectado como ${session.user.email||session.user.id}. Sincronización automática activa.`:"Sin sesión.";
   if(recovery)setCloudPill("Cambio de contraseña","warn");else if(logged)setCloudPill("Sincronizado","ok");else if(sb)setCloudPill("Preparado","warn");
@@ -1957,6 +1981,10 @@ el("feedbackChapterSelect").addEventListener("change",e=>selectChapterFromContro
 el("notes").addEventListener("input",e=>{state.notes[current]=e.target.value;saveLocal();});
 el("syncNowBtn").addEventListener("click",async()=>{if(!session){el("authMsg").textContent="Inicia sesión para sincronizar.";return;}await syncOnLogin();el("syncDetail").textContent="Sincronización completada.";});
 
+el("loginLanguageSelect").addEventListener("change",e=>{currentLanguage=e.target.value;applyLanguage();});
+el("saveProfileBtn").addEventListener("click",saveMyProfile);
+el("installAppBtn").addEventListener("click",openInstallDialog);el("closeInstallBtn").addEventListener("click",()=>el("installDialog").close());el("installNativeBtn").addEventListener("click",async()=>{if(!deferredInstallPrompt)return;deferredInstallPrompt.prompt();await deferredInstallPrompt.userChoice;deferredInstallPrompt=null;el("installDialog").close();updateInstallUI();});window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredInstallPrompt=e;updateInstallUI();});window.addEventListener("appinstalled",()=>{deferredInstallPrompt=null;updateInstallUI();});
+el("saveEditedUserBtn").addEventListener("click",saveEditedUser);el("cancelEditUserBtn").addEventListener("click",()=>el("editUserDialog").close());
 document.querySelectorAll("[data-open-zone]").forEach(b=>b.addEventListener("click",()=>openZone(b.dataset.openZone)));
 document.querySelectorAll("[data-close-zone]").forEach(b=>b.addEventListener("click",closeWorkspace));
 el("adminTab").addEventListener("click",()=>openZone("administracion"));
@@ -2076,7 +2104,7 @@ window.addEventListener("focus",()=>{
 },{passive:true});
 
 if(window.matchMedia&&window.matchMedia("(display-mode: standalone)").matches)el("installHint").classList.add("hidden");
-state=fresh();courseContent={};opts();safeRenderAll();setAccessUI();
+state=fresh();courseContent={};applyLanguage();opts();safeRenderAll();setAccessUI();updateInstallUI();
 initSupabase();
 if("serviceWorker" in navigator&&location.protocol.startsWith("http")){
   navigator.serviceWorker.register("./sw.js",{updateViaCache:"none"}).then(reg=>{

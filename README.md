@@ -216,3 +216,7 @@ Solución:
 - En móvil, el panel de acceso se desplaza hacia la zona superior derecha y ocupa aprox. 82 % del ancho, manteniendo inputs de 17 px y 50 px de altura.
 - Curso, prácticas, feedback y administración usan paneles oscuros translúcidos con alto contraste.
 - No se añaden calendario, foro, logros u otras funciones mostradas solo como inspiración visual en los mockups.
+
+
+## v18
+Revisión integral de interfaz, usuarios, instalación PWA y soporte multilingüe. El español continúa siendo la versión maestra; las traducciones de contenido se publican en `course_content_translations` y, mientras no existan, la app muestra un aviso y usa español.
