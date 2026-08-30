@@ -228,3 +228,12 @@ Correcciones posteriores a la prueba móvil: diseño de acceso aprobado, recuerd
 
 ## v18.2
 Revisión de excelencia: capítulo 0, fondo futurista visible, selectores emergentes, respuestas por toque, bloqueo y persistencia de comprobaciones, progreso emergente y administración simplificada con refresco automático.
+
+
+## v18.3
+- El idioma elegido en la pantalla de acceso pasa a ser la preferencia del usuario.
+- El cambio de idioma desde Perfil se aplica inmediatamente a la interfaz.
+- Feedback deja de ser una zona principal: se abre automáticamente al completar cada práctica.
+- La cabecera móvil se compacta para mantener visibles progreso, instalación, perfil y salida.
+- El resumen de progreso muestra teoría, prácticas, comprobaciones y porcentaje de acierto.
+- Si una traducción de contenido aún no está publicada, se avisa de forma explícita.

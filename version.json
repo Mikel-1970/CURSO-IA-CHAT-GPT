@@ -1,18 +1,16 @@
 {
-  "app_version": "18.2",
+  "app_version": "18.3",
   "name": "Curso IA ChatGPT",
-  "release": "Excelencia UX, capítulo 0, prácticas persistentes y progreso emergente",
+  "release": "Idioma persistente + feedback automático + cabecera móvil",
   "changes": [
-    "Capítulo 0 informativo sin prácticas, feedback ni impacto en progreso",
-    "Capítulo 5 reescrito y fuentes generales trasladadas al capítulo 0",
-    "listas sin punto y coma final y con mayúscula inicial",
-    "Lectura terminada y Práctica Terminada vuelven siempre a la pantalla anterior",
-    "acceso holográfico más pequeño y fondo futurista más visible en toda la app",
-    "selector emergente Selecciona Práctica",
-    "respuestas de selección por toque directo, sin desplegable, bloqueadas tras comprobar",
-    "comprobaciones persistentes con sincronización inmediata y protección frente a carreras",
-    "Progreso como ventana emergente con teoría, prácticas, feedback y porcentaje de acierto",
-    "Administración sin Actualizar listado ni Copiar enlace; refresco automático y alta visible aunque falle la invitación",
-    "política de respuestas correctas con aleatorización equilibrada A/B/C/D"
+    "el idioma elegido en acceso se guarda como preferencia del usuario",
+    "cambio de idioma del perfil se refleja inmediatamente en la interfaz",
+    "más textos de administración, progreso y selectores traducidos",
+    "feedback eliminado del menú principal",
+    "feedback del capítulo se abre automáticamente al terminar la práctica",
+    "al enviar feedback se completa el capítulo y se vuelve a inicio",
+    "cabecera móvil más compacta para que todos los botones permanezcan visibles",
+    "resumen emergente de progreso centrado en teoría, prácticas y resultados",
+    "aviso explícito cuando el contenido de un capítulo aún no tiene traducción publicada"
   ]
 }

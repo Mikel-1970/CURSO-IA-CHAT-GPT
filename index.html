@@ -481,11 +481,11 @@ dialog.chapter-dialog::backdrop{background:rgba(0,9,23,.66)!important}
   background:linear-gradient(90deg,rgba(1,13,31,.00),rgba(1,13,31,.06)),url("./login-futurista.png") 55% center/cover no-repeat!important;
   padding-top:max(7vh,env(safe-area-inset-top))!important;padding-right:max(2vw,8px)!important;
 }
-.login-card{width:min(330px,42vw)!important;margin:0 1.5vw 0 0!important;padding:14px 15px 15px!important;border-radius:23px!important;background:linear-gradient(145deg,rgba(5,48,91,.58),rgba(8,73,126,.43))!important;border:1px solid rgba(155,230,255,.78)!important;box-shadow:0 0 34px rgba(50,203,255,.26),inset 0 0 18px rgba(83,203,255,.08)!important;backdrop-filter:blur(7px) saturate(135%)!important;-webkit-backdrop-filter:blur(7px) saturate(135%)!important}
+.login-card{width:min(350px,48vw)!important;margin:0 1.5vw 0 0!important;padding:14px 15px 15px!important;border-radius:23px!important;background:linear-gradient(145deg,rgba(5,48,91,.58),rgba(8,73,126,.43))!important;border:1px solid rgba(155,230,255,.78)!important;box-shadow:0 0 34px rgba(50,203,255,.26),inset 0 0 18px rgba(83,203,255,.08)!important;backdrop-filter:blur(7px) saturate(135%)!important;-webkit-backdrop-filter:blur(7px) saturate(135%)!important}
 .login-card::before{right:-12%!important;bottom:-78px!important;width:46%!important;height:86px!important;transform:rotate(-4deg)!important;opacity:.8!important}
 .login-card::after{right:-10%!important;bottom:-74px!important;width:42%!important;height:82px!important;transform:rotate(-4deg)!important}
 .login-card .brand-mark{width:48px!important;height:48px!important;margin-bottom:5px!important}.login-card .brand-mark svg{width:32px!important;height:32px!important}.login-card h1{font-size:1.18rem!important}.login-sub{font-size:.78rem!important;margin-bottom:5px!important}.login-language{margin-bottom:4px!important}.login-language select{font-size:.72rem!important;min-width:96px!important;padding:5px 24px 5px 7px!important}.login-field{margin:6px 0!important;grid-template-columns:30px minmax(0,1fr) 30px!important;border-radius:11px!important}.login-field input{min-height:42px!important;font-size:16px!important;padding:8px 1px!important}.login-card .btn.primary{min-height:42px!important}.login-links{gap:5px!important;margin-top:6px!important}.login-links .btn{min-height:36px!important;font-size:.74rem!important;padding:7px 8px!important}#authMsg{font-size:.70rem!important}
-@media(max-width:600px){.login-card{width:min(275px,64vw)!important;margin-right:1vw!important;margin-top:1.5vh!important;padding:12px 12px 13px!important}.login-card h1{font-size:1.04rem!important}.login-card .brand-mark{width:44px!important;height:44px!important}.login-card .brand-mark svg{width:29px!important;height:29px!important}.login-language{justify-content:flex-end!important}.login-language label{display:none!important}.login-field{grid-template-columns:28px minmax(0,1fr) 28px!important}.login-field input{min-height:40px!important}.login-links .btn{font-size:.70rem!important}}
+@media(max-width:600px){.login-card{width:min(290px,69vw)!important;margin-right:1vw!important;margin-top:1.5vh!important;padding:12px 12px 13px!important}.login-card h1{font-size:1.04rem!important}.login-card .brand-mark{width:44px!important;height:44px!important}.login-card .brand-mark svg{width:29px!important;height:29px!important}.login-language{justify-content:flex-end!important}.login-language label{display:none!important}.login-field{grid-template-columns:28px minmax(0,1fr) 28px!important}.login-field input{min-height:40px!important}.login-links .btn{font-size:.70rem!important}}
 
 /* Selectores emergentes */
 .theory-picker-bar,.practice-picker-bar{display:flex;justify-content:flex-start;margin-bottom:14px}.chapter-picker-trigger,.practice-picker-trigger{min-width:180px;background:rgba(8,65,116,.78)!important;border-color:rgba(94,208,255,.58)!important}.progress-trigger{appearance:none;border:0!important;padding:0!important;background:transparent!important;color:inherit!important;text-align:initial!important;cursor:pointer!important}.progress-trigger:focus-visible{outline:2px solid #66d8ff!important;outline-offset:4px!important;border-radius:8px!important}
@@ -501,6 +501,27 @@ dialog.chapter-dialog::backdrop{background:rgba(0,9,23,.66)!important}
 
 /* Capítulo 0 */
 .chapter-zero-note{margin-top:12px}
+
+
+/* v18.3 — cabecera móvil compacta */
+@media(max-width:600px){
+  .shell-header-inner{max-width:none!important;padding:8px 6px!important;gap:4px!important;justify-content:space-between!important;min-width:0!important}
+  .shell-brand{font-size:.76rem!important;max-width:112px!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important;flex:0 1 112px!important}
+  .shell-brand .pill{display:none!important}
+  .shell-spacer{display:none!important}
+  .compact-progress{min-width:66px!important;width:66px!important;max-width:66px!important;padding:4px 3px!important;flex:0 0 66px!important;border-radius:10px!important}
+  .compact-progress-line{justify-content:center!important;margin:0 0 3px!important;font-size:.74rem!important}
+  .compact-progress-line span{display:none!important}
+  .compact-progress .progress{height:5px!important}
+  .shell-actions{gap:3px!important;flex:0 0 auto!important}
+  .shell-actions .icon-btn{width:37px!important;min-width:37px!important;max-width:37px!important;min-height:38px!important;height:38px!important;padding:5px!important;border-radius:11px!important;font-size:.9rem!important}
+}
+@media(max-width:380px){
+  .shell-brand{max-width:96px!important;flex-basis:96px!important;font-size:.71rem!important}
+  .compact-progress{width:60px!important;min-width:60px!important;max-width:60px!important;flex-basis:60px!important}
+  .shell-actions .icon-btn{width:35px!important;min-width:35px!important;max-width:35px!important}
+}
+.feedback-dialog{width:min(760px,95vw)!important}
 
 </style>
 </head>
@@ -541,7 +562,7 @@ dialog.chapter-dialog::backdrop{background:rgba(0,9,23,.66)!important}
 <div id="appShell" class="app-shell hidden">
   <header class="shell-header">
     <div class="shell-header-inner">
-      <div class="shell-brand">Curso IA ChatGPT <span class="pill ok">v18.2</span></div>
+      <div class="shell-brand">Curso IA ChatGPT <span class="pill ok">v18.3</span></div>
       <div class="shell-spacer"></div>
       <button id="progressSummaryBtn" class="compact-progress progress-trigger" type="button" aria-label="Ver resumen de progreso">
         <div class="compact-progress-line"><span data-i18n="progress">Progreso</span><strong id="progressText">0%</strong></div>
@@ -559,14 +580,13 @@ dialog.chapter-dialog::backdrop{background:rgba(0,9,23,.66)!important}
     <div class="zone-grid">
       <button class="zone-card" data-open-zone="curso" type="button"><div class="zone-icon">▤</div><strong data-i18n="course">Curso</strong><span data-i18n="course_desc">Lee los capítulos disponibles, toma notas y marca la lectura cuando termines.</span></button>
       <button class="zone-card" data-open-zone="practicas" type="button"><div class="zone-icon">✓</div><strong data-i18n="practices">Prácticas</strong><span data-i18n="practices_desc">Accede a los ejercicios del capítulo una vez terminada su lectura.</span></button>
-      <button class="zone-card" data-open-zone="feedback" type="button"><div class="zone-icon">◌</div><strong data-i18n="feedback">Feedback</strong><span data-i18n="feedback_desc">Valora el capítulo después de terminar sus prácticas.</span></button>
     </div>
   </main>
 
   <section id="curso" class="workspace">
     <div class="workspace-head"><div class="workspace-head-inner"><button class="icon-btn" data-close-zone type="button" data-i18n="back">← Volver</button><div class="workspace-title" data-i18n="course">Curso</div></div></div>
     <div class="workspace-body">
-      <div class="theory-picker-bar"><button id="openChapterPickerBtn" class="btn chapter-picker-trigger" type="button">Selecciona Capítulo</button><select id="chapterSelect" class="hidden" aria-hidden="true" tabindex="-1"></select></div>
+      <div class="theory-picker-bar"><button id="openChapterPickerBtn" class="btn chapter-picker-trigger" type="button" data-i18n="select_chapter">Selecciona Capítulo</button><select id="chapterSelect" class="hidden" aria-hidden="true" tabindex="-1"></select></div>
       <div id="lesson" class="card"></div>
       <div class="card notes-card"><label for="notes" data-i18n="my_notes">Mis notas y comentarios</label><textarea id="notes" rows="6" placeholder="Ideas, dudas, aplicaciones reales, mejoras..." data-i18n-placeholder="notes_placeholder"></textarea></div>
       <div id="chapterCompletionCard" class="card reading-card"></div>
@@ -577,21 +597,25 @@ dialog.chapter-dialog::backdrop{background:rgba(0,9,23,.66)!important}
   <section id="practicas" class="workspace">
     <div class="workspace-head"><div class="workspace-head-inner"><button class="icon-btn" data-close-zone type="button" data-i18n="back">← Volver</button><div class="workspace-title" data-i18n="practices">Prácticas</div></div></div>
     <div class="workspace-body">
-      <div class="practice-picker-bar"><button id="openPracticePickerBtn" class="btn practice-picker-trigger" type="button">Selecciona Práctica</button><select id="practiceChapterSelect" class="hidden" aria-hidden="true" tabindex="-1"></select></div>
+      <div class="practice-picker-bar"><button id="openPracticePickerBtn" class="btn practice-picker-trigger" type="button" data-i18n="select_practice">Selecciona Práctica</button><select id="practiceChapterSelect" class="hidden" aria-hidden="true" tabindex="-1"></select></div>
       <div id="practiceArea"></div>
     </div>
   </section>
 
-  <section id="feedback" class="workspace">
-    <div class="workspace-head"><div class="workspace-head-inner"><button class="icon-btn" data-close-zone type="button" data-i18n="back">← Volver</button><div class="workspace-title" data-i18n="feedback">Feedback</div></div></div>
-    <div class="workspace-body">
-      <div class="workspace-select"><label for="feedbackChapterSelect" data-i18n="chapter">Capítulo</label><select id="feedbackChapterSelect"></select><div id="feedbackChapterInfo" class="muted" style="margin-top:7px"></div></div>
+  <dialog id="chapterFeedbackDialog" class="chapter-dialog feedback-dialog">
+    <div class="dialog-body">
+      <div class="chapter-picker-head">
+        <h2 id="chapterFeedbackDialogTitle" data-i18n="chapter_feedback">Feedback del capítulo</h2>
+        <button id="closeChapterFeedbackBtn" class="icon-btn" type="button">×</button>
+      </div>
+      <select id="feedbackChapterSelect" class="hidden" aria-hidden="true" tabindex="-1"></select>
+      <div id="feedbackChapterInfo" class="muted" style="margin-bottom:10px"></div>
       <div id="feedbackArea"></div>
     </div>
-  </section>
+  </dialog>
 
   <section id="administracion" class="workspace">
-    <div class="workspace-head"><div class="workspace-head-inner"><button class="icon-btn" data-close-zone type="button" data-i18n="back">← Volver</button><div class="workspace-title" id="adminWorkspaceTitle">Administración</div></div></div>
+    <div class="workspace-head"><div class="workspace-head-inner"><button class="icon-btn" data-close-zone type="button" data-i18n="back">← Volver</button><div class="workspace-title" id="adminWorkspaceTitle" data-i18n="administration">Administración</div></div></div>
     <div class="workspace-body">
       <div id="profileCard" class="card profile-editor">
         <h2 data-i18n="my_profile">Mi perfil</h2>
@@ -605,27 +629,27 @@ dialog.chapter-dialog::backdrop{background:rgba(0,9,23,.66)!important}
         <div id="profileMsg" class="muted"></div>
       </div>
       <div class="card admin-sync">
-        <h3>Sincronización</h3>
-        <div class="sync-line"><span id="cloudStatus" class="pill warn">Comprobando…</span><span id="localStatus" class="pill ok">Guardado local</span></div>
-        <p id="syncDetail" class="muted">Sin sesión.</p>
-        <div class="btnrow"><button id="syncNowBtn" class="btn primary" type="button">Sincronizar ahora</button><button id="cloudPullBtn" class="btn" type="button">Recuperar datos de nube</button><button id="cloudPushBtn" class="btn" type="button">Enviar cambios pendientes</button></div>
+        <h3 data-i18n="sync">Sincronización</h3>
+        <div class="sync-line"><span id="cloudStatus" class="pill warn" data-i18n="checking">Comprobando…</span><span id="localStatus" class="pill ok" data-i18n="saved_local">Guardado local</span></div>
+        <p id="syncDetail" class="muted" data-i18n="no_session">Sin sesión.</p>
+        <div class="btnrow"><button id="syncNowBtn" class="btn primary" type="button" data-i18n="sync_now">Sincronizar ahora</button><button id="cloudPullBtn" class="btn" type="button" data-i18n="pull_cloud">Recuperar datos de nube</button><button id="cloudPushBtn" class="btn" type="button" data-i18n="push_cloud">Enviar cambios pendientes</button></div>
       </div>
       <div id="adminOnlyArea">
         <div id="adminFinalFeedbackSummary" class="card hidden"></div>
         <div class="card">
-          <h2>Gestión de usuarios</h2>
-          <p class="muted">Crear un usuario lo autoriza en el curso y envía una invitación a su correo para activar el acceso.</p>
+          <h2 data-i18n="user_management">Gestión de usuarios</h2>
+          <p class="muted" data-i18n="user_management_help">Crear un usuario lo autoriza en el curso y envía una invitación a su correo para activar el acceso.</p>
           <div class="admin-grid">
-            <div><label for="adminEmail">Correo</label><input id="adminEmail" type="email" placeholder="persona@empresa.com"></div>
-            <div><label for="adminName">Nombre</label><input id="adminName" type="text" placeholder="Nombre y apellidos"></div>
-            <div><label for="adminRole">Rol</label><select id="adminRole"><option value="member">Usuario</option><option value="admin">Administrador</option></select></div>
-            <div><label for="adminLanguage">Idioma</label><select id="adminLanguage"><option value="es">Español</option><option value="en">English</option><option value="fr">Français</option><option value="de">Deutsch</option><option value="it">Italiano</option><option value="pt">Português</option></select></div>
+            <div><label for="adminEmail" data-i18n="email">Correo</label><input id="adminEmail" type="email" placeholder="persona@empresa.com"></div>
+            <div><label for="adminName" data-i18n="name">Nombre</label><input id="adminName" type="text" placeholder="Nombre y apellidos"></div>
+            <div><label for="adminRole" data-i18n="role">Rol</label><select id="adminRole"><option value="member">Usuario</option><option value="admin">Administrador</option></select></div>
+            <div><label for="adminLanguage" data-i18n="language">Idioma</label><select id="adminLanguage"><option value="es">Español</option><option value="en">English</option><option value="fr">Français</option><option value="de">Deutsch</option><option value="it">Italiano</option><option value="pt">Português</option></select></div>
           </div>
-          <div class="btnrow"><button id="adminAddBtn" class="btn primary" type="button">Crear e invitar usuario</button></div>
+          <div class="btnrow"><button id="adminAddBtn" class="btn primary" type="button" data-i18n="create_invite">Crear e invitar usuario</button></div>
           <div id="adminMsg" class="muted" style="margin-top:8px"></div>
         </div>
         <div id="adminTranslationStatus" class="card"></div>
-        <div class="card tablewrap"><table><thead><tr><th>Usuario</th><th>Rol</th><th>Acceso</th><th>Invitación</th><th>Última actividad</th><th>Progreso</th><th>Acciones</th></tr></thead><tbody id="adminUsersBody"></tbody></table></div>
+        <div class="card tablewrap"><table><thead><tr><th data-i18n="member">Usuario</th><th data-i18n="role">Rol</th><th data-i18n="access">Acceso</th><th data-i18n="invitation">Invitación</th><th data-i18n="last_activity">Última actividad</th><th data-i18n="progress">Progreso</th><th data-i18n="actions">Acciones</th></tr></thead><tbody id="adminUsersBody"></tbody></table></div>
       </div>
     </div>
   </section>
@@ -639,19 +663,19 @@ dialog.chapter-dialog::backdrop{background:rgba(0,9,23,.66)!important}
   </div>
 
   <dialog id="practicePickerDialog" class="chapter-dialog chapter-picker-dialog">
-    <div class="dialog-body"><div class="chapter-picker-head"><h2>Selecciona Práctica</h2><button id="closePracticePickerBtn" class="icon-btn" type="button">×</button></div><div id="practicePickerList" class="chapter-picker-list"></div></div>
+    <div class="dialog-body"><div class="chapter-picker-head"><h2 data-i18n="select_practice">Selecciona Práctica</h2><button id="closePracticePickerBtn" class="icon-btn" type="button">×</button></div><div id="practicePickerList" class="chapter-picker-list"></div></div>
   </dialog>
   <dialog id="progressDialog" class="chapter-dialog progress-dialog">
-    <div class="dialog-body"><div class="chapter-picker-head"><h2>Resumen de progreso</h2><button id="closeProgressDialogBtn" class="icon-btn" type="button">×</button></div><div id="progressSummaryBody"></div></div>
+    <div class="dialog-body"><div class="chapter-picker-head"><h2 data-i18n="progress_summary">Resumen de progreso</h2><button id="closeProgressDialogBtn" class="icon-btn" type="button">×</button></div><div id="progressSummaryBody"></div></div>
   </dialog>
   <dialog id="chapterPickerDialog" class="chapter-dialog chapter-picker-dialog">
-    <div class="dialog-body"><div class="chapter-picker-head"><h2>Selecciona Capítulo</h2><button id="closeChapterPickerBtn" class="icon-btn" type="button">×</button></div><div id="chapterPickerList" class="chapter-picker-list"></div></div>
+    <div class="dialog-body"><div class="chapter-picker-head"><h2 data-i18n="select_chapter">Selecciona Capítulo</h2><button id="closeChapterPickerBtn" class="icon-btn" type="button">×</button></div><div id="chapterPickerList" class="chapter-picker-list"></div></div>
   </dialog>
   <dialog id="installDialog" class="chapter-dialog">
     <div class="dialog-body"><h2 data-i18n="install_title">Instalar Curso IA ChatGPT</h2><div id="installGuide"></div><div class="btnrow"><button id="installNativeBtn" class="btn primary hidden" type="button" data-i18n="install_now">Instalar ahora</button><button id="closeInstallBtn" class="btn" type="button" data-i18n="close">Cerrar</button></div></div>
   </dialog>
   <dialog id="editUserDialog" class="chapter-dialog">
-    <div class="dialog-body"><h2>Editar usuario</h2><input id="editUserEmail" type="hidden"><label for="editUserDisplayName">Nombre</label><input id="editUserDisplayName" type="text"><label for="editUserRole">Rol</label><select id="editUserRole"><option value="member">Usuario</option><option value="admin">Administrador</option></select><label for="editUserLanguage">Idioma</label><select id="editUserLanguage"><option value="es">Español</option><option value="en">English</option><option value="fr">Français</option><option value="de">Deutsch</option><option value="it">Italiano</option><option value="pt">Português</option></select><label class="checkitem"><input id="editUserActive" type="checkbox"> Activo</label><div class="btnrow"><button id="saveEditedUserBtn" class="btn primary" type="button">Guardar</button><button id="cancelEditUserBtn" class="btn" type="button">Cancelar</button></div><div id="editUserMsg" class="muted"></div></div>
+    <div class="dialog-body"><h2 data-i18n="edit_user">Editar usuario</h2><input id="editUserEmail" type="hidden"><label for="editUserDisplayName" data-i18n="name">Nombre</label><input id="editUserDisplayName" type="text"><label for="editUserRole" data-i18n="role">Rol</label><select id="editUserRole"><option value="member">Usuario</option><option value="admin">Administrador</option></select><label for="editUserLanguage" data-i18n="language">Idioma</label><select id="editUserLanguage"><option value="es">Español</option><option value="en">English</option><option value="fr">Français</option><option value="de">Deutsch</option><option value="it">Italiano</option><option value="pt">Português</option></select><label class="checkitem"><input id="editUserActive" type="checkbox"> Activo</label><div class="btnrow"><button id="saveEditedUserBtn" class="btn primary" type="button" data-i18n="save">Guardar</button><button id="cancelEditUserBtn" class="btn" type="button" data-i18n="cancel">Cancelar</button></div><div id="editUserMsg" class="muted"></div></div>
   </dialog>
   <dialog id="newChapterDialog" class="chapter-dialog"><div class="dialog-body"><h2 id="newChapterTitle">Nuevo capítulo disponible</h2><p id="newChapterText"></p><ul id="newChapterList" class="dialog-list"></ul><div class="btnrow"><button id="openNewChapterBtn" class="btn primary" type="button">Ir al capítulo</button><button id="dismissNewChapterBtn" class="btn" type="button">Ahora no</button></div></div></dialog>
 </div>
@@ -684,6 +708,7 @@ const START=new Date(Date.UTC(2026,7,28));
 const APP_URL="https://mikel-1970.github.io/CURSO-IA-CHAT-GPT/";
 const el=id=>document.getElementById(id);
 let state=fresh(), current=1, courseContent={}, sb=null, session=null, syncing=false, passwordRecoveryMode=false, saveTimer=null, accessProfile=null, isAdmin=false, pendingNewChapters=[], contentPollTimer=null;
+let pendingLoginLanguage=null;
 let currentLanguage=localStorage.getItem("curso_ia_language")||"es", deferredInstallPrompt=null;
 const LAST_EMAIL_KEY="curso_ia_last_email";
 let loginTargetAdmin=false;
@@ -698,8 +723,120 @@ de:{login_subtitle:"Kurszugang",language:"Sprache",user:"Benutzer",password:"Pas
 it:{login_subtitle:"Accesso al corso",language:"Lingua",user:"Utente",password:"Password",email:"Email",email_placeholder:"email@azienda.it",enter:"Entra",recover_password:"Recupera password",admin_access:"Pannello amministratore",progress:"Progresso",install:"Installa",profile_admin:"Profilo",sign_out:"Esci",home_subtitle:"Continua il tuo apprendimento di Intelligenza Artificiale e ChatGPT.",course:"Teoria",course_desc:"Leggi i capitoli disponibili, prendi note e segna la lettura come completata.",practices:"Esercizi",practices_desc:"Accedi agli esercizi dopo aver completato la lettura.",feedback:"Feedback",feedback_desc:"Valuta il capitolo dopo gli esercizi.",back:"← Indietro",chapter:"Capitolo",my_notes:"Le mie note e commenti",notes_placeholder:"Idee, dubbi, applicazioni reali, miglioramenti...",reading_done:"Lettura terminata",practice_done:"Esercizio terminato",check:"Controlla",save_answer:"Salva risposta",correct:"Corretto",incorrect:"Errato",your_answer:"La tua risposta",expected_answer:"Risposta attesa",explanation:"Spiegazione",my_profile:"Il mio profilo",name:"Nome",change_password:"Cambia password",new_password:"Nuova password",save_changes:"Salva modifiche",install_title:"Installa Curso IA ChatGPT",install_now:"Installa ora",close:"Chiudi",translation_pending:"Traduzione in sospeso; viene mostrata temporaneamente la versione spagnola.",pending_publication:"pubblicazione in sospeso",blocked:"bloccato",finish_reading:"termina la lettura",finish_practices:"termina gli esercizi"},
 pt:{login_subtitle:"Acesso ao curso",language:"Idioma",user:"Utilizador",password:"Palavra-passe",email:"E-mail",email_placeholder:"email@empresa.pt",enter:"Entrar",recover_password:"Recuperar palavra-passe",admin_access:"Painel de administrador",progress:"Progresso",install:"Instalar",profile_admin:"Perfil",sign_out:"Sair",home_subtitle:"Continue a sua aprendizagem em Inteligência Artificial e ChatGPT.",course:"Teoria",course_desc:"Leia os capítulos disponíveis, tome notas e marque a leitura como concluída.",practices:"Práticas",practices_desc:"Aceda aos exercícios depois de concluir a leitura.",feedback:"Feedback",feedback_desc:"Avalie o capítulo depois de concluir as práticas.",back:"← Voltar",chapter:"Capítulo",my_notes:"As minhas notas e comentários",notes_placeholder:"Ideias, dúvidas, aplicações reais, melhorias...",reading_done:"Leitura concluída",practice_done:"Prática concluída",check:"Verificar",save_answer:"Guardar resposta",correct:"Correto",incorrect:"Incorreto",your_answer:"A sua resposta",expected_answer:"Resposta esperada",explanation:"Explicação",my_profile:"O meu perfil",name:"Nome",change_password:"Alterar palavra-passe",new_password:"Nova palavra-passe",save_changes:"Guardar alterações",install_title:"Instalar Curso IA ChatGPT",install_now:"Instalar agora",close:"Fechar",translation_pending:"Tradução pendente; a versão em espanhol é apresentada temporariamente.",pending_publication:"publicação pendente",blocked:"bloqueado",finish_reading:"conclua a leitura",finish_practices:"conclua as práticas"}
 };
-function tr(key){return I18N[currentLanguage]?.[key]||I18N.es[key]||key;}
-function applyLanguage(){if(!LANGS.includes(currentLanguage))currentLanguage="es";localStorage.setItem("curso_ia_language",currentLanguage);document.documentElement.lang=currentLanguage;document.querySelectorAll("[data-i18n]").forEach(n=>{const k=n.dataset.i18n;if(I18N[currentLanguage]?.[k]||I18N.es[k])n.textContent=tr(k);});document.querySelectorAll("[data-i18n-placeholder]").forEach(n=>{n.placeholder=tr(n.dataset.i18nPlaceholder);});if(el("loginLanguageSelect"))el("loginLanguageSelect").value=currentLanguage;if(el("profileLanguage"))el("profileLanguage").value=currentLanguage;}
+
+const I18N_EXTRA={
+es:{
+administration:"Administración",sync:"Sincronización",checking:"Comprobando…",saved_local:"Guardado local",no_session:"Sin sesión.",
+sync_now:"Sincronizar ahora",pull_cloud:"Recuperar datos de nube",push_cloud:"Enviar cambios pendientes",
+user_management:"Gestión de usuarios",user_management_help:"Crear un usuario lo autoriza en el curso y envía una invitación a su correo para activar el acceso.",
+role:"Rol",member:"Usuario",administrator:"Administrador",create_invite:"Crear e invitar usuario",access:"Acceso",invitation:"Invitación",
+last_activity:"Última actividad",actions:"Acciones",edit:"Editar",send_invite:"Enviar invitación",resend_invite:"Reenviar invitación",
+remove:"Quitar",active:"Activo",inactive:"Desactivado",confirmed:"Confirmado",sent:"Enviada",send_error:"Error de envío",pending:"Pendiente",
+languages_course:"Idiomas del curso",languages_help:"La interfaz admite seis idiomas. El contenido usa español como versión maestra y solo muestra una traducción cuando está publicada.",
+select_practice:"Selecciona Práctica",select_chapter:"Selecciona Capítulo",progress_summary:"Resumen de progreso",
+global_progress:"Progreso global",theory:"Teoría",checked_exercises:"Ejercicios comprobados",closed_accuracy:"Aciertos en ejercicios cerrados",
+accuracy_note:"El porcentaje de acierto utiliza únicamente ejercicios con corrección automática objetiva. Las respuestas abiertas no se convierten artificialmente en un porcentaje de acierto.",
+hello:"Hola",your_course:"Tu curso",available:"Disponible",locked:"Bloqueado",reading_pending:"Lectura pendiente",publication_pending:"Pendiente",
+information:"Información",chapter_feedback:"Feedback del capítulo",feedback_intro:"Responde esta breve valoración para completar el capítulo.",
+send_feedback:"Enviar feedback",update_feedback:"Actualizar feedback enviado",feedback_sent:"Feedback enviado",
+complete_next_pending:"Capítulo completado. El siguiente aparecerá automáticamente cuando esté publicado.",
+profile_updated:"Perfil actualizado.",saving:"Guardando…",edit_user:"Editar usuario",save:"Guardar",cancel:"Cancelar",
+course_content_pending:"La interfaz está en tu idioma, pero este capítulo todavía no tiene traducción publicada y se muestra temporalmente en español."
+},
+en:{
+administration:"Administration",sync:"Sync",checking:"Checking…",saved_local:"Saved locally",no_session:"No session.",
+sync_now:"Sync now",pull_cloud:"Retrieve cloud data",push_cloud:"Send pending changes",
+user_management:"User management",user_management_help:"Creating a user authorizes course access and sends an email invitation to activate the account.",
+role:"Role",member:"User",administrator:"Administrator",create_invite:"Create and invite user",access:"Access",invitation:"Invitation",
+last_activity:"Last activity",actions:"Actions",edit:"Edit",send_invite:"Send invitation",resend_invite:"Resend invitation",
+remove:"Remove",active:"Active",inactive:"Disabled",confirmed:"Confirmed",sent:"Sent",send_error:"Send error",pending:"Pending",
+languages_course:"Course languages",languages_help:"The interface supports six languages. Spanish is the master content version and a translation is shown only after it has been published.",
+select_practice:"Select Practice",select_chapter:"Select Chapter",progress_summary:"Progress summary",
+global_progress:"Overall progress",theory:"Theory",checked_exercises:"Checked exercises",closed_accuracy:"Correct answers in closed exercises",
+accuracy_note:"The accuracy percentage only uses exercises with objective automatic marking. Open answers are not artificially converted into an accuracy percentage.",
+hello:"Hello",your_course:"Your course",available:"Available",locked:"Locked",reading_pending:"Reading pending",publication_pending:"Pending",
+information:"Information",chapter_feedback:"Chapter feedback",feedback_intro:"Complete this short evaluation to finish the chapter.",
+send_feedback:"Send feedback",update_feedback:"Update submitted feedback",feedback_sent:"Feedback submitted",
+complete_next_pending:"Chapter completed. The next chapter will appear automatically when it is published.",
+profile_updated:"Profile updated.",saving:"Saving…",edit_user:"Edit user",save:"Save",cancel:"Cancel",
+course_content_pending:"The interface is in your language, but this chapter does not yet have a published translation and is temporarily shown in Spanish."
+},
+fr:{
+administration:"Administration",sync:"Synchronisation",checking:"Vérification…",saved_local:"Enregistré localement",no_session:"Aucune session.",
+sync_now:"Synchroniser",pull_cloud:"Récupérer les données du cloud",push_cloud:"Envoyer les modifications",
+user_management:"Gestion des utilisateurs",user_management_help:"Créer un utilisateur l’autorise à accéder au cours et envoie une invitation par e-mail.",
+role:"Rôle",member:"Utilisateur",administrator:"Administrateur",create_invite:"Créer et inviter",access:"Accès",invitation:"Invitation",
+last_activity:"Dernière activité",actions:"Actions",edit:"Modifier",send_invite:"Envoyer l’invitation",resend_invite:"Renvoyer l’invitation",
+remove:"Retirer",active:"Actif",inactive:"Désactivé",confirmed:"Confirmé",sent:"Envoyée",send_error:"Erreur d’envoi",pending:"En attente",
+languages_course:"Langues du cours",languages_help:"L’interface prend en charge six langues. L’espagnol est la version maître et une traduction n’est affichée qu’après publication.",
+select_practice:"Sélectionner un exercice",select_chapter:"Sélectionner un chapitre",progress_summary:"Résumé de progression",
+global_progress:"Progression globale",theory:"Théorie",checked_exercises:"Exercices vérifiés",closed_accuracy:"Réussite aux exercices fermés",
+accuracy_note:"Le pourcentage de réussite utilise uniquement les exercices à correction automatique objective. Les réponses ouvertes ne sont pas converties artificiellement en pourcentage.",
+hello:"Bonjour",your_course:"Votre cours",available:"Disponible",locked:"Bloqué",reading_pending:"Lecture en attente",publication_pending:"En attente",
+information:"Information",chapter_feedback:"Feedback du chapitre",feedback_intro:"Complétez cette brève évaluation pour terminer le chapitre.",
+send_feedback:"Envoyer le feedback",update_feedback:"Mettre à jour le feedback",feedback_sent:"Feedback envoyé",
+complete_next_pending:"Chapitre terminé. Le suivant apparaîtra automatiquement lorsqu’il sera publié.",
+profile_updated:"Profil mis à jour.",saving:"Enregistrement…",edit_user:"Modifier l’utilisateur",save:"Enregistrer",cancel:"Annuler",
+course_content_pending:"L’interface est dans votre langue, mais ce chapitre n’a pas encore de traduction publiée et s’affiche temporairement en espagnol."
+},
+de:{
+administration:"Administration",sync:"Synchronisierung",checking:"Prüfung…",saved_local:"Lokal gespeichert",no_session:"Keine Sitzung.",
+sync_now:"Jetzt synchronisieren",pull_cloud:"Cloud-Daten abrufen",push_cloud:"Ausstehende Änderungen senden",
+user_management:"Benutzerverwaltung",user_management_help:"Beim Erstellen wird der Benutzer für den Kurs freigeschaltet und erhält eine E-Mail-Einladung.",
+role:"Rolle",member:"Benutzer",administrator:"Administrator",create_invite:"Benutzer erstellen und einladen",access:"Zugriff",invitation:"Einladung",
+last_activity:"Letzte Aktivität",actions:"Aktionen",edit:"Bearbeiten",send_invite:"Einladung senden",resend_invite:"Einladung erneut senden",
+remove:"Entfernen",active:"Aktiv",inactive:"Deaktiviert",confirmed:"Bestätigt",sent:"Gesendet",send_error:"Sendefehler",pending:"Ausstehend",
+languages_course:"Kurssprachen",languages_help:"Die Oberfläche unterstützt sechs Sprachen. Spanisch ist die Masterversion; Übersetzungen erscheinen erst nach Veröffentlichung.",
+select_practice:"Übung auswählen",select_chapter:"Kapitel auswählen",progress_summary:"Fortschrittsübersicht",
+global_progress:"Gesamtfortschritt",theory:"Theorie",checked_exercises:"Geprüfte Übungen",closed_accuracy:"Trefferquote bei geschlossenen Übungen",
+accuracy_note:"Die Trefferquote berücksichtigt nur objektiv automatisch bewertbare Übungen. Offene Antworten werden nicht künstlich in eine Prozentzahl umgewandelt.",
+hello:"Hallo",your_course:"Ihr Kurs",available:"Verfügbar",locked:"Gesperrt",reading_pending:"Lektüre ausstehend",publication_pending:"Ausstehend",
+information:"Information",chapter_feedback:"Kapitel-Feedback",feedback_intro:"Füllen Sie diese kurze Bewertung aus, um das Kapitel abzuschließen.",
+send_feedback:"Feedback senden",update_feedback:"Feedback aktualisieren",feedback_sent:"Feedback gesendet",
+complete_next_pending:"Kapitel abgeschlossen. Das nächste erscheint automatisch, sobald es veröffentlicht ist.",
+profile_updated:"Profil aktualisiert.",saving:"Speichern…",edit_user:"Benutzer bearbeiten",save:"Speichern",cancel:"Abbrechen",
+course_content_pending:"Die Oberfläche ist in Ihrer Sprache, aber für dieses Kapitel ist noch keine Übersetzung veröffentlicht; vorübergehend wird Spanisch angezeigt."
+},
+it:{
+administration:"Amministrazione",sync:"Sincronizzazione",checking:"Verifica…",saved_local:"Salvato localmente",no_session:"Nessuna sessione.",
+sync_now:"Sincronizza ora",pull_cloud:"Recupera dati dal cloud",push_cloud:"Invia modifiche in sospeso",
+user_management:"Gestione utenti",user_management_help:"La creazione di un utente lo autorizza al corso e invia un invito via e-mail.",
+role:"Ruolo",member:"Utente",administrator:"Amministratore",create_invite:"Crea e invita utente",access:"Accesso",invitation:"Invito",
+last_activity:"Ultima attività",actions:"Azioni",edit:"Modifica",send_invite:"Invia invito",resend_invite:"Reinvia invito",
+remove:"Rimuovi",active:"Attivo",inactive:"Disattivato",confirmed:"Confermato",sent:"Inviato",send_error:"Errore di invio",pending:"In sospeso",
+languages_course:"Lingue del corso",languages_help:"L’interfaccia supporta sei lingue. Lo spagnolo è la versione principale e una traduzione viene mostrata solo dopo la pubblicazione.",
+select_practice:"Seleziona pratica",select_chapter:"Seleziona capitolo",progress_summary:"Riepilogo progresso",
+global_progress:"Progresso complessivo",theory:"Teoria",checked_exercises:"Esercizi verificati",closed_accuracy:"Risposte corrette negli esercizi chiusi",
+accuracy_note:"La percentuale di successo usa solo esercizi con correzione automatica oggettiva. Le risposte aperte non vengono convertite artificialmente in percentuale.",
+hello:"Ciao",your_course:"Il tuo corso",available:"Disponibile",locked:"Bloccato",reading_pending:"Lettura in sospeso",publication_pending:"In sospeso",
+information:"Informazioni",chapter_feedback:"Feedback del capitolo",feedback_intro:"Compila questa breve valutazione per completare il capitolo.",
+send_feedback:"Invia feedback",update_feedback:"Aggiorna feedback",feedback_sent:"Feedback inviato",
+complete_next_pending:"Capitolo completato. Il successivo apparirà automaticamente quando sarà pubblicato.",
+profile_updated:"Profilo aggiornato.",saving:"Salvataggio…",edit_user:"Modifica utente",save:"Salva",cancel:"Annulla",
+course_content_pending:"L’interfaccia è nella tua lingua, ma questo capitolo non ha ancora una traduzione pubblicata e viene mostrato temporaneamente in spagnolo."
+},
+pt:{
+administration:"Administração",sync:"Sincronização",checking:"A verificar…",saved_local:"Guardado localmente",no_session:"Sem sessão.",
+sync_now:"Sincronizar agora",pull_cloud:"Recuperar dados da nuvem",push_cloud:"Enviar alterações pendentes",
+user_management:"Gestão de utilizadores",user_management_help:"Criar um utilizador autoriza o acesso ao curso e envia um convite por e-mail.",
+role:"Função",member:"Utilizador",administrator:"Administrador",create_invite:"Criar e convidar utilizador",access:"Acesso",invitation:"Convite",
+last_activity:"Última atividade",actions:"Ações",edit:"Editar",send_invite:"Enviar convite",resend_invite:"Reenviar convite",
+remove:"Remover",active:"Ativo",inactive:"Desativado",confirmed:"Confirmado",sent:"Enviado",send_error:"Erro de envio",pending:"Pendente",
+languages_course:"Idiomas do curso",languages_help:"A interface suporta seis idiomas. O espanhol é a versão principal e uma tradução só é mostrada depois de publicada.",
+select_practice:"Selecionar prática",select_chapter:"Selecionar capítulo",progress_summary:"Resumo do progresso",
+global_progress:"Progresso global",theory:"Teoria",checked_exercises:"Exercícios verificados",closed_accuracy:"Acertos nos exercícios fechados",
+accuracy_note:"A percentagem de acertos utiliza apenas exercícios com correção automática objetiva. As respostas abertas não são convertidas artificialmente em percentagem.",
+hello:"Olá",your_course:"O seu curso",available:"Disponível",locked:"Bloqueado",reading_pending:"Leitura pendente",publication_pending:"Pendente",
+information:"Informação",chapter_feedback:"Feedback do capítulo",feedback_intro:"Preencha esta breve avaliação para concluir o capítulo.",
+send_feedback:"Enviar feedback",update_feedback:"Atualizar feedback",feedback_sent:"Feedback enviado",
+complete_next_pending:"Capítulo concluído. O seguinte aparecerá automaticamente quando for publicado.",
+profile_updated:"Perfil atualizado.",saving:"A guardar…",edit_user:"Editar utilizador",save:"Guardar",cancel:"Cancelar",
+course_content_pending:"A interface está no seu idioma, mas este capítulo ainda não tem tradução publicada e é apresentado temporariamente em espanhol."
+}
+};
+
+function tr(key){return I18N_EXTRA[currentLanguage]?.[key]||I18N[currentLanguage]?.[key]||I18N_EXTRA.es?.[key]||I18N.es[key]||key;}
+function applyLanguage(){if(!LANGS.includes(currentLanguage))currentLanguage="es";localStorage.setItem("curso_ia_language",currentLanguage);document.documentElement.lang=currentLanguage;document.querySelectorAll("[data-i18n]").forEach(n=>{const k=n.dataset.i18n;if(tr(k)!==k)n.textContent=tr(k);});document.querySelectorAll("[data-i18n-placeholder]").forEach(n=>{n.placeholder=tr(n.dataset.i18nPlaceholder);});if(el("loginLanguageSelect"))el("loginLanguageSelect").value=currentLanguage;if(el("profileLanguage"))el("profileLanguage").value=currentLanguage;if(el("adminWorkspaceTitle"))el("adminWorkspaceTitle").textContent=isAdmin?tr("administration"):`${tr("profile_admin")} / ${tr("sync")}`;if(el("welcomeTitle")&&session&&accessProfile?.active)el("welcomeTitle").textContent=accessProfile?.display_name?`${tr("hello")}, ${accessProfile.display_name}`:tr("your_course");}
 
 function fresh(){
   return {version:7,chapters:{1:"En curso"},readingDone:{},practices:{},notes:{},answers:{},feedback:{},checks:{},contentSeen:{},updatedAt:new Date().toISOString()};
@@ -963,13 +1100,13 @@ function decorateLessonContent(){const root=el("lesson")?.querySelector(".lesson
 function renderChapterPicker(){
   const box=el("chapterPickerList");if(!box)return;
   const nums=[0,...Array.from({length:maxChapter()},(_,i)=>i+1)].filter(n=>availableForUser(n)||n>0);
-  box.innerHTML=nums.map(n=>{const [title]=metadata(n),allowed=n===0?availableForUser(0):(availableForUser(n)&&isChapterUnlocked(n)),stateText=n===0?"Información":(chapterComplete(n)?"✓":(allowed?"Disponible":"Bloqueado"));return `<button class="chapter-picker-item ${n===current?"current":""}" type="button" data-pick-chapter="${n}" ${allowed?"":"disabled"}><span class="chapter-picker-number">${n}</span><span class="chapter-picker-title">${esc(title)}</span><span class="chapter-picker-state">${stateText}</span></button>`;}).join("");
+  box.innerHTML=nums.map(n=>{const [title]=metadata(n),allowed=n===0?availableForUser(0):(availableForUser(n)&&isChapterUnlocked(n)),stateText=n===0?tr("information"):(chapterComplete(n)?"✓":(allowed?tr("available"):tr("locked")));return `<button class="chapter-picker-item ${n===current?"current":""}" type="button" data-pick-chapter="${n}" ${allowed?"":"disabled"}><span class="chapter-picker-number">${n}</span><span class="chapter-picker-title">${esc(title)}</span><span class="chapter-picker-state">${stateText}</span></button>`;}).join("");
   box.querySelectorAll("[data-pick-chapter]").forEach(b=>b.addEventListener("click",()=>{current=Number(b.dataset.pickChapter);el("chapterPickerDialog").close();safeRenderAll();}));
 }
 function renderPracticePicker(){
   const box=el("practicePickerList");if(!box)return;
   const nums=Array.from({length:maxChapter()},(_,i)=>i+1);
-  box.innerHTML=nums.map(n=>{const [title]=metadata(n),allowed=availableForUser(n)&&isChapterUnlocked(n)&&readingRequirementsMet(n),stateText=practiceRequirementsMet(n)?"✓":(allowed?"Disponible":(!availableForUser(n)?"Pendiente":!readingRequirementsMet(n)?"Lectura pendiente":"Bloqueada"));return `<button class="chapter-picker-item ${n===current?"current":""}" type="button" data-pick-practice="${n}" ${allowed?"":"disabled"}><span class="chapter-picker-number">${n}</span><span class="chapter-picker-title">${esc(title)}</span><span class="chapter-picker-state">${stateText}</span></button>`;}).join("");
+  box.innerHTML=nums.map(n=>{const [title]=metadata(n),allowed=availableForUser(n)&&isChapterUnlocked(n)&&readingRequirementsMet(n),stateText=practiceRequirementsMet(n)?"✓":(allowed?tr("available"):(!availableForUser(n)?tr("publication_pending"):!readingRequirementsMet(n)?tr("reading_pending"):tr("locked")));return `<button class="chapter-picker-item ${n===current?"current":""}" type="button" data-pick-practice="${n}" ${allowed?"":"disabled"}><span class="chapter-picker-number">${n}</span><span class="chapter-picker-title">${esc(title)}</span><span class="chapter-picker-state">${stateText}</span></button>`;}).join("");
   box.querySelectorAll("[data-pick-practice]").forEach(b=>b.addEventListener("click",()=>{current=Number(b.dataset.pickPractice);el("practicePickerDialog").close();safeRenderAll();}));
 }
 function renderLesson(){
@@ -1156,9 +1293,9 @@ function renderPractice1(p){
   });
 
   el("practiceDoneBtn").addEventListener("click",async()=>{
-    if(state.practices[1]){closeWorkspace();return;}
+    if(state.practices[1]){finishPracticeFlow(1);return;}
     if(!practiceChecksComplete(1)){alert("Antes de terminar las prácticas, comprueba 1A, 1B y la prueba de comprensión.");return;}
-    state.practices[1]=true;saveLocal();clearTimeout(saveTimer);await pushCloud(false);renderProgress();closeWorkspace();if(chapterComplete(1))maybeShowNewChapterDialog();
+    state.practices[1]=true;saveLocal();clearTimeout(saveTimer);await pushCloud(false);renderProgress();finishPracticeFlow(1);
   });
 
   const checkStore=practiceChecks(1);
@@ -1347,8 +1484,8 @@ function renderPractice2(p){
   el("p2RealResult").innerHTML=resultBox(checks[checkKey(real.id||"2C")],criterionLabels(real));
 
   el("p2Done").addEventListener("click",async()=>{
-    if(state.practices[chapter]){closeWorkspace();return;}
-    state.practices[chapter]=true;saveLocal();clearTimeout(saveTimer);await pushCloud(false);renderProgress();closeWorkspace();
+    if(state.practices[chapter]){finishPracticeFlow(chapter);return;}
+    state.practices[chapter]=true;saveLocal();clearTimeout(saveTimer);await pushCloud(false);renderProgress();finishPracticeFlow(chapter);
   });
   if(state.practices[chapter])el("p2DoneMsg").textContent="Práctica 2 ya marcada como realizada.";
 }
@@ -1537,14 +1674,14 @@ function renderGenericPractice(p,chapter){
   const practiceReady=runtimeChecksComplete();el("genericPracticeDone").disabled=!practiceReady&&!state.practices[chapter];
   if(!practiceReady&&!state.practices[chapter])el("genericPracticeDoneMsg").textContent="Comprueba todos los ejercicios obligatorios para poder terminar las prácticas.";
   el("genericPracticeDone").addEventListener("click",async()=>{
-    if(state.practices[chapter]){closeWorkspace();return;}
+    if(state.practices[chapter]){finishPracticeFlow(chapter);return;}
     if(!runtimeChecksComplete()){
       el("genericPracticeDoneMsg").textContent="Aún quedan ejercicios sin comprobar.";updatePracticeCounter();return;
     }
     persistRuntimeChecks();state.practices[chapter]=true;saveLocal();clearTimeout(saveTimer);
     el("genericPracticeDoneMsg").textContent="Práctica terminada. Guardando en la nube…";
     await pushCloud(false);persistRuntimeChecks();state.practices[chapter]=true;saveLocal(false);
-    opts();renderProgress();closeWorkspace();if(chapterComplete(chapter))maybeShowNewChapterDialog();
+    opts();renderProgress();finishPracticeFlow(chapter);
   });
   if(state.practices[chapter])el("genericPracticeDoneMsg").textContent="Prácticas terminadas y guardadas. Puedes pulsar el botón para volver.";
 }
@@ -1589,6 +1726,16 @@ async function saveFinalFeedbackRecord(fb){
   const {error}=await sb.from("course_final_feedback").upsert(payload,{onConflict:"user_id"});
   if(error)throw error;
 }
+function openChapterFeedback(chapter){
+  if(!chapter||!courseContent[chapter]){closeWorkspace();return;}
+  current=Number(chapter);opts();renderFeedback();
+  if(el("chapterFeedbackDialogTitle"))el("chapterFeedbackDialogTitle").textContent=`${tr("chapter_feedback")} ${chapter}`;
+  const dlg=el("chapterFeedbackDialog");if(typeof dlg.showModal==="function"&&!dlg.open)dlg.showModal();
+}
+function finishPracticeFlow(chapter){
+  if(feedbackRequirementsMet(chapter)){closeWorkspace();if(chapterComplete(chapter))maybeShowNewChapterDialog();return;}
+  openChapterFeedback(chapter);
+}
 function renderFeedback(){
   if(!el("feedbackArea"))return;ensureCurrentAccessible();el("feedbackChapterSelect").value=String(current);
   const c=courseContent[current],schema=normalizedFeedbackSchema(current,c);
@@ -1600,8 +1747,8 @@ function renderFeedback(){
   const fb=state.feedback[current]||{};
   const finalIntro=current===17
     ? "Feedback global del curso. Está diseñado para completarse rápidamente: respuestas cerradas y escalas, sin textos obligatorios."
-    : "El feedback es obligatorio para completar el capítulo. Los campos de texto libre, cuando existan, son opcionales.";
-  el("feedbackArea").innerHTML=`<div class="card"><h2>${current===17?"Feedback global del curso":`Feedback del capítulo ${current}`}</h2><p>${finalIntro}</p><div class="feedback-grid">${schema.map(f=>`<div>${fieldHtml(f,fb[f.id])}</div>`).join("")}</div><div class="btnrow"><button id="submitFeedbackBtn" class="btn primary" type="button">${fb.submittedAt?"Actualizar feedback enviado":"Enviar feedback"}</button></div><div id="feedbackMsg" class="muted" style="margin-top:8px">${fb.submittedAt?`Feedback enviado ${fmtDate(fb.submittedAt)}.`:""}</div></div>`;
+    : tr("feedback_intro");
+  el("feedbackArea").innerHTML=`<div class="card"><h2>${current===17?"Feedback global del curso":`Feedback del capítulo ${current}`}</h2><p>${finalIntro}</p><div class="feedback-grid">${schema.map(f=>`<div>${fieldHtml(f,fb[f.id])}</div>`).join("")}</div><div class="btnrow"><button id="submitFeedbackBtn" class="btn primary" type="button">${fb.submittedAt?tr("update_feedback"):tr("send_feedback")}</button></div><div id="feedbackMsg" class="muted" style="margin-top:8px">${fb.submittedAt?`Feedback enviado ${fmtDate(fb.submittedAt)}.`:""}</div></div>`;
   schema.forEach(f=>{
     if(f.type==="multiselect"){
       document.querySelectorAll(`[data-fbmulti="${f.id}"]`).forEach(cb=>cb.addEventListener("change",()=>{
@@ -1633,12 +1780,25 @@ function renderFeedback(){
       try{await saveFinalFeedbackRecord(target);}
       catch(e){delete target.submittedAt;el("feedbackMsg").textContent="No se pudo guardar el feedback global en la nube: "+(e.message||String(e));return;}
     }
-    saveLocal();await pushCloud(false);opts();renderProgress();closeWorkspace();
-    if(chapterComplete(current))maybeShowNewChapterDialog();
+    saveLocal();await pushCloud(false);opts();renderProgress();
+    const completedChapter=current;
+    if(el("chapterFeedbackDialog")?.open)el("chapterFeedbackDialog").close();
+    closeWorkspace();
+    if(chapterComplete(completedChapter))maybeShowNewChapterDialog();
   });
 }
 function exerciseAccuracySummary(){let correct=0,total=0,checked=0;Object.entries(state.checks||{}).forEach(([chapter,obj])=>{if(Number(chapter)<1||!obj||typeof obj!=="object")return;Object.values(obj).forEach(res=>{if(!res||typeof res!=="object"||!res.checked)return;checked++;if(res.type==="choice"&&typeof res.correct==="boolean"){total++;if(res.correct)correct++;}else if(res.type==="classification"&&Number.isFinite(Number(res.total))){total+=Number(res.total);correct+=Number(res.correct)||0;}});});return {correct,total,checked,pct:total?Math.round(correct*100/total):0};}
-function renderProgressSummary(pct){const box=el("progressSummaryBody");if(!box)return;const max=maxChapter(),nums=Array.from({length:max},(_,i)=>i+1),theory=nums.filter(readingRequirementsMet).length,pract=nums.filter(n=>!!state.practices?.[n]&&practiceChecksComplete(n)).length,feedback=nums.filter(feedbackRequirementsMet).length,acc=exerciseAccuracySummary(),p=v=>max?Math.round(v*100/max):0;box.innerHTML=`<div class="progress-summary-grid"><div class="progress-metric"><strong>${pct}%</strong><span>Progreso global</span><div class="progress-bar-detail"><i style="width:${pct}%"></i></div></div><div class="progress-metric"><strong>${p(theory)}%</strong><span>Teoría · ${theory}/${max}</span><div class="progress-bar-detail"><i style="width:${p(theory)}%"></i></div></div><div class="progress-metric"><strong>${p(pract)}%</strong><span>Prácticas · ${pract}/${max}</span><div class="progress-bar-detail"><i style="width:${p(pract)}%"></i></div></div><div class="progress-metric"><strong>${p(feedback)}%</strong><span>Feedback · ${feedback}/${max}</span><div class="progress-bar-detail"><i style="width:${p(feedback)}%"></i></div></div><div class="progress-metric"><strong>${acc.total?acc.pct+"%":"—"}</strong><span>Aciertos en ejercicios cerrados${acc.total?` · ${acc.correct}/${acc.total}`:""}</span><div class="progress-bar-detail"><i style="width:${acc.total?acc.pct:0}%"></i></div></div><div class="progress-metric"><strong>${acc.checked}</strong><span>Ejercicios comprobados</span></div></div><p class="accuracy-note">El porcentaje de acierto utiliza únicamente ejercicios que admiten corrección automática objetiva. Las respuestas abiertas no se convierten artificialmente en un porcentaje de acierto.</p>`;}
+function renderProgressSummary(pct){
+  const box=el("progressSummaryBody");if(!box)return;
+  const max=maxChapter(),nums=Array.from({length:max},(_,i)=>i+1),theory=nums.filter(readingRequirementsMet).length,pract=nums.filter(n=>!!state.practices?.[n]&&practiceChecksComplete(n)).length,acc=exerciseAccuracySummary(),p=v=>max?Math.round(v*100/max):0;
+  box.innerHTML=`<div class="progress-summary-grid">
+    <div class="progress-metric"><strong>${pct}%</strong><span>${esc(tr("global_progress"))}</span><div class="progress-bar-detail"><i style="width:${pct}%"></i></div></div>
+    <div class="progress-metric"><strong>${p(theory)}%</strong><span>${esc(tr("theory"))} · ${theory}/${max}</span><div class="progress-bar-detail"><i style="width:${p(theory)}%"></i></div></div>
+    <div class="progress-metric"><strong>${p(pract)}%</strong><span>${esc(tr("practices"))} · ${pract}/${max}</span><div class="progress-bar-detail"><i style="width:${p(pract)}%"></i></div></div>
+    <div class="progress-metric"><strong>${acc.total?acc.pct+"%":"—"}</strong><span>${esc(tr("closed_accuracy"))}${acc.total?` · ${acc.correct}/${acc.total}`:""}</span><div class="progress-bar-detail"><i style="width:${acc.total?acc.pct:0}%"></i></div></div>
+    <div class="progress-metric"><strong>${acc.checked}</strong><span>${esc(tr("checked_exercises"))}</span></div>
+  </div><p class="accuracy-note">${esc(tr("accuracy_note"))}</p>`;
+}
 function renderProgress(){
   syncDerivedChapterStates();const max=maxChapter();let points=0;for(let n=1;n<=max;n++){const r=chapterRequirements(n);if(r.reading)points++;if(r.practice)points++;if(r.feedback)points++;}
   const pct=max?Math.round(points/(max*3)*100):0;if(el("progressText"))el("progressText").textContent=`${pct}%`;if(el("progressBar"))el("progressBar").style.width=`${pct}%`;if(el("statDone"))el("statDone").textContent=Array.from({length:max},(_,i)=>i+1).filter(chapterComplete).length;if(el("statDoing"))el("statDoing").textContent=Array.from({length:max},(_,i)=>i+1).filter(n=>derivedChapterState(n)==="En curso").length;if(el("statPractice"))el("statPractice").textContent=Array.from({length:max},(_,i)=>i+1).filter(n=>practiceRequirementsMet(n)).length;renderProgressSummary(pct);renderFinalCourseSummary();
@@ -1646,8 +1806,8 @@ function renderProgress(){
 function renderAll(){applyLanguage();ensureCurrentAccessible();opts();renderLesson();renderPractice();renderFeedback();renderProgress();if(isAdmin)renderAdminData(false);}
 function closeWorkspace(){document.querySelectorAll(".workspace").forEach(w=>w.classList.remove("open"));document.body.style.overflow="";if(el("homeMenu"))el("homeMenu").scrollIntoView({block:"start"});}
 function highestZoneChapter(zone){for(let n=maxChapter();n>=1;n--){if(!availableForUser(n)||!isChapterUnlocked(n))continue;if(zone==="practicas"&&!readingRequirementsMet(n))continue;if(zone==="feedback"&&!practiceRequirementsMet(n))continue;return n;}return 1;}
-function openZone(name){if(!session||!accessProfile?.active)return;if(name==="administracion"){el("adminOnlyArea").classList.toggle("hidden",!isAdmin);el("adminWorkspaceTitle").textContent=isAdmin?"Administración":"Perfil y sincronización";}else current=highestZoneChapter(name);opts();safeRenderAll();document.querySelectorAll(".workspace").forEach(w=>w.classList.toggle("open",w.id===name));document.body.style.overflow="hidden";}
-function switchTab(name){if(name==="nube"){if(session)openZone("administracion");else{el("loginScreen").classList.remove("hidden");el("appShell").classList.add("hidden");}return;}if(["curso","practicas","feedback","administracion"].includes(name))openZone(name);}
+function openZone(name){if(!session||!accessProfile?.active)return;if(name==="administracion"){el("adminOnlyArea").classList.toggle("hidden",!isAdmin);el("adminWorkspaceTitle").textContent=isAdmin?tr("administration"):`${tr("profile_admin")} / ${tr("sync")}`;}else current=highestZoneChapter(name);opts();safeRenderAll();document.querySelectorAll(".workspace").forEach(w=>w.classList.toggle("open",w.id===name));document.body.style.overflow="hidden";}
+function switchTab(name){if(name==="nube"){if(session)openZone("administracion");else{el("loginScreen").classList.remove("hidden");el("appShell").classList.add("hidden");}return;}if(["curso","practicas","administracion"].includes(name))openZone(name);}
 
 function setAccessUI(){
   const authorized=!!(session&&accessProfile?.active);
@@ -1656,7 +1816,7 @@ function setAccessUI(){
   if(el("appShell"))el("appShell").classList.toggle("hidden",showLogin);
   if(el("adminTab"))el("adminTab").classList.toggle("hidden",!authorized);
   if(el("adminOnlyArea"))el("adminOnlyArea").classList.toggle("hidden",!isAdmin);
-  if(el("welcomeTitle")&&authorized)el("welcomeTitle").textContent=accessProfile?.display_name?`Hola, ${accessProfile.display_name}`:"Tu curso";
+  if(el("welcomeTitle")&&authorized)el("welcomeTitle").textContent=accessProfile?.display_name?`${tr("hello")}, ${accessProfile.display_name}`:tr("your_course");
   if(!authorized)closeWorkspace();
   if(!authorized){courseContent={};try{if(session)localStorage.removeItem(contentStorageKey());}catch(e){}}
 }
@@ -1676,7 +1836,7 @@ function maybeShowNewChapterDialog(){
   pendingNewChapters=published.filter(n=>!state.contentSeen?.[n]&&!implicitSeen(n));
   if(!pendingNewChapters.length)return;
   const dlg=el("newChapterDialog");
-  el("newChapterTitle").textContent=pendingNewChapters.length===1?"Nuevo capítulo disponible":`${pendingNewChapters.length} capítulos nuevos disponibles`;
+  el("newChapterTitle").textContent=pendingNewChapters.length===1?(currentLanguage==="en"?"New chapter available":"Nuevo capítulo disponible"):(currentLanguage==="en"?`${pendingNewChapters.length} new chapters available`:`${pendingNewChapters.length} capítulos nuevos disponibles`);
   el("newChapterText").textContent="El siguiente capítulo ya está publicado y se ha desbloqueado al completar el anterior.";
   el("newChapterList").innerHTML=pendingNewChapters.map(n=>`<li><strong>Capítulo ${n}</strong> — ${esc(courseContent[n]?.title||metadata(n)[0])}</li>`).join("");
   if(typeof dlg.showModal==="function"&&!dlg.open)dlg.showModal();
@@ -1690,7 +1850,7 @@ function renderProfileCard(){if(!session||!accessProfile)return;if(el("profileNa
 async function saveMyProfile(){
   if(!sb||!session)return;
   const display_name=el("profileName").value.trim(),preferred_language=el("profileLanguage").value,newEmail=el("profileEmail").value.trim().toLowerCase(),newPassword=el("profilePassword").value;
-  el("profileMsg").textContent="Guardando…";
+  el("profileMsg").textContent=tr("saving");
   const {error}=await sb.rpc("update_my_course_profile",{p_display_name:display_name,p_preferred_language:preferred_language});
   if(error){el("profileMsg").textContent=error.message;return;}
   if(newPassword){
@@ -1703,7 +1863,7 @@ async function saveMyProfile(){
   }
   el("profilePassword").value="";currentLanguage=preferred_language;applyLanguage();
   await refreshAccess();await loadCourseContent(false);renderProfileCard();safeRenderAll();
-  el("profileMsg").textContent=emailChange?"Perfil guardado. El nuevo correo requiere confirmación por email.":"Perfil actualizado.";
+  el("profileMsg").textContent=emailChange?"Perfil guardado. El nuevo correo requiere confirmación por email.":tr("profile_updated");
 }
 async function renderAdminData(showMessage=false){
   if(!isAdmin||!sb||!session)return;
@@ -1715,9 +1875,9 @@ async function renderAdminData(showMessage=false){
   try{const r=await sb.from("course_content_translations").select("chapter_number,language,published");if(!r.error)translations=r.data||[];}catch(e){}
   const scores=finalFb.map(r=>Number(r.answers?.satisfaction)).filter(Number.isFinite),recs=finalFb.map(r=>Number(r.answers?.recommend)).filter(Number.isFinite),after=finalFb.map(r=>Number(r.answers?.mastery_after)).filter(Number.isFinite),avg=a=>a.length?(a.reduce((x,y)=>x+y,0)/a.length).toFixed(1):"—",promoters=recs.filter(x=>x>=9).length,detractors=recs.filter(x=>x<=6).length,nps=recs.length?Math.round((promoters-detractors)*100/recs.length):"—";
   const sumBox=el("adminFinalFeedbackSummary");if(sumBox){sumBox.classList.remove("hidden");sumBox.innerHTML=`<h3>Feedback global del curso</h3><div class="stats"><div><strong>${finalFb.length}</strong><br><span class="muted">Respuestas finales</span></div><div><strong>${avg(scores)}/10</strong><br><span class="muted">Satisfacción media</span></div><div><strong>${nps}</strong><br><span class="muted">NPS</span></div><div><strong>${avg(after)}/10</strong><br><span class="muted">Dominio final percibido</span></div></div>`;}
-  const tbox=el("adminTranslationStatus");if(tbox){const langs=["es","en","fr","de","it","pt"],publishedSet=new Set(translations.filter(x=>x.published).map(x=>`${x.chapter_number}:${x.language}`)),chapters=publishedChapters();tbox.innerHTML=`<h3>Idiomas del curso</h3><p class="muted">La interfaz admite seis idiomas. El contenido usa español como versión maestra y solo muestra una traducción cuando está publicada.</p><div class="translation-grid">${chapters.map(n=>`<div class="translation-row"><strong>Cap. ${n}</strong>${langs.map(l=>`<span class="translation-cell ${l==="es"||publishedSet.has(`${n}:${l}`)?"ok":"pending"}">${l.toUpperCase()} ${l==="es"||publishedSet.has(`${n}:${l}`)?"✓":"…"}</span>`).join("")}</div>`).join("")}</div>`;}
+  const tbox=el("adminTranslationStatus");if(tbox){const langs=["es","en","fr","de","it","pt"],publishedSet=new Set(translations.filter(x=>x.published).map(x=>`${x.chapter_number}:${x.language}`)),chapters=publishedChapters();tbox.innerHTML=`<h3>${esc(tr("languages_course"))}</h3><p class="muted">${esc(tr("languages_help"))}</p><div class="translation-grid">${chapters.map(n=>`<div class="translation-row"><strong>Cap. ${n}</strong>${langs.map(l=>`<span class="translation-cell ${l==="es"||publishedSet.has(`${n}:${l}`)?"ok":"pending"}">${l.toUpperCase()} ${l==="es"||publishedSet.has(`${n}:${l}`)?"✓":"…"}</span>`).join("")}</div>`).join("")}</div>`;}
   const byUser={};progress.forEach(r=>byUser[r.user_id]=r);
-  el("adminUsersBody").innerHTML=users.map(u=>{const pr=u.user_id?byUser[u.user_id]:null,d=pr?.data||{},done=Object.values(d.chapters||{}).filter(v=>v==="Completado").length,pract=Object.values(d.practices||{}).filter(Boolean).length,self=u.email===String(session.user.email||"").toLowerCase(),inviteLabel=u.auth_confirmed_at?"Confirmado":u.invitation_status==="sent"?"Enviada":u.invitation_status==="failed"?"Error de envío":"Pendiente";return `<tr><td><strong>${esc(u.display_name||u.email)}</strong><br><span class="muted">${esc(u.email)}</span><br><span class="muted">${esc((u.preferred_language||"es").toUpperCase())}</span></td><td><span class="badge ${u.role==="admin"?"admin":""}">${u.role==="admin"?"Administrador":"Usuario"}</span></td><td><span class="badge ${u.active?"":"off"}">${u.active?"Activo":"Desactivado"}</span></td><td><span class="badge">${inviteLabel}</span>${u.invitation_sent_at?`<br><span class="muted">${fmtDate(u.invitation_sent_at)}</span>`:""}</td><td>${fmtDate(u.last_seen_at||pr?.updated_at)}</td><td>${done} cap. · ${pract} prácticas</td><td><div class="admin-actions"><button class="btn" data-admin-edit="${esc(u.email)}">Editar</button>${!u.auth_confirmed_at?`<button class="btn" data-admin-resend="${esc(u.email)}">${u.invitation_status==="sent"?"Reenviar invitación":"Enviar invitación"}</button>`:""}${self?'<span class="muted">Tu cuenta</span>':`<button class="btn danger" data-admin-remove="${esc(u.email)}">Quitar</button>`}</div></td></tr>`;}).join("");
+  el("adminUsersBody").innerHTML=users.map(u=>{const pr=u.user_id?byUser[u.user_id]:null,d=pr?.data||{},done=Object.values(d.chapters||{}).filter(v=>v==="Completado").length,pract=Object.values(d.practices||{}).filter(Boolean).length,self=u.email===String(session.user.email||"").toLowerCase(),inviteLabel=u.auth_confirmed_at?tr("confirmed"):u.invitation_status==="sent"?tr("sent"):u.invitation_status==="failed"?tr("send_error"):tr("pending");return `<tr><td><strong>${esc(u.display_name||u.email)}</strong><br><span class="muted">${esc(u.email)}</span><br><span class="muted">${esc((u.preferred_language||"es").toUpperCase())}</span></td><td><span class="badge ${u.role==="admin"?"admin":""}">${u.role==="admin"?tr("administrator"):tr("member")}</span></td><td><span class="badge ${u.active?"":"off"}">${u.active?tr("active"):tr("inactive")}</span></td><td><span class="badge">${inviteLabel}</span>${u.invitation_sent_at?`<br><span class="muted">${fmtDate(u.invitation_sent_at)}</span>`:""}</td><td>${fmtDate(u.last_seen_at||pr?.updated_at)}</td><td>${done} cap. · ${pract} prácticas</td><td><div class="admin-actions"><button class="btn" data-admin-edit="${esc(u.email)}">${esc(tr("edit"))}</button>${!u.auth_confirmed_at?`<button class="btn" data-admin-resend="${esc(u.email)}">${u.invitation_status==="sent"?tr("resend_invite"):tr("send_invite")}</button>`:""}${self?'<span class="muted">Tu cuenta</span>':`<button class="btn danger" data-admin-remove="${esc(u.email)}">${esc(tr("remove"))}</button>`}</div></td></tr>`;}).join("");
   document.querySelectorAll("[data-admin-edit]").forEach(b=>b.addEventListener("click",()=>openEditUser(users.find(u=>u.email===b.dataset.adminEdit))));document.querySelectorAll("[data-admin-resend]").forEach(b=>b.addEventListener("click",()=>adminResendInvite(b.dataset.adminResend)));document.querySelectorAll("[data-admin-remove]").forEach(b=>b.addEventListener("click",()=>adminRemove(b.dataset.adminRemove)));
   if(showMessage)el("adminMsg").textContent="Listado actualizado automáticamente.";
 }
@@ -1772,13 +1932,25 @@ async function refreshPublishedCourse({showNotice=true,force=false}={}){
 
 async function handleSessionReady(){
   loadLocal();safeRenderAll();
+  const requestedLanguage=pendingLoginLanguage;
   const ok=await refreshAccess();
   if(!ok){courseContent={};safeRenderAll();return;}
+  if(requestedLanguage&&LANGS.includes(requestedLanguage)&&requestedLanguage!==accessProfile?.preferred_language){
+    try{
+      const {error}=await sb.rpc("update_my_course_profile",{p_display_name:accessProfile?.display_name||"",p_preferred_language:requestedLanguage});
+      if(!error){
+        accessProfile.preferred_language=requestedLanguage;
+        currentLanguage=requestedLanguage;
+        applyLanguage();
+      }
+    }catch(e){console.warn("No se pudo guardar el idioma elegido al acceder",e);}
+  }
+  pendingLoginLanguage=null;
   await syncOnLogin();
   await refreshPublishedCourse({showNotice:true,force:true});
   if(isAdmin)await renderAdminData(false);
   startContentPolling();
-  setAccessUI();renderProgress();
+  setAccessUI();safeRenderAll();renderProgress();
   if(incomingInvite){passwordRecoveryMode=true;setAccessUI();updateAuthUI();el("authMsg").textContent="Invitación aceptada. Define una contraseña para poder entrar posteriormente.";return;}
   if(loginTargetAdmin){loginTargetAdmin=false;openZone("administracion");}
 }
@@ -2085,12 +2257,13 @@ el("openPracticePickerBtn").addEventListener("click",()=>{renderPracticePicker()
 el("closePracticePickerBtn").addEventListener("click",()=>el("practicePickerDialog").close());
 el("progressSummaryBtn").addEventListener("click",()=>{renderProgress();const dlg=el("progressDialog");if(typeof dlg.showModal==="function")dlg.showModal();});
 el("closeProgressDialogBtn").addEventListener("click",()=>el("progressDialog").close());
+el("closeChapterFeedbackBtn").addEventListener("click",()=>el("chapterFeedbackDialog").close());
 el("practiceChapterSelect").addEventListener("change",e=>selectChapterFromControl(e.target.value,"practicas"));
 el("feedbackChapterSelect").addEventListener("change",e=>selectChapterFromControl(e.target.value,"feedback"));
 el("notes").addEventListener("input",e=>{state.notes[current]=e.target.value;saveLocal();});
 el("syncNowBtn").addEventListener("click",async()=>{if(!session){el("authMsg").textContent="Inicia sesión para sincronizar.";return;}await syncOnLogin();el("syncDetail").textContent="Sincronización completada.";});
 
-el("loginLanguageSelect").addEventListener("change",e=>{currentLanguage=e.target.value;applyLanguage();});
+el("loginLanguageSelect").addEventListener("change",e=>{currentLanguage=e.target.value;pendingLoginLanguage=currentLanguage;applyLanguage();});
 el("togglePasswordBtn").addEventListener("click",()=>{const input=el("authPassword"),show=input.type==="password";input.type=show?"text":"password";el("togglePasswordBtn").textContent=show?"◌":"◉";});
 el("saveProfileBtn").addEventListener("click",saveMyProfile);
 el("installAppBtn").addEventListener("click",openInstallDialog);el("closeInstallBtn").addEventListener("click",()=>el("installDialog").close());el("installNativeBtn").addEventListener("click",async()=>{if(!deferredInstallPrompt)return;deferredInstallPrompt.prompt();await deferredInstallPrompt.userChoice;deferredInstallPrompt=null;el("installDialog").close();updateInstallUI();});window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredInstallPrompt=e;updateInstallUI();});window.addEventListener("appinstalled",()=>{deferredInstallPrompt=null;updateInstallUI();});
