@@ -1,15 +1,13 @@
 {
-  "app_version": "19.0",
+  "app_version": "19.2",
   "name": "Curso IA ChatGPT",
-  "release": "Teoría + Ejercicios + Examen",
+  "release": "Capítulo 1 renovado: conocer y configurar ChatGPT",
   "changes": [
-    "Prácticas pasa a denominarse Examen sin perder progreso existente",
-    "Nueva pantalla Ejercicios con 3–4 tareas prácticas por capítulo",
-    "Los Ejercicios son opcionales y no condicionan el desbloqueo",
-    "El desbloqueo depende exclusivamente de Teoría y Examen del capítulo anterior",
-    "Feedback continúa apareciendo tras el examen pero no bloquea el avance",
-    "Progreso oficial calculado solo con Teoría y Examen",
-    "Fondo definitivo con cilindro holográfico proyectado por el robot",
-    "Ejercicios disponibles en seis idiomas para los capítulos 1 a 6"
+    "Capítulo 1 reorientado a conocer y configurar ChatGPT",
+    "Ajustes, Personalización, Memoria, Plugins, Biblioteca, Proyectos, Imágenes, Work y Sites",
+    "4 ejercicios prácticos nuevos de puesta en marcha",
+    "Examen 1 renovado con 12 preguntas y respuestas A/B/C/D equilibradas",
+    "fallback local/offline del capítulo 1 actualizado en seis idiomas",
+    "prueba del alumno incorporada a las políticas de Ejercicios y Examen"
   ]
 }

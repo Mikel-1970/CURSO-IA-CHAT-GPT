@@ -19,5 +19,17 @@
     "Exercises never unlock or block chapters"
   ],
   "completion_tracking": "optional; may be added later for information only, never for unlocking",
-  "unlock_rule": "Exercises become available after Theory reading for that chapter; they never block the next chapter."
+  "unlock_rule": "Exercises become available after Theory reading for that chapter; they never block the next chapter.",
+  "learner_perspective_review": {
+    "mandatory": true,
+    "checks": [
+      "The exercise is standalone and executable.",
+      "It provides concrete context/data or clearly tells the learner what material to choose or upload.",
+      "The learner knows exactly what to do.",
+      "Expected results are specific enough to compare against the ChatGPT output.",
+      "Observe criteria tell the learner what behaviour, error or quality signal to inspect.",
+      "Task, expected and observe are coherent.",
+      "Avoid abstract tasks such as 'build scenarios' without a defined case or data."
+    ]
+  }
 }

@@ -255,3 +255,29 @@ La estructura pedagógica queda separada en Teoría, Ejercicios opcionales y Exa
 - El feedback aparece después del examen, pero no bloquea.
 - El progreso oficial se calcula con Teoría y Examen.
 - Fondo definitivo de acceso: cilindro holográfico proyectado por el robot.
+
+
+## v19.1 — Revisión completa
+- Corrección global del selector de respuestas del Examen 7 y futuros exámenes.
+- Perfil editable campo a campo; rol y progreso de solo lectura.
+- Administración por pestañas: Perfil, Gestión de usuarios y Feedback.
+- Activación/desactivación y eliminación real de usuarios.
+- Progreso visible en cabecera móvil.
+- Fondo de acceso sin cilindro, con rayos holográficos desde la mano del robot.
+- Laboratorios aplicados dentro de Teoría para capítulos 1–7, con casos, comparación de instrucciones, flujo y controles.
+
+## v19.2 — Capítulo 1 renovado
+
+El capítulo 1 pasa a ser una puesta en marcha práctica de ChatGPT:
+- Qué es ChatGPT y sus funciones básicas.
+- Ajustes y configuración.
+- Personalización, personalidad e instrucciones personalizadas.
+- Memoria.
+- Plugins y apps conectadas.
+- Biblioteca.
+- Proyectos.
+- Imágenes.
+- Work y Sites.
+- Configuración inicial guiada.
+- Cuatro ejercicios prácticos y examen renovado.
+- Prueba del alumno obligatoria para futuros Ejercicios y Exámenes.
