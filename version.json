@@ -1,13 +1,18 @@
 {
-  "app_version": "19.2",
+  "app_version": "19.3",
   "name": "Curso IA ChatGPT",
-  "release": "Capítulo 1 renovado: conocer y configurar ChatGPT",
+  "release": "Excelencia de uso, Mis notas y evaluación reforzada",
   "changes": [
-    "Capítulo 1 reorientado a conocer y configurar ChatGPT",
-    "Ajustes, Personalización, Memoria, Plugins, Biblioteca, Proyectos, Imágenes, Work y Sites",
-    "4 ejercicios prácticos nuevos de puesta en marcha",
-    "Examen 1 renovado con 12 preguntas y respuestas A/B/C/D equilibradas",
-    "fallback local/offline del capítulo 1 actualizado en seis idiomas",
-    "prueba del alumno incorporada a las políticas de Ejercicios y Examen"
+    "Nueva zona Mis notas accesible desde el menú principal y el perfil",
+    "Notas independientes por alumno con capítulo, tipo, búsqueda, filtros, edición y eliminación",
+    "Acción Trabajar con ChatGPT que prepara y copia contexto + anotación y abre ChatGPT",
+    "Migración de las anotaciones existentes a la nueva estructura course_notes",
+    "Botón flotante para volver al inicio de la teoría",
+    "Mayor tamaño y contraste de las respuestas del examen, especialmente en iPhone",
+    "Feedback simplificado a ocho valoraciones de 0 a 10 y un comentario libre",
+    "Exámenes con distractores más plausibles y reglas para evitar pistas por estilo o longitud",
+    "Progreso basado exclusivamente en Teoría + Examen; ejercicios y feedback no bloquean",
+    "Fallback automático al contenido español cuando falta una traducción",
+    "Generador de capítulos actualizado a v3 y capítulo 9 publicado"
   ]
 }
