@@ -1,17 +1,18 @@
 {
   "app_version": "19.5",
   "name": "Curso IA ChatGPT",
-  "release": "Estabilización de perfil, usuarios, notas y diagnóstico inicial",
+  "release": "Estabilización, diagnóstico inicial y curso completo publicado",
   "changes": [
     "Desplazamiento al final más pausado y apertura de Teoría, Ejercicios, Examen, Feedback y Administración desde la parte superior",
     "Edición y eliminación reforzadas de notas; Copiar copia únicamente el texto de la anotación",
     "Persistencia reforzada de nombre, idioma, correo y contraseña desde Mi perfil",
-    "Gestión de usuarios reforzada para editar, activar, desactivar y eliminar",
+    "Gestión de usuarios reforzada para editar, activar, desactivar y eliminar sin alterar otros datos del perfil",
     "Alta de nuevos usuarios más robusta al establecer contraseña desde la invitación",
     "Durante el alta se muestra una sola selección de idioma",
     "Test diagnóstico inicial de 10 preguntas con dificultad y ponderación progresivas",
-    "El diagnóstico puede permitir comenzar en un capítulo posterior y deja constancia de los capítulos omitidos por nivel",
-    "Generador preparado para publicar en bloque los capítulos 10 a 17 manteniendo bloqueo secuencial por Teoría + Examen",
+    "El diagnóstico puede permitir comenzar en un capítulo posterior y registra los capítulos omitidos por nivel",
+    "Capítulos 10 a 17 publicados en Supabase; los posteriores permanecen bloqueados hasta completar Teoría + Examen del anterior, salvo salto diagnóstico",
+    "Capítulos 10 a 16 incluyen 10 preguntas de examen y el capítulo 17 mantiene una evaluación final de 30 preguntas",
     "Renovación completa de la caché PWA para distribuir automáticamente la V19.5"
   ]
 }
