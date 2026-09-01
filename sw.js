@@ -1,4 +1,4 @@
-const CACHE='curso-ia-v19-3-excelencia-r2';
+const CACHE='curso-ia-v19-3-excelencia-r3';
 const SHELL=['./manifest.webmanifest','./icon-192.png','./icon-512.png','./v19-3.css','./v19-3-app.js'];
 
 async function enhancedHtmlResponse(response){
@@ -33,6 +33,14 @@ self.addEventListener('activate',event=>{
     const keys=await caches.keys();
     await Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)));
     await self.clients.claim();
+    const clients=await self.clients.matchAll({type:'window',includeUncontrolled:true});
+    for(const client of clients){
+      try{
+        const url=new URL(client.url);
+        url.searchParams.set('appv','19.3');
+        await client.navigate(url.toString());
+      }catch(e){}
+    }
   })());
 });
 
@@ -56,7 +64,7 @@ self.addEventListener('fetch',event=>{
     const cached=await cache.match(event.request);
     if(cached)return cached;
     try{
-      const resp=await fetch(event.request);
+      const resp=await fetch(event.request,{cache:'no-store'});
       if(resp.ok)cache.put(event.request,resp.clone());
       return resp;
     }catch(e){return cached;}
