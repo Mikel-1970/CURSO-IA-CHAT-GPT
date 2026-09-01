@@ -1,18 +1,17 @@
 {
-  "app_version": "19.3",
+  "app_version": "19.4",
   "name": "Curso IA ChatGPT",
-  "release": "Excelencia de uso, Mis notas y evaluación reforzada",
+  "release": "Estabilización de navegación, notas y administración",
   "changes": [
-    "Nueva zona Mis notas accesible desde el menú principal y el perfil",
-    "Notas independientes por alumno con capítulo, tipo, búsqueda, filtros, edición y eliminación",
-    "Acción Trabajar con ChatGPT que prepara y copia contexto + anotación y abre ChatGPT",
-    "Migración de las anotaciones existentes a la nueva estructura course_notes",
-    "Botón flotante para volver al inicio de la teoría",
-    "Mayor tamaño y contraste de las respuestas del examen, especialmente en iPhone",
-    "Feedback simplificado a ocho valoraciones de 0 a 10 y un comentario libre",
-    "Exámenes con distractores más plausibles y reglas para evitar pistas por estilo o longitud",
-    "Progreso basado exclusivamente en Teoría + Examen; ejercicios y feedback no bloquean",
-    "Fallback automático al contenido español cuando falta una traducción",
-    "Generador de capítulos actualizado a v3 y capítulo 9 publicado"
+    "Botones flotantes para ir al inicio y al final de cualquier módulo desplazable",
+    "Sistema de múltiples notas por capítulo con título, tipo y texto",
+    "Mis notas permite consultar, filtrar, editar, copiar, eliminar y trabajar cada anotación con ChatGPT",
+    "Se conservan las notas antiguas y se ocultan visualmente duplicados incrementales provocados por la V19.3",
+    "Refuerzo de persistencia y refresco del perfil después de guardar cambios",
+    "Refuerzo del idioma elegido en la pantalla de acceso para evitar que vuelva visualmente al anterior antes de iniciar sesión",
+    "Refresco reforzado de Gestión de usuarios tras altas y modificaciones",
+    "Refresco reforzado del registro de feedback desde los datos ya almacenados en Supabase",
+    "La progresión continúa dependiendo exclusivamente de Teoría + Examen; Ejercicios y Feedback no bloquean",
+    "Renovación de la caché PWA para distribuir automáticamente la V19.4"
   ]
 }
