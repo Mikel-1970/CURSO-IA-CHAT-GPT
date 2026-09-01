@@ -1,17 +1,17 @@
 {
-  "app_version": "19.4",
+  "app_version": "19.5",
   "name": "Curso IA ChatGPT",
-  "release": "Estabilización de navegación, notas y administración",
+  "release": "Estabilización de perfil, usuarios, notas y diagnóstico inicial",
   "changes": [
-    "Botones flotantes para ir al inicio y al final de cualquier módulo desplazable",
-    "Sistema de múltiples notas por capítulo con título, tipo y texto",
-    "Mis notas permite consultar, filtrar, editar, copiar, eliminar y trabajar cada anotación con ChatGPT",
-    "Se conservan las notas antiguas y se ocultan visualmente duplicados incrementales provocados por la V19.3",
-    "Refuerzo de persistencia y refresco del perfil después de guardar cambios",
-    "Refuerzo del idioma elegido en la pantalla de acceso para evitar que vuelva visualmente al anterior antes de iniciar sesión",
-    "Refresco reforzado de Gestión de usuarios tras altas y modificaciones",
-    "Refresco reforzado del registro de feedback desde los datos ya almacenados en Supabase",
-    "La progresión continúa dependiendo exclusivamente de Teoría + Examen; Ejercicios y Feedback no bloquean",
-    "Renovación de la caché PWA para distribuir automáticamente la V19.4"
+    "Desplazamiento al final más pausado y apertura de Teoría, Ejercicios, Examen, Feedback y Administración desde la parte superior",
+    "Edición y eliminación reforzadas de notas; Copiar copia únicamente el texto de la anotación",
+    "Persistencia reforzada de nombre, idioma, correo y contraseña desde Mi perfil",
+    "Gestión de usuarios reforzada para editar, activar, desactivar y eliminar",
+    "Alta de nuevos usuarios más robusta al establecer contraseña desde la invitación",
+    "Durante el alta se muestra una sola selección de idioma",
+    "Test diagnóstico inicial de 10 preguntas con dificultad y ponderación progresivas",
+    "El diagnóstico puede permitir comenzar en un capítulo posterior y deja constancia de los capítulos omitidos por nivel",
+    "Generador preparado para publicar en bloque los capítulos 10 a 17 manteniendo bloqueo secuencial por Teoría + Examen",
+    "Renovación completa de la caché PWA para distribuir automáticamente la V19.5"
   ]
 }
