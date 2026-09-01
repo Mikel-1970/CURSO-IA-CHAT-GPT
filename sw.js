@@ -1,11 +1,11 @@
-const CACHE='curso-ia-v19-3-excelencia';
-const SHELL=['./manifest.webmanifest','./icon-192.png','./icon-512.png','./v19-3.css','./v19-3.js'];
+const CACHE='curso-ia-v19-3-excelencia-r2';
+const SHELL=['./manifest.webmanifest','./icon-192.png','./icon-512.png','./v19-3.css','./v19-3-app.js'];
 
 async function enhancedHtmlResponse(response){
   const text=await response.text();
   let html=text;
   if(!html.includes('v19-3.css'))html=html.replace('</head>','<link rel="stylesheet" href="./v19-3.css?v=19.3">\n</head>');
-  if(!html.includes('v19-3.js'))html=html.replace('</body>','<script src="./v19-3.js?v=19.3"></script>\n</body>');
+  if(!html.includes('v19-3-app.js'))html=html.replace('</body>','<script src="./v19-3-app.js?v=19.3"></script>\n</body>');
   const headers=new Headers(response.headers);
   headers.set('content-type','text/html; charset=utf-8');
   headers.set('cache-control','no-cache');
