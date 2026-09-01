@@ -1,12 +1,64 @@
-const CACHE='curso-ia-v19-2-capitulo1';
-const SHELL=['./','./index.html','./manifest.webmanifest','./icon-192.png','./icon-512.png'];
-self.addEventListener('install',event=>{event.waitUntil(caches.open(CACHE).then(c=>c.addAll(SHELL)).then(()=>self.skipWaiting()));});
-self.addEventListener('activate',event=>{event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim()));});
+const CACHE='curso-ia-v19-3-excelencia';
+const SHELL=['./manifest.webmanifest','./icon-192.png','./icon-512.png','./v19-3.css','./v19-3.js'];
+
+async function enhancedHtmlResponse(response){
+  const text=await response.text();
+  let html=text;
+  if(!html.includes('v19-3.css'))html=html.replace('</head>','<link rel="stylesheet" href="./v19-3.css?v=19.3">\n</head>');
+  if(!html.includes('v19-3.js'))html=html.replace('</body>','<script src="./v19-3.js?v=19.3"></script>\n</body>');
+  const headers=new Headers(response.headers);
+  headers.set('content-type','text/html; charset=utf-8');
+  headers.set('cache-control','no-cache');
+  return new Response(html,{status:response.status,statusText:response.statusText,headers});
+}
+
+self.addEventListener('install',event=>{
+  event.waitUntil((async()=>{
+    const cache=await caches.open(CACHE);
+    await cache.addAll(SHELL);
+    try{
+      const resp=await fetch('./index.html',{cache:'no-store'});
+      if(resp.ok){
+        const enhanced=await enhancedHtmlResponse(resp);
+        await cache.put('./index.html',enhanced.clone());
+        await cache.put('./',enhanced.clone());
+      }
+    }catch(e){}
+    await self.skipWaiting();
+  })());
+});
+
+self.addEventListener('activate',event=>{
+  event.waitUntil((async()=>{
+    const keys=await caches.keys();
+    await Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)));
+    await self.clients.claim();
+  })());
+});
+
 self.addEventListener('fetch',event=>{
-  if(event.request.method!=='GET') return;
+  if(event.request.method!=='GET')return;
   if(event.request.mode==='navigate'){
-    event.respondWith(fetch(event.request).then(resp=>{const copy=resp.clone();caches.open(CACHE).then(c=>c.put('./index.html',copy));return resp;}).catch(()=>caches.match('./index.html')));
+    event.respondWith((async()=>{
+      const cache=await caches.open(CACHE);
+      try{
+        const resp=await fetch(event.request,{cache:'no-store'});
+        const ct=resp.headers.get('content-type')||'';
+        const out=ct.includes('text/html')?await enhancedHtmlResponse(resp):resp;
+        if(out.ok){await cache.put('./index.html',out.clone());await cache.put('./',out.clone());}
+        return out;
+      }catch(e){return (await cache.match('./index.html'))||(await cache.match('./'));}
+    })());
     return;
   }
-  event.respondWith(caches.match(event.request).then(cached=>cached||fetch(event.request).then(resp=>{const copy=resp.clone();caches.open(CACHE).then(c=>c.put(event.request,copy));return resp;})));
+  event.respondWith((async()=>{
+    const cache=await caches.open(CACHE);
+    const cached=await cache.match(event.request);
+    if(cached)return cached;
+    try{
+      const resp=await fetch(event.request);
+      if(resp.ok)cache.put(event.request,resp.clone());
+      return resp;
+    }catch(e){return cached;}
+  })());
 });
