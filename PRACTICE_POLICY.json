@@ -1,33 +1,37 @@
 {
   "exam_design": {
     "storage_compatibility": "The existing practice field/state remains the Exam internally so previous progress is preserved.",
-    "selection_questions_target_percent": "70-80%",
-    "open_or_case_target_percent": "20-30%",
+    "selection_questions_target_percent": "80-100% until semantic correction of open questions is validated; afterwards keep a clear majority of selection questions.",
+    "open_or_case_target_percent": "Use sparingly and only when an open answer adds real learning value and its correction engine is reliable.",
     "selection_requires_written_reason": false,
     "blocking": true,
     "unlock_rule": "A chapter is complete when Theory reading and Exam are complete. Feedback and Exercises never block.",
     "when_to_use_open_questions": [
-      "write an instruction or prompt",
-      "solve a case where formulation is part of learning",
-      "explain reasoning that cannot reasonably be assessed with options"
+      "write an instruction or prompt when formulation itself is the learning objective",
+      "solve a case that cannot be assessed reliably with close alternatives",
+      "explain reasoning only when semantic correction has been validated"
     ],
     "choice_check_behavior": {
-      "correct": [
-        "show Correct",
-        "show selected answer",
-        "give a short useful explanation"
-      ],
-      "incorrect": [
-        "show Incorrect",
-        "show selected answer",
-        "show expected answer",
-        "give a short useful explanation"
-      ]
+      "correct": ["show Correct","show selected answer","give a short useful explanation"],
+      "incorrect": ["show Incorrect","show selected answer","show expected answer","give a short useful explanation"]
     },
     "choice_interaction": {
       "selection_method": "tap option directly; no separate dropdown",
       "after_check": "lock answer permanently and persist result locally and in cloud",
       "explanation": "show concise explanation after checking"
+    },
+    "distractor_quality_policy": {
+      "goal": "Assess understanding and judgement rather than recognition of the author's preferred writing style.",
+      "rules": [
+        "All alternatives must be plausible to a learner who has partial knowledge.",
+        "Whenever possible, make two or more alternatives differ only in a decisive technical or procedural nuance, similar to a rigorous driving-theory test.",
+        "Keep options reasonably similar in length, structure, tone and degree of detail.",
+        "The correct answer must not systematically be the longest, most structured, most cautious or most comprehensive option.",
+        "Deliberately include some questions where the correct option is the shortest.",
+        "Avoid giveaway words such as always, never, only or completely unless the concept genuinely requires them.",
+        "Prefer application and decision cases over literal recall.",
+        "Each question must still have one best-supported answer; difficulty must not come from ambiguity."
+      ]
     },
     "answer_position_policy": {
       "method": "balanced randomization",
@@ -45,8 +49,10 @@
         "The learner can understand what is being asked without knowing the author's intention.",
         "The question contains all necessary context or clearly states what the learner must supply.",
         "A selection question has one clearly best-supported answer.",
-        "Distractors are plausible but not ambiguous and do not reveal the correct answer by wording or length.",
-        "The explanation genuinely justifies the stored correct answer.",
+        "Every distractor would be credible to a partially informed learner.",
+        "The learner cannot identify the correct answer merely because it is longer, more structured or more cautious.",
+        "Distractors are plausible but not genuinely ambiguous.",
+        "The explanation genuinely justifies the stored correct answer and explains the decisive nuance.",
         "Question, options, answer and explanation are mutually consistent."
       ]
     }
