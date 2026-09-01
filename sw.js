@@ -1,11 +1,12 @@
-const CACHE='curso-ia-v19-4-estabilizacion-r1';
-const SHELL=['./manifest.webmanifest','./icon-192.png','./icon-512.png','./v19-3.css','./v19-3-app.js'];
+const CACHE='curso-ia-v19-5-estabilizacion-r1';
+const SHELL=['./manifest.webmanifest','./icon-192.png','./icon-512.png','./v19-3.css','./v19-3-app.js','./v19-5-fix.js'];
 
 async function enhancedHtmlResponse(response){
   const text=await response.text();
   let html=text;
-  if(!html.includes('v19-3.css'))html=html.replace('</head>','<link rel="stylesheet" href="./v19-3.css?v=19.4">\n</head>');
-  if(!html.includes('v19-3-app.js'))html=html.replace('</body>','<script src="./v19-3-app.js?v=19.4"></script>\n</body>');
+  if(!html.includes('v19-3.css'))html=html.replace('</head>','<link rel="stylesheet" href="./v19-3.css?v=19.5">\n</head>');
+  if(!html.includes('v19-3-app.js'))html=html.replace('</body>','<script src="./v19-3-app.js?v=19.5"></script>\n</body>');
+  if(!html.includes('v19-5-fix.js'))html=html.replace('</body>','<script src="./v19-5-fix.js?v=19.5"></script>\n</body>');
   const headers=new Headers(response.headers);
   headers.set('content-type','text/html; charset=utf-8');
   headers.set('cache-control','no-cache');
@@ -37,7 +38,7 @@ self.addEventListener('activate',event=>{
     for(const client of clients){
       try{
         const url=new URL(client.url);
-        url.searchParams.set('appv','19.4');
+        url.searchParams.set('appv','19.5');
         await client.navigate(url.toString());
       }catch(e){}
     }
