@@ -1,0 +1,73 @@
+/* Curso IA ChatGPT v19.3 — capa incremental sobre v19.2 */
+
+/* Respuestas de examen: mayor legibilidad y contraste */
+.choice-option-text{
+  font-size:17px!important;
+  line-height:1.5!important;
+  color:#f2f9ff!important;
+  font-weight:500!important;
+}
+.choice-option-row{
+  background:rgba(7,50,92,.66)!important;
+  border-color:rgba(114,207,255,.38)!important;
+}
+.choice-option-row.locked:not(.selected){opacity:.72!important}
+.choice-option-letter{font-size:1rem!important}
+@media(max-width:600px){
+  .choice-option-text{font-size:19px!important;line-height:1.52!important}
+  .choice-option-row{padding:14px 12px!important;gap:12px!important;grid-template-columns:42px minmax(0,1fr)!important}
+  .choice-option-letter{width:36px!important;height:36px!important;min-width:36px!important;max-width:36px!important;font-size:1.08rem!important}
+}
+
+/* Menú principal con nueva zona Mis notas */
+.zone-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+@media(max-width:900px){.zone-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+@media(max-width:560px){.zone-grid{grid-template-columns:1fr!important}}
+
+/* Botón flotante volver arriba en teoría */
+#theoryScrollTopBtn{
+  position:fixed;
+  right:max(14px,env(safe-area-inset-right));
+  top:max(92px,calc(env(safe-area-inset-top) + 74px));
+  z-index:80;
+  width:40px;height:40px;min-width:40px;min-height:40px;
+  border-radius:999px;
+  border:1px solid rgba(108,216,255,.62);
+  background:rgba(5,67,119,.82);
+  color:#eefdff;
+  box-shadow:0 8px 22px rgba(0,17,42,.28),0 0 18px rgba(44,190,255,.16);
+  backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);
+  font-size:20px;font-weight:900;
+  display:grid;place-items:center;
+  opacity:0;transform:translateY(-8px);pointer-events:none;
+  transition:opacity .18s ease,transform .18s ease;
+}
+#theoryScrollTopBtn.visible{opacity:.9;transform:none;pointer-events:auto}
+#theoryScrollTopBtn:hover{opacity:1}
+@media(max-width:600px){#theoryScrollTopBtn{right:max(10px,env(safe-area-inset-right));top:max(78px,calc(env(safe-area-inset-top) + 64px));width:38px;height:38px;min-width:38px;min-height:38px}}
+
+/* Mis notas */
+.notes-workspace-body{max-width:980px;margin:0 auto;padding:22px 16px 40px}
+.notes-toolbar{display:grid;grid-template-columns:minmax(0,1.5fr) 180px 180px;gap:10px;margin-bottom:14px}
+.notes-toolbar input,.notes-toolbar select,.note-editor select,.note-editor textarea{background:rgba(4,40,78,.76)!important;color:#eefaff!important;border-color:rgba(111,199,242,.38)!important}
+.note-editor{display:grid;gap:10px}
+.note-editor-grid{display:grid;grid-template-columns:180px 180px;gap:10px}
+.notes-list{display:grid;gap:12px;margin-top:16px}
+.note-item{padding:16px;border-radius:16px;border:1px solid rgba(91,196,247,.30);background:rgba(4,38,75,.72);box-shadow:0 10px 28px rgba(0,14,35,.12)}
+.note-item-head{display:flex;gap:8px;align-items:center;justify-content:space-between;margin-bottom:9px;flex-wrap:wrap}
+.note-meta{display:flex;gap:7px;align-items:center;flex-wrap:wrap}
+.note-chip{display:inline-flex;align-items:center;border-radius:999px;padding:4px 8px;font-size:.75rem;font-weight:800;background:rgba(24,120,194,.32);color:#bfeaff;border:1px solid rgba(98,201,246,.25)}
+.note-body{white-space:pre-wrap;line-height:1.52;color:#f1f9ff;overflow-wrap:anywhere}
+.note-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}
+.note-actions .btn{min-height:38px;padding:7px 10px;font-size:.82rem}
+.notes-empty{padding:22px;text-align:center;color:#c3dceb;border:1px dashed rgba(122,199,237,.30);border-radius:14px}
+.notes-status{min-height:1.25em;margin-top:8px;color:#bfe7fa;font-size:.86rem}
+.profile-notes-shortcut{margin-top:12px}
+@media(max-width:680px){
+  .notes-toolbar{grid-template-columns:1fr}
+  .note-editor-grid{grid-template-columns:1fr}
+  .notes-workspace-body{padding:16px 10px 32px}
+}
+
+/* El progreso ya está visible en cabecera: simplifica el perfil */
+.profile-row.v19-hide-progress{display:none!important}
