@@ -1,12 +1,12 @@
 {
-  "app_version": "19.5.1",
+  "app_version": "19.5.2",
   "name": "Curso IA ChatGPT",
-  "release": "Hotfix de acceso iOS/PWA sobre V19.5",
+  "release": "Corrección de bloqueo del acceso en iOS/PWA",
   "changes": [
-    "Restaurada la interacción táctil con los campos Usuario y Contraseña en la pantalla de acceso",
-    "Se cierran diálogos modales residuales que pudieran interceptar los toques mientras se muestra el login",
-    "Se fuerzan los campos de acceso a permanecer habilitados, editables y enfocables cuando corresponde",
-    "La PWA renueva su caché y carga automáticamente el hotfix de acceso",
-    "Se mantienen sin cambios el contenido, progreso, usuarios, notas y sincronización de V19.5"
+    "El test diagnóstico ya no puede abrirse mientras la pantalla de acceso esté visible",
+    "Se evita que un diálogo modal residual bloquee los campos Usuario y Contraseña",
+    "Los campos de acceso se fuerzan a permanecer habilitados, editables y enfocables",
+    "Se renueva completamente la caché PWA para distribuir la corrección",
+    "No se modifican usuarios, progreso, notas ni contenido del curso"
   ]
 }
