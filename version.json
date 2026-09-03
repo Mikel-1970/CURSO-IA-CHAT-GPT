@@ -1,17 +1,16 @@
 {
-  "app_version": "20.0-review.2",
+  "app_version": "20.0-review.3",
   "name": "Curso IA — Fundamentos de Inteligencia Artificial",
-  "release": "Revisión integral de teoría, prácticas y exámenes",
+  "release": "Revisión integral de contenido y modo de revisión",
   "changes": [
     "Curso inicial generalista de Inteligencia Artificial, separado de futuros cursos específicos de ChatGPT, Claude y otras herramientas",
+    "Capítulo 0 actualizado para explicar correctamente el curso generalista, el criterio de fuentes y el modo de revisión",
     "Capítulos 1 a 17 con tiempos de lectura y práctica diferenciados",
-    "Capítulos 1 a 4 y 11 a 17 completamente desarrollados; capítulos 5 a 10 conservan su teoría extensa y han sido homogeneizados",
-    "Exámenes de capítulos 1 a 16 normalizados a 8 preguntas de comprensión y aplicación",
-    "Evaluación final común de 18 preguntas para todos los niveles",
-    "Opciones de examen de longitud y estilo comparables y posiciones correctas redistribuidas sin patrones simples",
+    "Exámenes de capítulos 1 a 16 normalizados a 8 preguntas y evaluación final común de 18 preguntas",
+    "Opciones de examen revisadas para evitar pistas por longitud, estilo o posición",
     "Prácticas separadas con resultado esperado y corrección razonada",
     "Modo de revisión de administrador para recorrer todo el contenido sin modificar ni aprobar progreso",
-    "Puntuación global visible añadida a los exámenes normales además de la corrección por pregunta",
+    "Puntuación global visible en los exámenes normales además de la explicación por pregunta",
     "Interfaz temporalmente en español conservando las traducciones existentes",
     "Capa de coherencia para creación y borrado de notas",
     "La progresión ordinaria permanece activa para futuros usuarios y cursos"
