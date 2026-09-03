@@ -22,6 +22,7 @@ function installLoginCss(){
     }
     #loginScreen .login-field-icon{pointer-events:none!important;}
     #loginScreen .password-eye{position:relative!important;z-index:2147483002!important;pointer-events:auto!important;}
+    #loginHotfixVersion{position:fixed;left:max(8px,env(safe-area-inset-left));bottom:max(8px,env(safe-area-inset-bottom));z-index:2147483646;padding:4px 7px;border-radius:8px;background:rgba(0,24,54,.78);color:#dff6ff;font:600 11px/1.2 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;pointer-events:none;border:1px solid rgba(120,215,255,.35)}
   `;
   document.head.appendChild(style);
 }
@@ -33,6 +34,14 @@ function loginIsVisible(){
 function credentialsAreVisible(){
   const box=$('loggedOutBox');
   return loginIsVisible()&&!!box&&!box.classList.contains('hidden')&&getComputedStyle(box).display!=='none';
+}
+
+function addVersionBadge(){
+  if($('loginHotfixVersion'))return;
+  const b=document.createElement('div');
+  b.id='loginHotfixVersion';
+  b.textContent='v19.5.2';
+  document.body.appendChild(b);
 }
 
 function guardDiagnosticDialog(){
@@ -61,10 +70,12 @@ function clearUnexpectedModalBlockers(){
 
 function restoreCredentialFields(){
   installLoginCss();
+  addVersionBadge();
   guardDiagnosticDialog();
   const screen=$('loginScreen'),card=screen?.querySelector('.login-card');
   if(screen){screen.removeAttribute('inert');screen.style.pointerEvents='auto';}
   if(card){card.removeAttribute('inert');card.style.pointerEvents='auto';}
+  const badge=$('loginHotfixVersion');if(badge)badge.style.display=loginIsVisible()?'block':'none';
   if(!credentialsAreVisible())return;
   clearUnexpectedModalBlockers();
   ['authEmail','authPassword'].forEach(id=>{
