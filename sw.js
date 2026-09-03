@@ -1,4 +1,4 @@
-const CACHE='curso-ia-v19-5-login-hotfix-r4';
+const CACHE='curso-ia-v19-5-login-hotfix-r5';
 const SHELL=['./manifest.webmanifest','./icon-192.png','./icon-512.png','./v19-3.css','./v19-3-app.js','./v19-5-admin-hotfix.js','./v19-5-fix.js','./v19-5-login-hotfix.js'];
 
 async function enhancedHtmlResponse(response){
