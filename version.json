@@ -1,12 +1,12 @@
 {
-  "app_version": "19.5.2",
+  "app_version": "19.5.3",
   "name": "Curso IA ChatGPT",
-  "release": "Corrección de bloqueo del acceso en iOS/PWA",
+  "release": "Recuperación de interacción del login en iPhone/WebKit",
   "changes": [
-    "El test diagnóstico ya no puede abrirse mientras la pantalla de acceso esté visible",
-    "Se evita que un diálogo modal residual bloquee los campos Usuario y Contraseña",
-    "Los campos de acceso se fuerzan a permanecer habilitados, editables y enfocables",
-    "Se renueva completamente la caché PWA para distribuir la corrección",
+    "Se reconstruyen los campos Usuario y Contraseña como controles nativos nuevos",
+    "En iPhone se eliminan del login transformaciones y filtros de composición que pueden interferir con el foco táctil",
+    "Se cierran posibles diálogos residuales mientras la pantalla de acceso está visible",
+    "Se renueva completamente la caché PWA",
     "No se modifican usuarios, progreso, notas ni contenido del curso"
   ]
 }
