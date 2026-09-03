@@ -1,13 +1,14 @@
-const CACHE='curso-ia-v19-5-estabilizacion-r2';
-const SHELL=['./manifest.webmanifest','./icon-192.png','./icon-512.png','./v19-3.css','./v19-3-app.js','./v19-5-admin-hotfix.js','./v19-5-fix.js'];
+const CACHE='curso-ia-v20-beta-levels-1';
+const SHELL=['./manifest.webmanifest','./icon-192.png','./icon-512.png','./v19-3.css','./v19-3-app.js','./v19-5-admin-hotfix.js','./v19-5-fix.js','./v20-levels.js'];
 
 async function enhancedHtmlResponse(response){
   const text=await response.text();
   let html=text;
-  if(!html.includes('v19-3.css'))html=html.replace('</head>','<link rel="stylesheet" href="./v19-3.css?v=19.5">\n</head>');
-  if(!html.includes('v19-3-app.js'))html=html.replace('</body>','<script src="./v19-3-app.js?v=19.5"></script>\n</body>');
-  if(!html.includes('v19-5-admin-hotfix.js'))html=html.replace('</body>','<script src="./v19-5-admin-hotfix.js?v=19.5"></script>\n</body>');
-  if(!html.includes('v19-5-fix.js'))html=html.replace('</body>','<script src="./v19-5-fix.js?v=19.5"></script>\n</body>');
+  if(!html.includes('v19-3.css'))html=html.replace('</head>','<link rel="stylesheet" href="./v19-3.css?v=20b1">\n</head>');
+  if(!html.includes('v19-3-app.js'))html=html.replace('</body>','<script src="./v19-3-app.js?v=20b1"></script>\n</body>');
+  if(!html.includes('v19-5-admin-hotfix.js'))html=html.replace('</body>','<script src="./v19-5-admin-hotfix.js?v=20b1"></script>\n</body>');
+  if(!html.includes('v19-5-fix.js'))html=html.replace('</body>','<script src="./v19-5-fix.js?v=20b1"></script>\n</body>');
+  if(!html.includes('v20-levels.js'))html=html.replace('</body>','<script src="./v20-levels.js?v=20b1"></script>\n</body>');
   const headers=new Headers(response.headers);
   headers.set('content-type','text/html; charset=utf-8');
   headers.set('cache-control','no-cache');
@@ -39,7 +40,7 @@ self.addEventListener('activate',event=>{
     for(const client of clients){
       try{
         const url=new URL(client.url);
-        url.searchParams.set('appv','19.5');
+        url.searchParams.set('appv','20-beta-levels');
         await client.navigate(url.toString());
       }catch(e){}
     }
