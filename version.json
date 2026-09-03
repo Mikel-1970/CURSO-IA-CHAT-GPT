@@ -1,12 +1,15 @@
 {
-  "app_version": "19.5.3",
-  "name": "Curso IA ChatGPT",
-  "release": "Recuperación de interacción del login en iPhone/WebKit",
+  "app_version": "20.0-review.1",
+  "name": "Curso IA — Fundamentos de Inteligencia Artificial",
+  "release": "Primera fase de revisión integral del curso",
   "changes": [
-    "Se reconstruyen los campos Usuario y Contraseña como controles nativos nuevos",
-    "En iPhone se eliminan del login transformaciones y filtros de composición que pueden interferir con el foco táctil",
-    "Se cierran posibles diálogos residuales mientras la pantalla de acceso está visible",
-    "Se renueva completamente la caché PWA",
-    "No se modifican usuarios, progreso, notas ni contenido del curso"
+    "El curso inicial pasa a ser generalista de Inteligencia Artificial y deja de ser un curso específico de ChatGPT",
+    "Capítulos 1 a 4 reescritos con teoría desarrollada, tiempos de lectura, prácticas separadas y exámenes revisados",
+    "Se reorganiza el resto del temario manteniendo el contenido existente como base mientras continúa su revisión",
+    "Se añade modo de revisión para administradores sin alterar ni aprobar el progreso",
+    "El modo de revisión permite recorrer teoría, prácticas y exámenes y muestra puntuación y explicaciones",
+    "Temporalmente se fuerza la interfaz en español sin borrar las traducciones existentes",
+    "Se añade una capa de coherencia para creación y borrado de notas",
+    "La progresión ordinaria se conserva para futuros usuarios"
   ]
 }
