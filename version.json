@@ -1,15 +1,19 @@
 {
-  "app_version": "20.0-review.1",
+  "app_version": "20.0-review.2",
   "name": "Curso IA — Fundamentos de Inteligencia Artificial",
-  "release": "Primera fase de revisión integral del curso",
+  "release": "Revisión integral de teoría, prácticas y exámenes",
   "changes": [
-    "El curso inicial pasa a ser generalista de Inteligencia Artificial y deja de ser un curso específico de ChatGPT",
-    "Capítulos 1 a 4 reescritos con teoría desarrollada, tiempos de lectura, prácticas separadas y exámenes revisados",
-    "Se reorganiza el resto del temario manteniendo el contenido existente como base mientras continúa su revisión",
-    "Se añade modo de revisión para administradores sin alterar ni aprobar el progreso",
-    "El modo de revisión permite recorrer teoría, prácticas y exámenes y muestra puntuación y explicaciones",
-    "Temporalmente se fuerza la interfaz en español sin borrar las traducciones existentes",
-    "Se añade una capa de coherencia para creación y borrado de notas",
-    "La progresión ordinaria se conserva para futuros usuarios"
+    "Curso inicial generalista de Inteligencia Artificial, separado de futuros cursos específicos de ChatGPT, Claude y otras herramientas",
+    "Capítulos 1 a 17 con tiempos de lectura y práctica diferenciados",
+    "Capítulos 1 a 4 y 11 a 17 completamente desarrollados; capítulos 5 a 10 conservan su teoría extensa y han sido homogeneizados",
+    "Exámenes de capítulos 1 a 16 normalizados a 8 preguntas de comprensión y aplicación",
+    "Evaluación final común de 18 preguntas para todos los niveles",
+    "Opciones de examen de longitud y estilo comparables y posiciones correctas redistribuidas sin patrones simples",
+    "Prácticas separadas con resultado esperado y corrección razonada",
+    "Modo de revisión de administrador para recorrer todo el contenido sin modificar ni aprobar progreso",
+    "Puntuación global visible añadida a los exámenes normales además de la corrección por pregunta",
+    "Interfaz temporalmente en español conservando las traducciones existentes",
+    "Capa de coherencia para creación y borrado de notas",
+    "La progresión ordinaria permanece activa para futuros usuarios y cursos"
   ]
 }
