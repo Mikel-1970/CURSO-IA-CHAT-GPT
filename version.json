@@ -1,18 +1,18 @@
 {
-  "app_version": "19.5",
-  "name": "Curso IA ChatGPT",
-  "release": "Estabilización, diagnóstico inicial y curso completo publicado",
+  "app_version": "20.0-beta.1",
+  "name": "CURSO IA",
+  "release": "Inicio de evolución a academia multi-curso: diagnóstico por niveles sin saltos de capítulos",
   "changes": [
-    "Desplazamiento al final más pausado y apertura de Teoría, Ejercicios, Examen, Feedback y Administración desde la parte superior",
-    "Edición y eliminación reforzadas de notas; Copiar copia únicamente el texto de la anotación",
-    "Persistencia reforzada de nombre, idioma, correo y contraseña desde Mi perfil",
-    "Gestión de usuarios reforzada para editar, activar, desactivar y eliminar sin alterar otros datos del perfil",
-    "Alta de nuevos usuarios más robusta al establecer contraseña desde la invitación",
-    "Durante el alta se muestra una sola selección de idioma",
-    "Test diagnóstico inicial de 10 preguntas con dificultad y ponderación progresivas",
-    "El diagnóstico puede permitir comenzar en un capítulo posterior y registra los capítulos omitidos por nivel",
-    "Capítulos 10 a 17 publicados en Supabase; los posteriores permanecen bloqueados hasta completar Teoría + Examen del anterior, salvo salto diagnóstico",
-    "Capítulos 10 a 16 incluyen 10 preguntas de examen y el capítulo 17 mantiene una evaluación final de 30 preguntas",
-    "Renovación completa de la caché PWA para distribuir automáticamente la V19.5"
-  ]
+    "Se elimina del nuevo flujo la validación o salto automático de capítulos por diagnóstico",
+    "Todos los alumnos realizan todos los capítulos del curso",
+    "El test inicial pasa a recomendar Nivel 1, Nivel 2 o Nivel 3 con puntuación de 0 a 10",
+    "El diagnóstico comienza con 8 preguntas y añade 2 preguntas cuando necesita afinar la recomendación",
+    "Nivel 1 se recomienda con nota inferior a 5; Nivel 2 desde 5 hasta menos de 7; Nivel 3 desde 7 hasta 10",
+    "El alumno puede escoger un nivel distinto del recomendado antes de empezar",
+    "El nivel elegido y la puntuación se guardan en Supabase sin modificar el progreso de capítulos",
+    "Se prepara una API de nivel para que los siguientes bloques adapten teoría y ejercicios",
+    "La PWA carga el nuevo módulo mediante una caché independiente de desarrollo"
+  ],
+  "status": "development-branch",
+  "branch": "v20-beta-levels"
 }
