@@ -1,8 +1,9 @@
 /* Curso IA — unificación visual de versión y corrección de autofill iOS */
 (()=>{
 'use strict';
-const APP_VERSION='20.0-review.4';
+const APP_VERSION='20.0-review.5';
 const SHORT_VERSION='v20.0';
+let scheduled=false;
 
 function applyAutofillFix(){
   if(document.getElementById('v20AutofillFixStyle'))return;
@@ -29,25 +30,35 @@ function applyAutofillFix(){
   document.head.appendChild(st);
 }
 
+function setText(el,value){
+  if(el && el.textContent!==value)el.textContent=value;
+}
+
 function unifyVersion(){
-  document.querySelectorAll('.shell-brand .pill').forEach(el=>el.textContent=SHORT_VERSION);
+  scheduled=false;
+  document.querySelectorAll('.shell-brand .pill').forEach(el=>setText(el,SHORT_VERSION));
   const loginBadge=document.getElementById('loginHotfixVersion');
-  if(loginBadge)loginBadge.textContent=APP_VERSION;
+  setText(loginBadge,APP_VERSION);
   document.querySelectorAll('body *').forEach(el=>{
     if(el.children.length)return;
     const t=(el.textContent||'').trim();
-    if(/^v19(?:\.\d+)*(?:\.\d+)?$/i.test(t))el.textContent=SHORT_VERSION;
-    if(/^v19\.5\.3$/i.test(t))el.textContent=APP_VERSION;
+    if(/^v19(?:\.\d+)*$/i.test(t))setText(el,SHORT_VERSION);
   });
+}
+
+function scheduleUnify(){
+  if(scheduled)return;
+  scheduled=true;
+  requestAnimationFrame(unifyVersion);
 }
 
 function init(){
   applyAutofillFix();
   unifyVersion();
-  const obs=new MutationObserver(()=>{applyAutofillFix();unifyVersion();});
-  obs.observe(document.documentElement,{subtree:true,childList:true,characterData:true,attributes:false});
-  window.addEventListener('pageshow',unifyVersion,{passive:true});
-  document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')unifyVersion();});
+  const obs=new MutationObserver(scheduleUnify);
+  obs.observe(document.body,{subtree:true,childList:true,characterData:true});
+  window.addEventListener('pageshow',scheduleUnify,{passive:true});
+  document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')scheduleUnify();});
 }
 
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
