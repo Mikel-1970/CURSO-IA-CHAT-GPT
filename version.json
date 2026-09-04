@@ -1,15 +1,16 @@
 {
-  "app_version": "20.0-review.6",
+  "app_version": "20.0-review.7",
   "name": "Curso IA — Fundamentos de Inteligencia Artificial",
-  "release": "Navegación de revisión, notas coherentes y lectura completa",
+  "release": "Navegación de revisión y notas sin interceptores conflictivos",
   "changes": [
-    "Se añade navegación fija de revisión con Inicio, Teoría, Ejercicios, Examen y Notas para el administrador",
-    "Teoría, ejercicios y examen del revisor se abren en el modo de revisión con selector de capítulo en lugar de saltar al último capítulo visitado",
-    "Se añade un gestor de notas de revisión con creación, edición y borrado sobre una única ruta de Supabase",
-    "Se amplían y separan los botones de notas para evitar controles apiñados en móvil",
-    "Se elimina cualquier límite visual de altura en la teoría de revisión para evitar cortes de lectura",
-    "Se mantiene el desbloqueo exclusivo del revisor sin modificar su progreso ni las reglas de progresión de usuarios normales",
-    "Se mantiene la interfaz temporalmente en español y se conservan las traducciones existentes",
-    "Se conserva la puntuación global y explicación de los exámenes"
+    "Navegación fija del revisor con Inicio, Teoría, Ejercicios, Examen y Notas",
+    "Teoría, ejercicios y examen del administrador se abren con selector de capítulo en modo revisión",
+    "Se elimina la interceptación v20 que impedía refrescar correctamente las notas normales después de guardar o borrar",
+    "Se incorpora un gestor de notas de revisión con crear, editar y borrar sobre una única ruta de Supabase",
+    "Se amplían los botones de notas en móvil y se evita el apiñamiento",
+    "Se eliminan límites visuales de altura en teoría para evitar cortes de lectura",
+    "El desbloqueo de capítulos sigue siendo exclusivo del revisor y no altera progreso",
+    "La progresión normal, usuarios y datos existentes se preservan",
+    "La interfaz continúa temporalmente en español conservando las traducciones"
   ]
 }
