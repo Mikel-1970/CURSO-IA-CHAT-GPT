@@ -1,16 +1,19 @@
 {
-  "app_version": "20.0-review.7",
+  "app_version": "20.0-review.8",
   "name": "Curso IA — Fundamentos de Inteligencia Artificial",
-  "release": "Navegación de revisión y notas sin interceptores conflictivos",
+  "release": "Revisión funcional y pedagógica integral",
   "changes": [
     "Navegación fija del revisor con Inicio, Teoría, Ejercicios, Examen y Notas",
-    "Teoría, ejercicios y examen del administrador se abren con selector de capítulo en modo revisión",
-    "Se elimina la interceptación v20 que impedía refrescar correctamente las notas normales después de guardar o borrar",
-    "Se incorpora un gestor de notas de revisión con crear, editar y borrar sobre una única ruta de Supabase",
-    "Se amplían los botones de notas en móvil y se evita el apiñamiento",
-    "Se eliminan límites visuales de altura en teoría para evitar cortes de lectura",
-    "El desbloqueo de capítulos sigue siendo exclusivo del revisor y no altera progreso",
-    "La progresión normal, usuarios y datos existentes se preservan",
-    "La interfaz continúa temporalmente en español conservando las traducciones"
+    "Selector de capítulo en teoría, ejercicios y examen para evitar saltos al último capítulo visitado",
+    "Gestor de notas coherente con creación, edición y borrado sobre Supabase y RLS solo-propietario",
+    "Eliminación de interceptores v20 que impedían refrescar correctamente las notas normales",
+    "Botones de notas separados y adaptados a móvil",
+    "Eliminación de límites visuales de altura que podían cortar la teoría",
+    "Actualización de capítulos 1, 3, 11, 12, 14, 15 y 16 con planes, prompting proporcional, Projects, apps, Vibe Coding, agentes, MCP, skills, permisos y costes",
+    "Revisión de los 146 tests y sustitución de distractores demasiado absolutos por alternativas más plausibles",
+    "Normalización de todos los ejercicios con puntos de observación y corrección razonada",
+    "Puntuación global y explicación de respuestas mantenidas",
+    "Desbloqueo completo solo para el revisor sin alterar progreso ni reglas de usuarios normales",
+    "Interfaz temporalmente en español conservando traducciones y datos existentes"
   ]
 }
