@@ -1,12 +1,15 @@
 {
-  "app_version": "20.0-review.5",
+  "app_version": "20.0-review.6",
   "name": "Curso IA — Fundamentos de Inteligencia Artificial",
-  "release": "Corrección de arranque y unificación estable de versión",
+  "release": "Navegación de revisión, notas coherentes y lectura completa",
   "changes": [
-    "Se corrige un bucle de renderizado en la capa de unificación de versión que podía dejar la aplicación en blanco durante el arranque",
-    "Se mantiene una única versión visible v20.0 sin alternancia con etiquetas 19.x",
-    "Se renueva la caché PWA a curso-ia-v20-review-r5 para forzar la carga de la corrección",
-    "Se mantiene la corrección del autorrelleno iOS/WebKit en usuario y contraseña",
-    "Se conservan el curso generalista, el modo de revisión, los exámenes revisados, la puntuación global y la progresión ordinaria"
+    "Se añade navegación fija de revisión con Inicio, Teoría, Ejercicios, Examen y Notas para el administrador",
+    "Teoría, ejercicios y examen del revisor se abren en el modo de revisión con selector de capítulo en lugar de saltar al último capítulo visitado",
+    "Se añade un gestor de notas de revisión con creación, edición y borrado sobre una única ruta de Supabase",
+    "Se amplían y separan los botones de notas para evitar controles apiñados en móvil",
+    "Se elimina cualquier límite visual de altura en la teoría de revisión para evitar cortes de lectura",
+    "Se mantiene el desbloqueo exclusivo del revisor sin modificar su progreso ni las reglas de progresión de usuarios normales",
+    "Se mantiene la interfaz temporalmente en español y se conservan las traducciones existentes",
+    "Se conserva la puntuación global y explicación de los exámenes"
   ]
 }
