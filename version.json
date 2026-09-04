@@ -1,12 +1,12 @@
 {
-  "app_version": "20.0-review.4",
+  "app_version": "20.0-review.5",
   "name": "Curso IA — Fundamentos de Inteligencia Artificial",
-  "release": "Unificación de versión y corrección visual de acceso",
+  "release": "Corrección de arranque y unificación estable de versión",
   "changes": [
-    "Se unifica la versión visible de la aplicación en v20.0 y se elimina la mezcla de etiquetas 19.2, 19.4 y 19.5.3",
-    "Se añade una capa de sincronización visual de versión para evitar que los hotfix heredados vuelvan a mostrar números antiguos",
-    "Se renueva la caché PWA a curso-ia-v20-review-r4",
-    "Se corrige el fondo amarillo o crema aplicado por el autorrelleno de iOS/WebKit en usuario y contraseña",
-    "Se mantienen el curso generalista, el modo de revisión, los exámenes revisados, la puntuación global y la progresión ordinaria"
+    "Se corrige un bucle de renderizado en la capa de unificación de versión que podía dejar la aplicación en blanco durante el arranque",
+    "Se mantiene una única versión visible v20.0 sin alternancia con etiquetas 19.x",
+    "Se renueva la caché PWA a curso-ia-v20-review-r5 para forzar la carga de la corrección",
+    "Se mantiene la corrección del autorrelleno iOS/WebKit en usuario y contraseña",
+    "Se conservan el curso generalista, el modo de revisión, los exámenes revisados, la puntuación global y la progresión ordinaria"
   ]
 }
