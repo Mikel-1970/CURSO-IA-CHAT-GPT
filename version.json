@@ -1,18 +1,12 @@
 {
-  "app_version": "20.0-review.3",
+  "app_version": "20.0-review.4",
   "name": "Curso IA — Fundamentos de Inteligencia Artificial",
-  "release": "Revisión integral de contenido y modo de revisión",
+  "release": "Unificación de versión y corrección visual de acceso",
   "changes": [
-    "Curso inicial generalista de Inteligencia Artificial, separado de futuros cursos específicos de ChatGPT, Claude y otras herramientas",
-    "Capítulo 0 actualizado para explicar correctamente el curso generalista, el criterio de fuentes y el modo de revisión",
-    "Capítulos 1 a 17 con tiempos de lectura y práctica diferenciados",
-    "Exámenes de capítulos 1 a 16 normalizados a 8 preguntas y evaluación final común de 18 preguntas",
-    "Opciones de examen revisadas para evitar pistas por longitud, estilo o posición",
-    "Prácticas separadas con resultado esperado y corrección razonada",
-    "Modo de revisión de administrador para recorrer todo el contenido sin modificar ni aprobar progreso",
-    "Puntuación global visible en los exámenes normales además de la explicación por pregunta",
-    "Interfaz temporalmente en español conservando las traducciones existentes",
-    "Capa de coherencia para creación y borrado de notas",
-    "La progresión ordinaria permanece activa para futuros usuarios y cursos"
+    "Se unifica la versión visible de la aplicación en v20.0 y se elimina la mezcla de etiquetas 19.2, 19.4 y 19.5.3",
+    "Se añade una capa de sincronización visual de versión para evitar que los hotfix heredados vuelvan a mostrar números antiguos",
+    "Se renueva la caché PWA a curso-ia-v20-review-r4",
+    "Se corrige el fondo amarillo o crema aplicado por el autorrelleno de iOS/WebKit en usuario y contraseña",
+    "Se mantienen el curso generalista, el modo de revisión, los exámenes revisados, la puntuación global y la progresión ordinaria"
   ]
 }
