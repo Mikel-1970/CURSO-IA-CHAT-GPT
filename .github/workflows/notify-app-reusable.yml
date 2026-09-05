@@ -1,0 +1,108 @@
+name: Aviso Pushover reutilizable
+
+on:
+  workflow_call:
+    inputs:
+      project:
+        description: Nombre del proyecto o app
+        required: true
+        type: string
+      version:
+        description: Versión o revisión
+        required: false
+        default: ""
+        type: string
+      app_url:
+        description: Enlace directo a la app o resultado
+        required: false
+        default: ""
+        type: string
+      build_result:
+        description: Resultado de compilación (success/failure/skipped/cancelled)
+        required: false
+        default: success
+        type: string
+      deploy_result:
+        description: Resultado de despliegue (success/failure/skipped/cancelled)
+        required: false
+        default: success
+        type: string
+      validate_result:
+        description: Resultado de validación final
+        required: true
+        type: string
+      validation_detail:
+        description: Detalle opcional de las validaciones
+        required: false
+        default: ""
+        type: string
+    secrets:
+      PUSHOVER_USER_KEY:
+        required: true
+      PUSHOVER_APP_TOKEN:
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  notify:
+    name: Determinar estado y notificar
+    runs-on: ubuntu-latest
+    steps:
+      - name: Enviar aviso Pushover
+        env:
+          PROJECT: ${{ inputs.project }}
+          VERSION: ${{ inputs.version }}
+          APP_URL: ${{ inputs.app_url }}
+          BUILD_RESULT: ${{ inputs.build_result }}
+          DEPLOY_RESULT: ${{ inputs.deploy_result }}
+          VALIDATE_RESULT: ${{ inputs.validate_result }}
+          VALIDATION_DETAIL: ${{ inputs.validation_detail }}
+          PUSHOVER_USER_KEY: ${{ secrets.PUSHOVER_USER_KEY }}
+          PUSHOVER_APP_TOKEN: ${{ secrets.PUSHOVER_APP_TOKEN }}
+        run: |
+          set -euo pipefail
+
+          SHORT_SHA="${GITHUB_SHA::7}"
+          RUN_URL="https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+
+          if [ "$BUILD_RESULT" = "success" ] && [ "$DEPLOY_RESULT" = "success" ] && [ "$VALIDATE_RESULT" = "success" ]; then
+            STATUS="CORRECTO"
+            TITLE="${PROJECT} · ${STATUS}"
+            if [ -n "$VERSION" ]; then
+              MESSAGE="Versión ${VERSION} desplegada y validada. Commit ${SHORT_SHA}. Disponible para probar."
+            else
+              MESSAGE="Revisión ${SHORT_SHA} desplegada y validada. Disponible para probar."
+            fi
+            if [ -n "$VALIDATION_DETAIL" ]; then
+              MESSAGE="${MESSAGE} ${VALIDATION_DETAIL}"
+            fi
+            LINK="${APP_URL:-$RUN_URL}"
+            LINK_TITLE="Abrir ${PROJECT}"
+          else
+            STATUS="ERROR"
+            if [ "$BUILD_RESULT" != "success" ]; then
+              PHASE="compilación"
+            elif [ "$DEPLOY_RESULT" != "success" ]; then
+              PHASE="despliegue"
+            else
+              PHASE="validación"
+            fi
+            TITLE="${PROJECT} · ${STATUS}"
+            MESSAGE="El proceso no ha quedado validado. Fallo en ${PHASE}. Commit ${SHORT_SHA}. No se comunica como listo."
+            if [ -n "$VALIDATION_DETAIL" ]; then
+              MESSAGE="${MESSAGE} ${VALIDATION_DETAIL}"
+            fi
+            LINK="$RUN_URL"
+            LINK_TITLE="Ver ejecución en GitHub"
+          fi
+
+          curl --fail --silent --show-error \
+            --form-string "token=$PUSHOVER_APP_TOKEN" \
+            --form-string "user=$PUSHOVER_USER_KEY" \
+            --form-string "title=$TITLE" \
+            --form-string "message=$MESSAGE" \
+            --form-string "url=$LINK" \
+            --form-string "url_title=$LINK_TITLE" \
+            https://api.pushover.net/1/messages.json
