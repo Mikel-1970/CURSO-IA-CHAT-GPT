@@ -1,7 +1,7 @@
 /* Curso IA — unificación visual de versión y corrección de autofill iOS */
 (()=>{
 'use strict';
-const APP_VERSION='20.0-review.8';
+const APP_VERSION='20.0-review.9';
 const SHORT_VERSION='v20.0';
 let scheduled=false;
 
