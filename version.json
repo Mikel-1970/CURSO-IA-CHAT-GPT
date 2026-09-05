@@ -1,14 +1,15 @@
 {
-  "app_version": "20.0-review.9",
+  "app_version": "20.0-review.10",
   "name": "Curso IA — Fundamentos de Inteligencia Artificial",
-  "release": "Arranque y publicación estabilizados",
+  "release": "Estabilización y mejora de rendimiento móvil",
   "changes": [
-    "Se sustituye el arranque frágil basado en precache completo por un service worker mínimo que activa inmediatamente la nueva revisión",
-    "Se añade v20-bootstrap.js para cargar en orden todas las capas funcionales de la revisión 20",
-    "La navegación HTML servida por el service worker se fuerza sin caché y con versión 20 visible",
-    "Se eliminan cachés curso-ia anteriores al activar la nueva revisión",
-    "Se conserva la revisión funcional y pedagógica integral: navegación fija, selector de capítulo, notas coherentes, teoría sin cortes, tests y ejercicios revisados",
-    "Se mantiene el desbloqueo completo solo para el revisor y la progresión normal para futuros usuarios",
+    "Mantiene la revisión funcional y pedagógica integral",
+    "Elimina la observación global del DOM usada para corregir etiquetas de versión",
+    "Reduce trabajo repetitivo de renderizado en iPhone/iOS",
+    "Añade caché estable para scripts, estilos, iconos y fondo de la aplicación",
+    "Mantiene navegación fija del revisor con Inicio, Teoría, Ejercicios, Examen y Notas",
+    "Mantiene selector de capítulo en teoría, ejercicios y examen",
+    "Mantiene gestor de notas, puntuaciones y desbloqueo exclusivo para revisión",
     "Interfaz temporalmente en español conservando traducciones y datos existentes"
   ]
 }
