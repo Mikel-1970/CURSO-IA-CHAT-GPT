@@ -1,9 +1,9 @@
-/* CURSO IA — arranque directo de la revisión 20.0-review.9
+/* CURSO IA — arranque directo de la revisión 20.0-review.10
    Carga las capas de revisión en orden y evita depender de múltiples inyecciones HTML.
 */
 (()=>{
 'use strict';
-const VERSION='20.0-review.9';
+const VERSION='20.0-review.10';
 const scripts=[
   './v19-3-app.js',
   './v19-5-admin-hotfix.js',
