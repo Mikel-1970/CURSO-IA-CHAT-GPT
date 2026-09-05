@@ -1,6 +1,11 @@
-const CACHE='curso-ia-v20-review-r9';
-const VERSION='20.0-review.9';
+const CACHE='curso-ia-v20-review-r10';
+const VERSION='20.0-review.10';
 const FALLBACK='./index.html';
+const STATIC=[
+  './v20-bootstrap.js','./v19-3.css','./v19-3-app.js','./v19-5-admin-hotfix.js','./v19-5-fix.js','./v19-5-login-hotfix.js',
+  './v20-review-mode.js','./v20-exam-score.js','./v20-version-unify.js','./v20-review-ux.js',
+  './manifest.webmanifest','./icon-192.png','./icon-512.png','./login-futurista.png'
+];
 
 function injectBootstrap(html){
   if(!html.includes('v20-bootstrap.js')){
@@ -20,7 +25,13 @@ async function networkHtml(request){
 }
 
 self.addEventListener('install',event=>{
-  event.waitUntil(self.skipWaiting());
+  event.waitUntil((async()=>{
+    const cache=await caches.open(CACHE);
+    await Promise.all(STATIC.map(async url=>{
+      try{const r=await fetch(`${url}?v=${VERSION}`,{cache:'no-store'});if(r.ok)await cache.put(`${url}?v=${VERSION}`,r.clone());}catch(e){}
+    }));
+    await self.skipWaiting();
+  })());
 });
 
 self.addEventListener('activate',event=>{
@@ -28,15 +39,6 @@ self.addEventListener('activate',event=>{
     const keys=await caches.keys();
     await Promise.all(keys.filter(k=>k.startsWith('curso-ia-')&&k!==CACHE).map(k=>caches.delete(k)));
     await self.clients.claim();
-    const clients=await self.clients.matchAll({type:'window',includeUncontrolled:true});
-    for(const client of clients){
-      try{
-        const u=new URL(client.url);
-        u.searchParams.set('appv',VERSION);
-        u.searchParams.set('_sw',Date.now().toString());
-        await client.navigate(u.toString());
-      }catch(e){}
-    }
   })());
 });
 
@@ -46,10 +48,7 @@ self.addEventListener('fetch',event=>{
     event.respondWith((async()=>{
       try{
         const out=await networkHtml(event.request);
-        if(out.ok){
-          const cache=await caches.open(CACHE);
-          await cache.put(FALLBACK,out.clone());
-        }
+        if(out.ok){const cache=await caches.open(CACHE);await cache.put(FALLBACK,out.clone());}
         return out;
       }catch(e){
         const cache=await caches.open(CACHE);
@@ -60,14 +59,21 @@ self.addEventListener('fetch',event=>{
     })());
     return;
   }
-  event.respondWith((async()=>{
-    try{
-      return await fetch(event.request,{cache:'no-store'});
-    }catch(e){
+  const url=new URL(event.request.url);
+  const isLocal=url.origin===self.location.origin;
+  if(isLocal){
+    event.respondWith((async()=>{
       const cache=await caches.open(CACHE);
       const cached=await cache.match(event.request);
       if(cached)return cached;
-      throw e;
-    }
-  })());
+      try{
+        const resp=await fetch(event.request);
+        if(resp.ok)await cache.put(event.request,resp.clone());
+        return resp;
+      }catch(e){
+        if(cached)return cached;
+        throw e;
+      }
+    })());
+  }
 });
