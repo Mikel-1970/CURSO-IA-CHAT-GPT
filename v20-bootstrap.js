@@ -10,8 +10,7 @@ const scripts=[
   './v19-5-admin-hotfix.js',
   './v19-5-fix.js',
   './v19-5-login-hotfix.js',
-  './v20-exam-score.js',
-  './v20-version-unify.js'
+  './v20-exam-score.js'
 ];
 function addCss(){
   if(document.querySelector('link[data-v20-bootstrap-css]'))return;
