@@ -1,0 +1,129 @@
+name: Validar Curso IA y notificar
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: curso-ia-notify
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Validar versión publicada
+    runs-on: ubuntu-latest
+    outputs:
+      result: ${{ steps.validate.outputs.result }}
+      detail: ${{ steps.validate.outputs.detail }}
+    steps:
+      - name: Descargar repositorio
+        uses: actions/checkout@v4
+
+      - name: Comprobar despliegue publicado
+        id: validate
+        env:
+          BASE_URL: https://mikel-1970.github.io/CURSO-IA-CHAT-GPT
+          EXPECTED_COMMIT: ${{ github.sha }}
+        run: |
+          set +e
+          files=("index.html" "manifest.webmanifest" "sw.js")
+          ok=0
+
+          for attempt in $(seq 1 18); do
+            echo "Intento $attempt/18"
+            all_match=1
+
+            for file in "${files[@]}"; do
+              if [ ! -f "$file" ]; then
+                echo "No existe en repositorio: $file"
+                all_match=0
+                break
+              fi
+
+              expected=$(sha256sum "$file" | awk '{print $1}')
+              url="${BASE_URL}/${file}?commit=${EXPECTED_COMMIT}&t=$(date +%s)"
+
+              if ! curl --fail --silent --show-error --location \
+                -H "Cache-Control: no-cache" \
+                "$url" -o "/tmp/${file//\//_}"; then
+                echo "Aún no disponible: $file"
+                all_match=0
+                break
+              fi
+
+              actual=$(sha256sum "/tmp/${file//\//_}" | awk '{print $1}')
+              echo "$file esperado=$expected publicado=$actual"
+
+              if [ "$expected" != "$actual" ]; then
+                all_match=0
+                break
+              fi
+            done
+
+            if [ "$all_match" -eq 1 ]; then
+              ok=1
+              break
+            fi
+
+            sleep 10
+          done
+
+          if [ "$ok" -eq 1 ]; then
+            echo "result=success" >> "$GITHUB_OUTPUT"
+            echo "detail=La revisión publicada coincide con el repositorio." >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          echo "result=failure" >> "$GITHUB_OUTPUT"
+          echo "detail=La web publicada no coincide con la revisión esperada tras los reintentos." >> "$GITHUB_OUTPUT"
+          exit 1
+
+  notify:
+    name: Notificar resultado
+    needs: validate
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Enviar Pushover si hay credenciales configuradas
+        env:
+          PUSHOVER_USER_KEY: ${{ secrets.PUSHOVER_USER_KEY }}
+          PUSHOVER_APP_TOKEN: ${{ secrets.PUSHOVER_APP_TOKEN }}
+          VALIDATE_RESULT: ${{ needs.validate.result }}
+          VALIDATE_DETAIL: ${{ needs.validate.outputs.detail }}
+          COMMIT_SHA: ${{ github.sha }}
+          RUN_ID: ${{ github.run_id }}
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          if [ -z "$PUSHOVER_USER_KEY" ] || [ -z "$PUSHOVER_APP_TOKEN" ]; then
+            echo "Pushover no configurado en este repositorio; se omite el envío."
+            exit 0
+          fi
+
+          SHORT_SHA="${COMMIT_SHA::7}"
+          APP_URL="https://mikel-1970.github.io/CURSO-IA-CHAT-GPT/"
+          RUN_URL="https://github.com/${REPOSITORY}/actions/runs/${RUN_ID}"
+
+          if [ "$VALIDATE_RESULT" = "success" ]; then
+            TITLE="CURSO IA · CORRECTO"
+            MESSAGE="Revisión ${SHORT_SHA} desplegada y validada. Disponible para probar."
+            LINK="$APP_URL"
+            LINK_TITLE="Abrir Curso IA"
+          else
+            TITLE="CURSO IA · ERROR"
+            MESSAGE="La publicación no ha quedado validada. ${VALIDATE_DETAIL} Revisión ${SHORT_SHA}. No se comunica como lista."
+            LINK="$RUN_URL"
+            LINK_TITLE="Ver ejecución en GitHub"
+          fi
+
+          curl --fail --silent --show-error \
+            --form-string "token=$PUSHOVER_APP_TOKEN" \
+            --form-string "user=$PUSHOVER_USER_KEY" \
+            --form-string "title=$TITLE" \
+            --form-string "message=$MESSAGE" \
+            --form-string "url=$LINK" \
+            --form-string "url_title=$LINK_TITLE" \
+            https://api.pushover.net/1/messages.json
