@@ -1,18 +1,17 @@
-/* CURSO IA — arranque directo de la revisión 20.0-review.10
-   Carga las capas de revisión en orden y evita depender de múltiples inyecciones HTML.
+/* CURSO IA — arranque estable v20.1.0
+   Carga únicamente las capas necesarias para el uso normal de la aplicación.
+   El modo editorial de revisión queda desactivado para que el administrador pruebe la app como un usuario normal.
 */
 (()=>{
 'use strict';
-const VERSION='20.0-review.10';
+const VERSION='20.1.0';
 const scripts=[
   './v19-3-app.js',
   './v19-5-admin-hotfix.js',
   './v19-5-fix.js',
   './v19-5-login-hotfix.js',
-  './v20-review-mode.js',
   './v20-exam-score.js',
-  './v20-version-unify.js',
-  './v20-review-ux.js'
+  './v20-version-unify.js'
 ];
 function addCss(){
   if(document.querySelector('link[data-v20-bootstrap-css]'))return;
