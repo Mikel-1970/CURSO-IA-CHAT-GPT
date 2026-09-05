@@ -87,44 +87,12 @@ jobs:
     name: Notificar resultado
     needs: validate
     if: ${{ always() }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: Enviar Pushover si hay credenciales configuradas
-        env:
-          PUSHOVER_USER_KEY: ${{ secrets.PUSHOVER_USER_KEY }}
-          PUSHOVER_APP_TOKEN: ${{ secrets.PUSHOVER_APP_TOKEN }}
-          VALIDATE_RESULT: ${{ needs.validate.result }}
-          VALIDATE_DETAIL: ${{ needs.validate.outputs.detail }}
-          COMMIT_SHA: ${{ github.sha }}
-          RUN_ID: ${{ github.run_id }}
-          REPOSITORY: ${{ github.repository }}
-        run: |
-          if [ -z "$PUSHOVER_USER_KEY" ] || [ -z "$PUSHOVER_APP_TOKEN" ]; then
-            echo "Pushover no configurado en este repositorio; se omite el envío."
-            exit 0
-          fi
-
-          SHORT_SHA="${COMMIT_SHA::7}"
-          APP_URL="https://mikel-1970.github.io/CURSO-IA-CHAT-GPT/"
-          RUN_URL="https://github.com/${REPOSITORY}/actions/runs/${RUN_ID}"
-
-          if [ "$VALIDATE_RESULT" = "success" ]; then
-            TITLE="CURSO IA · CORRECTO"
-            MESSAGE="Revisión ${SHORT_SHA} desplegada y validada. Disponible para probar."
-            LINK="$APP_URL"
-            LINK_TITLE="Abrir Curso IA"
-          else
-            TITLE="CURSO IA · ERROR"
-            MESSAGE="La publicación no ha quedado validada. ${VALIDATE_DETAIL} Revisión ${SHORT_SHA}. No se comunica como lista."
-            LINK="$RUN_URL"
-            LINK_TITLE="Ver ejecución en GitHub"
-          fi
-
-          curl --fail --silent --show-error \
-            --form-string "token=$PUSHOVER_APP_TOKEN" \
-            --form-string "user=$PUSHOVER_USER_KEY" \
-            --form-string "title=$TITLE" \
-            --form-string "message=$MESSAGE" \
-            --form-string "url=$LINK" \
-            --form-string "url_title=$LINK_TITLE" \
-            https://api.pushover.net/1/messages.json
+    uses: Mikel-1970/CURSO-IA-CHAT-GPT/.github/workflows/notify-app-reusable.yml@main
+    with:
+      project: CURSO IA
+      app_url: https://mikel-1970.github.io/CURSO-IA-CHAT-GPT/
+      validate_result: ${{ needs.validate.result }}
+      validation_detail: ${{ needs.validate.outputs.detail }}
+    secrets:
+      PUSHOVER_USER_KEY: ${{ secrets.PUSHOVER_USER_KEY }}
+      PUSHOVER_APP_TOKEN: ${{ secrets.PUSHOVER_APP_TOKEN }}
