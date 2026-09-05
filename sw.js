@@ -1,9 +1,9 @@
-const CACHE='curso-ia-v20-review-r10';
-const VERSION='20.0-review.10';
+const CACHE='curso-ia-v20-1-stable-r1';
+const VERSION='20.1.0';
 const FALLBACK='./index.html';
 const STATIC=[
   './v20-bootstrap.js','./v19-3.css','./v19-3-app.js','./v19-5-admin-hotfix.js','./v19-5-fix.js','./v19-5-login-hotfix.js',
-  './v20-review-mode.js','./v20-exam-score.js','./v20-version-unify.js','./v20-review-ux.js',
+  './v20-exam-score.js',
   './manifest.webmanifest','./icon-192.png','./icon-512.png','./login-futurista.png'
 ];
 
@@ -11,7 +11,7 @@ function injectBootstrap(html){
   if(!html.includes('v20-bootstrap.js')){
     html=html.replace('</body>',`<script src="./v20-bootstrap.js?v=${VERSION}"></script>\n</body>`);
   }
-  html=html.replace(/<span class="pill ok">v19\.2<\/span>/g,'<span class="pill ok">v20.0</span>');
+  html=html.replace(/<span class="pill ok">v19\.2<\/span>/g,'<span class="pill ok">v20.1</span>');
   return html;
 }
 
@@ -67,7 +67,7 @@ self.addEventListener('fetch',event=>{
       const cached=await cache.match(event.request);
       if(cached)return cached;
       try{
-        const resp=await fetch(event.request);
+        const resp=await fetch(event.request,{cache:'no-store'});
         if(resp.ok)await cache.put(event.request,resp.clone());
         return resp;
       }catch(e){
