@@ -1,0 +1,132 @@
+name: Aviso INGITECH central reutilizable
+
+on:
+  workflow_call:
+    inputs:
+      project:
+        description: Nombre del proyecto o app
+        required: true
+        type: string
+      process:
+        description: Proceso que ha finalizado
+        required: false
+        default: despliegue
+        type: string
+      version:
+        description: Versión o revisión
+        required: false
+        default: ""
+        type: string
+      app_url:
+        description: Enlace directo a la app o resultado
+        required: false
+        default: ""
+        type: string
+      build_result:
+        description: Resultado de compilación
+        required: false
+        default: success
+        type: string
+      deploy_result:
+        description: Resultado de despliegue
+        required: false
+        default: success
+        type: string
+      validate_result:
+        description: Resultado de validación final
+        required: true
+        type: string
+      validation_detail:
+        description: Detalle de validaciones
+        required: false
+        default: ""
+        type: string
+      action_required:
+        description: Acción requerida si existe
+        required: false
+        default: ""
+        type: string
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  notify:
+    name: Determinar estado y avisar
+    runs-on: ubuntu-latest
+    steps:
+      - name: Determinar estado
+        id: state
+        env:
+          BUILD_RESULT: ${{ inputs.build_result }}
+          DEPLOY_RESULT: ${{ inputs.deploy_result }}
+          VALIDATE_RESULT: ${{ inputs.validate_result }}
+        run: |
+          set -euo pipefail
+          if [ "$BUILD_RESULT" = "success" ] && [ "$DEPLOY_RESULT" = "success" ] && [ "$VALIDATE_RESULT" = "success" ]; then
+            echo "status=CORRECTO" >> "$GITHUB_OUTPUT"
+            echo "summary=Proceso finalizado y validado. Disponible para revisar o probar." >> "$GITHUB_OUTPUT"
+          else
+            if [ "$BUILD_RESULT" != "success" ]; then
+              PHASE="compilación"
+            elif [ "$DEPLOY_RESULT" != "success" ]; then
+              PHASE="despliegue"
+            else
+              PHASE="validación"
+            fi
+            echo "status=ERROR" >> "$GITHUB_OUTPUT"
+            echo "summary=El proceso no ha quedado validado. Fallo en ${PHASE}. No se comunica como listo." >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Obtener identidad GitHub OIDC
+        id: oidc
+        env:
+          ACTIONS_ID_TOKEN_REQUEST_TOKEN: ${{ env.ACTIONS_ID_TOKEN_REQUEST_TOKEN }}
+          ACTIONS_ID_TOKEN_REQUEST_URL: ${{ env.ACTIONS_ID_TOKEN_REQUEST_URL }}
+        run: |
+          set -euo pipefail
+          RESPONSE=$(curl --fail --silent --show-error \
+            -H "Authorization: Bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
+            "${ACTIONS_ID_TOKEN_REQUEST_URL}&audience=ingitech-notifications")
+          TOKEN=$(python3 -c 'import json,sys; print(json.load(sys.stdin)["value"])' <<< "$RESPONSE")
+          echo "token=$TOKEN" >> "$GITHUB_OUTPUT"
+
+      - name: Enviar evento al servicio central
+        env:
+          OIDC_TOKEN: ${{ steps.oidc.outputs.token }}
+          PROJECT: ${{ inputs.project }}
+          PROCESS: ${{ inputs.process }}
+          VERSION: ${{ inputs.version }}
+          APP_URL: ${{ inputs.app_url }}
+          STATUS: ${{ steps.state.outputs.status }}
+          SUMMARY: ${{ steps.state.outputs.summary }}
+          VALIDATION_DETAIL: ${{ inputs.validation_detail }}
+          ACTION_REQUIRED: ${{ inputs.action_required }}
+        run: |
+          set -euo pipefail
+          EVENT_ID="${GITHUB_REPOSITORY}:${GITHUB_RUN_ID}:${GITHUB_RUN_ATTEMPT}:${STATUS}"
+          PAYLOAD=$(python3 - <<'PY'
+          import json, os
+          print(json.dumps({
+            "event_id": os.environ["EVENT_ID"],
+            "project": os.environ["PROJECT"],
+            "process": os.environ["PROCESS"],
+            "status": os.environ["STATUS"],
+            "version": os.environ["VERSION"],
+            "summary": os.environ["SUMMARY"],
+            "validations": os.environ["VALIDATION_DETAIL"],
+            "action_required": os.environ["ACTION_REQUIRED"],
+            "url": os.environ["APP_URL"],
+            "github_run_id": os.environ["GITHUB_RUN_ID"],
+          }))
+          PY
+          )
+          curl --fail-with-body --silent --show-error \
+            --retry 3 --retry-all-errors \
+            -H "Authorization: Bearer $OIDC_TOKEN" \
+            -H "Content-Type: application/json" \
+            --data "$PAYLOAD" \
+            https://lijilkdfdpbezergsdly.supabase.co/functions/v1/ingitech-notify
+        env:
+          EVENT_ID: ${{ github.repository }}:${{ github.run_id }}:${{ github.run_attempt }}:${{ steps.state.outputs.status }}
