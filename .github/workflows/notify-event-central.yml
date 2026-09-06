@@ -1,0 +1,126 @@
+name: Aviso INGITECH de evento reutilizable
+
+on:
+  workflow_call:
+    inputs:
+      project:
+        description: Nombre del proyecto o app
+        required: true
+        type: string
+      process:
+        description: Proceso relacionado
+        required: false
+        default: proceso
+        type: string
+      status:
+        description: Estado del evento
+        required: true
+        type: string
+      version:
+        description: Versión o revisión
+        required: false
+        default: ""
+        type: string
+      summary:
+        description: Resumen breve
+        required: true
+        type: string
+      validate_result:
+        description: Resultado de validación; obligatorio para CORRECTO
+        required: false
+        default: ""
+        type: string
+      validation_detail:
+        description: Evidencia o detalle de validación; obligatorio para CORRECTO
+        required: false
+        default: ""
+        type: string
+      action_required:
+        description: Acción requerida si existe
+        required: false
+        default: ""
+        type: string
+      app_url:
+        description: Enlace relacionado
+        required: false
+        default: ""
+        type: string
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  notify:
+    name: Validar estado y avisar
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validar política INGITECH
+        env:
+          STATUS: ${{ inputs.status }}
+          VALIDATE_RESULT: ${{ inputs.validate_result }}
+          VALIDATION_DETAIL: ${{ inputs.validation_detail }}
+        run: |
+          set -euo pipefail
+          case "$STATUS" in
+            "CORRECTO"|"ERROR"|"REQUIERE REVISIÓN"|"REQUIERE APROBACIÓN") ;;
+            *) echo "Estado no permitido: $STATUS" >&2; exit 1 ;;
+          esac
+
+          if [ "$STATUS" = "CORRECTO" ]; then
+            if [ "$VALIDATE_RESULT" != "success" ]; then
+              echo "No se permite CORRECTO sin validate_result=success." >&2
+              exit 1
+            fi
+            if [ -z "$VALIDATION_DETAIL" ]; then
+              echo "No se permite CORRECTO sin evidencia de validación." >&2
+              exit 1
+            fi
+          fi
+
+      - name: Obtener identidad GitHub OIDC
+        id: oidc
+        run: |
+          set -euo pipefail
+          RESPONSE=$(curl --fail --silent --show-error \
+            -H "Authorization: Bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
+            "${ACTIONS_ID_TOKEN_REQUEST_URL}&audience=ingitech-notifications")
+          TOKEN=$(python3 -c 'import json,sys; print(json.load(sys.stdin)["value"])' <<< "$RESPONSE")
+          echo "token=$TOKEN" >> "$GITHUB_OUTPUT"
+
+      - name: Enviar evento al servicio central
+        env:
+          OIDC_TOKEN: ${{ steps.oidc.outputs.token }}
+          EVENT_ID: ${{ github.repository }}:${{ github.run_id }}:${{ github.run_attempt }}:${{ inputs.status }}
+          PROJECT: ${{ inputs.project }}
+          PROCESS: ${{ inputs.process }}
+          STATUS: ${{ inputs.status }}
+          VERSION: ${{ inputs.version }}
+          SUMMARY: ${{ inputs.summary }}
+          VALIDATION_DETAIL: ${{ inputs.validation_detail }}
+          ACTION_REQUIRED: ${{ inputs.action_required }}
+          APP_URL: ${{ inputs.app_url }}
+        run: |
+          set -euo pipefail
+          PAYLOAD=$(python3 - <<'PY'
+          import json, os
+          print(json.dumps({
+            "event_id": os.environ["EVENT_ID"],
+            "project": os.environ["PROJECT"],
+            "process": os.environ["PROCESS"],
+            "status": os.environ["STATUS"],
+            "version": os.environ["VERSION"],
+            "summary": os.environ["SUMMARY"],
+            "validations": os.environ["VALIDATION_DETAIL"],
+            "action_required": os.environ["ACTION_REQUIRED"],
+            "url": os.environ["APP_URL"],
+            "github_run_id": os.environ["GITHUB_RUN_ID"],
+          }))
+          PY
+          )
+          curl --fail-with-body --silent --show-error \
+            --retry 3 --retry-all-errors \
+            -H "Authorization: Bearer $OIDC_TOKEN" \
+            -H "Content-Type: application/json" \
+            --data "$PAYLOAD" \
+            https://ingitech-notifications.meguiluz.workers.dev
