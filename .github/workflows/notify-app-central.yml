@@ -81,9 +81,6 @@ jobs:
 
       - name: Obtener identidad GitHub OIDC
         id: oidc
-        env:
-          ACTIONS_ID_TOKEN_REQUEST_TOKEN: ${{ env.ACTIONS_ID_TOKEN_REQUEST_TOKEN }}
-          ACTIONS_ID_TOKEN_REQUEST_URL: ${{ env.ACTIONS_ID_TOKEN_REQUEST_URL }}
         run: |
           set -euo pipefail
           RESPONSE=$(curl --fail --silent --show-error \
@@ -95,6 +92,7 @@ jobs:
       - name: Enviar evento al servicio central
         env:
           OIDC_TOKEN: ${{ steps.oidc.outputs.token }}
+          EVENT_ID: ${{ github.repository }}:${{ github.run_id }}:${{ github.run_attempt }}:${{ steps.state.outputs.status }}
           PROJECT: ${{ inputs.project }}
           PROCESS: ${{ inputs.process }}
           VERSION: ${{ inputs.version }}
@@ -105,7 +103,6 @@ jobs:
           ACTION_REQUIRED: ${{ inputs.action_required }}
         run: |
           set -euo pipefail
-          EVENT_ID="${GITHUB_REPOSITORY}:${GITHUB_RUN_ID}:${GITHUB_RUN_ATTEMPT}:${STATUS}"
           PAYLOAD=$(python3 - <<'PY'
           import json, os
           print(json.dumps({
@@ -128,5 +125,3 @@ jobs:
             -H "Content-Type: application/json" \
             --data "$PAYLOAD" \
             https://lijilkdfdpbezergsdly.supabase.co/functions/v1/ingitech-notify
-        env:
-          EVENT_ID: ${{ github.repository }}:${{ github.run_id }}:${{ github.run_attempt }}:${{ steps.state.outputs.status }}
