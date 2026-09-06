@@ -1,4 +1,4 @@
-# Avisos Pushover configurados y validados para CURSO IA
+# Avisos INGITECH centralizados para CURSO IA
 name: Validar Curso IA y notificar
 
 on:
@@ -8,6 +8,7 @@ on:
 
 permissions:
   contents: read
+  id-token: write
 
 concurrency:
   group: curso-ia-notify
@@ -87,12 +88,9 @@ jobs:
     name: Notificar resultado
     needs: validate
     if: ${{ always() }}
-    uses: Mikel-1970/CURSO-IA-CHAT-GPT/.github/workflows/notify-app-reusable.yml@main
+    uses: Mikel-1970/CURSO-IA-CHAT-GPT/.github/workflows/notify-app-central.yml@main
     with:
       project: CURSO IA
       app_url: https://mikel-1970.github.io/CURSO-IA-CHAT-GPT/
       validate_result: ${{ needs.validate.result }}
       validation_detail: ${{ needs.validate.outputs.detail }}
-    secrets:
-      PUSHOVER_USER_KEY: ${{ secrets.PUSHOVER_USER_KEY }}
-      PUSHOVER_APP_TOKEN: ${{ secrets.PUSHOVER_APP_TOKEN }}
